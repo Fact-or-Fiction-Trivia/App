@@ -188,30 +188,6 @@ class Footer extends Component {
             >
               <FacebookIcon round={true} size={32} />
             </FacebookShareButton>
-
-            {/* <LinkedinShareButton
-              url={getHref()}
-              className="shareable"
-              title="Check out my politIQ"
-              description="Are you smarter than a Republican? Democrat? Independent? Find out!"
-            >
-              <LinkedinIcon round={true} size={32} />
-            </LinkedinShareButton> */}
-            {/* <WhatsappShareButton
-              url={getHref()}
-              className="shareable"
-              title="Check out my politIQ:"
-            >
-              <WhatsappIcon round={true} size={32} />
-            </WhatsappShareButton> */}
-            {/* <EmailShareButton
-              url={getHref()}
-              className="shareable"
-              subject="Check out my politIQ:"
-              body="Are you smarter than a Republican? Democrat? Independent? Find out!"
-            >
-              <EmailIcon round={true} size={32} />
-            </EmailShareButton> */}
           </div>
         </div>
         <div className="bottom-nav">
