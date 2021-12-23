@@ -21,6 +21,7 @@ import {
 } from "react-share";
 
 const getHref = () => {
+  console.log(window.location.href.toString());
   return window.location.href.toString();
 };
 
@@ -152,6 +153,17 @@ class Footer extends Component {
           >
             FAQ
           </Link>
+          <Link
+            to={routes.ABOUT}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginTop: "1vh",
+              display: "block",
+            }}
+          >
+            About
+          </Link>
           {localStorage.hasOwnProperty("authUser") ? null : (
             <Link
               to={routes.SIGN_UP}
@@ -176,7 +188,7 @@ class Footer extends Component {
           >
             <TwitterShareButton
               url={getHref()}
-              title="Check out my politIQ:"
+              title="Think you can beat my high score?"
               className="shareable"
             >
               <TwitterIcon round={true} size={32} />
@@ -184,7 +196,7 @@ class Footer extends Component {
             <FacebookShareButton
               url={getHref()}
               className="shareable"
-              quote="Check out my politIQ:"
+              quote="Think you can beat my high score?"
             >
               <FacebookIcon round={true} size={32} />
             </FacebookShareButton>
