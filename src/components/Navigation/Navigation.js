@@ -30,7 +30,7 @@ import Logo from "../logo1.1.ico";
 const Navigation = ({ clearStateOnSignout }) => {
   return (
     <AuthUserContext.Consumer>
-      {authUser => (
+      {(authUser) => (
         <>
           {authUser !== null ? (
             <NavigationAuth
@@ -38,8 +38,8 @@ const Navigation = ({ clearStateOnSignout }) => {
               clearStateOnSignout={clearStateOnSignout}
             />
           ) : (
-              <NavigationNonAuth />
-            )}
+            <NavigationNonAuth />
+          )}
         </>
       )}
     </AuthUserContext.Consumer>
@@ -48,14 +48,14 @@ const Navigation = ({ clearStateOnSignout }) => {
 
 const drawerWidth = 240;
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     height: "64px",
     zIndex: 1,
     overflow: "hidden",
     position: "absolute",
-    display: "flex"
+    display: "flex",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -63,15 +63,15 @@ const styles = theme => ({
   },
   drawerPaper: {
     position: "relative",
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    minWidth: 0 // So the Typography noWrap works
+    minWidth: 0, // So the Typography noWrap works
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 });
 
 class NavigationAuthBase extends Component {
@@ -83,7 +83,7 @@ class NavigationAuthBase extends Component {
       mostRecentQuizURL: "",
       isAdmin: false,
       noQuizzes: false,
-      open: false
+      open: false,
     };
   }
 
@@ -94,10 +94,10 @@ class NavigationAuthBase extends Component {
         .ref()
         .child("scores")
         .child(`${this.props.authUser.uid}`);
-      this.scores.on("value", snapshot => {
+      this.scores.on("value", (snapshot) => {
         if (snapshot.val() !== this.state.snapshot) {
           this.setState({
-            snapshot: snapshot.val()
+            snapshot: snapshot.val(),
           });
           this.getMostRecentQuizId();
         }
@@ -106,7 +106,7 @@ class NavigationAuthBase extends Component {
       this.setState({
         signedInUser: this.props.authUser.uid,
         isAdmin: true,
-        authUser: this.props.authUser
+        authUser: this.props.authUser,
       });
     } else {
       this.setState({ authUser: null });
@@ -115,7 +115,7 @@ class NavigationAuthBase extends Component {
 
   toggleDrawer = (side, open) => () => {
     this.setState({
-      [side]: open
+      [side]: open,
     });
   };
 
@@ -124,11 +124,11 @@ class NavigationAuthBase extends Component {
     const quizId = await getMostRecentQuizId();
     if (quizId === "No Available Quizzes") {
       this.setState({
-        noQuizzes: true
+        noQuizzes: true,
       });
     } else {
       this.setState({
-        mostRecentQuizURL: quizId
+        mostRecentQuizURL: quizId,
       });
     }
   };
@@ -143,7 +143,7 @@ class NavigationAuthBase extends Component {
 
   handleAdminClick = () => {
     this.setState({
-      open: !this.state.open
+      open: !this.state.open,
     });
   };
 
@@ -153,73 +153,73 @@ class NavigationAuthBase extends Component {
         <MediaQuery query="(max-width: 415px)">
           <List component="nav">
             {this.props.authUser &&
-              this.props.authUser.roles.includes("ADMIN") ? (
-                <>
-                  <ListItem button onClick={this.handleAdminClick}>
-                    <ListItemText primary="Admin Dashboard" />
-                    {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                  </ListItem>
-                  <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      <Link
-                        to={routes.ADMIN_DASHBOARD}
-                        style={{ textDecoration: "none" }}
+            this.props.authUser.roles.includes("ADMIN") ? (
+              <>
+                <ListItem button onClick={this.handleAdminClick}>
+                  <ListItemText primary="Admin Dashboard" />
+                  {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <Link
+                      to={routes.ADMIN_DASHBOARD}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ListItem
+                        button
+                        onClick={this.toggleDrawer("top", false)}
                       >
-                        <ListItem
-                          button
-                          onClick={this.toggleDrawer("top", false)}
-                        >
-                          <ListItemText inset primary="Dashboard Home" />
-                        </ListItem>
-                      </Link>
-                      <Link
-                        to={routes.CREATE_NEW_QUIZ}
-                        style={{ textDecoration: "none" }}
+                        <ListItemText inset primary="Dashboard Home" />
+                      </ListItem>
+                    </Link>
+                    <Link
+                      to={routes.CREATE_NEW_QUIZ}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ListItem
+                        button
+                        onClick={this.toggleDrawer("top", false)}
                       >
-                        <ListItem
-                          button
-                          onClick={this.toggleDrawer("top", false)}
-                        >
-                          <ListItemText inset primary="Create New Quiz" />
-                        </ListItem>
-                      </Link>
-                      <Link
-                        to={routes.MANAGE_QUIZZES}
-                        style={{ textDecoration: "none" }}
+                        <ListItemText inset primary="Create New Quiz" />
+                      </ListItem>
+                    </Link>
+                    <Link
+                      to={routes.MANAGE_QUIZZES}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ListItem
+                        button
+                        onClick={this.toggleDrawer("top", false)}
                       >
-                        <ListItem
-                          button
-                          onClick={this.toggleDrawer("top", false)}
-                        >
-                          <ListItemText inset primary="Manage Quizzes" />
-                        </ListItem>
-                      </Link>
-                      <Link
-                        to={routes.MANAGE_USERS}
-                        style={{ textDecoration: "none" }}
+                        <ListItemText inset primary="Manage Quizzes" />
+                      </ListItem>
+                    </Link>
+                    <Link
+                      to={routes.MANAGE_USERS}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ListItem
+                        button
+                        onClick={this.toggleDrawer("top", false)}
                       >
-                        <ListItem
-                          button
-                          onClick={this.toggleDrawer("top", false)}
-                        >
-                          <ListItemText inset primary="Manage Users" />
-                        </ListItem>
-                      </Link>
-                      <Link
-                        to={routes.ADMIN_LEADERBOARD}
-                        style={{ textDecoration: "none" }}
+                        <ListItemText inset primary="Manage Users" />
+                      </ListItem>
+                    </Link>
+                    <Link
+                      to={routes.ADMIN_LEADERBOARD}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ListItem
+                        button
+                        onClick={this.toggleDrawer("top", false)}
                       >
-                        <ListItem
-                          button
-                          onClick={this.toggleDrawer("top", false)}
-                        >
-                          <ListItemText inset primary="Party Leaders" />
-                        </ListItem>
-                      </Link>
-                    </List>
-                  </Collapse>
-                </>
-              ) : null}
+                        <ListItemText inset primary="Party Leaders" />
+                      </ListItem>
+                    </Link>
+                  </List>
+                </Collapse>
+              </>
+            ) : null}
             <Link
               to={this.state.mostRecentQuizURL}
               style={{ textDecoration: "none" }}
@@ -236,12 +236,12 @@ class NavigationAuthBase extends Component {
               </ListItem>
             </Link>
             <Link
-              to={routes.QUIZ_ARCHIVE}
+              to={routes.HOME}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Quiz Archive" />
+                <ListItemText primary="Play" />
               </ListItem>
             </Link>
             <Link
@@ -264,21 +264,22 @@ class NavigationAuthBase extends Component {
               </ListItem>
             </Link>
             <Link
-              to={`/profile/${this.state.signedInUser}`}
+              // to={`/profile/${this.state.signedInUser}`}
+              to={routes.SUBMIT_QUESTION}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Profile" />
+                <ListItemText primary="Submit a question" />
               </ListItem>
             </Link>
             <Link
-              to={routes.FAQ}
+              to={routes.ABOUT}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Frequently Asked Questions" />
+                <ListItemText primary="About/FAQ" />
               </ListItem>
             </Link>
             <ListItem button component="a" onClick={this.signOut}>
@@ -289,17 +290,17 @@ class NavigationAuthBase extends Component {
         <MediaQuery query="(min-width: 416px)">
           <List component="nav">
             {this.props.authUser &&
-              this.props.authUser.roles.includes("ADMIN") ? (
-                <Link
-                  to={routes.ADMIN_DASHBOARD}
-                  style={{ textDecoration: "none" }}
-                  onClick={this.toggleDrawer("top", false)}
-                >
-                  <ListItem button>
-                    <ListItemText primary="Admin Dashboard" />
-                  </ListItem>
-                </Link>
-              ) : null}
+            this.props.authUser.roles.includes("ADMIN") ? (
+              <Link
+                to={routes.ADMIN_DASHBOARD}
+                style={{ textDecoration: "none" }}
+                onClick={this.toggleDrawer("top", false)}
+              >
+                <ListItem button>
+                  <ListItemText primary="Admin Dashboard" />
+                </ListItem>
+              </Link>
+            ) : null}
             <Link
               to={this.state.mostRecentQuizURL}
               style={{ textDecoration: "none" }}
@@ -316,12 +317,12 @@ class NavigationAuthBase extends Component {
               </ListItem>
             </Link>
             <Link
-              to={routes.QUIZ_ARCHIVE}
+              to={routes.HOME}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Quiz Archive" />
+                <ListItemText primary="Play" />
               </ListItem>
             </Link>
             <Link
@@ -334,21 +335,22 @@ class NavigationAuthBase extends Component {
               </ListItem>
             </Link>
             <Link
-              to={`/profile/${this.state.signedInUser}`}
+              //to={`/profile/${this.state.signedInUser}`}
+              to={routes.SUBMIT_QUESTION}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Profile" />
+                <ListItemText primary="Submit a question" />
               </ListItem>
             </Link>
             <Link
-              to={routes.FAQ}
+              to={routes.ABOUT}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Frequently Asked Questions" />
+                <ListItemText primary="About/FAQ" />
               </ListItem>
             </Link>
             <ListItem button component="a" onClick={this.signOut}>
@@ -367,7 +369,7 @@ class NavigationAuthBase extends Component {
               <img
                 src={Logo}
                 alt="PolitIQ"
-                style={{ height: '59px', marginTop: "3px" }}
+                style={{ height: "59px", marginTop: "3px" }}
               />
             </Link>
             <div>
