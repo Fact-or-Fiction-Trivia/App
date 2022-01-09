@@ -138,9 +138,7 @@ class HomePage extends Component {
             </>,
           ]}
         />
-        <h1>
-          Did you pay attention to today's news and think you know politics?
-        </h1>
+        <h1>Think you know politics?</h1>
         <h1>Prove it!</h1>
 
         {this.state.noAvailableQuizzes ? (
@@ -157,29 +155,9 @@ class HomePage extends Component {
           signedInUser={this.props.signedInUser}
         />
 
-        <h4>The more you play, the better you score!</h4>
-        <h4 style={{ marginTop: "0" }}>
+        <h4>
           Don't forget to submit your own questions for a chance to win points!
         </h4>
-
-        <hr />
-
-        <center style={{ marginBottom: "30px" }}>
-          <h2>Last Recorded Gameshow</h2>
-          <YouTubePlayer
-            className="youtube"
-            url="https://www.youtube.com/watch?v=r3g_gFEv8wE"
-          />
-          <a
-            href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ"
-            target="_blank noopener noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <Button color="primary" variant="contained" id="gameshow">
-              Click here to view previous gameshow challenges!
-            </Button>
-          </a>
-        </center>
 
         <hr />
 
