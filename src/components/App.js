@@ -20,7 +20,6 @@ import HomePage from "./StaticPages/HomePage";
 import ProfilePage from "./Profile/Profile";
 import Footer from "./Footer";
 import AdminDashboard from "./AdminDashboard/AdminDashboard";
-import QuizArchive from "./QuizEngine/QuizArchive";
 import ArchivedQuiz from "./QuizEngine/ArchivedQuiz";
 import Quiz from "./QuizEngine/Quiz";
 import Leaderboard from "./Leaderboard2/Leaderboard";
@@ -231,13 +230,6 @@ class App extends Component {
           />
 
           {/* Quiz Routes */}
-          <Route
-            exact
-            path={routes.QUIZ_ARCHIVE}
-            render={(props) => (
-              <QuizArchive {...props} signedInUser={this.state.signedInUser} />
-            )}
-          />
           <Route
             exact
             path={routes.QUIZ}

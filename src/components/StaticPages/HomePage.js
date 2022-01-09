@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { compose } from "recompose";
-import MediaQuery from "react-responsive";
 
 import {
   FacebookShareButton,
@@ -22,7 +20,6 @@ import {
 
 import { withAuthorization } from "../Auth/index";
 
-import * as routes from "../../constants/routes";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -159,14 +156,6 @@ class HomePage extends Component {
           showErrorMessage={this.showErrorMessage}
           signedInUser={this.props.signedInUser}
         />
-        <Link
-          to={routes.QUIZ_ARCHIVE}
-          style={{ textDecoration: "none", color: "#a54ee8" }}
-        >
-          <Button color="primary" variant="contained" id="archive-link">
-            Past Quizzes
-          </Button>
-        </Link>
 
         <h4>The more you play, the better you score!</h4>
         <h4 style={{ marginTop: "0" }}>
