@@ -7,7 +7,7 @@ import {
   LinkedinShareButton,
   TwitterShareButton,
   WhatsappShareButton,
-  EmailShareButton
+  EmailShareButton,
 } from "react-share";
 
 import {
@@ -15,15 +15,10 @@ import {
   TwitterIcon,
   WhatsappIcon,
   LinkedinIcon,
-  EmailIcon
+  EmailIcon,
 } from "react-share";
 
-import {
-  QUIZ_ARCHIVE,
-  LEADERBOARD,
-  SIGN_UP,
-  SUBMIT_QUESTION
-} from "../../constants/routes";
+import { LEADERBOARD, SIGN_UP, SUBMIT_QUESTION } from "../../constants/routes";
 import NextAvailableQuizButton from "./NextAvailableQuizButton";
 import { trackEvent } from "../../utils/googleAnalytics";
 
@@ -49,10 +44,18 @@ class FinishQuiz extends Component {
     const { uid, score, toggleContest } = this.props;
     let quizLength = 5;
 
-    const scoreDisplay =
-      <center style={{ marginTop: "2vh", marginBottom: "2vh", color: "rgb(239, 188, 77)", fontWeight: "bold" }}>
+    const scoreDisplay = (
+      <center
+        style={{
+          marginTop: "2vh",
+          marginBottom: "2vh",
+          color: "rgb(239, 188, 77)",
+          fontWeight: "bold",
+        }}
+      >
         Your score: {score} out of {quizLength} points.
       </center>
+    );
     if (uid !== "") {
       return (
         <div className="finish-quiz">
@@ -63,15 +66,6 @@ class FinishQuiz extends Component {
               date={this.props.date}
               uid={uid}
             />
-            <Link to={QUIZ_ARCHIVE} style={{ textDecoration: "none" }}>
-              <Button
-                color="primary"
-                variant="contained"
-                className="end-button"
-              >
-                See Previous Quizzes
-              </Button>
-            </Link>
             <Link to={LEADERBOARD} style={{ textDecoration: "none" }}>
               <Button
                 color="primary"
@@ -85,7 +79,10 @@ class FinishQuiz extends Component {
               color="primary"
               variant="contained"
               onClick={toggleContest}
-              disabled={Object.keys(this.props.quiz).length === 0 && this.props.quiz.constructor === Object}
+              disabled={
+                Object.keys(this.props.quiz).length === 0 &&
+                this.props.quiz.constructor === Object
+              }
               className="end-button"
             >
               Contest a Question
@@ -113,7 +110,7 @@ class FinishQuiz extends Component {
               width: "70%",
               marginLeft: "auto",
               marginRight: "auto",
-              maxWidth: "200px"
+              maxWidth: "200px",
             }}
           >
             <FacebookShareButton
@@ -161,8 +158,14 @@ class FinishQuiz extends Component {
       return (
         <div className="finish-quiz">
           {scoreDisplay}
-          <div style={{ width: "50%", textAlign: "center" }} className="finish-quiz-buttons">
-            <Link to={SIGN_UP} style={{ fontSize: "2em", textDecoration: "none" }}>
+          <div
+            style={{ width: "50%", textAlign: "center" }}
+            className="finish-quiz-buttons"
+          >
+            <Link
+              to={SIGN_UP}
+              style={{ fontSize: "2em", textDecoration: "none" }}
+            >
               <Button
                 style={{ fontSize: "20px" }}
                 color="primary"
@@ -171,12 +174,57 @@ class FinishQuiz extends Component {
                 Sign up to save score - it's free and easy!
               </Button>
             </Link>
-            <span style={{ fontSize: "1.4em", margin: "0.6em", fontWeight: "bolder", color: "black" }}>Must have a profile in order to:</span>
+            <span
+              style={{
+                fontSize: "1.4em",
+                margin: "0.6em",
+                fontWeight: "bolder",
+                color: "black",
+              }}
+            >
+              Must have a profile in order to:
+            </span>
 
-            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-win regular cash prizes</span>
-            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-submit or contest questions</span>
-            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-view updated leaderboard</span>
-            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-access old quizzes</span>
+            <span
+              style={{
+                fontSize: "1.3em",
+                margin: "0.5em",
+                fontWeight: "bolder",
+                color: "#7D3EAD",
+              }}
+            >
+              -win regular cash prizes
+            </span>
+            <span
+              style={{
+                fontSize: "1.3em",
+                margin: "0.5em",
+                fontWeight: "bolder",
+                color: "#7D3EAD",
+              }}
+            >
+              -submit or contest questions
+            </span>
+            <span
+              style={{
+                fontSize: "1.3em",
+                margin: "0.5em",
+                fontWeight: "bolder",
+                color: "#7D3EAD",
+              }}
+            >
+              -view updated leaderboard
+            </span>
+            <span
+              style={{
+                fontSize: "1.3em",
+                margin: "0.5em",
+                fontWeight: "bolder",
+                color: "#7D3EAD",
+              }}
+            >
+              -access old quizzes
+            </span>
           </div>
         </div>
       );
