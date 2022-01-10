@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import moment from "moment";
 
 import "./App.css";
-import {
-  getLastMonthScores,
-  getUserScores,
-  getAllScores,
-} from "../utils/storeScoreData";
 
 import Sponsor from "./StaticPages/sponsor";
 import Navigation from "./Navigation/Navigation";
