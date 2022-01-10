@@ -28,3 +28,28 @@
   margin-right: 5vw;
   margin-top: 3vh;
 }
+
+.field-with-tooltip {
+  display: flex;
+  justify-content: space-between;
+}
+
+.field-with-tooltip > svg {
+  margin: auto 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.auth-field {
+  text-align: left;
+  width: calc(100% - 2rem);
+}
+
+.privacy-opt-in {
+  font-size: 0.75rem;
+  margin-top: 3rem;
+}
