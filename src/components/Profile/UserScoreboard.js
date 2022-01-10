@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { AuthUserContext } from "../Auth";
 import MediaQuery from "react-responsive";
 import { withFirebase } from "../../firebase";
@@ -7,7 +7,6 @@ import { useGetMoneyEarned } from "../hooks/useGetMoneyEarned";
 import { useGetContestedQScore } from "../hooks/useGetContestedQScore";
 import { useGetSubmittedQScore } from "../hooks/useGetSubmittedQScore";
 import useLeaderboard from "../../hooks/useLeaderboard";
-import { db } from "../../firebase";
 var flattenObject = function(ob) {
   var toReturn = {};
 

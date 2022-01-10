@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import MediaQuery from "react-responsive";
-import ReactCountdownClock from "react-countdown-clock";
-
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -10,22 +7,15 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Paper from "@material-ui/core/Paper";
 
 import "./quiz.css";
-// import countdownUrl from './sounds/countdown.flac';
 
 class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {
       bgColor: "",
-      clicked: false
+      clicked: false,
     };
   }
-
-  // countdown = new Audio(countdownUrl)
-
-  componentDidMount = () => {
-    // this.playCountdown()
-  };
 
   shouldComponentUpdate(nextProps) {
     if (
@@ -51,23 +41,16 @@ class Question extends Component {
       window.scrollTo({
         left: 0,
         top: this.props.myRef.current.offsetTop,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     } else {
-      // this.countdown.src = "/static/media/countdown.f63efcde.flac";
-      // this.playCountdown();
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }
-
-  componentWillUnmount = () => {
-    // this.countdown.src = null;
-    // window.clearTimeout(this.countdownInterval)
-  };
 
   openNewTab = () => {
     const newState = this.props.state;
@@ -77,24 +60,6 @@ class Question extends Component {
     const url = "quiz/" + this.props.quizID;
     window.open(`/${url}`);
   };
-
-  // playCountdown = () => {
-  //     // take the timer duration
-  //     const { questionObj } = this.props;
-  //     let timerDuration;
-  //     if (questionObj["timerDuration"] === null || questionObj["timerDuration"] === undefined) {
-  //         timerDuration = 40
-  //     } else {
-  //         timerDuration = questionObj["timerDuration"]
-  //     }
-  //     const tenLess = (timerDuration - 10) * 1000;
-
-  //     this.countdownInterval = setTimeout(() => {
-  //         if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac") && this.props.volumeUp === true) {
-  //             this.countdown.play()
-  //         }
-  //     }, tenLess)
-  // }
 
   scrollToMyRef = () => window.scrollTo(0, this.props.myRef.offsetTop);
 
@@ -107,24 +72,14 @@ class Question extends Component {
       nextQ,
       correctAnswer,
       wrong,
-      clicked
     } = this.props;
     let qtext = questionObj["q1"];
     let a1text = questionObj["a1text"];
     let a2text = questionObj["a2text"];
     let a3text = questionObj["a3text"];
     let answerExplanation = questionObj["answerExplanation"];
-    let timerDuration;
-    if (
-      questionObj["timerDuration"] === null ||
-      questionObj["timerDuration"] === undefined
-    ) {
-      timerDuration = 40;
-    } else {
-      timerDuration = questionObj["timerDuration"];
-    }
 
-    const backgroundColor = num => {
+    const backgroundColor = (num) => {
       if (selectedValue === "") return;
       if (selectedValue === num && wrong === false) {
         return "#B6E1BE";
@@ -169,7 +124,7 @@ class Question extends Component {
             <Paper
               style={{
                 marginTop: "2vh",
-                backgroundColor: backgroundColor("2")
+                backgroundColor: backgroundColor("2"),
               }}
               id="2"
               onClick={wrong === null ? handleSubmit : null}
@@ -193,7 +148,7 @@ class Question extends Component {
             <Paper
               style={{
                 marginTop: "2vh",
-                backgroundColor: backgroundColor("3")
+                backgroundColor: backgroundColor("3"),
               }}
               id="3"
               onClick={wrong === null ? handleSubmit : null}
@@ -226,7 +181,7 @@ class Question extends Component {
                   style={{
                     color: "red",
                     display: "inline",
-                    marginRight: "1vw"
+                    marginRight: "1vw",
                   }}
                 >
                   INCORRECT
@@ -244,7 +199,11 @@ class Question extends Component {
                 >
                   Continue
                 </Button>
-                <Button variant="contained" disabled={!this.props.authUser} onClick={this.props.toggleContest}>
+                <Button
+                  variant="contained"
+                  disabled={!this.props.authUser}
+                  onClick={this.props.toggleContest}
+                >
                   Contest This Question
                 </Button>
               </div>
@@ -268,8 +227,6 @@ class Question extends Component {
               </div>
             ) : null}
           </div>
-
-
         </FormControl>
       </>
     );

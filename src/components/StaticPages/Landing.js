@@ -8,7 +8,6 @@ import bg from "./politiq-bg2.jpg";
 import { NavLink } from "react-router-dom";
 import "./Static.css";
 import { storage } from "../../firebase/firebase";
-import YouTubePlayer from "react-player/lib/players/YouTube";
 import poster from "../didyouknow.png";
 import { db } from "../../firebase";
 

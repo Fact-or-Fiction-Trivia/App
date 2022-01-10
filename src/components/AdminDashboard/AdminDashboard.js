@@ -14,7 +14,7 @@ import Tab from "@material-ui/core/Tab";
 import { db, withFirebase } from "../../firebase";
 import { LEADERBOARD } from "../../constants/routes";
 import * as ROLES from "../../constants/roles";
-import { withAuthorization, withAuthentication } from "../Auth/index";
+import { withAuthorization } from "../Auth/index";
 
 import AddQuiz from "./AddQuiz";
 import QuizList from "./QuizList";
@@ -50,7 +50,7 @@ class AdminDashboard extends Component {
       selectedQuizId: "",
       selectedQuiz: {},
       showDeleteModal: false,
-      cashoutData: {}
+      cashoutData: {},
     };
   }
 
@@ -97,7 +97,7 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
@@ -108,12 +108,12 @@ class AdminDashboard extends Component {
 
     // get quizzes from database now
     let data;
-    await db.getQuizzes().then(res => {
+    await db.getQuizzes().then((res) => {
       data = res.val();
     });
     const allDates = Object.keys(data);
     const dateArray = allDates.filter(
-      date =>
+      (date) =>
         date >
         moment()
           .startOf("month")
@@ -128,7 +128,7 @@ class AdminDashboard extends Component {
 
     this.setState({
       dateArray: dateArray.reverse(),
-      titleArray: titleArray.reverse()
+      titleArray: titleArray.reverse(),
     });
   };
 
@@ -141,7 +141,7 @@ class AdminDashboard extends Component {
       showLeaders: false,
       editingQuiz: false,
       managingQuizzes: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
@@ -153,11 +153,11 @@ class AdminDashboard extends Component {
       showUsers: true,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
-  toggleQuizShow = id => {
+  toggleQuizShow = (id) => {
     if (this.state.editingQuiz) {
       this.getQuiz(id);
     }
@@ -169,17 +169,17 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
   // this one gets an individual quiz so that the admin can view it.
-  getQuiz = date => {
-    db.getQuiz(date).then(response => {
+  getQuiz = (date) => {
+    db.getQuiz(date).then((response) => {
       const quiz = response.val();
       this.setState({
         selectedQuiz: quiz,
-        selectedQuizId: date
+        selectedQuizId: date,
       });
       this.toggleQuizShow();
     });
@@ -194,27 +194,27 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
   toggleDeleteModal = () => {
     this.setState({
-      showDeleteModal: !this.state.showDeleteModal
+      showDeleteModal: !this.state.showDeleteModal,
     });
   };
 
-  deleteQuiz = selected => {
+  deleteQuiz = (selected) => {
     for (let i = 0; i < selected.length; i += 1) {
       this.removeQuizzes(selected[i]);
       db.deleteQuiz(selected[i]);
     }
     this.setState({
-      selected: []
+      selected: [],
     });
   };
 
-  removeQuizzes = date => {
+  removeQuizzes = (date) => {
     const index = this.state.dateArray.indexOf(date);
     const dates = this.state.dateArray;
     dates.splice(index, 1);
@@ -222,7 +222,7 @@ class AdminDashboard extends Component {
     titles.splice(index, 1);
     this.setState({
       dateArray: [...dates],
-      titleArray: [...titles]
+      titleArray: [...titles],
     });
   };
 
@@ -239,7 +239,7 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: true,
       managingQuizzes: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
@@ -252,7 +252,7 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
-      manageCashOut: false
+      manageCashOut: false,
     });
   };
 
@@ -265,15 +265,15 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
-      manageCashOut: true
+      manageCashOut: true,
     });
   };
 
   getCashOutRequests = async () => {
-    await db.getAllCashoutRequests().then(response => {
+    await db.getAllCashoutRequests().then((response) => {
       const data = response.val();
       this.setState({
-        cashoutData: data
+        cashoutData: data,
       });
     });
   };
@@ -330,93 +330,94 @@ class AdminDashboard extends Component {
             toggleDashboard={this.toggleDashboard}
           />
         ) : (
-            <div>
-              {this.state.addingQuiz ? (
-                <AddQuiz
-                  toggleAddQuiz={this.toggleAddQuiz}
-                  toggleDashboard={this.toggleDashboard}
-                />
-              ) : (
+          <div>
+            {this.state.addingQuiz ? (
+              <AddQuiz
+                toggleAddQuiz={this.toggleAddQuiz}
+                toggleDashboard={this.toggleDashboard}
+              />
+            ) : (
+              <div>
+                {this.state.showQuiz ? (
+                  <ShowQuiz
+                    toggleDashboard={this.toggleDashboard}
+                    quiz={this.state.selectedQuiz}
+                    quizId={this.state.selectedQuizId}
+                    toggleEditQuiz={this.toggleEditQuiz}
+                  />
+                ) : (
                   <div>
-                    {this.state.showQuiz ? (
-                      <ShowQuiz
-                        toggleDashboard={this.toggleDashboard}
+                    {this.state.editingQuiz ? (
+                      <EditQuiz
+                        toggleQuizShow={this.toggleQuizShow}
                         quiz={this.state.selectedQuiz}
                         quizId={this.state.selectedQuizId}
-                        toggleEditQuiz={this.toggleEditQuiz}
+                        toggleDeleteModal={this.toggleDeleteModal}
+                        deleteQuiz={this.deleteQuiz}
+                        showDeleteModal={this.state.showDeleteModal}
+                        toggleDashboard={this.toggleDashboard}
                       />
                     ) : (
-                        <div>
-                          {this.state.editingQuiz ? (
-                            <EditQuiz
-                              toggleQuizShow={this.toggleQuizShow}
-                              quiz={this.state.selectedQuiz}
-                              quizId={this.state.selectedQuizId}
-                              toggleDeleteModal={this.toggleDeleteModal}
-                              deleteQuiz={this.deleteQuiz}
-                              showDeleteModal={this.state.showDeleteModal}
-                              toggleDashboard={this.toggleDashboard}
-                            />
-                          ) : (
+                      <div>
+                        {this.state.showUsers ? (
+                          <UserShow />
+                        ) : (
+                          <div>
+                            {this.state.showLeaders ? (
+                              <PartyLeaders />
+                            ) : (
                               <div>
-                                {this.state.showUsers ? (
-                                  <UserShow />
+                                {this.state.managingQuizzes ? (
+                                  <ManageQuizzes
+                                    toggleQuizShow={this.toggleQuizShow}
+                                    getQuiz={this.getQuiz}
+                                    toggleDeleteModal={this.toggleDeleteModal}
+                                    deleteQuiz={this.deleteQuiz}
+                                    showDeleteModal={this.state.showDeleteModal}
+                                  />
                                 ) : (
-                                    <div>
-                                      {this.state.showLeaders ? (
-                                        <PartyLeaders />
-                                      ) : (
-                                          <div>
-                                            {this.state.managingQuizzes ? (
-                                              <ManageQuizzes
-                                                toggleQuizShow={this.toggleQuizShow}
-                                                getQuiz={this.getQuiz}
-                                                toggleDeleteModal={this.toggleDeleteModal}
-                                                deleteQuiz={this.deleteQuiz}
-                                                showDeleteModal={this.state.showDeleteModal}
-                                              />
-                                            ) : (
-                                                <div className="dashboard">
-                                                  <Paper className="dashContainer">
-                                                    {isLoaded()}
-                                                  </Paper>
-                                                  <div className="dashContainer2">
-                                                    <Link
-                                                      to={LEADERBOARD}
-                                                      style={{ textDecoration: "none" }}
-                                                    >
-                                                      <Scoreboard />
-                                                    </Link>
-                                                    <QuestionsToReview />
-                                                    <ContestedQuestions />
-                                                    <CashOutRequest
-                                                      toggleCashOut={this.toggleCashOut}
-                                                      cashoutData={this.state.cashoutData}
-                                                    />
-                                                  </div>
-                                                </div>
-                                              )}
-                                          </div>
-                                        )}
+                                  <div className="dashboard">
+                                    <Paper className="dashContainer">
+                                      {isLoaded()}
+                                    </Paper>
+                                    <div className="dashContainer2">
+                                      <Link
+                                        to={LEADERBOARD}
+                                        style={{ textDecoration: "none" }}
+                                      >
+                                        <Scoreboard />
+                                      </Link>
+                                      <QuestionsToReview />
+                                      <ContestedQuestions />
+                                      <CashOutRequest
+                                        toggleCashOut={this.toggleCashOut}
+                                        cashoutData={this.state.cashoutData}
+                                      />
                                     </div>
-                                  )}
+                                  </div>
+                                )}
                               </div>
                             )}
-                        </div>
-                      )}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
 }
 
-const condition = authUser => authUser && authUser.roles.includes(ROLES.ADMIN);
+const condition = (authUser) =>
+  authUser && authUser.roles.includes(ROLES.ADMIN);
 
 AdminDashboard.propTypes = {
-  renderPage: PropTypes.string.isRequired
+  renderPage: PropTypes.string.isRequired,
 };
 
 export default compose(
