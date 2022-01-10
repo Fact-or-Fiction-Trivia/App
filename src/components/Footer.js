@@ -4,21 +4,9 @@ import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import getMostRecentQuizId from "../utils/mostRecentQuizId";
 
-import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  EmailShareButton,
-} from "react-share";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
 
-import {
-  FacebookIcon,
-  TwitterIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-  EmailIcon,
-} from "react-share";
+import { FacebookIcon, TwitterIcon } from "react-share";
 
 const getHref = () => {
   console.log(window.location.href.toString());
