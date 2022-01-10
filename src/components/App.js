@@ -34,7 +34,6 @@ import QuizRedirect from "./QuizEngine/QuizRedirect";
 import ProfileToQuizRedirect from "./QuizEngine/ProfileToQuizRedirect";
 import LatestQuizRedirect from "./QuizEngine/LatestQuizRedirect";
 import NoMatch from "./StaticPages/NoMatch";
-import FAQ from "./StaticPages/FAQ";
 
 import QuizContext from "./context/quizContext";
 
@@ -259,7 +258,6 @@ class App extends Component {
           />
           <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
           <Route exact path={routes.ABOUT} component={About} />
-          <Route exact path={routes.FAQ} component={FAQ} />
           <Route
             exact
             path={routes.SUBMIT_QUESTION}
