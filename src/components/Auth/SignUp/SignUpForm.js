@@ -198,7 +198,6 @@ class SignUpFormBase extends Component {
       email,
       affiliation,
       passwordOne,
-      passwordTwo,
       error,
       consent,
     } = this.state;

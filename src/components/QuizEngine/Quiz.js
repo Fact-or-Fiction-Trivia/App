@@ -22,7 +22,6 @@ import "./quiz.css";
 import errorUrl from "./sounds/error.wav";
 import wrongUrl from "./sounds/wrong.wav";
 import correctUrl from "./sounds/correct.wav";
-import QuizContext from "../context/quizContext";
 class QuizBase extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +45,7 @@ class QuizBase extends Component {
       uid: "",
       clicked: false,
       volumeUp: true,
-      userHasScoreSubmitted: false
+      userHasScoreSubmitted: false,
     };
     this.myRef = React.createRef();
     this.renderNextQuiz = this.renderNextQuiz.bind(this);
@@ -56,31 +55,26 @@ class QuizBase extends Component {
   correct = new Audio(correctUrl);
 
   // This method will redirect the user instead of refreshing, thus triggering Prompt warning
-  handleWindowBeforeUnload = e => {
+  handleWindowBeforeUnload = (e) => {
     e.preventDefault();
   };
 
-  checkForScores = date => {
-
+  checkForScores = (date) => {
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
 
     // If quiz score exists they cannot retake the quiz
 
     if (this.props.authUser && date) {
-
-      db.checkQuizScore(this.props.authUser.uid, date).then(res => {
+      db.checkQuizScore(this.props.authUser.uid, date).then((res) => {
         if (typeof res.val() === "number") {
-
           // if a score is submitted already
           // User cannot be displayed quiz any longer
           this.setState({ userHasScoreSubmitted: true });
           this.setState({ score: res.val() }); //actually set the score to the state
           this.setState({ finished: true });
           this.setState({ loading: false });
-
         } else {
-
           this.setState({ finished: false });
 
           this.getQuiz(date);
@@ -110,7 +104,7 @@ class QuizBase extends Component {
     this.setState({
       selectedQuizId: date,
       contestQuestion: false,
-      uid
+      uid,
     });
     //Check if the user already has a score in the database, if they don't, render the quiz
     this.checkForScores(date);
@@ -118,20 +112,17 @@ class QuizBase extends Component {
     if (this.props.authUser === null) {
       this.setState({ loading: false, finished: false });
       this.getQuiz(date);
-
     }
-
 
     trackEvent("Quizzes", "Quiz loaded", "QUIZ_LOADED");
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.getUser();
         this.setState({
-          uid: this.props.authUser.uid
+          uid: this.props.authUser.uid,
         });
       }
       // We check the user score on component updates as well as mounts, because renavigating to the page does not trigger remount
@@ -144,7 +135,6 @@ class QuizBase extends Component {
   };
 
   getUser = () => {
-
     if (this.props.authUser) {
       const userInfo = this.props.authUser;
       const uid = userInfo.uid;
@@ -154,25 +144,24 @@ class QuizBase extends Component {
           this.setState({
             uid,
             email,
-            volumeUp: false
+            volumeUp: false,
           });
         }
       } else {
         this.setState({
           uid,
           email,
-          volumeUp: true
+          volumeUp: true,
         });
       }
     } else {
     }
   };
 
-  getQuiz = async date => {
+  getQuiz = async (date) => {
+    var quiz = await db.getQuiz(date);
 
-    var quiz = await db.getQuiz(date)
-
-    quiz = quiz.val()
+    quiz = quiz.val();
 
     const quizQs = Object.keys(quiz);
     quizQs.pop();
@@ -190,19 +179,18 @@ class QuizBase extends Component {
       clicked: false,
       currentQ: 1,
       score: 0,
-      loading: false //finish loading
+      loading: false, //finish loading
     });
   };
 
-  renderNextQuiz = date => {
+  renderNextQuiz = (date) => {
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
     this.getQuiz(date);
-    this.checkForScores(date);  //this also gets the quiz after checking
+    this.checkForScores(date); //this also gets the quiz after checking
   };
 
   nextQ = () => {
-
     clearTimeout(this.timer);
     clearInterval(this.progressBar);
     const qNum = this.state.currentQ + 1;
@@ -216,7 +204,7 @@ class QuizBase extends Component {
         correctAnswer: "",
         completed: 0,
         contestQuestion: false,
-        clicked: false
+        clicked: false,
       });
       this.submitScore(this.state.score, this.state.uid);
     } else {
@@ -226,7 +214,7 @@ class QuizBase extends Component {
         selectedValue: "",
         wrong: null,
         correctAnswer: "",
-        finished: true
+        finished: true,
       });
       this.submitScore(this.state.score, this.state.uid);
     }
@@ -235,14 +223,14 @@ class QuizBase extends Component {
 
   toggleContest = () => {
     this.setState({
-      contestQuestion: !this.state.contestQuestion
+      contestQuestion: !this.state.contestQuestion,
     });
     this.renderQ();
   };
 
   closeContest = () => {
     this.setState({
-      contestQuestion: false
+      contestQuestion: false,
     });
     this.nextQ();
   };
@@ -276,7 +264,7 @@ class QuizBase extends Component {
     }
   };
 
-  checkCorrect = value => {
+  checkCorrect = (value) => {
     // if the user has not selected a value and the quiz is finished, return
     if (value === undefined && this.state.finished) {
       return;
@@ -309,7 +297,7 @@ class QuizBase extends Component {
           score: score,
           wrong: false,
           correctAnswer,
-          clicked: true
+          clicked: true,
         });
         // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
@@ -329,7 +317,7 @@ class QuizBase extends Component {
           if (this.state.volumeUp === true) {
             // add one more second after when the timer ends and when the trombone plays
             this.error.play();
-            this.error.onended = function () {
+            this.error.onended = function() {
               let wrong = new Audio(wrongUrl);
               wrong.play();
             };
@@ -341,17 +329,17 @@ class QuizBase extends Component {
           wrong: true,
           correctAnswer: correctAnswer,
           completed: 0,
-          clicked: true
+          clicked: true,
         });
       }
     }
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ selectedValue: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     if (
       event !== undefined &&
       (event.target.tagName === "DIV" ||
@@ -373,7 +361,7 @@ class QuizBase extends Component {
   submitScore = (score, uid) => {
     const scoreObj = {
       date: this.state.selectedQuizId,
-      score
+      score,
     };
     if (uid === "") {
       this.props.storeScore(scoreObj);
@@ -390,7 +378,7 @@ class QuizBase extends Component {
         const localScores = JSON.parse(localStorage.getItem("userScoreData"));
         localScores.data = {
           ...localScores.data,
-          [this.state.selectedQuizId]: score
+          [this.state.selectedQuizId]: score,
         };
         localStorage.setItem("userScoreData", JSON.stringify(localScores));
       }
@@ -405,7 +393,7 @@ class QuizBase extends Component {
 
   toggleVolume = () => {
     this.setState({
-      volumeUp: !this.state.volumeUp
+      volumeUp: !this.state.volumeUp,
     });
 
     /* // set the local storage
@@ -439,7 +427,7 @@ class QuizBase extends Component {
 
     return (
       <AuthUserContext.Consumer>
-        {authUser => (
+        {(authUser) => (
           <Paper className="quiz-body">
             <Helmet>
               <title>Play | politIQ trivia</title>
@@ -461,108 +449,112 @@ class QuizBase extends Component {
                 className="quiz-loading-gif"
               />
             ) : (
-                <div style={{ height: "100%" }}>
-                  <div className="quiz-header">
-                    <h3>
-                      {this.state.selectedQuiz["quiz-title"]} ({quizHeader})
+              <div style={{ height: "100%" }}>
+                <div className="quiz-header">
+                  <h3>
+                    {this.state.selectedQuiz["quiz-title"]} ({quizHeader})
                   </h3>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      {this.state.currentQ <= this.state.quizLength ? (
-                        <>
-                          <MediaQuery minWidth={416}>
-                            <h5 style={{ marginBottom: "8px" }}>
-                              Question {this.state.currentQ} of{" "}
-                              {this.state.quizLength}
-                            </h5>
-                          </MediaQuery>
-                          <MediaQuery maxWidth={415}>
-                            <h5 style={{ marginBottom: "3px" }}>
-                              {this.state.currentQ} of {this.state.quizLength}
-                            </h5>
-                          </MediaQuery>
-                        </>
-                      ) : null}
-                      {this.state.finished || !this.state.uid ? null : (
-                        <>
-                          {this.state.volumeUp === true ? (
-                            <VolumeUp onClick={this.toggleVolume} id="volume" />
-                          ) : (
-                              <VolumeOff
-                                color="primary"
-                                onClick={this.toggleVolume}
-                                id="volume"
-                              />
-                            )}
-
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {this.state.contestQuestion && authUser ? (
-                    <ContestAQuestion
-                      quiz={this.state.selectedQuiz}
-                      quizID={this.state.selectedQuizId}
-                      uid={authUser.uid}
-                      email={authUser.email}
-                      back={this.toggleContest}
-                      currentQ={this.state.finished ? null : this.state.currentQ}
-                      atEndOfQuiz={this.state.finished}
-                      toggleContest={this.closeContest}
-                      state={this.state}
-                    />
-                  ) : null}
-
-                  {(this.state.finished || this.state.userHasScoreSubmitted) && !this.state.contestQuestion ? (
-                    <FinishQuiz
-                      renderNextQuiz={this.renderNextQuiz}
-                      quiz={this.state.selectedQuiz}
-                      date={this.state.selectedQuizId}
-                      uid={authUser ? authUser.uid : ""}
-                      score={this.state.score}
-                      quizLength={this.state.quizLength}
-                      toggleContest={this.toggleContest}
-                    />
-                  ) : (
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    {this.state.currentQ <= this.state.quizLength ? (
                       <>
-                        <div>
-                          {this.state.userHasScoreSubmitted === false
-                            ? this.renderQ(this.state.currentQ)
-                            : this.renderQ(this.state.currentQ)}
-                        </div>
-                        <div
-                          style={{ width: "90%", justifyContent: "center", marginLeft: "0px", marginRight: "20%" }}
-                          className={
-                            this.state.clicked ? "dontShowClock" : "showClock"
-                          }
-                        >
-                          <ReactCountdownClock
-                            key={this.state.currentQ}
-                            seconds={timerDuration}
-                            size={60}
-                            color="#a54ee8"
-                            alpha={0.9}
-                            onComplete={
-                              this.state.selectedValue === ""
-                                ? () => this.checkCorrect()
-                                : null
-                            }
+                        <MediaQuery minWidth={416}>
+                          <h5 style={{ marginBottom: "8px" }}>
+                            Question {this.state.currentQ} of{" "}
+                            {this.state.quizLength}
+                          </h5>
+                        </MediaQuery>
+                        <MediaQuery maxWidth={415}>
+                          <h5 style={{ marginBottom: "3px" }}>
+                            {this.state.currentQ} of {this.state.quizLength}
+                          </h5>
+                        </MediaQuery>
+                      </>
+                    ) : null}
+                    {this.state.finished || !this.state.uid ? null : (
+                      <>
+                        {this.state.volumeUp === true ? (
+                          <VolumeUp onClick={this.toggleVolume} id="volume" />
+                        ) : (
+                          <VolumeOff
+                            color="primary"
+                            onClick={this.toggleVolume}
+                            id="volume"
                           />
-                        </div>
+                        )}
                       </>
                     )}
+                  </div>
                 </div>
-              )}
+
+                {this.state.contestQuestion && authUser ? (
+                  <ContestAQuestion
+                    quiz={this.state.selectedQuiz}
+                    quizID={this.state.selectedQuizId}
+                    uid={authUser.uid}
+                    email={authUser.email}
+                    back={this.toggleContest}
+                    currentQ={this.state.finished ? null : this.state.currentQ}
+                    atEndOfQuiz={this.state.finished}
+                    toggleContest={this.closeContest}
+                    state={this.state}
+                  />
+                ) : null}
+
+                {(this.state.finished || this.state.userHasScoreSubmitted) &&
+                !this.state.contestQuestion ? (
+                  <FinishQuiz
+                    renderNextQuiz={this.renderNextQuiz}
+                    quiz={this.state.selectedQuiz}
+                    date={this.state.selectedQuizId}
+                    uid={authUser ? authUser.uid : ""}
+                    score={this.state.score}
+                    quizLength={this.state.quizLength}
+                    toggleContest={this.toggleContest}
+                  />
+                ) : (
+                  <>
+                    <div>
+                      {this.state.userHasScoreSubmitted === false
+                        ? this.renderQ(this.state.currentQ)
+                        : this.renderQ(this.state.currentQ)}
+                    </div>
+                    <div
+                      style={{
+                        width: "90%",
+                        justifyContent: "center",
+                        marginLeft: "0px",
+                        marginRight: "20%",
+                      }}
+                      className={
+                        this.state.clicked ? "dontShowClock" : "showClock"
+                      }
+                    >
+                      <ReactCountdownClock
+                        key={this.state.currentQ}
+                        seconds={timerDuration}
+                        size={60}
+                        color="#a54ee8"
+                        alpha={0.9}
+                        onComplete={
+                          this.state.selectedValue === ""
+                            ? () => this.checkCorrect()
+                            : null
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </Paper>
-        )
-        }
+        )}
       </AuthUserContext.Consumer>
     );
   }
 }
 const Quiz = ({ storeScore }) => (
   <AuthUserContext.Consumer>
-    {authUser => <QuizBase authUser={authUser} storeScore={storeScore} />}
+    {(authUser) => <QuizBase authUser={authUser} storeScore={storeScore} />}
   </AuthUserContext.Consumer>
 );
 

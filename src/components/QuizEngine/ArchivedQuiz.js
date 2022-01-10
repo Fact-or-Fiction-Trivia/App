@@ -13,8 +13,6 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import Check from "@material-ui/icons/DoneAll";
 
-import QuizContext from "../context/quizContext";
-
 import { db } from "../../firebase";
 
 import loadingGif from "../../loadingGif.gif";
@@ -25,7 +23,7 @@ class ArchivedQuiz extends Component {
     super(props);
     this.state = {
       selectedQuiz: {},
-      selectedQuizId: ""
+      selectedQuizId: "",
     };
   }
 
@@ -35,12 +33,12 @@ class ArchivedQuiz extends Component {
     this.getQuiz(date);
   };
   // get the quiz and display it on the page, admin show style
-  getQuiz = date => {
-    db.getQuiz(date).then(response => {
+  getQuiz = (date) => {
+    db.getQuiz(date).then((response) => {
       const quiz = response.val();
       this.setState({
         selectedQuiz: quiz,
-        selectedQuizId: date
+        selectedQuizId: date,
       });
     });
   };
@@ -49,7 +47,7 @@ class ArchivedQuiz extends Component {
     let quizArray = [];
     if (this.state.selectedQuiz) {
       const quiz = this.state.selectedQuiz;
-      const result = Object.keys(quiz).map(function (key) {
+      const result = Object.keys(quiz).map(function(key) {
         return [key, quiz[key]];
       });
       result.pop();
@@ -80,8 +78,8 @@ class ArchivedQuiz extends Component {
                       correct1 ? (
                         <RadioButtonCheckedIcon />
                       ) : (
-                          <RadioButtonUncheckedIcon />
-                        )
+                        <RadioButtonUncheckedIcon />
+                      )
                     }
                     className={correct1 ? "isGreen" : null}
                   />
@@ -104,8 +102,8 @@ class ArchivedQuiz extends Component {
                       correct2 ? (
                         <RadioButtonCheckedIcon />
                       ) : (
-                          <RadioButtonUncheckedIcon />
-                        )
+                        <RadioButtonUncheckedIcon />
+                      )
                     }
                     className={correct2 ? "isGreen" : null}
                   />
@@ -130,8 +128,8 @@ class ArchivedQuiz extends Component {
                       correct3 ? (
                         <RadioButtonCheckedIcon />
                       ) : (
-                          <RadioButtonUncheckedIcon />
-                        )
+                        <RadioButtonUncheckedIcon />
+                      )
                     }
                     className={correct3 ? "isGreen" : null}
                   />
@@ -182,8 +180,8 @@ class ArchivedQuiz extends Component {
             <img src={loadingGif} alt="loading gif" />
           </div>
         ) : (
-            <div className="archive-questionHolder">{renderQs}</div>
-          )}
+          <div className="archive-questionHolder">{renderQs}</div>
+        )}
       </Paper>
     );
   }
