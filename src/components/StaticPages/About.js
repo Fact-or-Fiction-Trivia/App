@@ -1,45 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-import { FAQ } from "../../constants/routes";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Paper from "@material-ui/core/Paper";
-import YouTubePlayer from "react-player/lib/players/YouTube";
-import poster from "../didyouknow.png";
-import { storage } from "../../firebase/firebase";
 
 const About = () => {
-  const [videoDownload, setVideoDownload] = useState(null);
+  const faqRef = useRef();
+
   useEffect(() => {
-    // get most recent quiz date not in future
+    if (faqRef && window.location.href.includes("#FAQ")) {
+      scrollToFAQ();
+    }
+  }, [faqRef, window.location.href]);
 
-    const fetchVideo = async () => {
-      storage
-        .ref("videos/PolitIQ_Final.mp4")
-        .getDownloadURL()
-        .then(function(url) {
-          setVideoDownload(url);
-        })
-        .catch(function(error) {
-          // Handle any errors
-        });
-    };
-    fetchVideo();
-  }, []);
-
-  const video = videoDownload ? (
-    <video style={{ width: "90%" }} controls poster={poster}>
-      <source src={videoDownload} type="video/mp4" />
-    </video>
-  ) : null;
+  const scrollToFAQ = () => {
+    faqRef.current.scrollIntoView();
+  };
   return (
     <Paper className="about-holder">
       <Helmet>
-        <title>About | politIQ trivia</title>
+        <title>About & FAQ | politIQ trivia</title>
       </Helmet>
       <div className="heading">
         <h1>About Us</h1>
@@ -78,17 +61,16 @@ const About = () => {
           win some money, invite your friends and foes alike to join politIQ!
         </p>
 
-        <center style={{ marginTop: "50px" }}>{video}</center>
         <p style={{ marginTop: "8vh" }}>
           Have a question or want to send me some hate mail? Check out our{" "}
-          <Link to={FAQ}>Frequently Asked Questions</Link> or email me at{" "}
+          <span className="anchor-link" onClick={scrollToFAQ}>
+            Frequently Asked Questions
+          </span>{" "}
+          or email me at{" "}
           <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a>
         </p>
       </div>
-      <Helmet>
-        <title>Frequently Asked Questions | politIQ trivia</title>
-      </Helmet>
-      <div className="heading" style={{ height: "20vh" }}>
+      <div ref={faqRef} className="heading" style={{ height: "20vh" }}>
         <h1>Frequently Asked Questions</h1>
       </div>
       <div className="text">

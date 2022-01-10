@@ -143,7 +143,7 @@ class Footer extends Component {
             </Link>
           )}
           <Link
-            to={routes.FAQ}
+            to={`${routes.ABOUT}#FAQ`}
             style={{
               color: "white",
               textDecoration: "none",
