@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { compose } from "recompose";
+import { connect } from "react-redux";
 
 import {
   FacebookShareButton,
@@ -28,6 +29,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import TodaysQuizButton from "./TodaysQuizButton";
 
 import "./Static.css";
+import { fetchQuestions } from "../../redux/reducers/question";
 
 const getHref = () => {
   return window.location.href.toString();
@@ -44,6 +46,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.addToHomeScreen();
+    this.props.getQuestions();
   }
 
   addToHomeScreen = () => {
@@ -210,7 +213,22 @@ class HomePage extends Component {
 
 const condition = (authUser) => !!authUser;
 
+const mapState = (state) => {
+  const { questions } = state.question;
+  return {
+    questions,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    getQuestions() {
+      dispatch(fetchQuestions());
+    },
+  };
+};
+
 export default compose(
-  // withEmailVerification,
-  withAuthorization(condition)
+  withAuthorization(condition),
+  connect(mapState, mapDispatch)
 )(HomePage);
