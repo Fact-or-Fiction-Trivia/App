@@ -3,21 +3,21 @@ import { Helmet } from "react-helmet";
 import { compose } from "recompose";
 import { connect } from "react-redux";
 
-import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  EmailShareButton,
-} from "react-share";
+// import {
+//   FacebookShareButton,
+//   LinkedinShareButton,
+//   TwitterShareButton,
+//   WhatsappShareButton,
+//   EmailShareButton,
+// } from "react-share";
 
-import {
-  FacebookIcon,
-  TwitterIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-  EmailIcon,
-} from "react-share";
+// import {
+//   FacebookIcon,
+//   TwitterIcon,
+//   WhatsappIcon,
+//   LinkedinIcon,
+//   EmailIcon,
+// } from "react-share";
 
 import { withAuthorization } from "../Auth/index";
 
@@ -143,16 +143,10 @@ class HomePage extends Component {
         <h1>Think you know politics?</h1>
         <h1>Prove it!</h1>
 
-        {this.state.noAvailableQuizzes ? (
-          <p className="home-taken">
-            You've taken all the quizzes we have available! Check back tomorrow
-            for the next challenge.
-          </p>
-        ) : null}
         <TodaysQuizButton
           buttonText="Take Today's Quiz"
           id="today"
-          disabled={this.state.noAvailableQuizzes}
+          disabled={this.props.questions.length > 0}
           showErrorMessage={this.showErrorMessage}
           signedInUser={this.props.signedInUser}
         />
@@ -168,7 +162,7 @@ class HomePage extends Component {
           className="mobile-socials"
           style={{ display: "flex", marginTop: "1vh" }}
         >
-          <FacebookShareButton
+          {/* <FacebookShareButton
             url={getHref()}
             className="shareable"
             quote="Check out my politIQ:"
@@ -204,7 +198,7 @@ class HomePage extends Component {
             body="Are you smarter than a Republican? Democrat? Independent? Find out!"
           >
             <EmailIcon round={true} size={32} />
-          </EmailShareButton>
+          </EmailShareButton> */}
         </div>
       </Paper>
     );

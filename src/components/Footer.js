@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import getMostRecentQuizId from "../utils/mostRecentQuizId";
 
-import { FacebookShareButton, TwitterShareButton } from "react-share";
+// import { FacebookShareButton, TwitterShareButton } from "react-share";
 
-import { FacebookIcon, TwitterIcon } from "react-share";
+// import { FacebookIcon, TwitterIcon } from "react-share";
 
 const getHref = () => {
   console.log(window.location.href.toString());
@@ -174,7 +174,8 @@ class Footer extends Component {
             className="socials"
             style={{ display: "flex", marginTop: "1vh" }}
           >
-            <TwitterShareButton
+            {/* TODO: FIX SHARE BUTTONS */}
+            {/* <TwitterShareButton
               url={getHref()}
               title="Think you can beat my high score?"
               className="shareable"
@@ -187,7 +188,7 @@ class Footer extends Component {
               quote="Think you can beat my high score?"
             >
               <FacebookIcon round={true} size={32} />
-            </FacebookShareButton>
+            </FacebookShareButton> */}
           </div>
         </div>
         <div className="bottom-nav">

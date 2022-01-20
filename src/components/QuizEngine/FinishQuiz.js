@@ -2,21 +2,21 @@ import React, { Component } from "react";
 
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  EmailShareButton,
-} from "react-share";
+// import {
+//   FacebookShareButton,
+//   LinkedinShareButton,
+//   TwitterShareButton,
+//   WhatsappShareButton,
+//   EmailShareButton,
+// } from "react-share";
 
-import {
-  FacebookIcon,
-  TwitterIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-  EmailIcon,
-} from "react-share";
+// import {
+//   FacebookIcon,
+//   TwitterIcon,
+//   WhatsappIcon,
+//   LinkedinIcon,
+//   EmailIcon,
+// } from "react-share";
 
 import { LEADERBOARD, SIGN_UP, SUBMIT_QUESTION } from "../../constants/routes";
 import NextAvailableQuizButton from "./NextAvailableQuizButton";
@@ -113,7 +113,7 @@ class FinishQuiz extends Component {
               maxWidth: "200px",
             }}
           >
-            <FacebookShareButton
+            {/* <FacebookShareButton
               url={getHref()}
               className="shareable"
               quote={`I scored ${score} out of ${quizLength} points on today's quiz! Click here to see how you rank up!`}
@@ -149,7 +149,7 @@ class FinishQuiz extends Component {
               body={`I scored ${score} out of ${quizLength} points on today's quiz. Click here to see how you rank up!`}
             >
               <EmailIcon round={true} size={32} />
-            </EmailShareButton>
+            </EmailShareButton> */}
           </div>
           {/* </MediaQuery> */}
         </div>
