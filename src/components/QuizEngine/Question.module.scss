@@ -1,0 +1,33 @@
+@import "../../variables.scss";
+
+.textContainer {
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: $space-md;
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.button {
+  color: $color-white;
+  bottom: 0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-extra-bold;
+  padding: 2rem 0.5rem;
+  position: absolute;
+  text-align: center;
+  width: calc(50% - 1rem);
+}
+
+.fiction {
+  background-color: $color-red;
+  right: 0;
+}
+
+.fact {
+  background-color: $color-green;
+  min-width: calc(50% - 1rem);
+  left: 0;
+}
