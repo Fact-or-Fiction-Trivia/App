@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
 import history from "../../utils/history";
+import axios from "../axiosInstance";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",
@@ -15,7 +16,9 @@ export const resetPassword = createAsyncThunk(
   async ({ password, userId, token }) => {
     const { data } = await axios.post(
       `/api/users/password-reset/${userId}/${token}`,
-      { password }
+      {
+        password,
+      }
     );
     if (data === "reset") {
       alert("Password has been reset");
@@ -50,7 +53,7 @@ export const authenticate = createAsyncThunk(
   "auth/authenticate",
   async ({ email, password }) => {
     await axios.post(`/auth/login`, { email, password });
-    const { data } = await axios.get("/auth/me", { credentials: "include" });
+    const { data } = await axios.get(`/auth/me`);
     // history.push("/");
     return data;
   }
