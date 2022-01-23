@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Paper } from "@material-ui/core";
 import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./PlayQuiz.module.scss";
-import classNames from "classnames";
+import Question from "./Question";
+import Answer from "./Answer";
 
-const PlayQuiz = ({ questions, getQuestions }) => {
-  const index = 0; // TODO: iterate through questions
+import { clearAnswer } from "../../redux/reducers/question";
+import { createStreak } from "../../redux/reducers/streak";
+
+const PlayQuiz = ({ answered, questions, getQuestions }) => {
+  const [isAnswering, setIsAnswering] = useState(true);
+  const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
+  const [streak, setStreak] = useState([]);
+
   useEffect(() => {
     // if there aren't questions already, fetch them
     if (questions.length === 0) {
@@ -15,13 +22,61 @@ const PlayQuiz = ({ questions, getQuestions }) => {
   }, []);
 
   // TODO: timer
-  // tODO: scoring
   // TODO: login widget at end of streak
   // TODO: QUESTION REFETCH
+  // tODO: scoring
+
+  const handleClick = (question, answer) => {
+    if (question.answer === answer) {
+      const newStreak = streak.length + 1;
+      setStreak([
+        ...streak,
+        { questionId: question.id, answeredCorrectly: true },
+      ]);
+      setIsAnswering(false);
+      setAnsweredCorrectly(true);
+      // answered(question.id);
+      // alert(`Correct, streak is now ${newStreak}`);
+    } else {
+      addStreak([
+        ...streak,
+        { questionId: question.id, answeredCorrectly: false },
+      ]);
+      const finalStreak = streak.length;
+      setStreak([]);
+      setIsAnswering(false);
+      setAnsweredCorrectly(false);
+      // answered(question.id);
+      // alert(`Oh No! That was wrong, streak was ${finalStreak}`);
+    }
+  };
+
+  const handleCorrectContinueClick = (question) => {
+    // update the question stack to remove the one the user just answered
+    answered(question.id);
+    // reset to show the next question
+    setIsAnswering(true);
+    setAnsweredCorrectly(undefined);
+  };
+
+  const handleIncorrectContinueClick = (question) => {
+    console.log("incorrect continue");
+  };
 
   if (questions.length === 0) {
     return <div>Loading ...</div>;
   }
+
+  // we'll always be looking at questions[0] here, since we will remove the answered
+  // questions from the question stack when the user completes an answer
+
+  // if the user is answering, show them the question with the button options
+  // if they have answered, show them the explanation and whether they were right or wrong
+
+  // if they were wrong, they can hit continue from the answer screen to reach the end of streak view
+  // on the end of streak view:
+  //      if they are logged in: they can view their streak (compared with their other streaks) and choose to keep playing or view leaderboard
+  //      if they are not logged in: they can choose to log in to save their streak, play again, or view leaderboard
   return (
     <div className={styles.quizContainer}>
       <Paper className={styles.questionContainer}>
@@ -29,13 +84,16 @@ const PlayQuiz = ({ questions, getQuestions }) => {
           <div>timer - todo</div>
           <div>your streak</div>
         </div>
-        <div className={styles.textContainer}>{questions[index]?.text}</div>
-        <div className={styles.buttonContainer}>
-          <div className={classNames(styles.button, styles.fact)}>Fact</div>
-          <div className={classNames(styles.button, styles.fiction)}>
-            Fiction
-          </div>
-        </div>
+        {isAnswering ? (
+          <Question question={questions[0]} handleClick={handleClick} />
+        ) : (
+          <Answer
+            handleCorrectContinueClick={handleCorrectContinueClick}
+            handleIncorrectContinueClick={handleIncorrectContinueClick}
+            isCorrect={answeredCorrectly}
+            question={questions[0]}
+          />
+        )}
       </Paper>
     </div>
   );
@@ -50,6 +108,12 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
+    addStreak(body) {
+      dispatch(createStreak(body));
+    },
+    answered(questionId) {
+      dispatch(clearAnswer(questionId));
+    },
     getQuestions() {
       dispatch(fetchQuestions());
     },
