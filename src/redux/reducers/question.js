@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../axiosInstance";
 
 export const fetchQuestions = createAsyncThunk(
   "question/fetchQuestions",
   async () => {
-    const { data } = await axios.get(`http://localhost:8080/api/questions`, {
-      withCredentials: true,
-    });
+    const { data } = await axios.get(`/api/questions`);
 
     return data;
   }

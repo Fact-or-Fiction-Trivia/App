@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, UseState } from "react";
+import { connect } from "react-redux";
+import { authenticate } from "../../../redux/reducers/auth";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
 import { compose } from "recompose";
 import axios from "axios";
-
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -55,7 +56,7 @@ It will not be viewable to other users and you may change this on your profile a
 `;
 
 const emailText = `
-  Email address is required so that we can contact you if you win the politIQ jackpot - we do not send spam. 
+  Email address is required so that we can contact you if you win the politIQ jackpot - we do not send spam.
 `;
 
 class SignUpFormBase extends Component {
