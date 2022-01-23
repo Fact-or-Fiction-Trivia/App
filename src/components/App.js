@@ -28,6 +28,7 @@ import QuizRedirect from "./QuizEngine/QuizRedirect";
 import ProfileToQuizRedirect from "./QuizEngine/ProfileToQuizRedirect";
 import LatestQuizRedirect from "./QuizEngine/LatestQuizRedirect";
 import NoMatch from "./StaticPages/NoMatch";
+import PlayQuiz from "./QuizEngine/PlayQuiz";
 
 import QuizContext from "./context/quizContext";
 
@@ -223,6 +224,7 @@ class App extends Component {
           />
 
           {/* Quiz Routes */}
+          <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
           <Route
             exact
             path={routes.QUIZ}

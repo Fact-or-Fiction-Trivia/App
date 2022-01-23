@@ -1,0 +1,59 @@
+@import "../../variables.scss";
+
+:global(.pushwoosh-subscribe-widget) {
+  display: none;
+}
+
+.quizContainer {
+  height: calc(100vh - ($nav-height + $footer-height));
+  margin-top: $nav-height;
+  margin-bottom: 2rem;
+}
+
+.questionContainer {
+  background-color: $color-white;
+  height: 100%;
+  max-width: 1000px;
+  margin: calc($nav-height + 1rem) 1rem 1rem 1rem;
+  position: relative;
+  width: calc(100% - 2rem);
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 5rem;
+  padding: 0.5rem;
+}
+
+.textContainer {
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: $space-sm;
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.button {
+  color: $color-white;
+  bottom: 0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-extra-bold;
+  padding: 2rem 0.5rem;
+  position: absolute;
+  text-align: center;
+  width: calc(50% - 1rem);
+}
+
+.fiction {
+  background-color: $color-red;
+  right: 0;
+}
+
+.fact {
+  background-color: $color-green;
+  min-width: calc(50% - 1rem);
+  left: 0;
+}
