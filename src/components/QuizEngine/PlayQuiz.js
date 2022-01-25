@@ -10,17 +10,20 @@ import EndOfStreak from "./EndOfStreak";
 import { clearAnswer } from "../../redux/reducers/question";
 import { createStreak } from "../../redux/reducers/streak";
 
-const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
+const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
   const [isAnswering, setIsAnswering] = useState(true);
   const [isEndOfStreak, setIsEndOfStreak] = useState(false);
   const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
   const [streak, setStreak] = useState([]);
+  const [longestStreak, setLongestStreak] = useState(0);
 
   useEffect(() => {
     // if there aren't questions already, fetch them
     if (questions.length === 0) {
       getQuestions();
     }
+
+    loadStreak(auth);
   }, []);
 
   // TODO: timer
@@ -31,6 +34,26 @@ const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
   // we want to show the user's highest streak and their current streak
   // if they are logged in, pull it from the streaks table
   // if they are not logged in, use the highest streak from local storage
+  const loadStreak = (auth) => {
+    if (auth.loggedIn) {
+      // TODO: get streaks
+      console.log("logged in streak");
+    } else {
+      const streaks = JSON.parse(localStorage.getItem("streaks"));
+      // get the longest streak
+
+      let longStreak = 0;
+
+      streaks.forEach((streak) => {
+        // subtract one for the non-logged in user because we also store the questions that they answered incorrectly as part of the streak
+        if (streak.length - 1 > longStreak) {
+          longStreak = streak.length - 1;
+        }
+      });
+
+      setLongestStreak(longStreak);
+    }
+  };
 
   const handleClick = (question, answer) => {
     if (question.answer === answer) {
@@ -45,7 +68,6 @@ const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
         ...streak,
         { questionId: question.id, answeredCorrectly: false },
       ]);
-      setStreak([]);
       setIsAnswering(false);
       setAnsweredCorrectly(false);
     }
@@ -57,10 +79,26 @@ const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
     // reset to show the next question
     setIsAnswering(true);
     setAnsweredCorrectly(undefined);
-    setIsEndOfStreak(true);
   };
 
   const handleIncorrectContinueClick = (question) => {
+    if (auth.loggedIn) {
+      addStreak([
+        ...streak,
+        { questionId: question.id, answeredCorrectly: false },
+      ]);
+    } else {
+      const pastStreaks = localStorage.hasOwnProperty("streaks")
+        ? JSON.parse(localStorage.getItem("streaks"))
+        : [];
+      localStorage.setItem(
+        "streaks",
+        JSON.stringify([
+          ...pastStreaks,
+          [...streak, { questionId: question.id, answeredCorrectly: false }],
+        ])
+      );
+    }
     // update the question stack to remove the one the user just answered
     answered(question.id);
     // reset quiz values and show end of streak screens
@@ -95,10 +133,17 @@ const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
       <Paper className={styles.questionContainer}>
         <div className={styles.statsContainer}>
           <div>timer - todo</div>
-          <div>{streak.length} correct in a row</div>
+          <div className={styles.streakContainer}>
+            <div>{streak.length} correct in a row</div>
+            <div>Longest streak: {longestStreak} </div>
+          </div>
         </div>
         {isEndOfStreak ? (
-          <EndOfStreak resetQuiz={resetQuiz} streakTotal={streak.length} />
+          <EndOfStreak
+            resetQuiz={resetQuiz}
+            longestStreak={longestStreak}
+            streakTotal={streak.length}
+          />
         ) : (
           <>
             {isAnswering ? (
@@ -120,7 +165,9 @@ const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
 
 const mapState = (state) => {
   const { questions } = state.question;
+  const { auth } = state;
   return {
+    auth,
     questions,
   };
 };
