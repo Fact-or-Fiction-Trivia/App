@@ -1,0 +1,15 @@
+@import "../../variables.scss";
+
+.container {
+  padding: 1rem;
+  text-align: center;
+
+  p {
+    margin-top: 0;
+  }
+}
+.streak {
+  color: $color-primary;
+  font-weight: 800;
+  font-size: $font-size-xl;
+}

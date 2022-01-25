@@ -5,12 +5,14 @@ import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./PlayQuiz.module.scss";
 import Question from "./Question";
 import Answer from "./Answer";
+import EndOfStreak from "./EndOfStreak";
 
 import { clearAnswer } from "../../redux/reducers/question";
 import { createStreak } from "../../redux/reducers/streak";
 
-const PlayQuiz = ({ answered, questions, getQuestions }) => {
+const PlayQuiz = ({ addStreak, answered, questions, getQuestions }) => {
   const [isAnswering, setIsAnswering] = useState(true);
+  const [isEndOfStreak, setIsEndOfStreak] = useState(false);
   const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
   const [streak, setStreak] = useState([]);
 
@@ -24,30 +26,28 @@ const PlayQuiz = ({ answered, questions, getQuestions }) => {
   // TODO: timer
   // TODO: login widget at end of streak
   // TODO: QUESTION REFETCH
+
   // tODO: scoring
+  // we want to show the user's highest streak and their current streak
+  // if they are logged in, pull it from the streaks table
+  // if they are not logged in, use the highest streak from local storage
 
   const handleClick = (question, answer) => {
     if (question.answer === answer) {
-      const newStreak = streak.length + 1;
       setStreak([
         ...streak,
         { questionId: question.id, answeredCorrectly: true },
       ]);
       setIsAnswering(false);
       setAnsweredCorrectly(true);
-      // answered(question.id);
-      // alert(`Correct, streak is now ${newStreak}`);
     } else {
       addStreak([
         ...streak,
         { questionId: question.id, answeredCorrectly: false },
       ]);
-      const finalStreak = streak.length;
       setStreak([]);
       setIsAnswering(false);
       setAnsweredCorrectly(false);
-      // answered(question.id);
-      // alert(`Oh No! That was wrong, streak was ${finalStreak}`);
     }
   };
 
@@ -57,10 +57,23 @@ const PlayQuiz = ({ answered, questions, getQuestions }) => {
     // reset to show the next question
     setIsAnswering(true);
     setAnsweredCorrectly(undefined);
+    setIsEndOfStreak(true);
   };
 
   const handleIncorrectContinueClick = (question) => {
-    console.log("incorrect continue");
+    // update the question stack to remove the one the user just answered
+    answered(question.id);
+    // reset quiz values and show end of streak screens
+    setIsAnswering(true);
+    setAnsweredCorrectly(undefined);
+    setIsEndOfStreak(true);
+  };
+
+  const resetQuiz = () => {
+    // if not logged in, save the streak in local storage
+    // reset the quiz
+    setIsEndOfStreak(false);
+    setStreak([]);
   };
 
   if (questions.length === 0) {
@@ -82,17 +95,23 @@ const PlayQuiz = ({ answered, questions, getQuestions }) => {
       <Paper className={styles.questionContainer}>
         <div className={styles.statsContainer}>
           <div>timer - todo</div>
-          <div>your streak</div>
+          <div>{streak.length} correct in a row</div>
         </div>
-        {isAnswering ? (
-          <Question question={questions[0]} handleClick={handleClick} />
+        {isEndOfStreak ? (
+          <EndOfStreak resetQuiz={resetQuiz} streakTotal={streak.length} />
         ) : (
-          <Answer
-            handleCorrectContinueClick={handleCorrectContinueClick}
-            handleIncorrectContinueClick={handleIncorrectContinueClick}
-            isCorrect={answeredCorrectly}
-            question={questions[0]}
-          />
+          <>
+            {isAnswering ? (
+              <Question question={questions[0]} handleClick={handleClick} />
+            ) : (
+              <Answer
+                handleCorrectContinueClick={handleCorrectContinueClick}
+                handleIncorrectContinueClick={handleIncorrectContinueClick}
+                isCorrect={answeredCorrectly}
+                question={questions[0]}
+              />
+            )}
+          </>
         )}
       </Paper>
     </div>

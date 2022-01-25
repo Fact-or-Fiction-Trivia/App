@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import Button from "../Button/Button";
 import styles from "./Answer.module.scss";
 
 const Answer = ({
@@ -38,12 +39,9 @@ const Answer = ({
       </div>
 
       <div className={styles.buttonContainer}>
-        <div
-          className={styles.keepPlaying}
-          onClick={() => handleContinueClick()}
-        >
+        <Button onClick={() => handleContinueClick()} variant="primary">
           {isCorrect ? "Keep Playing" : "Continue"}
-        </div>
+        </Button>
         <div
           className={classNames(styles.linkStyle, styles.challenge)}
           onClick={() => handleContestQuestion()}
