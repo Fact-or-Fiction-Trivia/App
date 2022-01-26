@@ -64,10 +64,6 @@ const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
       setIsAnswering(false);
       setAnsweredCorrectly(true);
     } else {
-      addStreak([
-        ...streak,
-        { questionId: question.id, answeredCorrectly: false },
-      ]);
       setIsAnswering(false);
       setAnsweredCorrectly(false);
     }
@@ -140,9 +136,14 @@ const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
         </div>
         {isEndOfStreak ? (
           <EndOfStreak
+            addStreak={addStreak}
             resetQuiz={resetQuiz}
             longestStreak={longestStreak}
             streakTotal={streak.length}
+            streak={[
+              ...streak,
+              { questionId: questions[0].id, answeredCorrectly: false },
+            ]}
           />
         ) : (
           <>

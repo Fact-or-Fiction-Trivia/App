@@ -1,15 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import SignInForm from "../Auth/SignIn/SignInForm";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
 
-const EndOfStreak = ({ auth, longestStreak, resetQuiz, streakTotal }) => {
-  console.log(auth, "the user");
+const EndOfStreak = ({
+  addStreak,
+  auth,
+  longestStreak,
+  resetQuiz,
+  streak,
+  streakTotal,
+}) => {
+  const [showSignIn, setShowSignIn] = useState(false);
 
   useEffect(() => {
     // something
   }, [streakTotal]);
+
+  const handleSignInAndReset = () => {
+    // save the score of the user who has just signed in once we have the auth object
+    addStreak(streak);
+    // reset the quiz
+    resetQuiz();
+  };
 
   return (
     <div className={styles.container}>
@@ -19,7 +34,7 @@ const EndOfStreak = ({ auth, longestStreak, resetQuiz, streakTotal }) => {
       {longestStreak > 0 && <div>Your record: {longestStreak}</div>}
       {auth.loggedIn ? (
         <div>
-          <Button variant="primary" onClick={resetQuiz}>
+          <Button variant="primary" onClick={handleSignInAndReset}>
             Play Again
           </Button>
           <Link to="/leaderboard">
@@ -27,10 +42,25 @@ const EndOfStreak = ({ auth, longestStreak, resetQuiz, streakTotal }) => {
           </Link>
         </div>
       ) : (
-        <div>
-          <div>sign in to save your streak</div>
-          <span>-- OR --</span>
-          <Button variant="primary" onClick={resetQuiz}>
+        <div className={styles.buttonContainer}>
+          {showSignIn ? (
+            <SignInForm
+              buttonCopy="Save My Score"
+              callback={handleSignInAndReset}
+            />
+          ) : (
+            <Button variant="primary" onClick={() => setShowSignIn(true)}>
+              Sign in to save your streak
+            </Button>
+          )}
+          <div className={styles.horizontalRule}>
+            <span>or</span>
+          </div>
+          <Button
+            className={styles.skipButton}
+            variant="white"
+            onClick={resetQuiz}
+          >
             Skip and play again
           </Button>
         </div>
