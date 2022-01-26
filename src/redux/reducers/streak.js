@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../axiosInstance";
 import history from "../../utils/history";
 
 export const createStreak = createAsyncThunk(
   "streak/createStreak",
-  async (body) => {
-    const { data } = await axios.post(`/api/streaks`, body);
+  async (answeredQuestions) => {
+    const { data } = await axios.post(`/api/streaks`, answeredQuestions);
 
     return data;
   }

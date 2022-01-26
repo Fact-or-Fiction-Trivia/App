@@ -51,10 +51,11 @@ export const me = createAsyncThunk("auth/me", async () => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ email, password }) => {
+  async ({ email, password, callback }) => {
     await axios.post(`/auth/login`, { email, password });
     const { data } = await axios.get(`/auth/me`);
-    // history.push("/");
+
+    callback && callback();
     return data;
   }
 );
