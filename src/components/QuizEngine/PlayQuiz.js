@@ -8,9 +8,17 @@ import Answer from "./Answer";
 import EndOfStreak from "./EndOfStreak";
 
 import { clearAnswer } from "../../redux/reducers/question";
-import { createStreak } from "../../redux/reducers/streak";
+import { createStreak, getMaxStreakForUser } from "../../redux/reducers/streak";
 
-const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
+const PlayQuiz = ({
+  addStreak,
+  answered,
+  auth,
+  maxStreak,
+  questions,
+  getQuestions,
+  getStreakHistory,
+}) => {
   const [isAnswering, setIsAnswering] = useState(true);
   const [isEndOfStreak, setIsEndOfStreak] = useState(false);
   const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
@@ -22,36 +30,51 @@ const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
     if (questions.length === 0) {
       getQuestions();
     }
-
+    if (auth.loggedIn) {
+      getStreakHistory();
+    }
     loadStreak(auth);
   }, []);
 
-  // TODO: timer
-  // TODO: login widget at end of streak
-  // TODO: QUESTION REFETCH
+  useEffect(() => {
+    // load the streak history when the user logs in
+    getStreakHistory(auth.id);
+  }, [auth.id]);
 
-  // tODO: scoring
+  useEffect(() => {
+    // when the max streak changes, update the UI
+    if (maxStreak) {
+      setLongestStreak(maxStreak.score);
+    }
+  }, [maxStreak]);
+
+  // TODO: timer
+  // TODO: QUESTION REFETCH
+  // TODO: handle no questions remaining
+
   // we want to show the user's highest streak and their current streak
   // if they are logged in, pull it from the streaks table
   // if they are not logged in, use the highest streak from local storage
   const loadStreak = (auth) => {
     if (auth.loggedIn) {
-      // TODO: get streaks
-      console.log("logged in streak");
+      if (maxStreak) {
+        setLongestStreak(maxStreak.score);
+      }
     } else {
-      const streaks = JSON.parse(localStorage.getItem("streaks"));
-      // get the longest streak
+      if (localStorage.hasOwnProperty("streaks")) {
+        const streaks = JSON.parse(localStorage.getItem("streaks"));
+        // get the longest streak
+        let longStreak = 0;
 
-      let longStreak = 0;
+        streaks.forEach((streak) => {
+          // subtract one for the non-logged in user because we also store the questions that they answered incorrectly as part of the streak
+          if (streak.length - 1 > longStreak) {
+            longStreak = streak.length - 1;
+          }
+        });
 
-      streaks.forEach((streak) => {
-        // subtract one for the non-logged in user because we also store the questions that they answered incorrectly as part of the streak
-        if (streak.length - 1 > longStreak) {
-          longStreak = streak.length - 1;
-        }
-      });
-
-      setLongestStreak(longStreak);
+        setLongestStreak(longStreak);
+      }
     }
   };
 
@@ -78,21 +101,19 @@ const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
   };
 
   const handleIncorrectContinueClick = (question) => {
+    const newStreak = [
+      ...streak,
+      { questionId: question.id, answeredCorrectly: false },
+    ];
     if (auth.loggedIn) {
-      addStreak([
-        ...streak,
-        { questionId: question.id, answeredCorrectly: false },
-      ]);
+      addStreak(newStreak);
     } else {
       const pastStreaks = localStorage.hasOwnProperty("streaks")
         ? JSON.parse(localStorage.getItem("streaks"))
         : [];
       localStorage.setItem(
         "streaks",
-        JSON.stringify([
-          ...pastStreaks,
-          [...streak, { questionId: question.id, answeredCorrectly: false }],
-        ])
+        JSON.stringify([...pastStreaks, ...newStreak])
       );
     }
     // update the question stack to remove the one the user just answered
@@ -104,6 +125,10 @@ const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
   };
 
   const resetQuiz = () => {
+    // if the current streak is longer than the max streak, reload the max streak
+    if (streak.length > maxStreak?.score) {
+      getStreakHistory(auth.id);
+    }
     // if not logged in, save the streak in local storage
     // reset the quiz
     setIsEndOfStreak(false);
@@ -167,8 +192,11 @@ const PlayQuiz = ({ addStreak, answered, auth, questions, getQuestions }) => {
 const mapState = (state) => {
   const { questions } = state.question;
   const { auth } = state;
+  const { maxStreak } = state.streak;
+
   return {
     auth,
+    maxStreak,
     questions,
   };
 };
@@ -183,6 +211,11 @@ const mapDispatch = (dispatch) => {
     },
     getQuestions() {
       dispatch(fetchQuestions());
+    },
+    getStreakHistory(userId) {
+      if (userId) {
+        dispatch(getMaxStreakForUser(userId));
+      }
     },
   };
 };
