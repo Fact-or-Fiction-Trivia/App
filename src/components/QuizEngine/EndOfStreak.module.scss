@@ -8,6 +8,11 @@
     margin-top: 0;
     margin-bottom: 0;
   }
+
+  @media (min-width: $breakpoint-md) {
+    max-width: 750px;
+    margin: 0 auto;
+  }
 }
 .streak {
   color: $color-primary;
@@ -18,6 +23,10 @@
 
 .buttonContainer {
   margin-top: 1rem;
+
+  @media (min-width: $breakpoint-md) {
+    margin-top: 5rem;
+  }
 }
 
 .horizontalRule {
