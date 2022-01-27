@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosInstance";
-import history from "../../utils/history";
 
 export const createStreak = createAsyncThunk(
   "streak/createStreak",
@@ -12,9 +11,18 @@ export const createStreak = createAsyncThunk(
   }
 );
 
+export const getMaxStreakForUser = createAsyncThunk(
+  "streak/getMaxStreakForUser",
+  async (userId) => {
+    const { data } = await axios.get(`/api/streaks/${userId}`);
+    return data;
+  }
+);
+
 const INIT_STATE = {
   streaks: [],
-  isLoading: true,
+  maxStreak: null,
+  isLoading: false,
   hasError: false,
 };
 //Slice
@@ -34,12 +42,24 @@ const streakSlice = createSlice({
         state.hasError = false;
       })
       .addCase(createStreak.fulfilled, (state, action) => {
-        state.streaks = action.payload;
         state.isLoading = false;
         state.hasError = false;
       })
       .addCase(createStreak.rejected, (state, action) => {
         state = INIT_STATE;
+      })
+      .addCase(getMaxStreakForUser.pending, (state, action) => {
+        state.hasError = false;
+        state.isLoading = true;
+      })
+      .addCase(getMaxStreakForUser.rejected, (state, action) => {
+        state.hasError = true;
+        state.isLoading = false;
+      })
+      .addCase(getMaxStreakForUser.fulfilled, (state, action) => {
+        state.maxStreak = action.payload.maxStreak;
+        state.hasError = false;
+        state.isLoading = false;
       });
   },
 });

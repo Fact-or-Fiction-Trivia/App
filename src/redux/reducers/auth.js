@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
 import history from "../../utils/history";
 import axios from "../axiosInstance";
 
@@ -113,6 +112,8 @@ const authSlice = createSlice({
       })
       .addCase(authenticate.fulfilled, (state, action) => {
         state.auth = action.payload;
+        state.id = action.payload.id;
+        state.loggedIn = true;
         state.preCheck = true;
         state.validInvitation = null;
         state.isLoading = false;
