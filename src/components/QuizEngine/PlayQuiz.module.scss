@@ -17,6 +17,10 @@
   margin: calc($nav-height + 1rem) 1rem 1rem 1rem;
   position: relative;
   width: calc(100% - 2rem);
+
+  @media (min-width: $breakpoint-md) {
+    margin: calc($nav-height + 2rem) auto 1rem auto;
+  }
 }
 
 .statsContainer {
@@ -24,4 +28,8 @@
   justify-content: space-between;
   height: 3rem;
   padding: 0.5rem;
+
+  @media (min-width: $breakpoint-md) {
+    padding: 1rem;
+  }
 }

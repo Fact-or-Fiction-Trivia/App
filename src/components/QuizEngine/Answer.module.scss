@@ -4,6 +4,11 @@
   font-size: 1.125rem;
   font-weight: 500;
   padding: 1.5rem;
+
+  @media (min-width: $breakpoint-md) {
+    max-width: 750px;
+    margin: 0 auto;
+  }
 }
 
 .isCorrect {
@@ -34,6 +39,12 @@
   position: absolute;
   width: calc(100% - 4rem);
   left: 1rem;
+
+  @media (min-width: $breakpoint-md) {
+    left: calc((100% - 750px) / 2);
+    max-width: 750px;
+    padding: 1rem 0;
+  }
 }
 
 .keepPlaying {
