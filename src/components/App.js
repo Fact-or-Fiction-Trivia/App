@@ -123,6 +123,7 @@ class App extends Component {
   };
 
   render() {
+    if (!this.props.preCheck) return <p>Loading</p>;
     return (
       // <Router history
       //Provide quiz value to everything
@@ -301,9 +302,10 @@ class App extends Component {
 }
 
 const mapState = (state) => {
-  const { auth } = state.auth;
+  const { auth, preCheck } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
+    preCheck,
     isLoggedIn,
   };
 };

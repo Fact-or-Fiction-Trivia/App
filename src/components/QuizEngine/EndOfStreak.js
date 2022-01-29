@@ -12,6 +12,7 @@ const EndOfStreak = ({
   resetQuiz,
   streak,
   streakTotal,
+  setLongestStreak,
 }) => {
   const [showSignIn, setShowSignIn] = useState(false);
 
@@ -44,10 +45,7 @@ const EndOfStreak = ({
       ) : (
         <div className={styles.buttonContainer}>
           {showSignIn ? (
-            <SignInForm
-              buttonCopy="Save My Score"
-              callback={handleSignInAndReset}
-            />
+            <SignInForm buttonCopy="Save My Score" />
           ) : (
             <Button variant="primary" onClick={() => setShowSignIn(true)}>
               Sign in to save your streak

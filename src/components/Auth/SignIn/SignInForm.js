@@ -6,11 +6,12 @@ import { authenticate } from "../../../redux/reducers/auth";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "../Auth.css";
+import { setMaxScore } from "../../../redux/reducers/streak";
 
 const SignInFormBase = ({
   authenticateUser,
   buttonCopy = "Sign In",
-  callback,
+  setLongestStreak,
 }) => {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const SignInFormBase = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    authenticateUser(formData, callback);
+    authenticateUser({ formData, setLongestStreak });
   };
 
   const handleChange = ({ target }) => {
@@ -79,8 +80,11 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    authenticateUser(formData, callback) {
-      dispatch(authenticate({ ...formData, callback }));
+    authenticateUser({ formData, setLongestStreak }) {
+      dispatch(authenticate({ formData, setLongestStreak }));
+    },
+    setLongestStreak(score) {
+      dispatch(setMaxScore(score));
     },
   };
 };
