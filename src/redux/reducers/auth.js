@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import history from "../../utils/history";
 import axios from "../axiosInstance";
+// import store from "../store";
+// import { setMaxScore } from "./streak";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",
@@ -50,11 +52,10 @@ export const me = createAsyncThunk("auth/me", async () => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ email, password, callback }) => {
-    await axios.post(`/auth/login`, { email, password });
+  async ({ formData, setLongestStreak }) => {
+    await axios.post(`/auth/login`, formData);
     const { data } = await axios.get(`/auth/me`);
-
-    callback && callback();
+    setLongestStreak(data.maxScore);
     return data;
   }
 );

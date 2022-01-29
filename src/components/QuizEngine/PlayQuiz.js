@@ -15,6 +15,7 @@ import {
 } from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
+  auth,
   addStreak,
   answered,
   isLoggedIn,
@@ -129,7 +130,7 @@ const PlayQuiz = ({
     // if the current streak is longer than the max streak, reload the max streak
     if (streak.length > maxStreak) {
       // getStreakHistory();
-      setLongestStreak(maxStreak);
+      setLongestStreak(streak.length);
     }
     // if not logged in, save the streak in local storage
     // reset the quiz
@@ -197,6 +198,7 @@ const mapState = (state) => {
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
+    auth,
     isLoggedIn,
     maxStreak,
     questions,
