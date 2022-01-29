@@ -52,10 +52,11 @@ export const me = createAsyncThunk("auth/me", async () => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ formData, setLongestStreak }) => {
+  async ({ formData, setLongestStreak, callback }) => {
     await axios.post(`/auth/login`, formData);
     const { data } = await axios.get(`/auth/me`);
     setLongestStreak(data.maxScore);
+    callback && callback();
     return data;
   }
 );

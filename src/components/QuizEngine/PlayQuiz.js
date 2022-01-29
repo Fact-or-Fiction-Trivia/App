@@ -15,7 +15,6 @@ import {
 } from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
-  auth,
   addStreak,
   answered,
   isLoggedIn,
@@ -101,8 +100,7 @@ const PlayQuiz = ({
     setIsAnswering(true);
     setAnsweredCorrectly(undefined);
   };
-
-  const handleIncorrectContinueClick = (question) => {
+  const saveStreakData = (question) => {
     const newStreak = [
       ...streak,
       { questionId: question.id, answeredCorrectly: false },
@@ -118,6 +116,9 @@ const PlayQuiz = ({
         JSON.stringify([...pastStreaks, ...newStreak])
       );
     }
+  };
+  const handleIncorrectContinueClick = (question) => {
+    saveStreakData(question);
     // update the question stack to remove the one the user just answered
     answered(question.id);
     // reset quiz values and show end of streak screens
@@ -198,7 +199,6 @@ const mapState = (state) => {
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
-    auth,
     isLoggedIn,
     maxStreak,
     questions,
