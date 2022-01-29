@@ -8,45 +8,51 @@ import Answer from "./Answer";
 import EndOfStreak from "./EndOfStreak";
 
 import { clearAnswer } from "../../redux/reducers/question";
-import { createStreak, getMaxStreakForUser } from "../../redux/reducers/streak";
+import {
+  createStreak,
+  getMaxStreakForUser,
+  setMaxScore,
+} from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
   addStreak,
   answered,
-  auth,
+  isLoggedIn,
   maxStreak,
   questions,
   getQuestions,
   getStreakHistory,
+  setLongestStreak,
 }) => {
   const [isAnswering, setIsAnswering] = useState(true);
   const [isEndOfStreak, setIsEndOfStreak] = useState(false);
   const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
   const [streak, setStreak] = useState([]);
-  const [longestStreak, setLongestStreak] = useState(0);
+  // const [longestStreak, setLongestStreak] = useState(0);
 
   useEffect(() => {
     // if there aren't questions already, fetch them
     if (questions.length === 0) {
       getQuestions();
     }
-    if (auth.loggedIn) {
+    if (isLoggedIn) {
       getStreakHistory();
     }
-    loadStreak(auth);
+    loadStreak();
   }, []);
 
-  useEffect(() => {
-    // load the streak history when the user logs in
-    getStreakHistory(auth.id);
-  }, [auth.id]);
+  // useEffect(() => {
+  //   // load the streak history when the user logs in
+  //   getStreakHistory(auth.id);
+  // }, [auth.id]);
 
-  useEffect(() => {
-    // when the max streak changes, update the UI
-    if (maxStreak) {
-      setLongestStreak(maxStreak.score);
-    }
-  }, [maxStreak]);
+  // useEffect(() => {
+  //   // when the max streak changes, update the UI
+  //   if (maxStreak) {
+
+  //     setLongestStreak(maxStreak);
+  //   }
+  // }, [maxStreak]);
 
   // TODO: timer
   // TODO: QUESTION REFETCH
@@ -55,26 +61,20 @@ const PlayQuiz = ({
   // we want to show the user's highest streak and their current streak
   // if they are logged in, pull it from the streaks table
   // if they are not logged in, use the highest streak from local storage
-  const loadStreak = (auth) => {
-    if (auth.loggedIn) {
-      if (maxStreak) {
-        setLongestStreak(maxStreak.score);
-      }
-    } else {
-      if (localStorage.hasOwnProperty("streaks")) {
-        const streaks = JSON.parse(localStorage.getItem("streaks"));
-        // get the longest streak
-        let longStreak = 0;
+  const loadStreak = () => {
+    if (localStorage.hasOwnProperty("streaks")) {
+      const streaks = JSON.parse(localStorage.getItem("streaks"));
+      // get the longest streak
+      let longStreak = 0;
 
-        streaks.forEach((streak) => {
-          // subtract one for the non-logged in user because we also store the questions that they answered incorrectly as part of the streak
-          if (streak.length - 1 > longStreak) {
-            longStreak = streak.length - 1;
-          }
-        });
+      streaks.forEach((streak) => {
+        // subtract one for the non-logged in user because we also store the questions that they answered incorrectly as part of the streak
+        if (streak.length - 1 > longStreak) {
+          longStreak = streak.length - 1;
+        }
+      });
 
-        setLongestStreak(longStreak);
-      }
+      setLongestStreak(longStreak);
     }
   };
 
@@ -105,7 +105,7 @@ const PlayQuiz = ({
       ...streak,
       { questionId: question.id, answeredCorrectly: false },
     ];
-    if (auth.loggedIn) {
+    if (isLoggedIn) {
       addStreak(newStreak);
     } else {
       const pastStreaks = localStorage.hasOwnProperty("streaks")
@@ -126,8 +126,8 @@ const PlayQuiz = ({
 
   const resetQuiz = () => {
     // if the current streak is longer than the max streak, reload the max streak
-    if (streak.length > maxStreak?.score) {
-      getStreakHistory(auth.id);
+    if (streak.length > maxStreak) {
+      getStreakHistory();
     }
     // if not logged in, save the streak in local storage
     // reset the quiz
@@ -156,14 +156,14 @@ const PlayQuiz = ({
           <div>timer - todo</div>
           <div className={styles.streakContainer}>
             <div>{streak.length} correct in a row</div>
-            <div>Longest streak: {longestStreak} </div>
+            <div>Longest streak: {maxStreak} </div>
           </div>
         </div>
         {isEndOfStreak ? (
           <EndOfStreak
             addStreak={addStreak}
             resetQuiz={resetQuiz}
-            longestStreak={longestStreak}
+            longestStreak={maxStreak}
             streakTotal={streak.length}
             streak={[
               ...streak,
@@ -191,11 +191,11 @@ const PlayQuiz = ({
 
 const mapState = (state) => {
   const { questions } = state.question;
-  const { auth } = state;
   const { maxStreak } = state.streak;
-
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth.id;
   return {
-    auth,
+    isLoggedIn,
     maxStreak,
     questions,
   };
@@ -212,10 +212,11 @@ const mapDispatch = (dispatch) => {
     getQuestions() {
       dispatch(fetchQuestions());
     },
-    getStreakHistory(userId) {
-      if (userId) {
-        dispatch(getMaxStreakForUser(userId));
-      }
+    getStreakHistory() {
+      dispatch(getMaxStreakForUser());
+    },
+    setLongestStreak(score) {
+      dispatch(setMaxScore(score));
     },
   };
 };

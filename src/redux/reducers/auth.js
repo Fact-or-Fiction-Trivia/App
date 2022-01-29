@@ -80,7 +80,7 @@ export const changeEmail = createAsyncThunk(
 );
 
 const INIT_STATE = {
-  auth: { permissions: [] },
+  auth: {},
   id: null,
   validInvitation: null,
   loggedIn: false,
