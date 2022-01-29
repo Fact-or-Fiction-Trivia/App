@@ -12,6 +12,7 @@ const SignInFormBase = ({
   authenticateUser,
   buttonCopy = "Sign In",
   setLongestStreak,
+  callback,
 }) => {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const SignInFormBase = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    authenticateUser({ formData, setLongestStreak });
+    authenticateUser({ formData, setLongestStreak, callback });
   };
 
   const handleChange = ({ target }) => {
@@ -80,8 +81,8 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    authenticateUser({ formData, setLongestStreak }) {
-      dispatch(authenticate({ formData, setLongestStreak }));
+    authenticateUser({ formData, setLongestStreak, callback }) {
+      dispatch(authenticate({ formData, setLongestStreak, callback }));
     },
     setLongestStreak(score) {
       dispatch(setMaxScore(score));

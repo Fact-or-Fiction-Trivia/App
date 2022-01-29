@@ -7,12 +7,12 @@ import styles from "./EndOfStreak.module.scss";
 
 const EndOfStreak = ({
   addStreak,
+  wasLoggedIn,
   isLoggedIn,
   longestStreak,
   resetQuiz,
   streak,
   streakTotal,
-  setLongestStreak,
 }) => {
   const [showSignIn, setShowSignIn] = useState(false);
 
@@ -20,12 +20,7 @@ const EndOfStreak = ({
     // something
   }, [streakTotal]);
 
-  const handleSignInAndReset = () => {
-    // save the score of the user who has just signed in once we have the auth object
-    addStreak(streak);
-    // reset the quiz
-    resetQuiz();
-  };
+  const saveStreakOnLogin = () => addStreak(streak);
 
   return (
     <div className={styles.container}>
@@ -35,7 +30,7 @@ const EndOfStreak = ({
       {longestStreak > 0 && <div>Your record: {longestStreak}</div>}
       {isLoggedIn ? (
         <div>
-          <Button variant="primary" onClick={handleSignInAndReset}>
+          <Button variant="primary" onClick={resetQuiz}>
             Play Again
           </Button>
           <Link to="/leaderboard">
@@ -45,7 +40,10 @@ const EndOfStreak = ({
       ) : (
         <div className={styles.buttonContainer}>
           {showSignIn ? (
-            <SignInForm buttonCopy="Save My Score" />
+            <SignInForm
+              buttonCopy="Save My Score"
+              callback={saveStreakOnLogin}
+            />
           ) : (
             <Button variant="primary" onClick={() => setShowSignIn(true)}>
               Sign in to save your streak
