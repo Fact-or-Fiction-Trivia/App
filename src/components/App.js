@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
+import { me } from "../redux/reducers/auth";
 import "./App.css";
 
 import Sponsor from "./StaticPages/sponsor";
@@ -74,6 +75,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.props.getMe();
     // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged((authUser) => {
       authUser // eslint-disable-line no-unused-expressions
@@ -298,4 +300,21 @@ class App extends Component {
   }
 }
 
-export default withFirebase(withAuthentication(App));
+const mapState = (state) => {
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth.id;
+  return {
+    isLoggedIn,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    getMe() {
+      dispatch(me());
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(App);
+// export default withFirebase(withAuthentication(App));

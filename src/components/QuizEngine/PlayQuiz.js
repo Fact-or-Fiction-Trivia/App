@@ -37,8 +37,9 @@ const PlayQuiz = ({
     }
     if (isLoggedIn) {
       getStreakHistory();
+    } else {
+      localStreak();
     }
-    loadStreak();
   }, []);
 
   // useEffect(() => {
@@ -61,7 +62,7 @@ const PlayQuiz = ({
   // we want to show the user's highest streak and their current streak
   // if they are logged in, pull it from the streaks table
   // if they are not logged in, use the highest streak from local storage
-  const loadStreak = () => {
+  const localStreak = () => {
     if (localStorage.hasOwnProperty("streaks")) {
       const streaks = JSON.parse(localStorage.getItem("streaks"));
       // get the longest streak
@@ -127,7 +128,8 @@ const PlayQuiz = ({
   const resetQuiz = () => {
     // if the current streak is longer than the max streak, reload the max streak
     if (streak.length > maxStreak) {
-      getStreakHistory();
+      // getStreakHistory();
+      setLongestStreak(maxStreak);
     }
     // if not logged in, save the streak in local storage
     // reset the quiz

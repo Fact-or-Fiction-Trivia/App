@@ -7,7 +7,7 @@ import styles from "./EndOfStreak.module.scss";
 
 const EndOfStreak = ({
   addStreak,
-  auth,
+  isLoggedIn,
   longestStreak,
   resetQuiz,
   streak,
@@ -32,7 +32,7 @@ const EndOfStreak = ({
       <h1 className={styles.streak}>{streakTotal}</h1>
 
       {longestStreak > 0 && <div>Your record: {longestStreak}</div>}
-      {auth.loggedIn ? (
+      {isLoggedIn ? (
         <div>
           <Button variant="primary" onClick={handleSignInAndReset}>
             Play Again
@@ -70,9 +70,10 @@ const EndOfStreak = ({
 };
 
 const mapState = (state) => {
-  const { auth } = state;
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth.id;
   return {
-    auth,
+    isLoggedIn,
   };
 };
 
