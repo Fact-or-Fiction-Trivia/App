@@ -13,15 +13,15 @@ export const createStreak = createAsyncThunk(
 
 export const getMaxStreakForUser = createAsyncThunk(
   "streak/getMaxStreakForUser",
-  async (userId) => {
-    const { data } = await axios.get(`/api/streaks/${userId}`);
+  async () => {
+    const { data } = await axios.get(`/api/streaks/`);
     return data;
   }
 );
 
 const INIT_STATE = {
   streaks: [],
-  maxStreak: null,
+  maxStreak: 0,
   isLoading: false,
   hasError: false,
 };
@@ -33,6 +33,9 @@ const streakSlice = createSlice({
   reducers: {
     setNew(state, action) {
       return { ...state };
+    },
+    setMaxScore(state, action) {
+      return { ...state, maxStreak: action.payload };
     },
   },
   extraReducers: (builder) => {
@@ -57,7 +60,7 @@ const streakSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getMaxStreakForUser.fulfilled, (state, action) => {
-        state.maxStreak = action.payload.maxStreak;
+        state.maxStreak = action.payload;
         state.hasError = false;
         state.isLoading = false;
       });
@@ -66,7 +69,7 @@ const streakSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setNew } = streakSlice.actions;
+export const { setNew, setMaxScore } = streakSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
