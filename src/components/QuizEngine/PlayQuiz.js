@@ -9,13 +9,20 @@ import EndOfStreak from "./EndOfStreak";
 
 import { clearAnswer } from "../../redux/reducers/question";
 import {
+  addToStreak,
   createStreak,
   getMaxStreakForUser,
+  setIsAnswering,
   setMaxScore,
 } from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
+  streak,
+  streakEnded,
   addStreak,
+  increaseStreak,
+  isAnswering,
+  answeredCorrectly,
   answered,
   isLoggedIn,
   maxStreak,
@@ -23,11 +30,12 @@ const PlayQuiz = ({
   getQuestions,
   getStreakHistory,
   setLongestStreak,
+  nextQuestion,
 }) => {
-  const [isAnswering, setIsAnswering] = useState(true);
-  const [isEndOfStreak, setIsEndOfStreak] = useState(false);
-  const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
-  const [streak, setStreak] = useState([]);
+  // const [isAnswering, setIsAnswering] = useState(true);
+  // const [isEndOfStreak, setIsEndOfStreak] = useState(false);
+  //const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
+  // const [streak, setStreak] = useState([]);
   // const [longestStreak, setLongestStreak] = useState(0);
 
   useEffect(() => {
@@ -42,6 +50,17 @@ const PlayQuiz = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (streakEnded) {
+      if (streak.length > maxStreak) {
+        // setLongestStreak(streak.length);
+      }
+      if (isLoggedIn) {
+        addStreak(streak);
+      } else {
+      }
+    }
+  }, [streak]);
   // useEffect(() => {
   //   // load the streak history when the user logs in
   //   getStreakHistory(auth.id);
@@ -80,42 +99,45 @@ const PlayQuiz = ({
   };
 
   const handleClick = (question, answer) => {
-    if (question.answer === answer) {
-      setStreak([
-        ...streak,
-        { questionId: question.id, answeredCorrectly: true },
-      ]);
-      setIsAnswering(false);
-      setAnsweredCorrectly(true);
-    } else {
-      setIsAnswering(false);
-      setAnsweredCorrectly(false);
-    }
+    console.log(question, answer);
+    increaseStreak({
+      questionId: question.id,
+      answeredCorrectly: question.answer === answer,
+    });
+    answered(question.id);
+    // if (question.answer === answer) {
+    // answered(question.id);
+
+    //   setIsAnswering(false);
+    //   setAnsweredCorrectly(true);
+    // } else {
+    //   setIsAnswering(false);
+    //   setAnsweredCorrectly(false);
+    // }
   };
 
-  const handleCorrectContinueClick = (question) => {
+  const handleContinue = () => {
     // update the question stack to remove the one the user just answered
-    answered(question.id);
+    // answered(question.id);
     // reset to show the next question
-    setIsAnswering(true);
-    setAnsweredCorrectly(undefined);
+    nextQuestion();
+    // setIsAnswering(true);
+    // setAnsweredCorrectly(undefined);
   };
   const saveStreakData = (question) => {
-    const newStreak = [
-      ...streak,
-      { questionId: question.id, answeredCorrectly: false },
-    ];
-    if (isLoggedIn) {
-      addStreak(newStreak);
-    } else {
-      const pastStreaks = localStorage.hasOwnProperty("streaks")
-        ? JSON.parse(localStorage.getItem("streaks"))
-        : [];
-      localStorage.setItem(
-        "streaks",
-        JSON.stringify([...pastStreaks, ...newStreak])
-      );
-    }
+    increaseStreak({ questionId: question.id, answeredCorrectly: false });
+
+    // if (isLoggedIn) {
+    //   addStreak(newStreak);
+    // } else {
+    //   const pastStreaks = localStorage.hasOwnProperty("streaks")
+    //     ? JSON.parse(localStorage.getItem("streaks"))
+    //     : [];
+    //   localStorage.setItem(
+    //     "streaks",
+    //     JSON.stringify([...pastStreaks, ...newStreak])
+    //   );
+    // }
   };
   const handleIncorrectContinueClick = (question) => {
     saveStreakData(question);
@@ -163,16 +185,13 @@ const PlayQuiz = ({
             <div>Longest streak: {maxStreak} </div>
           </div>
         </div>
-        {isEndOfStreak ? (
+        {streakEnded ? (
           <EndOfStreak
             addStreak={addStreak}
             resetQuiz={resetQuiz}
             longestStreak={maxStreak}
             streakTotal={streak.length}
-            streak={[
-              ...streak,
-              { questionId: questions[0].id, answeredCorrectly: false },
-            ]}
+            streak={streak}
           />
         ) : (
           <>
@@ -180,8 +199,9 @@ const PlayQuiz = ({
               <Question question={questions[0]} handleClick={handleClick} />
             ) : (
               <Answer
-                handleCorrectContinueClick={handleCorrectContinueClick}
-                handleIncorrectContinueClick={handleIncorrectContinueClick}
+                handleContinue={handleContinue}
+                // handleCorrectContinueClick={handleCorrectContinueClick}
+                // handleIncorrectContinueClick={handleIncorrectContinueClick}
                 isCorrect={answeredCorrectly}
                 question={questions[0]}
               />
@@ -195,12 +215,22 @@ const PlayQuiz = ({
 
 const mapState = (state) => {
   const { questions } = state.question;
-  const { maxStreak } = state.streak;
+  const {
+    streak,
+    maxStreak,
+    streakEnded,
+    isAnswering,
+    answeredCorrectly,
+  } = state.streak;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
+    streak,
+    isAnswering,
+    answeredCorrectly,
     isLoggedIn,
     maxStreak,
+    streakEnded,
     questions,
   };
 };
@@ -209,6 +239,13 @@ const mapDispatch = (dispatch) => {
   return {
     addStreak(body) {
       dispatch(createStreak(body));
+    },
+    increaseStreak(data) {
+      dispatch(addToStreak(data));
+    },
+    nextQuestion() {
+      setIsAnswering();
+      dispatch(setIsAnswering());
     },
     answered(questionId) {
       dispatch(clearAnswer(questionId));

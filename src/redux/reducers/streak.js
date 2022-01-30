@@ -21,6 +21,9 @@ export const getMaxStreakForUser = createAsyncThunk(
 
 const INIT_STATE = {
   streaks: [],
+  streak: [],
+  streakEnded: false,
+  isAnswering: true,
   maxStreak: 0,
   isLoading: false,
   hasError: false,
@@ -37,6 +40,22 @@ const streakSlice = createSlice({
     setMaxScore(state, action) {
       return { ...state, maxStreak: action.payload };
     },
+    setIsAnswering(state, action) {
+      return {
+        ...state,
+        isAnswering: true,
+        streakEnded: !state.answeredCorrectly,
+      };
+    },
+    addToStreak(state, action) {
+      const { questionId, answeredCorrectly } = action.payload;
+      return {
+        ...state,
+        isAnswering: false,
+        answeredCorrectly,
+        streak: [...state.streak, { questionId, answeredCorrectly }],
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,6 +64,8 @@ const streakSlice = createSlice({
         state.hasError = false;
       })
       .addCase(createStreak.fulfilled, (state, action) => {
+        state.streakEnded = false;
+        state.streak = [];
         state.isLoading = false;
         state.hasError = false;
       })
@@ -69,7 +90,12 @@ const streakSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setNew, setMaxScore } = streakSlice.actions;
+export const {
+  setNew,
+  setMaxScore,
+  addToStreak,
+  setIsAnswering,
+} = streakSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

@@ -3,23 +3,11 @@ import classNames from "classnames";
 import Button from "../Button/Button";
 import styles from "./Answer.module.scss";
 
-const Answer = ({
-  handleCorrectContinueClick,
-  handleIncorrectContinueClick,
-  isCorrect,
-  question,
-}) => {
+const Answer = ({ handleContinue, isCorrect, question }) => {
   const handleContestQuestion = () => {
     alert("Coming Soon");
   };
 
-  const handleContinueClick = () => {
-    if (isCorrect) {
-      handleCorrectContinueClick(question);
-    } else {
-      handleIncorrectContinueClick(question);
-    }
-  };
   return (
     <>
       {isCorrect ? (
@@ -39,7 +27,7 @@ const Answer = ({
       </div>
 
       <div className={styles.buttonContainer}>
-        <Button onClick={() => handleContinueClick()} variant="primary">
+        <Button onClick={() => handleContinue()} variant="primary">
           {isCorrect ? "Keep Playing" : "Continue"}
         </Button>
         <div
