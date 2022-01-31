@@ -24,6 +24,7 @@ const INIT_STATE = {
   streak: [],
   streakEnded: false,
   isAnswering: true,
+  answeredCorrectly: undefined,
   maxStreak: 0,
   isLoading: false,
   hasError: false,
@@ -34,8 +35,13 @@ const streakSlice = createSlice({
   name: "streak",
   initialState: INIT_STATE,
   reducers: {
-    setNew(state, action) {
-      return { ...state };
+    resetQuiz(state, action) {
+      const maxStreak = Math.max(state.streak.length, state.maxStreak);
+      return {
+        ...INIT_STATE,
+        maxStreak,
+        streakEnded: state.streakEnded,
+      };
     },
     setMaxScore(state, action) {
       return { ...state, maxStreak: action.payload };
@@ -53,6 +59,7 @@ const streakSlice = createSlice({
         ...state,
         isAnswering: false,
         answeredCorrectly,
+
         streak: [...state.streak, { questionId, answeredCorrectly }],
       };
     },
@@ -95,6 +102,7 @@ export const {
   setMaxScore,
   addToStreak,
   setIsAnswering,
+  resetQuiz,
 } = streakSlice.actions;
 
 //Reducer

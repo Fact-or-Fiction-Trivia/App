@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { resetQuiz } from "../../redux/reducers/streak";
 import SignInForm from "../Auth/SignIn/SignInForm";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
 
 const EndOfStreak = ({
   addStreak,
-  wasLoggedIn,
   isLoggedIn,
   longestStreak,
-  resetQuiz,
   streak,
   streakTotal,
+  playNewGame,
 }) => {
   const [showSignIn, setShowSignIn] = useState(false);
 
@@ -30,7 +30,7 @@ const EndOfStreak = ({
       {longestStreak > 0 && <div>Your record: {longestStreak}</div>}
       {isLoggedIn ? (
         <div>
-          <Button variant="primary" onClick={resetQuiz}>
+          <Button variant="primary" onClick={playNewGame}>
             Play Again
           </Button>
           <Link to="/leaderboard">
@@ -65,6 +65,14 @@ const EndOfStreak = ({
   );
 };
 
+const mapDispatch = (dispatch) => {
+  return {
+    playNewGame() {
+      dispatch(resetQuiz());
+    },
+  };
+};
+
 const mapState = (state) => {
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
@@ -73,4 +81,4 @@ const mapState = (state) => {
   };
 };
 
-export default connect(mapState)(EndOfStreak);
+export default connect(mapState, mapDispatch)(EndOfStreak);
