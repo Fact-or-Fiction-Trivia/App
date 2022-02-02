@@ -1,0 +1,68 @@
+@import "../../variables.scss";
+
+.textContainer {
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: 0 1.5rem;
+  @media (min-width: $breakpoint-md) {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+
+  @media (min-width: $breakpoint-md) {
+    bottom: 2rem;
+    flex-direction: column;
+    left: 250px;
+    margin: 0 auto;
+    position: absolute;
+    width: 500px;
+  }
+}
+
+.button {
+  color: $color-white;
+  bottom: 0;
+  box-shadow: 3px 3px 3px rgba($color-black, 0.1);
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-extra-bold;
+  padding: 2rem 0.5rem;
+  position: absolute;
+  text-align: center;
+  width: calc(50% - 1rem);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    border-radius: 5px;
+    position: relative;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+  }
+}
+
+.fiction {
+  background-color: $color-red;
+  right: 0;
+
+  &:hover,
+  &:active {
+    background-color: $color-red-hover;
+  }
+}
+
+.fact {
+  background-color: $color-green;
+  min-width: calc(50% - 1rem);
+  left: 0;
+
+  &:hover,
+  &:active {
+    background-color: $color-green-hover;
+  }
+}

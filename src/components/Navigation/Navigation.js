@@ -24,6 +24,8 @@ import { AuthUserContext, withAuthentication } from "../Auth";
 import * as routes from "../../constants/routes";
 import getMostRecentQuizId from "../../utils/mostRecentQuizId";
 import NavigationNonAuth from "./NonAuth";
+import { connect } from "react-redux";
+import { reset } from "../../redux/reducers/auth";
 
 import Logo from "../logo1.1.ico";
 
@@ -134,10 +136,9 @@ class NavigationAuthBase extends Component {
   };
 
   signOut = () => {
-    auth.doSignOut();
+    this.props.signOutUser();
     this.props.clearStateOnSignout();
-    localStorage.removeItem("authUser");
-    localStorage.removeItem("userScoreData");
+
     this.toggleDrawer("top", false);
   };
 
@@ -420,6 +421,16 @@ class NavigationAuthBase extends Component {
 //defined the context, which contains all the quizzes
 NavigationAuthBase.contextType = QuizContext;
 
-const NavigationAuth = withFirebase(NavigationAuthBase);
+const NavigationAuth = withFirebase(
+  connect(null, mapDispatch)(NavigationAuthBase)
+);
+
+const mapDispatch = (dispatch) => {
+  return {
+    signOutUser() {
+      dispatch(reset());
+    },
+  };
+};
 
 export default withAuthentication(Navigation);

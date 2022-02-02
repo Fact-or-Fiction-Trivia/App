@@ -1,20 +1,32 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import history from "../../utils/history";
+import axios from "../axiosInstance";
 
 export const createStreak = createAsyncThunk(
   "streak/createStreak",
-  async (body) => {
-    const { data } = await axios.post(`/api/streaks`, body);
+  async (answeredQuestions) => {
+    const { data } = await axios.post(`/api/streaks`, answeredQuestions);
 
+    return data;
+  }
+);
+
+export const getMaxStreakForUser = createAsyncThunk(
+  "streak/getMaxStreakForUser",
+  async () => {
+    const { data } = await axios.get(`/api/streaks/`);
     return data;
   }
 );
 
 const INIT_STATE = {
   streaks: [],
-  isLoading: true,
+  streak: [],
+  streakEnded: false,
+  isAnswering: true,
+  answeredCorrectly: undefined,
+  maxStreak: 0,
+  isLoading: false,
   hasError: false,
 };
 //Slice
@@ -23,8 +35,37 @@ const streakSlice = createSlice({
   name: "streak",
   initialState: INIT_STATE,
   reducers: {
-    setNew(state, action) {
-      return { ...state };
+    resetQuiz(state, action) {
+      const maxStreak = Math.max(
+        state.streak.filter((it) => it.answeredCorrectly).length,
+        state.maxStreak
+      );
+      return {
+        ...INIT_STATE,
+        streak: [...state.streak],
+        maxStreak,
+        streakEnded: state.streakEnded,
+      };
+    },
+    setMaxScore(state, action) {
+      return { ...state, maxStreak: action.payload };
+    },
+    setIsAnswering(state, action) {
+      return {
+        ...state,
+        isAnswering: true,
+        streakEnded: !state.answeredCorrectly,
+      };
+    },
+    addToStreak(state, action) {
+      const { questionId, answeredCorrectly } = action.payload;
+      return {
+        ...state,
+        isAnswering: false,
+        answeredCorrectly,
+
+        streak: [...state.streak, { questionId, answeredCorrectly }],
+      };
     },
   },
   extraReducers: (builder) => {
@@ -34,19 +75,39 @@ const streakSlice = createSlice({
         state.hasError = false;
       })
       .addCase(createStreak.fulfilled, (state, action) => {
-        state.streaks = action.payload;
+        state.streakEnded = false;
+        state.streak = [];
         state.isLoading = false;
         state.hasError = false;
       })
       .addCase(createStreak.rejected, (state, action) => {
         state = INIT_STATE;
+      })
+      .addCase(getMaxStreakForUser.pending, (state, action) => {
+        state.hasError = false;
+        state.isLoading = true;
+      })
+      .addCase(getMaxStreakForUser.rejected, (state, action) => {
+        state.hasError = true;
+        state.isLoading = false;
+      })
+      .addCase(getMaxStreakForUser.fulfilled, (state, action) => {
+        state.maxStreak = action.payload;
+        state.hasError = false;
+        state.isLoading = false;
       });
   },
 });
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setNew } = streakSlice.actions;
+export const {
+  setNew,
+  setMaxScore,
+  addToStreak,
+  setIsAnswering,
+  resetQuiz,
+} = streakSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
