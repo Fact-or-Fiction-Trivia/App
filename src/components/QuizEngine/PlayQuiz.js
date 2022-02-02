@@ -19,6 +19,7 @@ import {
 
 const PlayQuiz = ({
   streak,
+  streakLength,
   streakEnded,
   addStreak,
   increaseStreak,
@@ -114,7 +115,7 @@ const PlayQuiz = ({
         <div className={styles.statsContainer}>
           <div>timer - todo</div>
           <div className={styles.streakContainer}>
-            <div>{streak.length} correct in a row</div>
+            <div>{streakLength} correct in a row</div>
             <div>Longest streak: {maxStreak} </div>
           </div>
         </div>
@@ -156,6 +157,7 @@ const mapState = (state) => {
   const isLoggedIn = !!auth.id;
   return {
     streak,
+    streakLength: streak.filter((it) => it.answeredCorrectly).length,
     isAnswering,
     answeredCorrectly,
     isLoggedIn,

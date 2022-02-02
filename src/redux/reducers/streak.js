@@ -36,9 +36,13 @@ const streakSlice = createSlice({
   initialState: INIT_STATE,
   reducers: {
     resetQuiz(state, action) {
-      const maxStreak = Math.max(state.streak.length, state.maxStreak);
+      const maxStreak = Math.max(
+        state.streak.filter((it) => it.answeredCorrectly).length,
+        state.maxStreak
+      );
       return {
         ...INIT_STATE,
+        streak: [...state.streak],
         maxStreak,
         streakEnded: state.streakEnded,
       };
