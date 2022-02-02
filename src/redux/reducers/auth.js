@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
 import history from "../../utils/history";
 import axios from "../axiosInstance";
+// import store from "../store";
+// import { setMaxScore } from "./streak";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",
@@ -51,10 +52,11 @@ export const me = createAsyncThunk("auth/me", async () => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ email, password }) => {
-    await axios.post(`/auth/login`, { email, password });
+  async ({ formData, setLongestStreak, callback }) => {
+    await axios.post(`/auth/login`, formData);
     const { data } = await axios.get(`/auth/me`);
-    // history.push("/");
+    setLongestStreak(data.maxScore);
+    callback && callback();
     return data;
   }
 );
@@ -80,7 +82,7 @@ export const changeEmail = createAsyncThunk(
 );
 
 const INIT_STATE = {
-  auth: { permissions: [] },
+  auth: {},
   id: null,
   validInvitation: null,
   loggedIn: false,
@@ -112,6 +114,8 @@ const authSlice = createSlice({
       })
       .addCase(authenticate.fulfilled, (state, action) => {
         state.auth = action.payload;
+        state.id = action.payload.id;
+        state.loggedIn = true;
         state.preCheck = true;
         state.validInvitation = null;
         state.isLoading = false;

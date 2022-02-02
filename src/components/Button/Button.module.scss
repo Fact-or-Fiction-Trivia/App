@@ -1,0 +1,35 @@
+@import "../../variables.scss";
+
+.button {
+  background-color: $color-primary;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px rgba($color-black, 0.1);
+  color: $color-white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  text-align: center;
+
+  &:hover,
+  &:active {
+    background-color: $color-primary-dark;
+    cursor: pointer;
+  }
+}
+
+.button_primary {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+.button_white {
+  background-color: $color-white;
+  border: 1px solid $color-primary;
+  color: $color-primary;
+
+  &:hover,
+  &:active {
+    background-color: $color-gray-light;
+  }
+}

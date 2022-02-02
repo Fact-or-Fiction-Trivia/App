@@ -1,0 +1,71 @@
+@import "../../variables.scss";
+
+.textContainer {
+  font-size: 1.125rem;
+  font-weight: 500;
+  padding: 1.5rem;
+
+  @media (min-width: $breakpoint-md) {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+}
+
+.isCorrect {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  text-align: center;
+}
+
+.correct {
+  color: $color-green;
+}
+
+.incorrect {
+  color: $color-red;
+}
+
+.linkStyle {
+  color: $color-primary;
+  text-decoration: underline;
+  &:hover {
+    color: $color-primary-dark;
+  }
+}
+
+.buttonContainer {
+  bottom: 0;
+  padding: 1rem;
+  position: absolute;
+  width: calc(100% - 4rem);
+  left: 1rem;
+
+  @media (min-width: $breakpoint-md) {
+    left: calc((100% - 750px) / 2);
+    max-width: 750px;
+    padding: 1rem 0;
+  }
+}
+
+.keepPlaying {
+  background-color: $color-primary;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1rem;
+  text-align: center;
+
+  &:hover,
+  &:active {
+    background-color: $color-primary-dark;
+    cursor: pointer;
+  }
+}
+
+.challenge {
+  font-size: 1rem;
+  margin-top: 2.5rem;
+  text-align: center;
+  text-decoration: underline;
+}

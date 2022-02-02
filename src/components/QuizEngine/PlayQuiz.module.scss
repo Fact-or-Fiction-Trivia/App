@@ -1,0 +1,35 @@
+@import "../../variables.scss";
+
+:global(.pushwoosh-subscribe-widget) {
+  display: none;
+}
+
+.quizContainer {
+  height: calc(100vh - ($nav-height + $footer-height));
+  margin-top: $nav-height;
+  margin-bottom: 2rem;
+}
+
+.questionContainer {
+  background-color: $color-white;
+  height: 100%;
+  max-width: 1000px;
+  margin: calc($nav-height + 1rem) 1rem 1rem 1rem;
+  position: relative;
+  width: calc(100% - 2rem);
+
+  @media (min-width: $breakpoint-md) {
+    margin: calc($nav-height + 2rem) auto 1rem auto;
+  }
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 3rem;
+  padding: 0.5rem;
+
+  @media (min-width: $breakpoint-md) {
+    padding: 1rem;
+  }
+}
