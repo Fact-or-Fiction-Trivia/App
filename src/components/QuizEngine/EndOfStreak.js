@@ -9,25 +9,21 @@ import styles from "./EndOfStreak.module.scss";
 const EndOfStreak = ({
   addStreak,
   isLoggedIn,
-  longestStreak,
+  maxStreak,
   streak,
-  streakTotal,
+  streakLength,
   playNewGame,
 }) => {
   const [showSignIn, setShowSignIn] = useState(false);
-
-  useEffect(() => {
-    // something
-  }, [streakTotal]);
 
   const saveStreakOnLogin = () => addStreak(streak);
 
   return (
     <div className={styles.container}>
       <p>Final Streak</p>
-      <h1 className={styles.streak}>{streakTotal}</h1>
+      <h1 className={styles.streak}>{streakLength}</h1>
 
-      {longestStreak > 0 && <div>Your record: {longestStreak}</div>}
+      {maxStreak > 0 && <div>Your record: {maxStreak}</div>}
       {isLoggedIn ? (
         <div>
           <Button variant="primary" onClick={playNewGame}>
@@ -74,10 +70,14 @@ const mapDispatch = (dispatch) => {
 };
 
 const mapState = (state) => {
+  const { streak, maxStreak } = state.streak;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
     isLoggedIn,
+    streak,
+    streakLength: streak.filter((it) => it.answeredCorrectly).length,
+    maxStreak,
   };
 };
 
