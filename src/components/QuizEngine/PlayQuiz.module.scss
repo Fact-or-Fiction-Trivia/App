@@ -26,10 +26,57 @@
 .statsContainer {
   display: flex;
   justify-content: space-between;
-  height: 3rem;
+  height: 3.5rem;
   padding: 0.5rem;
 
   @media (min-width: $breakpoint-md) {
     padding: 1rem;
+  }
+}
+
+// -------- ANIMATIONS ------------
+
+.streakContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.streakNum {
+  align-self: flex-end;
+  animation-duration: 1.5s;
+  color: $color-primary-darker;
+  font-weight: 800;
+  font-size: 2rem;
+  margin: 0 auto 0 auto;
+  line-height: 2rem;
+  text-align: center;
+  transform-origin: bottom;
+}
+
+.bounce {
+  animation-name: bounce;
+  animation-timing-function: ease;
+}
+@keyframes bounce {
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    transform: scale(1.1, 0.9) translateY(0);
+  }
+  30% {
+    transform: scale(0.9, 1.1) translateY(-8px);
+  }
+  50% {
+    transform: scale(1.05, 0.95) translateY(0);
+  }
+  57% {
+    transform: scale(1, 1) translateY(-5px);
+  }
+  64% {
+    transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
   }
 }
