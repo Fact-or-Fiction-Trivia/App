@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Paper } from "@material-ui/core";
+import classNames from "classnames";
 import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./PlayQuiz.module.scss";
 import Question from "./Question";
@@ -14,7 +15,6 @@ import {
   getMaxStreakForUser,
   setIsAnswering,
   setMaxScore,
-  resetQuiz,
 } from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
@@ -34,12 +34,6 @@ const PlayQuiz = ({
   setLongestStreak,
   nextQuestion,
 }) => {
-  // const [isAnswering, setIsAnswering] = useState(true);
-  // const [isEndOfStreak, setIsEndOfStreak] = useState(false);
-  //const [answeredCorrectly, setAnsweredCorrectly] = useState(undefined);
-  // const [streak, setStreak] = useState([]);
-  // const [longestStreak, setLongestStreak] = useState(0);
-
   useEffect(() => {
     // if there aren't questions already, fetch them
     if (questions.length === 0) {
@@ -87,7 +81,6 @@ const PlayQuiz = ({
   };
 
   const handleClick = (question, answer) => {
-    // console.log(question, answer);
     increaseStreak({
       questionId: question.id,
       answeredCorrectly: question.answer === answer,
@@ -115,8 +108,16 @@ const PlayQuiz = ({
         <div className={styles.statsContainer}>
           <div>timer - todo</div>
           <div className={styles.streakContainer}>
-            <div>{streakLength} correct in a row</div>
-            <div>Longest streak: {maxStreak} </div>
+            <span
+              className={classNames(
+                styles.streakNum,
+                !isAnswering && styles.bounce
+              )}
+            >
+              {streakLength}
+            </span>{" "}
+            in a row
+            {/* <div>Longest streak: {maxStreak} </div> */}
           </div>
         </div>
         {streakEnded ? (
