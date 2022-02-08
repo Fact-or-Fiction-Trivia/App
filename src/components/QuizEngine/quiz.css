@@ -215,3 +215,17 @@
 #volume {
   margin-left: auto;
 }
+
+@keyframes timer {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.question-timer-keyframe {
+  animation-duration: 5s;
+  animation-name: timer;
+}

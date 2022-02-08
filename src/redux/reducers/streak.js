@@ -42,9 +42,7 @@ const streakSlice = createSlice({
       );
       return {
         ...INIT_STATE,
-        streak: [...state.streak],
         maxStreak,
-        streakEnded: state.streakEnded,
       };
     },
     setMaxScore(state, action) {
@@ -59,11 +57,11 @@ const streakSlice = createSlice({
     },
     addToStreak(state, action) {
       const { questionId, answeredCorrectly } = action.payload;
+
       return {
         ...state,
         isAnswering: false,
         answeredCorrectly,
-
         streak: [...state.streak, { questionId, answeredCorrectly }],
       };
     },
@@ -76,7 +74,8 @@ const streakSlice = createSlice({
       })
       .addCase(createStreak.fulfilled, (state, action) => {
         state.streakEnded = false;
-        state.streak = [];
+        // state.streak = [];
+        state.answeredCorrectly = undefined;
         state.isLoading = false;
         state.hasError = false;
       })

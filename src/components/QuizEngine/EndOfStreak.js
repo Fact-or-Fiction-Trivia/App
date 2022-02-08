@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
 import SignInForm from "../Auth/SignIn/SignInForm";
+import SignInFormWithStreak from "../Auth/SignIn/SignInFormWithStreak";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
 
@@ -36,10 +37,7 @@ const EndOfStreak = ({
       ) : (
         <div className={styles.buttonContainer}>
           {showSignIn ? (
-            <SignInForm
-              buttonCopy="Save My Score"
-              callback={saveStreakOnLogin}
-            />
+            <SignInFormWithStreak buttonCopy="Save My Score" streak={streak} />
           ) : (
             <Button variant="primary" onClick={() => setShowSignIn(true)}>
               Sign in to save your streak

@@ -53,7 +53,8 @@ const PlayQuiz = ({
   }, []);
 
   useEffect(() => {
-    if (streakEnded) {
+    if (answeredCorrectly === false) {
+      console.log("Should Create Streak");
       if (isLoggedIn) {
         addStreak(streak);
       } else {
