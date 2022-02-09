@@ -97,7 +97,7 @@ const PlayQuiz = ({
     !isAnswering &&
     answeredCorrectly &&
     maxStreak > 0 &&
-    maxStreak === streakLength;
+    streakLength === maxStreak + 1;
 
   showConfetti &&
     confetti({
