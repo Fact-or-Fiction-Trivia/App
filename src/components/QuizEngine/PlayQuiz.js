@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Paper } from "@material-ui/core";
 import classNames from "classnames";
+import confetti from "canvas-confetti";
 import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./PlayQuiz.module.scss";
 import Question from "./Question";
@@ -92,6 +93,20 @@ const PlayQuiz = ({
     return <div>Loading ...</div>;
   }
 
+  const showConfetti =
+    !isAnswering &&
+    answeredCorrectly &&
+    maxStreak > 0 &&
+    maxStreak === streakLength;
+
+  showConfetti &&
+    confetti({
+      angle: 90,
+      particleCount: 100,
+      spread: 70,
+      startVelocity: 55,
+      origin: { x: 0.5, y: 1 },
+    });
   // we'll always be looking at questions[0] here, since we will remove the answered
   // questions from the question stack when the user completes an answer
 
@@ -111,13 +126,12 @@ const PlayQuiz = ({
             <span
               className={classNames(
                 styles.streakNum,
-                !isAnswering && styles.bounce
+                !isAnswering && answeredCorrectly && styles.bounce
               )}
             >
               {streakLength}
             </span>{" "}
             in a row
-            {/* <div>Longest streak: {maxStreak} </div> */}
           </div>
         </div>
         {streakEnded ? (
