@@ -1,3 +1,7 @@
+// ------------------------------------------------
+// THIS FILE IS NO LONGER USED
+// ------------------------------------------------
+
 import React, { Component } from "react";
 import loadingGif from "../../loadingGif.gif";
 import { Helmet } from "react-helmet";
