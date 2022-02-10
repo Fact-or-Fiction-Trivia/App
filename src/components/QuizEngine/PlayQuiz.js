@@ -17,6 +17,7 @@ import {
   setIsAnswering,
   setMaxScore,
 } from "../../redux/reducers/streak";
+import NoQuestionsAvailable from "./NoQuestionsAvailable";
 
 const PlayQuiz = ({
   streak,
@@ -89,10 +90,6 @@ const PlayQuiz = ({
     answered(question.id);
   };
 
-  if (questions.length === 0) {
-    return <div>Loading ...</div>;
-  }
-
   const showConfetti =
     !isAnswering &&
     answeredCorrectly &&
@@ -117,6 +114,11 @@ const PlayQuiz = ({
   // on the end of streak view:
   //      if they are logged in: they can view their streak (compared with their other streaks) and choose to keep playing or view leaderboard
   //      if they are not logged in: they can choose to log in to save their streak, play again, or view leaderboard
+
+  if (questions.length === 0) {
+    return <NoQuestionsAvailable />;
+  }
+
   return (
     <div className={styles.quizContainer}>
       <Paper className={styles.questionContainer}>
