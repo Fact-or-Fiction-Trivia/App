@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const config = require("./config");
-const pkg = require("../../package.json");
+const pkg = require("../package.json");
 
 const getDB = (production) => {
   let db;
@@ -20,7 +20,7 @@ const getDB = (production) => {
       },
     });
   } else {
-    db = new Sequelize(`postgres://localhost:5432/${pkg.name}`, {
+    db = new Sequelize(`postgres://localhost:5432/fof`, {
       logging: false,
     });
   }
