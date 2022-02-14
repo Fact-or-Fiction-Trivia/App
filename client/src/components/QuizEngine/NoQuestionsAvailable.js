@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Paper } from "@material-ui/core";
 import Button from "../Button/Button";
-import Owl from "images/large_icon.png";
+import Owl from "../../images/large_icon.png";
 import styles from "./NoQuestionsAvailable.module.scss";
 
 const NoQuestionsAvailable = () => (
