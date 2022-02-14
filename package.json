@@ -12,7 +12,7 @@
   "scripts": {
     "app": "yarn workspace client start",
     "start": "yarn workspace server start",
-    "build": "yarn install && yarn build-app",
+    "build": "yarn install && yarn run build-app",
     "build-app": "yarn workspace client build",
     "build-server": "yarn workspace server build",
     "start:concurrently": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\""
