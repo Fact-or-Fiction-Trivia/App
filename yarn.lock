@@ -4819,6 +4819,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"canvas-confetti@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "canvas-confetti@npm:1.5.1"
+  checksum: e5932e34261615d629aac24aebad0472dd01c6cc3a3d6460ef37ab81eb533a2fdcec1cd842fcad6275f907fe378fc71cc90c91e1f997df63b0865ec2d5783ad8
+  languageName: node
+  linkType: hard
+
 "capture-stack-trace@npm:^1.0.0":
   version: 1.0.1
   resolution: "capture-stack-trace@npm:1.0.1"
@@ -5040,6 +5047,7 @@ __metadata:
     "@testing-library/react": ^12.1.2
     "@testing-library/user-event": ^13.5.0
     axios: ^0.26.0
+    canvas-confetti: ^1.5.1
     classnames: ^2.3.1
     css-loader: ^6.6.0
     firebase: 7.14.0
