@@ -29,9 +29,11 @@ yarn-error.log*
 .env.development
 
 # Yarn
-.yarn
+.yarn/*
 !.yarn/cache
 !.yarn/releases
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+/client/.yarn/*
