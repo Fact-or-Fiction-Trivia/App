@@ -6,14 +6,16 @@
     "client",
     "server"
   ],
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "app": "yarn workspace client start",
-    "server": "yarn workspace server start",
+    "start": "yarn workspace server start",
     "build": "yarn build-app",
     "build-app": "yarn workspace client build",
     "build-server": "yarn workspace server build",
-    "start": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\"",
-    "start:server": "yarn workspace server start"
+    "start:concurrently": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\""
   },
   "eslintConfig": {
     "extends": "react-app"
