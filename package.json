@@ -9,10 +9,10 @@
   "scripts": {
     "app": "yarn workspace client start",
     "server": "yarn workspace server start",
-    "build": "dotenv -e .env yarn build-app",
+    "build": "yarn build-app",
     "build-app": "yarn workspace client build",
     "build-server": "yarn workspace server build",
-    "start": "concurrently --kill-others-on-fail \"yarn app --ignore public\"  \"yarn server\"",
+    "start": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\"",
     "start:server": "yarn workspace server start"
   },
   "eslintConfig": {

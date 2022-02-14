@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // static middleware
-app.use(express.static(path.join(__dirname, "public", "index.html")));
+app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
@@ -29,7 +29,7 @@ app.use("/api", require("./api"));
 //   res.sendFile(path.join(__dirname, "../public/index.html"));
 // }); // Send index.html for any other requests
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 }); // Send index.html for any other requests
 // error handling middleware
 app.use((err, req, res, next) => {
