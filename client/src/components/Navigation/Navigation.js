@@ -419,11 +419,7 @@ class NavigationAuthBase extends Component {
   }
 }
 //defined the context, which contains all the quizzes
-NavigationAuthBase.contextType = QuizContext;
-
-const NavigationAuth = withFirebase(
-  connect(null, mapDispatch)(NavigationAuthBase)
-);
+// NavigationAuthBase.contextType = QuizContext;
 
 const mapDispatch = (dispatch) => {
   return {
@@ -432,5 +428,9 @@ const mapDispatch = (dispatch) => {
     },
   };
 };
+
+const NavigationAuth = withFirebase(
+  connect(null, mapDispatch)(NavigationAuthBase)
+);
 
 export default withAuthentication(Navigation);

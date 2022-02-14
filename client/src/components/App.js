@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { me } from "../redux/reducers/auth";
 import "./App.css";
 
@@ -37,7 +37,7 @@ import * as routes from "../constants/routes";
 import { firebase, db, withFirebase } from "../firebase";
 import withAuthentication from "./Auth/withAuthentication";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#b359f8",

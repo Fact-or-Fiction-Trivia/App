@@ -1,5 +1,5 @@
 {
-  "name": "@fof/client",
+  "name": "fof",
   "version": "0.1.0",
   "private": true,
   "workspaces": [
@@ -7,12 +7,13 @@
     "server"
   ],
   "scripts": {
-    "app": "yarn workspace @fof/client start",
-    "server": "yarn workspace @fof/server start",
-    "build-app": "yarn workspace @fof/client build",
-    "build-server": "yarn workspace @fof/server build",
-    "start": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\"",
-    "start:server": "yarn workspace @fof/server start"
+    "app": "yarn workspace client start",
+    "server": "yarn workspace server start",
+    "build": "dotenv -e .env yarn build-app",
+    "build-app": "yarn workspace client build",
+    "build-server": "yarn workspace server build",
+    "start": "concurrently --kill-others-on-fail \"yarn app --ignore public\"  \"yarn server\"",
+    "start:server": "yarn workspace server start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -24,56 +25,11 @@
     "not op_mini all"
   ],
   "main": "index.js",
-  "homepage": "http://politiq-fc0e3.firebaseapp.com",
   "repository": "git@github.com:hanna2895/politIQ.git",
   "author": "Hannah Werman <hanna.w28@gmail.com>",
   "license": "MIT",
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "resolver": "jest-pnp-resolver",
-    "setupFiles": [
-      "react-app-polyfill/jsdom",
-      "./src/setupTests.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
   "dependencies": {
     "concurrently": "^7.0.0"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

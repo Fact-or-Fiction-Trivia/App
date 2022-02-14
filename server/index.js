@@ -7,7 +7,12 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 //Allow Cross origin Cookies
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "http://localhost:8080"],
+  })
+);
 
 // body parsing middleware
 app.use(express.json());
@@ -15,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // static middleware
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "public", "index.html")));
 
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
@@ -24,7 +29,7 @@ app.use("/api", require("./api"));
 //   res.sendFile(path.join(__dirname, "../public/index.html"));
 // }); // Send index.html for any other requests
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../build/index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 }); // Send index.html for any other requests
 // error handling middleware
 app.use((err, req, res, next) => {
