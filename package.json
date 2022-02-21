@@ -15,6 +15,7 @@
     "build": "yarn install && yarn run build-app",
     "build-app": "yarn workspace client build",
     "build-server": "yarn workspace server build",
+    "seed": "node server/script/seed.js",
     "start:concurrently": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\""
   },
   "eslintConfig": {
