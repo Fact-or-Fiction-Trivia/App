@@ -34,8 +34,7 @@ import PlayQuiz from "./QuizEngine/PlayQuiz";
 import QuizContext from "./context/quizContext";
 
 import * as routes from "../constants/routes";
-import { firebase, db, withFirebase } from "../firebase";
-import withAuthentication from "./Auth/withAuthentication";
+import { firebase, db } from "../firebase";
 
 const theme = createTheme({
   palette: {
@@ -146,7 +145,6 @@ class App extends Component {
               this.state.authUser ? <Redirect to="/home" /> : <LandingPage />
             }
           />
-          <Route exact path={"/home"} component={HomePage} />
           <Route
             exact
             path={routes.SIGN_UP}
@@ -319,4 +317,3 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(App);
-// export default withFirebase(withAuthentication(App));
