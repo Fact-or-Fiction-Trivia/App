@@ -19,8 +19,6 @@ import { connect } from "react-redux";
 //   EmailIcon,
 // } from "react-share";
 
-import { withAuthorization } from "../Auth/index";
-
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -30,10 +28,6 @@ import TodaysQuizButton from "./TodaysQuizButton";
 
 import "./Static.css";
 import { fetchQuestions } from "../../redux/reducers/question";
-
-const getHref = () => {
-  return window.location.href.toString();
-};
 
 class HomePage extends Component {
   constructor(props) {
@@ -46,7 +40,10 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.addToHomeScreen();
-    this.props.getQuestions();
+    // fetch questions if there aren't any, one time
+    if (this.props.questions.length === 0) {
+      this.props.getQuestions();
+    }
   }
 
   addToHomeScreen = () => {
@@ -104,7 +101,7 @@ class HomePage extends Component {
     return (
       <Paper className="pageStyle home">
         <Helmet>
-          <title>Home | politIQ trivia</title>
+          <title>Home | Fact or Fiction trivia</title>
         </Helmet>
         <Snackbar
           anchorOrigin={{
@@ -144,11 +141,8 @@ class HomePage extends Component {
         <h1>Prove it!</h1>
 
         <TodaysQuizButton
-          buttonText="Take Today's Quiz"
           id="today"
-          disabled={this.props.questions.length > 0}
-          showErrorMessage={this.showErrorMessage}
-          signedInUser={this.props.signedInUser}
+          disabled={this.props.questions.length === 0}
         />
 
         <h4>
@@ -205,8 +199,6 @@ class HomePage extends Component {
   }
 }
 
-const condition = (authUser) => !!authUser;
-
 const mapState = (state) => {
   const { questions } = state.question;
   return {
@@ -222,7 +214,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default compose(
-  withAuthorization(condition),
-  connect(mapState, mapDispatch)
-)(HomePage);
+export default compose(connect(mapState, mapDispatch))(HomePage);
