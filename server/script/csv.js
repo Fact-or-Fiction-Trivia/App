@@ -34,13 +34,10 @@ async function parseData(data) {
 
 async function readFile() {
   return new Promise((resolve, reject) => {
-    fs.readFile(
-      __dirname + "/test_questions.csv",
-      async function (err, fileData) {
-        if (err) reject(err);
-        resolve(await parseData(fileData));
-      }
-    );
+    fs.readFile(__dirname + "/questions.csv", async function (err, fileData) {
+      if (err) reject(err);
+      resolve(await parseData(fileData));
+    });
   });
 }
 

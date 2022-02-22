@@ -7,10 +7,15 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 //Allow Cross origin Cookies
+// TODO: move this to env variables for security
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "http://localhost:8080"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:8080",
+      "https://fact-or-fiction-dev-server.herokuapp.com",
+    ],
   })
 );
 
