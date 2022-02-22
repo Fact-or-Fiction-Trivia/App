@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "seed": "node script/seed.js",
-    "start:dev": "nodemon main.js -e html,js,css --ignore public",
+    "start:dev": "nodemon main.js -e html,js,css --ignore build",
     "start:dev:logger": "LOGGING=true npm run start:dev",
     "start:dev:seed": "SEED=true npm run start:dev",
-    "start": "node main.js -e html,js,css --ignore public",
+    "start": "node main.js -e html,js,css --ignore build",
     "test": "jest --watch"
   },
   "license": "MIT",
