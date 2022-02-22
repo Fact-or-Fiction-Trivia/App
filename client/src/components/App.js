@@ -34,7 +34,7 @@ import PlayQuiz from "./QuizEngine/PlayQuiz";
 import QuizContext from "./context/quizContext";
 
 import * as routes from "../constants/routes";
-import { firebase, db } from "../firebase";
+import { db } from "../firebase";
 
 const theme = createTheme({
   palette: {
@@ -75,18 +75,9 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getMe();
-    // sets the auth user in app state
-    this.listener = firebase.auth.onAuthStateChanged((authUser) => {
-      authUser // eslint-disable-line no-unused-expressions
-        ? this.initializeApp(authUser)
-        : this.setState({ authUser: null });
-    });
   }
 
-  initializeApp = (authUser) => {
-    this.setState({ authUser: authUser });
-  };
-
+  // to be deprecated
   getSignedInUser = async (uid) => {
     const userData = await db.getDisplayNames(uid);
     userData.displayName.then((displayName) => {
@@ -113,7 +104,6 @@ class App extends Component {
 
   clearStateOnSignout = () => {
     this.setState({
-      authUser: null,
       signedInUser: "",
       scoreObject: {},
       displayName: "",
@@ -141,8 +131,8 @@ class App extends Component {
           <Route
             exact
             path={routes.LANDING}
-            render={(props) =>
-              this.state.authUser ? <Redirect to="/home" /> : <LandingPage />
+            render={() =>
+              this.props.isLoggedIn ? <Redirect to="/home" /> : <LandingPage />
             }
           />
           <Route

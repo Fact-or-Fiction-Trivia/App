@@ -7,51 +7,27 @@ import bg from "./politiq-bg2.jpg";
 
 import { NavLink } from "react-router-dom";
 import "./Static.css";
-import { storage } from "../../firebase/firebase";
-import poster from "../didyouknow.png";
 import { db } from "../../firebase";
 
 const LandingPage = () => {
   const [quizDate, setQuizDate] = useState("");
-  const [videoDownload, setVideoDownload] = useState(null);
+
+  // TODO: use Today's quiz button component here instead
+  const fetchQuiz = async () => {
+    db.getMostRecentQuizDate()
+      .then((res) => {
+        return res.val(); // resolve promise
+      })
+      .then((quizDate) => {
+        if (!quizDate) return;
+        setQuizDate(Object.keys(quizDate)[0]);
+      });
+  };
   useEffect(() => {
     // get most recent quiz date not in future
-    const fetchQuiz = async () => {
-      db.getMostRecentQuizDate()
-        .then((res) => {
-          return res.val(); // resolve promise
-        })
-        .then((quizDate) => {
-          if (!quizDate) return;
-          setQuizDate(Object.keys(quizDate)[0]);
-        });
-    };
-    const fetchVideo = async () => {
-      storage
-        .ref("videos/PolitIQ_Final.mp4")
-        .getDownloadURL()
-        .then(function(url) {
-          setVideoDownload(url);
-        })
-        .catch(function(error) {
-          // Handle any errors
-          console.error(error);
-        });
-    };
-    fetchQuiz();
-    fetchVideo();
-  }, []);
 
-  const video = videoDownload ? (
-    <video
-      className="homepageVideo"
-      style={{ width: "90%" }}
-      controls
-      poster={poster}
-    >
-      <source src={videoDownload} type="video/mp4" />
-    </video>
-  ) : null;
+    fetchQuiz();
+  }, []);
 
   return (
     <Paper className="home-holder">
@@ -81,9 +57,6 @@ const LandingPage = () => {
           <div className="title anim-h3">
             <span>Independent?</span>
           </div>
-        </div>
-        <div className="welcomeBlock">
-          <div className="homepageVideoHolder">{video}</div>
         </div>
       </div>
       <div className="home-description">
