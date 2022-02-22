@@ -14,8 +14,6 @@ const config = {
   messagingSenderId: process.env.REACT_APP_messagingSenderId,
 };
 
-console.log(process.env.REACT_APP_apiKey);
-
 let app;
 if (!firebase.apps.length) {
   app = firebase.initializeApp(config);
