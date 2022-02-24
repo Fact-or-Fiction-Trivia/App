@@ -1,34 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Paper from "@material-ui/core/Paper";
 
-import Button from "@material-ui/core/Button";
 import bg from "./politiq-bg2.jpg";
 
 import { NavLink } from "react-router-dom";
 import "./Static.css";
-import { db } from "../../firebase";
+import TodaysQuizButton from "./TodaysQuizButton";
 
 const LandingPage = () => {
-  const [quizDate, setQuizDate] = useState("");
-
-  // TODO: use Today's quiz button component here instead
-  const fetchQuiz = async () => {
-    db.getMostRecentQuizDate()
-      .then((res) => {
-        return res.val(); // resolve promise
-      })
-      .then((quizDate) => {
-        if (!quizDate) return;
-        setQuizDate(Object.keys(quizDate)[0]);
-      });
-  };
-  useEffect(() => {
-    // get most recent quiz date not in future
-
-    fetchQuiz();
-  }, []);
-
   return (
     <Paper className="home-holder">
       <div className="welcomeHolder">
@@ -86,7 +66,7 @@ const LandingPage = () => {
             </div>
           </NavLink>
           <NavLink
-            to={`/quiz/${quizDate}`}
+            to={`/play`}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <div className="icon-div">
@@ -134,14 +114,7 @@ const LandingPage = () => {
           <span style={{ fontWeight: "bold" }}>3 points</span> (depending upon
           approval of its content and validity). All are welcome to contribute!
         </p>
-        <NavLink
-          style={{ textDecoration: "none", color: "inherit" }}
-          to={`/quiz/${quizDate}`}
-        >
-          <Button color="primary" variant="contained" size="large">
-            Click Here to Start Playing
-          </Button>
-        </NavLink>
+        <TodaysQuizButton />
       </div>
     </Paper>
   );
