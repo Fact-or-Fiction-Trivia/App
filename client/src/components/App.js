@@ -34,7 +34,9 @@ import PlayQuiz from "./QuizEngine/PlayQuiz";
 import QuizContext from "./context/quizContext";
 
 import * as routes from "../constants/routes";
-import { db } from "../firebase";
+// import { db } from "../firebase";
+import { setMaxScore } from "../redux/reducers/streak";
+import GameHome from "./QuizEngine/GameHome";
 
 const theme = createTheme({
   palette: {
@@ -74,18 +76,18 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.getMe();
+    this.props.getMe(this.props.setLongestStreak);
   }
 
   // to be deprecated
   getSignedInUser = async (uid) => {
-    const userData = await db.getDisplayNames(uid);
-    userData.displayName.then((displayName) => {
-      this.setState({
-        signedInUser: uid,
-        displayName,
-      });
-    });
+    // const userData = await db.getDisplayNames(uid);
+    // userData.displayName.then((displayName) => {
+    //   this.setState({
+    //     signedInUser: uid,
+    //     displayName,
+    //   });
+    // });
   };
 
   checkAdmin = () => {
@@ -215,6 +217,7 @@ class App extends Component {
           />
 
           {/* Quiz Routes */}
+          <Route exact path={routes.GAME} component={GameHome} />
           <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
           <Route
             exact
@@ -300,8 +303,11 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    getMe() {
-      dispatch(me());
+    setLongestStreak(score) {
+      dispatch(setMaxScore(score));
+    },
+    getMe(setLongestStreak) {
+      dispatch(me(setLongestStreak));
     },
   };
 };

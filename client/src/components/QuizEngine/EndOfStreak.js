@@ -4,20 +4,18 @@ import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
 import SignInForm from "../Auth/SignIn/SignInForm";
 import SignInFormWithStreak from "../Auth/SignIn/SignInFormWithStreak";
+import SignUpFormWithStreak from "../Auth/SignUp/SignUpFormWithStreak";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
 
 const EndOfStreak = ({
-  addStreak,
   isLoggedIn,
   maxStreak,
   streak,
   streakLength,
   playNewGame,
 }) => {
-  const [showSignIn, setShowSignIn] = useState(false);
-
-  const saveStreakOnLogin = () => addStreak(streak);
+  const [showSignIn, setShowSignIn] = useState({ bool: false, type: "" });
 
   return (
     <div className={styles.container}>
@@ -36,12 +34,33 @@ const EndOfStreak = ({
         </div>
       ) : (
         <div className={styles.buttonContainer}>
-          {showSignIn ? (
-            <SignInFormWithStreak buttonCopy="Save My Score" streak={streak} />
+          {showSignIn.bool ? (
+            showSignIn.type === "signin" ? (
+              <SignInFormWithStreak
+                buttonCopy="Save My Score"
+                streak={streak}
+              />
+            ) : (
+              <SignUpFormWithStreak
+                buttonCopy="Save My Score"
+                streak={streak}
+              />
+            )
           ) : (
-            <Button variant="primary" onClick={() => setShowSignIn(true)}>
-              Sign in to save your streak
-            </Button>
+            <div className="d-flex flex-column">
+              <Button
+                variant="primary"
+                onClick={() => setShowSignIn({ bool: true, type: "signin" })}
+              >
+                Sign in to save your streak
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => setShowSignIn({ bool: true, type: "signup" })}
+              >
+                Sign up to save your streak
+              </Button>
+            </div>
           )}
           <div className={styles.horizontalRule}>
             <span>or</span>
@@ -49,7 +68,7 @@ const EndOfStreak = ({
           <Button
             className={styles.skipButton}
             variant="white"
-            onClick={resetQuiz}
+            onClick={playNewGame}
           >
             Skip and play again
           </Button>

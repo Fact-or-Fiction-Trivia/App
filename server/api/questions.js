@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 const {
   Op,
-  models: { User, Question, Tag },
+  models: { User, Question, Tag }
 } = require("../db");
 
 const { requireToken, requireTokenOptional } = require("./middleware");
@@ -12,21 +12,32 @@ const { requireToken, requireTokenOptional } = require("./middleware");
  * GET /
  * All Questions
  */
-router.get("/", requireTokenOptional, async (req, res, next) => {
+router.put("/", requireTokenOptional, async (req, res, next) => {
   try {
+    const answeredQuestionsLocally = Object.keys(req.body);
+
     if (req.user) {
       const answeredQuestionIds = await User.findByPk(req.user.id, {
-        include: [{ model: Question }],
+        include: [{ model: Question }]
       }).then(({ questions }) => questions.map(({ id }) => id));
 
       res.json(
         await Question.findAll({
           include: [Tag],
-          where: { id: { [Op.notIn]: answeredQuestionIds } },
+          where: {
+            id: {
+              [Op.notIn]: [...answeredQuestionIds, ...answeredQuestionsLocally]
+            }
+          }
         })
       );
     } else {
-      res.json(await Question.findAll());
+      res.json(
+        await Question.findAll({
+          include: [Tag],
+          where: { id: { [Op.notIn]: answeredQuestionsLocally } }
+        })
+      );
     }
   } catch (err) {
     next(err);
