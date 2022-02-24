@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { compose } from "recompose";
-import { connect } from "react-redux";
 
 // import {
 //   FacebookShareButton,
@@ -27,23 +25,17 @@ import CloseIcon from "@material-ui/icons/Close";
 import TodaysQuizButton from "./TodaysQuizButton";
 
 import "./Static.css";
-import { fetchQuestions } from "../../redux/reducers/question";
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noAvailableQuizzes: false,
       open: false,
     };
   }
 
   componentDidMount() {
     this.addToHomeScreen();
-    // fetch questions if there aren't any, one time
-    if (this.props.questions.length === 0) {
-      this.props.getQuestions();
-    }
   }
 
   addToHomeScreen = () => {
@@ -77,12 +69,6 @@ class HomePage extends Component {
         open: true,
       });
     }
-  };
-
-  showErrorMessage = () => {
-    this.setState({
-      noAvailableQuizzes: true,
-    });
   };
 
   handleClose = () => {
@@ -124,7 +110,7 @@ class HomePage extends Component {
                 onClick={this.handleAddToHomescreen}
                 key="add-to-homescreen"
               >
-                Add politIQ to your homescreen
+                Add Fact or Fiction to your homescreen
               </Button>
               <IconButton
                 key="close"
@@ -140,10 +126,7 @@ class HomePage extends Component {
         <h1>Think you know politics?</h1>
         <h1>Prove it!</h1>
 
-        <TodaysQuizButton
-          id="today"
-          disabled={this.props.questions.length === 0}
-        />
+        <TodaysQuizButton id="today" />
 
         <h4>
           Don't forget to submit your own questions for a chance to win points!
@@ -199,19 +182,4 @@ class HomePage extends Component {
   }
 }
 
-const mapState = (state) => {
-  const { questions } = state.question;
-  return {
-    questions,
-  };
-};
-
-const mapDispatch = (dispatch) => {
-  return {
-    getQuestions() {
-      dispatch(fetchQuestions());
-    },
-  };
-};
-
-export default compose(connect(mapState, mapDispatch))(HomePage);
+export default HomePage;
