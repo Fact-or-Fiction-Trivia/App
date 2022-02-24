@@ -6,7 +6,10 @@ import axios from "../axiosInstance";
 export const fetchQuestions = createAsyncThunk(
   "question/fetchQuestions",
   async () => {
-    const { data } = await axios.get(`/api/questions`);
+    const answeredQuestions = localStorage.hasOwnProperty("answeredQuestions")
+      ? JSON.parse(localStorage.getItem("answeredQuestions"))
+      : [];
+    const { data } = await axios.put(`/api/questions`, answeredQuestions);
 
     return data;
   }
@@ -28,6 +31,25 @@ const questionSlice = createSlice({
     },
     clearAnswer(state, action) {
       const questionId = action.payload;
+      if (localStorage.hasOwnProperty("answeredQuestions")) {
+        const answeredQuestions = JSON.parse(
+          localStorage.getItem("answeredQuestions")
+        );
+        localStorage.setItem(
+          "answeredQuestions",
+          JSON.stringify({
+            ...answeredQuestions,
+            [questionId]: true,
+          })
+        );
+      } else {
+        localStorage.setItem(
+          "answeredQuestions",
+          JSON.stringify({
+            [questionId]: true,
+          })
+        );
+      }
       const questions = state.questions.filter(
         (question) => question.id !== questionId
       );

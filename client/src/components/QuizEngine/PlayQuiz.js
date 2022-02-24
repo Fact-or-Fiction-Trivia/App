@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Paper } from "@material-ui/core";
-import classNames from "classnames";
-import confetti from "canvas-confetti";
 import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./PlayQuiz.module.scss";
 import Question from "./Question";
@@ -17,7 +15,6 @@ import {
   setIsAnswering,
   setMaxScore,
 } from "../../redux/reducers/streak";
-import NoQuestionsAvailable from "./NoQuestionsAvailable";
 
 const PlayQuiz = ({
   streak,
@@ -32,109 +29,75 @@ const PlayQuiz = ({
   maxStreak,
   questions,
   getQuestions,
-  getStreakHistory,
-  setLongestStreak,
   nextQuestion,
 }) => {
+  // Timer reference used in the Question -> TimerBar Component
+  const timer = useRef(null);
+
+  //Grab the Questions
   useEffect(() => {
-    // if there aren't questions already, fetch them
     if (questions.length === 0) {
       getQuestions();
-    }
-    if (isLoggedIn) {
-      getStreakHistory();
-    } else {
-      localStreak();
     }
   }, []);
 
   useEffect(() => {
+    // If the previous question has been answered incorrectly
+    // it should attempt to add the streak to the user
     if (answeredCorrectly === false) {
-      console.log("Should Create Streak");
+      // Only add the streak to the user if they are loggedin
       if (isLoggedIn) {
         addStreak(streak);
-      } else {
-        //Local
       }
     }
+    // The streak array in redux is updated when the "increaseStreak" method is called
+    // from the Question component in the "handleAnswer" method below.
   }, [streak]);
 
-  // TODO: timer
-  // TODO: QUESTION REFETCH
-  // TODO: handle no questions remaining
-
-  // we want to show the user's highest streak and their current streak
-  // if they are logged in, pull it from the streaks table
-  // if they are not logged in, use the highest streak from local storage
-  const localStreak = () => {
-    if (localStorage.hasOwnProperty("streaks")) {
-      const streaks = JSON.parse(localStorage.getItem("streaks"));
-      // get the longest streak
-      let longStreak = 0;
-
-      streaks.forEach((streak) => {
-        // subtract one for the non-logged in user because we also store the questions that they answered incorrectly as part of the streak
-        if (streak.length - 1 > longStreak) {
-          longStreak = streak.length - 1;
-        }
-      });
-
-      setLongestStreak(longStreak);
-    }
-  };
-
-  const handleClick = (question, answer) => {
+  const handleAnswer = (question, answer) => {
+    // Clear the setTimeout which is set in the Question -> TimerBar component
+    clearTimeout(timer.current);
+    // Add a new object to the streak array on redux state
     increaseStreak({
       questionId: question.id,
       answeredCorrectly: question.answer === answer,
     });
+
+    // Remove this question from the questions array on redux state.
     answered(question.id);
+
+    // This action creator in the redux question slice also adds the
+    // question id to localstorage so that the user will never see
+    // it in play again (managed server side)
+
+    // This works for non-logged in users and
+    // additionally it is used in the case where:
+    // 1. Non-logged in user answers a few questions (1st Set)
+    // 2. Decides to skip and play again (not saving
+    // these questions to the database)
+    // 3. Answers a few more questions (2nd Set)
+    // 4. Decides to signin/signup (saving the 2nd Set of questions to the db)
+
+    // If the (now) loggedin user reloads the page, they would see the questions
+    // from the 1st Set of answered questions again.
+    // To handle this, we pass up the locallyAnsweredQuestionIds array
+    // to the getQuestions API route and filter out the results for non-loggedin
+    // users with the locallyAnsweredQuestionIds array alone and
+    // additionally, filter out the results for loggedin users with the
+    // locallyAnsweredQuestionIds AND userAnsweredQuestionsIds array(s)
   };
 
-  const showConfetti =
-    !isAnswering &&
-    answeredCorrectly &&
-    maxStreak > 0 &&
-    streakLength === maxStreak + 1;
-
-  showConfetti &&
-    confetti({
-      angle: 90,
-      particleCount: 100,
-      spread: 70,
-      startVelocity: 55,
-      origin: { x: 0.5, y: 1 },
-    });
-  // we'll always be looking at questions[0] here, since we will remove the answered
-  // questions from the question stack when the user completes an answer
-
-  // if the user is answering, show them the question with the button options
-  // if they have answered, show them the explanation and whether they were right or wrong
-
-  // if they were wrong, they can hit continue from the answer screen to reach the end of streak view
-  // on the end of streak view:
-  //      if they are logged in: they can view their streak (compared with their other streaks) and choose to keep playing or view leaderboard
-  //      if they are not logged in: they can choose to log in to save their streak, play again, or view leaderboard
-
   if (questions.length === 0) {
-    return <NoQuestionsAvailable />;
+    return <div>Loading ...</div>;
   }
 
   return (
     <div className={styles.quizContainer}>
       <Paper className={styles.questionContainer}>
         <div className={styles.statsContainer}>
-          <div>timer - todo</div>
           <div className={styles.streakContainer}>
-            <span
-              className={classNames(
-                styles.streakNum,
-                !isAnswering && answeredCorrectly && styles.bounce
-              )}
-            >
-              {streakLength}
-            </span>{" "}
-            in a row
+            <div>{streakLength} correct in a row</div>
+            <div>Longest streak: {maxStreak} </div>
           </div>
         </div>
         {streakEnded ? (
@@ -147,7 +110,13 @@ const PlayQuiz = ({
         ) : (
           <>
             {isAnswering ? (
-              <Question question={questions[0]} handleClick={handleClick} />
+              <Question
+                question={questions[0]}
+                handleAnswer={handleAnswer}
+                timer={timer}
+                increaseStreak={increaseStreak}
+                answered={answered}
+              />
             ) : (
               <Answer
                 handleContinue={nextQuestion}
@@ -164,13 +133,8 @@ const PlayQuiz = ({
 
 const mapState = (state) => {
   const { questions } = state.question;
-  const {
-    streak,
-    maxStreak,
-    streakEnded,
-    isAnswering,
-    answeredCorrectly,
-  } = state.streak;
+  const { streak, maxStreak, streakEnded, isAnswering, answeredCorrectly } =
+    state.streak;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
@@ -201,12 +165,6 @@ const mapDispatch = (dispatch) => {
     },
     getQuestions() {
       dispatch(fetchQuestions());
-    },
-    getStreakHistory() {
-      dispatch(getMaxStreakForUser());
-    },
-    setLongestStreak(score) {
-      dispatch(setMaxScore(score));
     },
   };
 };
