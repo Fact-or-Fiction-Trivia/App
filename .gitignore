@@ -36,8 +36,10 @@ yarn-error.log*
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
-yarm.lock
+yarn.lock
 
 package-lock.json
+
+client/yarn.lock
 client/package-lock.json
 /client/.yarn/*
