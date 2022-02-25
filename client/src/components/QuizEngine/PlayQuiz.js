@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Paper } from "@material-ui/core";
+import classNames from "classnames";
+import confetti from "canvas-confetti";
 import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./PlayQuiz.module.scss";
 import Question from "./Question";
+import NoQuestionsAvailable from "./NoQuestionsAvailable";
 import Answer from "./Answer";
 import EndOfStreak from "./EndOfStreak";
 
@@ -11,9 +14,7 @@ import { clearAnswer } from "../../redux/reducers/question";
 import {
   addToStreak,
   createStreak,
-  getMaxStreakForUser,
   setIsAnswering,
-  setMaxScore,
 } from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
@@ -86,9 +87,22 @@ const PlayQuiz = ({
     // additionally, filter out the results for loggedin users with the
     // locallyAnsweredQuestionIds AND userAnsweredQuestionsIds array(s)
   };
+  const showConfetti =
+    !isAnswering &&
+    answeredCorrectly &&
+    maxStreak > 0 &&
+    streakLength === maxStreak + 1;
 
+  showConfetti &&
+    confetti({
+      angle: 90,
+      particleCount: 100,
+      spread: 70,
+      startVelocity: 55,
+      origin: { x: 0.5, y: 1 },
+    });
   if (questions.length === 0) {
-    return <div>Loading ...</div>;
+    return <NoQuestionsAvailable />;
   }
 
   return (
@@ -96,8 +110,15 @@ const PlayQuiz = ({
       <Paper className={styles.questionContainer}>
         <div className={styles.statsContainer}>
           <div className={styles.streakContainer}>
-            <div>{streakLength} correct in a row</div>
-            <div>Longest streak: {maxStreak} </div>
+            <span
+              className={classNames(
+                styles.streakNum,
+                !isAnswering && answeredCorrectly && styles.bounce
+              )}
+            >
+              {streakLength}
+            </span>{" "}
+            in a row
           </div>
         </div>
         {streakEnded ? (
