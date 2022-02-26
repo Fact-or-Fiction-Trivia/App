@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.25a8d6c4.css",
-    "main.js": "/static/js/main.9f96556b.js",
-    "static/media/didyouknow.png": "/static/media/didyouknow.e764c7e2cd9d31c7c0cf.png",
+    "main.css": "/static/css/main.4d2e345c.css",
+    "main.js": "/static/js/main.c19545c6.js",
     "static/media/wrong.wav": "/static/media/wrong.92be145a7f8199e6a755.wav",
     "static/media/loadingGif.gif": "/static/media/loadingGif.3008b2b4c6c2545f415d.gif",
     "static/media/politiq-bg2.jpg": "/static/media/politiq-bg2.2c6b6c651dafd7d68cb6.jpg",
     "static/media/addToHomescreen.png": "/static/media/addToHomescreen.0214e2a449e57933a5b0.png",
+    "static/media/large_icon.png": "/static/media/large_icon.f4859c9dfb0edc66856c.png",
     "static/media/correct.wav": "/static/media/correct.87ab307190e59acf8738.wav",
     "static/media/error.wav": "/static/media/error.bc7fcb4411c7a953faf9.wav",
     "static/media/logo.png": "/static/media/logo.f1047b8d1a2e08723a8b.png",
@@ -14,11 +14,11 @@
     "static/media/6.gif": "/static/media/6.70bd52cd642e2a635903.gif",
     "static/media/logo1.1.ico": "/static/media/logo1.1.d8c59a9820c8599c1b79.ico",
     "index.html": "/index.html",
-    "main.25a8d6c4.css.map": "/static/css/main.25a8d6c4.css.map",
-    "main.9f96556b.js.map": "/static/js/main.9f96556b.js.map"
+    "main.4d2e345c.css.map": "/static/css/main.4d2e345c.css.map",
+    "main.c19545c6.js.map": "/static/js/main.c19545c6.js.map"
   },
   "entrypoints": [
-    "static/css/main.25a8d6c4.css",
-    "static/js/main.9f96556b.js"
+    "static/css/main.4d2e345c.css",
+    "static/js/main.c19545c6.js"
   ]
 }
