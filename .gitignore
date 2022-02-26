@@ -30,16 +30,10 @@ yarn-error.log*
 
 # Yarn
 .yarn/*
-.yarn/cache/*
 !.yarn/cache
 !.yarn/releases
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
-yarn.lock
 
-package-lock.json
-
-client/yarn.lock
-client/package-lock.json
 /client/.yarn/*
