@@ -20,7 +20,7 @@ import QuizContext from "../context/quizContext";
 
 import { auth, withFirebase } from "../../firebase";
 import { db } from "../../firebase/firebase";
-import { AuthUserContext, withAuthentication } from "../Auth";
+// import { AuthUserContext, withAuthentication } from "../Auth";
 import * as routes from "../../constants/routes";
 import getMostRecentQuizId from "../../utils/mostRecentQuizId";
 import NavigationNonAuth from "./NonAuth";
@@ -29,24 +29,24 @@ import { reset } from "../../redux/reducers/auth";
 
 import Logo from "../logo1.1.ico";
 
-const Navigation = ({ clearStateOnSignout }) => {
-  return (
-    <AuthUserContext.Consumer>
-      {(authUser) => (
-        <>
-          {authUser !== null ? (
-            <NavigationAuth
-              authUser={authUser}
-              clearStateOnSignout={clearStateOnSignout}
-            />
-          ) : (
-            <NavigationNonAuth />
-          )}
-        </>
-      )}
-    </AuthUserContext.Consumer>
-  );
-};
+// const Navigation = ({ clearStateOnSignout }) => {
+//   return (
+//     <AuthUserContext.Consumer>
+//       {(authUser) => (
+//         <>
+//           {authUser !== null ? (
+//             <NavigationAuth
+//               authUser={authUser}
+//               clearStateOnSignout={clearStateOnSignout}
+//             />
+//           ) : (
+//             <NavigationNonAuth />
+//           )}
+//         </>
+//       )}
+//     </AuthUserContext.Consumer>
+//   );
+// };
 
 const drawerWidth = 240;
 
@@ -433,4 +433,5 @@ const NavigationAuth = withFirebase(
   connect(null, mapDispatch)(NavigationAuthBase)
 );
 
-export default withAuthentication(Navigation);
+export default NavigationAuthBase;
+//withAuthentication(Navigation);

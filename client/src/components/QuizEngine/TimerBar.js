@@ -2,12 +2,26 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "./quiz.css";
 
-export const TimerBar = ({ width, percent }) => {
+const TimerBar = ({ timer, increaseStreak, answered, question }) => {
   const [value, setValue] = useState(0);
   useEffect(() => {
-    console.log("SET");
+    // Set the width of the div to 100% after the component has
+    // had a chance to load in order to trigger the
+    // transition animation properly
     setTimeout(() => setValue(100), 0);
-    setTimeout(() => console.log("DONE"), 5000);
+
+    // Assign the setTimeoutId to the timer reference made in
+    // the PlayQuiz component
+    timer.current = setTimeout(() => {
+      // Treat this timeout exactly like an
+      // incorrectly answered question
+      increaseStreak({
+        questionId: question.id,
+        answeredCorrectly: false,
+      });
+      answered(question.id);
+      // Timeout in a little over 5 seconds
+    }, 5050);
   }, []);
   return (
     <div>
@@ -19,7 +33,6 @@ export const TimerBar = ({ width, percent }) => {
         }}
       >
         <div
-          // className="question-timer-keyframe"
           style={{
             width: `${value}%`,
             backgroundColor: "rgb(62, 122, 235)",
@@ -35,6 +48,8 @@ export const TimerBar = ({ width, percent }) => {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerBar);
