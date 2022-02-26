@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosInstance";
+// import axios from "axios";
 
 export const createStreak = createAsyncThunk(
   "streak/createStreak",
@@ -20,7 +21,6 @@ export const getMaxStreakForUser = createAsyncThunk(
 );
 
 const INIT_STATE = {
-  streaks: [],
   streak: [],
   streakEnded: false,
   isAnswering: true,
@@ -36,13 +36,12 @@ const streakSlice = createSlice({
   initialState: INIT_STATE,
   reducers: {
     resetQuiz(state, action) {
-      const maxStreak = Math.max(
-        state.streak.filter((it) => it.answeredCorrectly).length,
-        state.maxStreak
-      );
       return {
         ...INIT_STATE,
-        maxStreak,
+        maxStreak: Math.max(
+          state.streak.filter((it) => it.answeredCorrectly).length,
+          state.maxStreak
+        ),
       };
     },
     setMaxScore(state, action) {
@@ -57,7 +56,6 @@ const streakSlice = createSlice({
     },
     addToStreak(state, action) {
       const { questionId, answeredCorrectly } = action.payload;
-
       return {
         ...state,
         isAnswering: false,
@@ -74,7 +72,6 @@ const streakSlice = createSlice({
       })
       .addCase(createStreak.fulfilled, (state, action) => {
         state.streakEnded = false;
-        // state.streak = [];
         state.answeredCorrectly = undefined;
         state.isLoading = false;
         state.hasError = false;
@@ -100,13 +97,8 @@ const streakSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const {
-  setNew,
-  setMaxScore,
-  addToStreak,
-  setIsAnswering,
-  resetQuiz,
-} = streakSlice.actions;
+export const { setNew, setMaxScore, addToStreak, setIsAnswering, resetQuiz } =
+  streakSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

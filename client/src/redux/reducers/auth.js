@@ -45,8 +45,9 @@ export const requestReset = createAsyncThunk(
   }
 );
 
-export const me = createAsyncThunk("auth/me", async () => {
+export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
   const { data } = await axios.get("/auth/me", { credentials: "include" });
+  setLongestStreak(data.maxScore);
   return data;
 });
 
@@ -68,6 +69,18 @@ export const authenticateWithStreak = createAsyncThunk(
     await axios.post(`/api/streaks`, streak);
     const { data } = await axios.get(`/auth/me`);
     setLongestStreak(data.maxScore);
+    return data;
+  }
+);
+
+export const signupWithStreak = createAsyncThunk(
+  "auth/signupWithStreak",
+  async ({ formData, setLongestStreak, streak }) => {
+    await axios.post(`/auth/signup`, formData);
+    await axios.post(`/api/streaks`, streak);
+    const { data } = await axios.get("/auth/me", { credentials: "include" });
+    setLongestStreak(data.maxScore);
+    // history.push("/");
     return data;
   }
 );
