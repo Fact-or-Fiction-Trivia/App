@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import moment from "moment";
-import { compose } from "recompose";
 import Button from "@material-ui/core/Button";
 
 import { app, googleProvider, db } from "../../firebase";
@@ -154,4 +152,4 @@ GoogleAuth.propTypes = {
   fbError: PropTypes.func,
 };
 
-export default compose(withRouter)(GoogleAuth);
+export default GoogleAuth;

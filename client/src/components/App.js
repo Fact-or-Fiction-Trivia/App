@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { me } from "../redux/reducers/auth";
 import "./App.css";
@@ -117,171 +122,179 @@ class App extends Component {
     return (
       // <Router history
       //Provide quiz value to everything
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <QuizContext.Consumer>
+            {(quizContext) => (
+              <Navigation
+                quizContext={quizContext}
+                signedInUser={this.state.signedInUser}
+              />
+            )}
+          </QuizContext.Consumer>
 
-      <MuiThemeProvider theme={theme}>
-        <QuizContext.Consumer>
-          {(quizContext) => (
-            <Navigation
-              quizContext={quizContext}
-              signedInUser={this.state.signedInUser}
+          <Switch>
+            <Route
+              exact
+              path={routes.LANDING}
+              render={() =>
+                this.props.isLoggedIn ? (
+                  <Redirect to="/home" />
+                ) : (
+                  <LandingPage />
+                )
+              }
             />
-          )}
-        </QuizContext.Consumer>
+            <Route
+              exact
+              path={routes.SIGN_UP}
+              render={(props) => (
+                <SignUpPage
+                  {...props}
+                  getSignedInUser={this.getSignedInUser}
+                  scoreObject={this.state.scoreObject}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={routes.SIGN_IN}
+              render={(props) => (
+                <SignInPage
+                  {...props}
+                  getSignedInUser={this.getSignedInUser}
+                  scoreObject={this.state.scoreObject}
+                  checkAdmin={this.checkAdmin}
+                />
+              )}
+            />
+            <Route exact path={"/sponsor"} render={Sponsor} />
+            <Route
+              exact
+              path={routes.PASSWORD_FORGET}
+              component={PasswordForgetPage}
+            />
+            <Route
+              exact
+              path={routes.PROFILE}
+              render={(props) => (
+                <ProfilePage
+                  {...props}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={routes.HOME}
+              render={(props) => (
+                <HomePage {...props} signedInUser={this.state.signedInUser} />
+              )}
+            />
 
-        <Switch>
-          <Route
-            exact
-            path={routes.LANDING}
-            render={() =>
-              this.props.isLoggedIn ? <Redirect to="/home" /> : <LandingPage />
-            }
-          />
-          <Route
-            exact
-            path={routes.SIGN_UP}
-            render={(props) => (
-              <SignUpPage
-                {...props}
-                getSignedInUser={this.getSignedInUser}
-                scoreObject={this.state.scoreObject}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={routes.SIGN_IN}
-            render={(props) => (
-              <SignInPage
-                {...props}
-                getSignedInUser={this.getSignedInUser}
-                scoreObject={this.state.scoreObject}
-                checkAdmin={this.checkAdmin}
-              />
-            )}
-          />
-          <Route exact path={"/sponsor"} render={Sponsor} />
-          <Route
-            exact
-            path={routes.PASSWORD_FORGET}
-            component={PasswordForgetPage}
-          />
-          <Route
-            exact
-            path={routes.PROFILE}
-            render={(props) => (
-              <ProfilePage {...props} signedInUser={this.state.signedInUser} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.HOME}
-            render={(props) => (
-              <HomePage {...props} signedInUser={this.state.signedInUser} />
-            )}
-          />
+            {/* Admin Dashboard Routes */}
+            <Route
+              exact
+              path={routes.CREATE_NEW_QUIZ}
+              render={(props) => (
+                <AdminDashboard {...props} renderPage={"Create New Quiz"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.MANAGE_QUIZZES}
+              render={(props) => (
+                <AdminDashboard {...props} renderPage={"Manage Quizzes"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.MANAGE_USERS}
+              render={(props) => (
+                <AdminDashboard {...props} renderPage={"Manage Users"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.ADMIN_LEADERBOARD}
+              render={(props) => (
+                <AdminDashboard {...props} renderPage={"Leaderboard"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.ADMIN_DASHBOARD}
+              render={(props) => <AdminDashboard {...props} renderPage={""} />}
+            />
 
-          {/* Admin Dashboard Routes */}
-          <Route
-            exact
-            path={routes.CREATE_NEW_QUIZ}
-            render={(props) => (
-              <AdminDashboard {...props} renderPage={"Create New Quiz"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.MANAGE_QUIZZES}
-            render={(props) => (
-              <AdminDashboard {...props} renderPage={"Manage Quizzes"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.MANAGE_USERS}
-            render={(props) => (
-              <AdminDashboard {...props} renderPage={"Manage Users"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.ADMIN_LEADERBOARD}
-            render={(props) => (
-              <AdminDashboard {...props} renderPage={"Leaderboard"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.ADMIN_DASHBOARD}
-            render={(props) => <AdminDashboard {...props} renderPage={""} />}
-          />
+            {/* Quiz Routes */}
+            <Route exact path={routes.GAME} component={GameHome} />
+            <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
+            <Route
+              exact
+              path={routes.QUIZ}
+              render={(props) => (
+                <Quiz
+                  {...props}
+                  storeScore={this.storeScore}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route exact path={routes.QUIZ_REDIRECT} component={QuizRedirect} />
+            <Route
+              exact
+              path={routes.PROFILE_TO_QUIZ_REDIRECT}
+              component={ProfileToQuizRedirect}
+            />
+            <Route
+              exact
+              path={routes.ARCHIVED_QUIZ}
+              render={(props) => <ArchivedQuiz {...props} />}
+            />
+            <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
+            <Route exact path={routes.ABOUT} component={About} />
+            <Route
+              exact
+              path={routes.SUBMIT_QUESTION}
+              render={(props) => (
+                <QuestionSubmitForm
+                  {...props}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route exact path={routes.REVIEW} component={ReviewQuestions} />
+            <Route
+              exact
+              path={routes.CONTEST}
+              component={ReviewContestedQuestions}
+            />
+            <Route
+              exact
+              path={routes.USER_PROFILES}
+              render={(props) => (
+                <PublicProfile
+                  {...props}
+                  key={window.location.pathName} // eslint-disable-line no-undef
+                  signedInUser={this.state.authUser}
+                  displayName={this.state.displayName}
+                  isAdmin={this.state.isAdmin}
+                />
+              )}
+            />
+            <Route exact path={routes.PRIVACY} component={PrivacyPolicy} />
+            <Route
+              exact
+              path={routes.ADD_TO_HOMESCREEN}
+              component={AddToHomescreen}
+            />
 
-          {/* Quiz Routes */}
-          <Route exact path={routes.GAME} component={GameHome} />
-          <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
-          <Route
-            exact
-            path={routes.QUIZ}
-            render={(props) => (
-              <Quiz
-                {...props}
-                storeScore={this.storeScore}
-                signedInUser={this.state.signedInUser}
-              />
-            )}
-          />
-          <Route exact path={routes.QUIZ_REDIRECT} component={QuizRedirect} />
-          <Route
-            exact
-            path={routes.PROFILE_TO_QUIZ_REDIRECT}
-            component={ProfileToQuizRedirect}
-          />
-          <Route
-            exact
-            path={routes.ARCHIVED_QUIZ}
-            render={(props) => <ArchivedQuiz {...props} />}
-          />
-          <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
-          <Route exact path={routes.ABOUT} component={About} />
-          <Route
-            exact
-            path={routes.SUBMIT_QUESTION}
-            render={(props) => (
-              <QuestionSubmitForm
-                {...props}
-                signedInUser={this.state.signedInUser}
-              />
-            )}
-          />
-          <Route exact path={routes.REVIEW} component={ReviewQuestions} />
-          <Route
-            exact
-            path={routes.CONTEST}
-            component={ReviewContestedQuestions}
-          />
-          <Route
-            exact
-            path={routes.USER_PROFILES}
-            render={(props) => (
-              <PublicProfile
-                {...props}
-                key={window.location.pathName} // eslint-disable-line no-undef
-                signedInUser={this.state.authUser}
-                displayName={this.state.displayName}
-                isAdmin={this.state.isAdmin}
-              />
-            )}
-          />
-          <Route exact path={routes.PRIVACY} component={PrivacyPolicy} />
-          <Route
-            exact
-            path={routes.ADD_TO_HOMESCREEN}
-            component={AddToHomescreen}
-          />
-
-          <Route path="*" component={NoMatch} />
-        </Switch>
-        <Footer signedInUser={this.state.signedInUser} />
-      </MuiThemeProvider>
+            <Route path="*" component={NoMatch} />
+          </Switch>
+          <Footer signedInUser={this.state.signedInUser} />
+        </MuiThemeProvider>
+      </Router>
     );
   }
 }

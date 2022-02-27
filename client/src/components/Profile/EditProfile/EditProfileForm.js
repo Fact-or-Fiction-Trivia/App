@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { db } from "../../../firebase";
 import { auth } from "../../../firebase/firebase";
-import { withRouter } from "react-router-dom";
 import MediaQuery from "react-responsive";
 
 import Button from "@material-ui/core/Button";
@@ -19,7 +18,7 @@ class EditProfile extends Component {
       email: "",
       affiliation: "",
       bio: "",
-      uid: ""
+      uid: "",
     };
   }
 
@@ -31,13 +30,13 @@ class EditProfile extends Component {
       email: userInfo.email,
       bio: userInfo.bio,
       uid: userInfo.uid,
-      affiliation: userInfo.affiliation
+      affiliation: userInfo.affiliation,
     });
   };
 
   handleChange = (propertyName, value) => {
     this.setState({
-      [propertyName]: value
+      [propertyName]: value,
     });
   };
 
@@ -46,7 +45,7 @@ class EditProfile extends Component {
       displayName: this.state.displayName,
       email: this.state.email,
       affiliation: this.state.affiliation,
-      bio: this.state.bio
+      bio: this.state.bio,
     };
 
     const oldUserInfo = this.props.authUser;
@@ -57,8 +56,7 @@ class EditProfile extends Component {
       const user = auth.currentUser;
       await user
         .updateEmail(this.state.email)
-        .then(function () {
-        })
+        .then(function () {})
         .catch(function (error) {
           console.error(error);
         });
@@ -81,7 +79,7 @@ class EditProfile extends Component {
       displayName: this.state.displayName,
       email: this.state.email,
       affiliation: this.state.affiliation,
-      bio: this.state.bio
+      bio: this.state.bio,
     };
 
     await db.editUser(this.props.uid, updates);
@@ -90,8 +88,7 @@ class EditProfile extends Component {
       const user = auth.currentUser;
       await user
         .updateEmail(this.state.email)
-        .then(function () {
-        })
+        .then(function () {})
         .catch(function (error) {
           console.error(error);
         });
@@ -112,7 +109,7 @@ class EditProfile extends Component {
             margin="normal"
             label="Display Name"
             value={this.state.displayName}
-            onChange={event =>
+            onChange={(event) =>
               this.handleChange("displayName", event.target.value)
             }
             fullWidth
@@ -120,7 +117,7 @@ class EditProfile extends Component {
           <TextField
             margin="normal"
             value={this.state.email}
-            onChange={event => this.handleChange("email", event.target.value)}
+            onChange={(event) => this.handleChange("email", event.target.value)}
             fullWidth
             label="Email Address"
           />
@@ -130,11 +127,11 @@ class EditProfile extends Component {
             fullWidth
             value={this.state.affiliation}
             label="Affiliation"
-            onChange={event =>
+            onChange={(event) =>
               this.handleChange("affiliation", event.target.value)
             }
             inputProps={{
-              name: "affiliation"
+              name: "affiliation",
             }}
           >
             <option value="" />
@@ -149,7 +146,7 @@ class EditProfile extends Component {
             fullWidth
             label="Bio"
             value={this.state.bio}
-            onChange={event => this.handleChange("bio", event.target.value)}
+            onChange={(event) => this.handleChange("bio", event.target.value)}
           />
         </form>
 
@@ -172,4 +169,4 @@ class EditProfile extends Component {
   }
 }
 
-export default withRouter(EditProfile);
+export default EditProfile;

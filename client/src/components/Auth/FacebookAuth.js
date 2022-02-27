@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import moment from "moment";
-import { compose } from "recompose";
 // import { FacebookIcon } from 'react-share';
 import Button from "@material-ui/core/Button";
 
@@ -151,4 +149,4 @@ FacebookAuth.propTypes = {
   fbError: PropTypes.func,
 };
 
-export default compose(withRouter)(FacebookAuth);
+export default FacebookAuth;

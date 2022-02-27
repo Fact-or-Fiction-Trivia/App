@@ -7,7 +7,6 @@ import loadingGif from "../../loadingGif.gif";
 import { Helmet } from "react-helmet";
 import AuthUserContext from "../Auth/AuthUserContext";
 import MediaQuery from "react-responsive";
-import { Prompt } from "react-router-dom";
 import ReactCountdownClock from "react-countdown-clock";
 
 import Paper from "@material-ui/core/Paper";
@@ -321,7 +320,7 @@ class QuizBase extends Component {
           if (this.state.volumeUp === true) {
             // add one more second after when the timer ends and when the trombone plays
             this.error.play();
-            this.error.onended = function() {
+            this.error.onended = function () {
               let wrong = new Audio(wrongUrl);
               wrong.play();
             };
@@ -422,9 +421,8 @@ class QuizBase extends Component {
       ) {
         timerDuration = 40;
       } else {
-        const duration = this.state.selectedQuiz[this.state.currentQ][
-          "timerDuration"
-        ];
+        const duration =
+          this.state.selectedQuiz[this.state.currentQ]["timerDuration"];
         timerDuration = duration;
       }
     }
@@ -436,15 +434,6 @@ class QuizBase extends Component {
             <Helmet>
               <title>Play | politIQ trivia</title>
             </Helmet>
-
-            <Prompt
-              when={
-                this.state.uid !== "" &&
-                this.state.selectedQuiz !== {} &&
-                this.state.finished === false
-              }
-              message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
-            />
 
             {this.state.loading ? (
               <img
