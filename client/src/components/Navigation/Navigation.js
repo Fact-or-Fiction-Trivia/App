@@ -15,15 +15,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
-
-import QuizContext from "../context/quizContext";
-
-import { auth, withFirebase } from "../../firebase";
-import { db } from "../../firebase/firebase";
-// import { AuthUserContext, withAuthentication } from "../Auth";
 import * as routes from "../../constants/routes";
-import getMostRecentQuizId from "../../utils/mostRecentQuizId";
-import NavigationNonAuth from "./NonAuth";
 import { connect } from "react-redux";
 import { reset } from "../../redux/reducers/auth";
 
@@ -89,50 +81,10 @@ class NavigationAuthBase extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this.getMostRecentQuizId();
-    if (this.props.authUser) {
-      this.scores = db
-        .ref()
-        .child("scores")
-        .child(`${this.props.authUser.uid}`);
-      this.scores.on("value", (snapshot) => {
-        if (snapshot.val() !== this.state.snapshot) {
-          this.setState({
-            snapshot: snapshot.val(),
-          });
-          this.getMostRecentQuizId();
-        }
-      });
-
-      this.setState({
-        signedInUser: this.props.authUser.uid,
-        isAdmin: true,
-        authUser: this.props.authUser,
-      });
-    } else {
-      this.setState({ authUser: null });
-    }
-  };
-
   toggleDrawer = (side, open) => () => {
     this.setState({
       [side]: open,
     });
-  };
-
-  getMostRecentQuizId = async () => {
-    // need to get most recent quiz a user has not taken.  We can get quizzes in context and do the same logic as NextAvailableQuizButton
-    const quizId = await getMostRecentQuizId();
-    if (quizId === "No Available Quizzes") {
-      this.setState({
-        noQuizzes: true,
-      });
-    } else {
-      this.setState({
-        mostRecentQuizURL: quizId,
-      });
-    }
   };
 
   signOut = () => {
@@ -222,27 +174,12 @@ class NavigationAuthBase extends Component {
               </>
             ) : null}
             <Link
-              to={this.state.mostRecentQuizURL}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button disabled={this.state.noQuizzes}>
-                <ListItemText
-                  primary={
-                    this.state.noQuizzes
-                      ? "No Available Quizzes"
-                      : "Play Today's Quiz"
-                  }
-                />
-              </ListItem>
-            </Link>
-            <Link
-              to={routes.HOME}
+              to={routes.GAME}
               style={{ textDecoration: "none" }}
               onClick={this.toggleDrawer("top", false)}
             >
               <ListItem button>
-                <ListItemText primary="Play" />
+                <ListItemText primary={"Play"} />
               </ListItem>
             </Link>
             <Link
@@ -315,15 +252,6 @@ class NavigationAuthBase extends Component {
                       : "Take Today's Quiz"
                   }
                 />
-              </ListItem>
-            </Link>
-            <Link
-              to={routes.HOME}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary="Play" />
               </ListItem>
             </Link>
             <Link
@@ -418,8 +346,6 @@ class NavigationAuthBase extends Component {
     );
   }
 }
-//defined the context, which contains all the quizzes
-// NavigationAuthBase.contextType = QuizContext;
 
 const mapDispatch = (dispatch) => {
   return {
@@ -429,9 +355,6 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-const NavigationAuth = withFirebase(
-  connect(null, mapDispatch)(NavigationAuthBase)
-);
+const NavigationAuth = connect(null, mapDispatch)(NavigationAuthBase);
 
-export default NavigationAuthBase;
-//withAuthentication(Navigation);
+export default NavigationAuth;

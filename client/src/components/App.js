@@ -27,7 +27,6 @@ import PrivacyPolicy from "./StaticPages/PrivacyPolicy";
 import AddToHomescreen from "./StaticPages/AddToHomescreen";
 import QuizRedirect from "./QuizEngine/QuizRedirect";
 import ProfileToQuizRedirect from "./QuizEngine/ProfileToQuizRedirect";
-import LatestQuizRedirect from "./QuizEngine/LatestQuizRedirect";
 import NoMatch from "./StaticPages/NoMatch";
 import PlayQuiz from "./QuizEngine/PlayQuiz";
 
@@ -235,11 +234,6 @@ class App extends Component {
             exact
             path={routes.PROFILE_TO_QUIZ_REDIRECT}
             component={ProfileToQuizRedirect}
-          />
-          <Route
-            exact
-            path={routes.LATEST_QUIZ}
-            component={LatestQuizRedirect}
           />
           <Route
             exact
