@@ -16,6 +16,10 @@ code {
 
 a {
   text-decoration: none;
+  color: $color-primary;
+  &:hover {
+    color: $color-primary-dark;
+  }
 }
 
 .page-style {
