@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
 
-import { Paper } from '@material-ui/core';
+import { Paper } from "@material-ui/core";
 
-import SignUpLink from '../SignUp/SignUpLink';
-import { PasswordForgetLink } from '../PasswordForget';
-import FacebookAuth from '../FacebookAuth';
-import GoogleAuth from '../GoogleAuth';
-import SignInForm from './SignInForm';
-
+import SignUpLink from "../SignUp/SignUpLink";
+import { PasswordForgetLink } from "../PasswordForget";
+import FacebookAuth from "../FacebookAuth";
+import GoogleAuth from "../GoogleAuth";
+import SignInForm from "./SignInForm";
 
 class SignInPage extends Component {
   constructor(props) {
@@ -24,15 +22,10 @@ class SignInPage extends Component {
     this.setState({
       error: true,
     });
-  }
+  };
 
   render() {
-    const {
-      history,
-      getSignedInUser,
-      scoreObject,
-      checkAdmin,
-    } = this.props;
+    const { history, getSignedInUser, scoreObject, checkAdmin } = this.props;
 
     return (
       <Paper className="authCard signIn">
@@ -53,7 +46,8 @@ class SignInPage extends Component {
         <SignInForm
           history={history}
           getSignedInUser={getSignedInUser}
-          scoreObject={scoreObject} checkAdmin={checkAdmin}
+          scoreObject={scoreObject}
+          checkAdmin={checkAdmin}
         />
         <PasswordForgetLink />
         <SignUpLink />
@@ -69,4 +63,4 @@ SignInPage.propTypes = {
   scoreObject: PropTypes.object,
 };
 
-export default withRouter(SignInPage);
+export default SignInPage;

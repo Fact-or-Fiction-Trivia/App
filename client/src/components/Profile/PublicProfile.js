@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../../firebase";
 import { Helmet } from "react-helmet";
-import { withRouter, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import LoadingGif from "../../6.gif";
 import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
@@ -172,4 +172,4 @@ const PublicProfile = (props) => {
   return <Paper className="profile"> {content} </Paper>;
 };
 
-export default withRouter(PublicProfile);
+export default PublicProfile;

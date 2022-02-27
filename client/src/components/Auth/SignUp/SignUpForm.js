@@ -1,8 +1,5 @@
-import React, { Component, UseState } from "react";
-import { connect } from "react-redux";
-import { authenticate } from "../../../redux/reducers/auth";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import moment from "moment";
 import { compose } from "recompose";
 import axios from "axios";
@@ -194,14 +191,8 @@ class SignUpFormBase extends Component {
   };
 
   render() {
-    const {
-      username,
-      email,
-      affiliation,
-      passwordOne,
-      error,
-      consent,
-    } = this.state;
+    const { username, email, affiliation, passwordOne, error, consent } =
+      this.state;
 
     const isInvalid =
       passwordOne === "" ||
@@ -332,6 +323,6 @@ SignUpFormBase.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase);
+const SignUpForm = compose(withFirebase)(SignUpFormBase);
 
 export default SignUpForm;
