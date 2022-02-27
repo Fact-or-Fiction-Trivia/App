@@ -5,11 +5,14 @@ import axios from "../axiosInstance";
 
 export const fetchQuestions = createAsyncThunk(
   "question/fetchQuestions",
-  async () => {
+  async (tag) => {
     const answeredQuestions = localStorage.hasOwnProperty("answeredQuestions")
       ? JSON.parse(localStorage.getItem("answeredQuestions"))
       : [];
-    const { data } = await axios.put(`/api/questions`, answeredQuestions);
+    const { data } = await axios.put(`/api/questions`, {
+      answeredQuestions,
+      tag,
+    });
 
     return data;
   }
