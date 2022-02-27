@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { storage } from "../../firebase";
-import FileUploader from "react-firebase-file-uploader";
+// import FileUploader from "react-firebase-file-uploader";
 
 import Button from "@material-ui/core/Button";
 import "../../css/customStyles.css";
@@ -18,7 +18,7 @@ class ProfilePhoto extends Component {
       progress: 0,
       avatarURL: "",
       userID: "",
-      loading: true
+      loading: true,
     };
   }
 
@@ -26,7 +26,7 @@ class ProfilePhoto extends Component {
     const set = () => {
       this.setState({
         loading: false,
-        userID: this.props.authUser.uid
+        userID: this.props.authUser.uid,
       });
     };
     if (this.props.authUser.uid !== "") {
@@ -35,11 +35,11 @@ class ProfilePhoto extends Component {
       storage.imageRef
         .child(imgName)
         .getDownloadURL()
-        .then(url => {
+        .then((url) => {
           this.setState({
             avatarURL: url,
             userID: this.props.authUser.uid,
-            loading: false
+            loading: false,
           });
         })
         .catch(function (error) {
@@ -67,7 +67,7 @@ class ProfilePhoto extends Component {
     } else {
       this.setState({
         userID: this.props.authUser.uid,
-        loading: false
+        loading: false,
       });
     }
   };
@@ -75,43 +75,43 @@ class ProfilePhoto extends Component {
   handleUploadStart = () => {
     this.setState({
       isUploading: true,
-      progress: 0
+      progress: 0,
     });
   };
 
-  handleProgress = progress => {
+  handleProgress = (progress) => {
     this.setState({ progress });
   };
 
-  handleUploadError = error => {
+  handleUploadError = (error) => {
     this.setState({
-      isUploading: false
+      isUploading: false,
     });
     console.error(error);
   };
 
-  handleUploadSuccess = filename => {
+  handleUploadSuccess = (filename) => {
     this.setState({
       avatar: filename,
       progress: 100,
-      isUploading: false
+      isUploading: false,
     });
 
     storage.imageRef
       .child(filename)
       .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }));
+      .then((url) => this.setState({ avatarURL: url }));
   };
 
-  handleRemovePhoto = e => {
+  handleRemovePhoto = (e) => {
     e.preventDefault();
     this.setState({ avatarURL: "" });
 
     storage.imageRef
       .child(this.props.authUser.uid + ".jpg")
       .delete()
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -133,13 +133,13 @@ class ProfilePhoto extends Component {
             </div>
           </div>
         ) : (
-            <div className="upload-holder">
-              <Button
-                color="primary"
-                variant="contained"
-                className="upload-button"
-              >
-                <FileUploader
+          <div className="upload-holder">
+            <Button
+              color="primary"
+              variant="contained"
+              className="upload-button"
+            >
+              {/* <FileUploader
                   accept="image/*"
                   name="avatar"
                   filename={this.state.userID + ".jpg"} //make pictures all end in jpg
@@ -148,16 +148,16 @@ class ProfilePhoto extends Component {
                   onUploadError={this.handleUploadError}
                   onUploadSuccess={this.handleUploadSuccess}
                   onProgress={this.handleProgress}
-                />
-              </Button>
-              <img
-                src={placeHolderImg}
-                alt="placeholder"
-                className="profile-photo"
-                style={{ marginTop: "2vh" }}
-              />
-            </div>
-          )}
+                /> */}
+            </Button>
+            <img
+              src={placeHolderImg}
+              alt="placeholder"
+              className="profile-photo"
+              style={{ marginTop: "2vh" }}
+            />
+          </div>
+        )}
         {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
       </form>
     );
