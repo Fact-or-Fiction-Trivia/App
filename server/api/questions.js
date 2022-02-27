@@ -3,10 +3,10 @@ const router = require("express").Router();
 
 const {
   Op,
-  models: { User, Question, Tag }
+  models: { User, Question, Tag },
 } = require("../db");
 
-const { requireToken, requireTokenOptional } = require("./middleware");
+const { requireTokenOptional } = require("./middleware");
 
 /**
  * GET /
@@ -14,28 +14,36 @@ const { requireToken, requireTokenOptional } = require("./middleware");
  */
 router.put("/", requireTokenOptional, async (req, res, next) => {
   try {
-    const answeredQuestionsLocally = Object.keys(req.body);
+    const answeredQuestionsLocally = Object.keys(req.body.answeredQuestions);
 
     if (req.user) {
       const answeredQuestionIds = await User.findByPk(req.user.id, {
-        include: [{ model: Question }]
+        include: [{ model: Question }],
       }).then(({ questions }) => questions.map(({ id }) => id));
 
       res.json(
         await Question.findAll({
-          include: [Tag],
+          // filter by tag if a tag is provided
+          include: req.body.tag
+            ? [{ model: Tag, where: { id: req.body.tag } }]
+            : [Tag],
           where: {
             id: {
-              [Op.notIn]: [...answeredQuestionIds, ...answeredQuestionsLocally]
-            }
-          }
+              [Op.notIn]: [...answeredQuestionIds, ...answeredQuestionsLocally],
+            },
+          },
         })
       );
     } else {
       res.json(
         await Question.findAll({
-          include: [Tag],
-          where: { id: { [Op.notIn]: answeredQuestionsLocally } }
+          // filter by tag if a tag is provided
+          include: req.body.tag
+            ? [{ model: Tag, where: { id: req.body.tag } }]
+            : [Tag],
+          where: {
+            id: { [Op.notIn]: answeredQuestionsLocally },
+          },
         })
       );
     }
