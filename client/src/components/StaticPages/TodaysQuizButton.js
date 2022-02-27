@@ -5,6 +5,7 @@ import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchQuestions } from "../../redux/reducers/question";
+import { GAME } from "../../constants/routes";
 
 const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
   const history = createBrowserHistory();
@@ -32,7 +33,7 @@ const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
     );
   } else {
     return (
-      <Link to="/play">
+      <Link to={GAME}>
         <Button
           color="primary"
           variant="contained"
