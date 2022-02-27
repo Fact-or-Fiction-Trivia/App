@@ -20,8 +20,6 @@ import HomePage from "./StaticPages/HomePage";
 import ProfilePage from "./Profile/Profile";
 import Footer from "./Footer";
 import AdminDashboard from "./AdminDashboard/AdminDashboard";
-import ArchivedQuiz from "./QuizEngine/ArchivedQuiz";
-import Quiz from "./QuizEngine/Quiz";
 import Leaderboard from "./Leaderboard2/Leaderboard";
 import About from "./StaticPages/About";
 import QuestionSubmitForm from "./QuestionSubmit/QuestionSubmitForm";
@@ -30,15 +28,13 @@ import ReviewContestedQuestions from "./AdminDashboard/ReviewContestedQuestions"
 import PublicProfile from "./Profile/PublicProfile";
 import PrivacyPolicy from "./StaticPages/PrivacyPolicy";
 import AddToHomescreen from "./StaticPages/AddToHomescreen";
-import QuizRedirect from "./QuizEngine/QuizRedirect";
-import ProfileToQuizRedirect from "./QuizEngine/ProfileToQuizRedirect";
 import NoMatch from "./StaticPages/NoMatch";
 import PlayQuiz from "./QuizEngine/PlayQuiz";
+import ContestAQuestion from "./QuizEngine/ContestAQuestion";
 
 import QuizContext from "./context/quizContext";
 
 import * as routes from "../constants/routes";
-// import { db } from "../firebase";
 import { setMaxScore } from "../redux/reducers/streak";
 import GameHome from "./QuizEngine/GameHome";
 
@@ -230,28 +226,7 @@ class App extends Component {
             {/* Quiz Routes */}
             <Route exact path={routes.GAME} component={GameHome} />
             <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
-            <Route
-              exact
-              path={routes.QUIZ}
-              render={(props) => (
-                <Quiz
-                  {...props}
-                  storeScore={this.storeScore}
-                  signedInUser={this.state.signedInUser}
-                />
-              )}
-            />
-            <Route exact path={routes.QUIZ_REDIRECT} component={QuizRedirect} />
-            <Route
-              exact
-              path={routes.PROFILE_TO_QUIZ_REDIRECT}
-              component={ProfileToQuizRedirect}
-            />
-            <Route
-              exact
-              path={routes.ARCHIVED_QUIZ}
-              render={(props) => <ArchivedQuiz {...props} />}
-            />
+            <Route exact path={routes.CONTEST} component={ContestAQuestion} />
             <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
             <Route exact path={routes.ABOUT} component={About} />
             <Route
@@ -267,7 +242,7 @@ class App extends Component {
             <Route exact path={routes.REVIEW} component={ReviewQuestions} />
             <Route
               exact
-              path={routes.CONTEST}
+              path={routes.REVIEW_CONTEST}
               component={ReviewContestedQuestions}
             />
             <Route
