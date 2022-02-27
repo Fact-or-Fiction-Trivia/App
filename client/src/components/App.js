@@ -51,6 +51,9 @@ const theme = createTheme({
       main: "#FFDF00",
     },
   },
+  typography: {
+    fontFamily: ["Quicksand"],
+  },
   overrides: {
     MuiTooltip: {
       tooltip: {
