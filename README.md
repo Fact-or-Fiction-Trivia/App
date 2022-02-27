@@ -11,7 +11,7 @@ To get started, pull a fresh version of the `main` branch. If you don't already 
 
 Yarn 2 allows us to access the `workspaces` functionality, which lets us run the `server` and `client` separately in development mode while supporting a single-port version in production.
 
-You will need to run `yarn` in the main project folder, and inside both the `server` and `client` folders, since each piece of the codebase has its own dependencies.
+You will only need to run `yarn` in the main project folder - this will automatically install dependencies for the server and client folders.
 
 ### Running the Server
 
