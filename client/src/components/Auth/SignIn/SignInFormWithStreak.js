@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {
-  authenticate,
-  authenticateWithStreak,
-} from "../../../redux/reducers/auth";
+import { authenticateWithStreak } from "../../../redux/reducers/auth";
 
 // UI
 import TextField from "@material-ui/core/TextField";
@@ -17,7 +14,7 @@ const SignInFormWithStreak = ({
   setLongestStreak,
   streak,
 }) => {
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -72,14 +69,6 @@ const SignInFormWithStreak = ({
       {error && <p>{error.message}</p>}
     </form>
   );
-};
-
-const mapSignup = (state) => {
-  return {
-    name: "signup",
-    displayName: "Sign Up",
-    error: state.auth.error,
-  };
 };
 
 const mapDispatch = (dispatch) => {

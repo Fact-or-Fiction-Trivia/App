@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import "./quiz.css";
 
 const TimerBar = ({ timer, increaseStreak, answered, question }) => {
   const [value, setValue] = useState(0);

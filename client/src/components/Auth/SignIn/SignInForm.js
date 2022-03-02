@@ -14,7 +14,7 @@ const SignInFormBase = ({
   setLongestStreak,
   callback,
 }) => {
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -69,14 +69,6 @@ const SignInFormBase = ({
       {error && <p>{error.message}</p>}
     </form>
   );
-};
-
-const mapSignup = (state) => {
-  return {
-    name: "signup",
-    displayName: "Sign Up",
-    error: state.auth.error,
-  };
 };
 
 const mapDispatch = (dispatch) => {
