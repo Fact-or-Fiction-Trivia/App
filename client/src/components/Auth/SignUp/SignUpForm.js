@@ -115,7 +115,7 @@ class SignUpFormBase extends Component {
               );
             }
             trackEvent("account", "Sign up with email and password", "SIGN_UP");
-            history.push(routes.HOME);
+            history.push(routes.GAME); //todo: figure out whether this is still used and where it should go
           })
           .catch((error) => {
             this.setState(byPropKey("error", error));

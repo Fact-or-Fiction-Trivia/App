@@ -294,7 +294,7 @@ class NavigationAuthBase extends Component {
       <div className={styles.root}>
         <AppBar position="fixed" className={styles.appBar}>
           <Toolbar style={{ minHeight: "64px" }}>
-            <Link to={routes.HOME} style={{ textDecoration: "none" }}>
+            <Link to={routes.LANDING} style={{ textDecoration: "none" }}>
               <img
                 src={Logo}
                 alt="PolitIQ"
