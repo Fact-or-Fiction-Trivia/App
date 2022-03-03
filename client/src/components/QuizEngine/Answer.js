@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import classNames from "classnames";
 import Button from "../Button/Button";
 import styles from "./Answer.module.scss";
+import { getQuestionPercentCorrect } from "../../redux/reducers/question";
 
-const Answer = ({ handleContinue, isCorrect, question }) => {
+const Answer = ({
+  handleContinue,
+  isCorrect,
+  question,
+  questionPercentage,
+  getPercentage,
+}) => {
+  useEffect(() => {
+    getPercentage(question.id);
+  }, []);
   const handleContestQuestion = () => {
     alert("Coming Soon");
   };
@@ -30,6 +41,9 @@ const Answer = ({ handleContinue, isCorrect, question }) => {
           Learn more
         </a>
       </div>
+      <div className={styles.textContainer}>
+        {questionPercentage}% of players answered this question correctly.
+      </div>
 
       <div className={styles.buttonContainer}>
         <Button onClick={() => handleContinue()} variant="primary">
@@ -46,4 +60,19 @@ const Answer = ({ handleContinue, isCorrect, question }) => {
   );
 };
 
-export default Answer;
+const mapState = (state) => {
+  const { questionPercentage } = state.question;
+  return {
+    questionPercentage,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    getPercentage(questionId) {
+      dispatch(getQuestionPercentCorrect(questionId));
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(Answer);

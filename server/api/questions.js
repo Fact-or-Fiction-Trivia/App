@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 const {
   Op,
-  models: { User, Question, Tag },
+  models: { User, Question, Tag, UserAnswered },
 } = require("../db");
 
 const { requireTokenOptional } = require("./middleware");
@@ -60,6 +60,29 @@ router.get("/:questionId", async (req, res, next) => {
   try {
     const { questionId } = req.params;
     res.json(await Question.findByPk(questionId));
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /:questionId
+ * Question with question ID
+ */
+router.get("/:questionId/percentage", async (req, res, next) => {
+  try {
+    const { questionId } = req.params;
+    res.json(
+      await UserAnswered.findAll({
+        where: { questionId },
+      }).then((answeredQuestions) => {
+        const numTotal = answeredQuestions.length;
+        const numTrue = answeredQuestions
+          .map((q) => q.answeredCorrectly)
+          .filter((correct) => correct).length;
+        return (numTrue / numTotal) * 100;
+      })
+    );
   } catch (err) {
     next(err);
   }
