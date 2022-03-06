@@ -1,0 +1,62 @@
+@import "../../variables.scss";
+
+.container {
+  margin: calc($nav-height + 1rem) 1rem 1rem 1rem;
+  max-width: 900px;
+  padding: 1rem;
+
+  @media (min-width: $breakpoint-sm) {
+    margin: calc($nav-height + 3rem) auto 3rem auto;
+    padding: 3rem;
+  }
+}
+
+.question {
+  margin: 3rem auto 1rem auto;
+  @media (min-width: $breakpoint-sm) {
+    margin: 1.5rem auto;
+  }
+
+  h2 {
+    color: $color-primary;
+    display: inline;
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+  }
+}
+
+.tag {
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px rgba($color-black, 0.1);
+  color: $color-white;
+  font-weight: bold;
+  margin-top: 1.6rem;
+  margin-bottom: 1.2rem;
+  max-width: 5rem;
+  margin-right: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.factTag {
+  background-color: $color-primary;
+}
+
+.fictionTag {
+  background-color: $color-black;
+}
+
+.explanation {
+  margin-bottom: 1rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+
+.postSubmit {
+  min-height: 26rem;
+  margin-top: 6rem;
+  text-align: center;
+}
