@@ -1,7 +1,8 @@
 module.exports = {
-  User: require("./User"),
+  ContestedQuestion: require("./ContestedQuestion"),
   Question: require("./Question"),
-  Tag: require("./Tag"),
   Streak: require("./Streak"),
+  Tag: require("./Tag"),
+  User: require("./User"),
   UserAnswered: require("./UserAnswered"),
 };

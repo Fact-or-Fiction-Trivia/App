@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -6,42 +6,40 @@ import { connect } from "react-redux";
 import { fetchQuestions } from "../../redux/reducers/question";
 import styles from "./ContestAQuestion.module.scss";
 import classNames from "classnames";
+import { createContestedQuestion } from "../../redux/reducers/contestQuestion";
 
-class ContestAQuestion extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      contestedQuestion: "",
-      issue: "",
-      source: "",
-      submitted: false,
-    };
-  }
+const ContestAQuestion = ({
+  getQuestions,
+  isLoggedIn,
+  question,
+  submitContest,
+}) => {
+  const [issue, setIssue] = useState("");
+  const [source, setSource] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-  componentDidMount() {
-    if (!this.props.question) {
-      this.props.getQuestions();
+  useEffect(() => {
+    if (!question) {
+      getQuestions();
     }
-  }
+  }, []);
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+  const handleSubmit = () => {
+    setSubmitted(true);
+    if (source !== "" && issue !== "") {
+      submitContest({
+        issue,
+        source,
+        questionId: question.id,
+      });
+    }
   };
 
-  handleSubmit = () => {
-    this.setState({
-      submitted: true,
-    });
-  };
-
-  backToQuiz = () => {
+  const backToQuiz = () => {
     // todo
   };
 
-  renderQ = () => {
-    const { question } = this.props;
+  const renderQ = () => {
     return (
       <>
         <div className={styles.question}>
@@ -69,90 +67,83 @@ class ContestAQuestion extends Component {
     );
   };
 
-  back = () => {
-    if (this.props.atEndOfQuiz) {
-      this.props.back();
-    } else {
-      localStorage.removeItem("state");
-      window.close();
-    }
-  };
-
-  render() {
-    return (
-      <Paper className={styles.container}>
-        {this.state.submitted ? (
-          <>
-            <h1>Thank you for your input!</h1>
-            <p>
-              The Fact or Fiction team will review your submission. If we accept
-              your contest, <span style={{ fontWeight: "bold" }}>2 points</span>{" "}
-              will be added to your score.{" "}
-            </p>
-            <Button
-              color="primary"
-              variant="contained"
-              style={{ marginTop: "3vh" }}
-              onClick={this.backToQuiz}
-            >
-              Back to Quiz
-            </Button>
-          </>
-        ) : (
-          <>
-            <h1>Contest a Question</h1>
-            <p>
-              Think you found a mistake? Let us know below. You can contest each
-              question once. Please provide a credible source to back up your
-              explanation.
-            </p>
-            <div>{this.renderQ()}</div>
-
-            {this.props.question ? (
-              <div>
-                <TextField
-                  id="standard-multiline-flexible"
-                  label="Explain the issue with this question"
-                  multiline
-                  onChange={this.handleChange}
-                  margin="normal"
-                  name="issue"
-                  fullWidth
-                />
-                <TextField
-                  label="Provide a credible source"
-                  fullWidth
-                  onChange={this.handleChange}
-                  margin="normal"
-                  name="source"
-                />
-                <div className={styles.buttonContainer}>
-                  <Button
-                    color="primary"
-                    variant="outline"
-                    onClick={this.backToQuiz}
-                  >
-                    Back to Game
-                  </Button>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={this.handleSubmit}
-                    disabled={
-                      this.state.issue === "" || this.state.source === ""
-                    }
-                  >
-                    Submit
-                  </Button>
-                </div>
-              </div>
-            ) : null}
-          </>
-        )}
-      </Paper>
-    );
+  if (!isLoggedIn) {
+    alert("you must be logged in for this");
   }
-}
+
+  return (
+    <Paper className={styles.container}>
+      {submitted ? (
+        <>
+          <h1>Thank you for your input!</h1>
+          <p>
+            The Fact or Fiction team will review your submission. If we accept
+            your contest, <span style={{ fontWeight: "bold" }}>2 points</span>{" "}
+            will be added to your score.{" "}
+          </p>
+          <Button
+            color="primary"
+            variant="contained"
+            style={{ marginTop: "3vh" }}
+            onClick={() => backToQuiz()}
+          >
+            Back to Quiz
+          </Button>
+        </>
+      ) : (
+        <>
+          <h1>Contest a Question</h1>
+          <p>
+            Think you found a mistake? Let us know below. You can contest each
+            question once. Please provide a credible source to back up your
+            explanation.
+          </p>
+          <div>{renderQ()}</div>
+
+          {question ? (
+            <div>
+              <TextField
+                id="standard-multiline-flexible"
+                label="Explain the issue with this question"
+                multiline
+                onChange={(e) => setIssue(e.target.value)}
+                margin="normal"
+                name="issue"
+                fullWidth
+                value={issue}
+              />
+              <TextField
+                label="Provide a credible source"
+                fullWidth
+                onChange={(e) => setSource(e.target.value)}
+                margin="normal"
+                name="source"
+                value={source}
+              />
+              <div className={styles.buttonContainer}>
+                <Button
+                  color="primary"
+                  variant="outline"
+                  onClick={() => backToQuiz()}
+                >
+                  Back to Game
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleSubmit}
+                  disabled={issue === "" || source === ""}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+          ) : null}
+        </>
+      )}
+    </Paper>
+  );
+};
 
 const mapState = (state) => {
   const { questions } = state.question;
@@ -170,6 +161,9 @@ const mapDispatch = (dispatch) => {
     // TODO: remove this or only call it in app component - we don't want it to get called repeatedly
     getQuestions() {
       dispatch(fetchQuestions());
+    },
+    submitContest(contest) {
+      dispatch(createContestedQuestion(contest));
     },
   };
 };
