@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { me } from "../redux/reducers/auth";
-import "./App.css";
+import "./App.scss";
 
 import Sponsor from "./StaticPages/sponsor";
 import Navigation from "./Navigation/Navigation";
@@ -16,7 +16,6 @@ import LandingPage from "./StaticPages/Landing";
 import SignUpPage from "./Auth/SignUp/SignUpPage";
 import SignInPage from "./Auth/SignIn/SignInPage";
 import PasswordForgetPage from "./Auth/PasswordForget";
-import HomePage from "./StaticPages/HomePage";
 import ProfilePage from "./Profile/Profile";
 import Footer from "./Footer";
 import AdminDashboard from "./AdminDashboard/AdminDashboard";
@@ -41,7 +40,7 @@ import GameHome from "./QuizEngine/GameHome";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#b359f8",
+      main: "#993bed",
       light: "#C790F1",
     },
     secondary: {
@@ -183,14 +182,6 @@ class App extends Component {
                 />
               )}
             />
-            <Route
-              exact
-              path={routes.HOME}
-              render={(props) => (
-                <HomePage {...props} signedInUser={this.state.signedInUser} />
-              )}
-            />
-
             {/* Admin Dashboard Routes */}
             <Route
               exact
