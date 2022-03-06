@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "./Question.module.scss";
-import "./quiz.css";
 import TimerBar from "./TimerBar";
 
 const Question = ({

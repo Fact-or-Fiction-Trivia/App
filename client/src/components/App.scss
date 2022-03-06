@@ -1,3 +1,5 @@
+@import "../variables.scss";
+
 body {
   background-color: lightgray;
   -webkit-user-select: none;
@@ -7,30 +9,6 @@ body {
 
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: auto;
-  min-width: 80px;
-  width: 10vw;
-  max-width: 100px;
-  margin-right: 2vw;
-  border-bottom: 1px solid black;
-  margin-bottom: 1vw;
-  margin-top: 1vw;
-}
-
-.App-header {
-  background-color: #282c34;
-  max-height: 10vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 .footer {
@@ -53,7 +31,9 @@ body {
   margin-left: 4vw;
   margin-right: 4vw;
 }
-.description > h3, .links > h3, .sharing > h3 {
+.description > h3,
+.links > h3,
+.sharing > h3 {
   font-size: 16px;
 }
 
@@ -68,11 +48,11 @@ body {
   font-size: 14px;
 }
 .links > a:hover {
-  color: #a54ee8;
+  color: $color-primary-dark;
 }
 
 h3 {
-  color: #a54ee8;
+  color: $color-primary;
   margin-bottom: 1vh;
 }
 
@@ -84,12 +64,12 @@ h3 {
 }
 
 .description > a {
-  color: #BB7AEE;
+  color: $color-primary;
   text-decoration: none;
 }
 
 .description > a:hover {
-  color: #DDBDF6;
+  color: $color-primary-light;
 }
 
 .bottom-nav {
@@ -97,37 +77,20 @@ h3 {
 }
 
 hr {
-  border: 1px solid rgba(45, 45, 45, 0.80);
+  border: 1px solid rgba(45, 45, 45, 0.8);
   margin-left: auto;
   margin-right: auto;
   width: 80%;
 }
 
 @media (max-width: 680px) {
-  .description, .sharing, .links {
+  .description,
+  .sharing,
+  .links {
     display: none;
   }
   .footer {
     height: 5vh;
-    /* position: fixed; */
-  }
-  .bottom-nav {
-    display: flex;
-    flex-direction: row;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .bottom-nav > a {
-    color: white;
-    text-decoration: none;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    border-left: 1px solid #BB7AEE;
-  }
-  .bottom-nav > a:hover {
-    text-decoration: underline;
   }
   #play {
     border-left: none;
@@ -166,7 +129,6 @@ hr {
     margin-bottom: 23vh;
   }
 }
-
 
 .mobile-only {
   display: none;

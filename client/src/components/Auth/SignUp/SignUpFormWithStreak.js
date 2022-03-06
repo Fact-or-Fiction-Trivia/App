@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {
-  authenticate,
-  authenticateWithStreak,
-  signupWithStreak,
-} from "../../../redux/reducers/auth";
+import { signupWithStreak } from "../../../redux/reducers/auth";
 
 // UI
 import {
@@ -24,7 +20,7 @@ const SignUpFormWithStreak = ({
   setLongestStreak,
   streak,
 }) => {
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -128,14 +124,6 @@ const SignUpFormWithStreak = ({
       {error && <p>{error.message}</p>}
     </form>
   );
-};
-
-const mapSignup = (state) => {
-  return {
-    name: "signup",
-    displayName: "Sign Up",
-    error: state.auth.error,
-  };
 };
 
 const mapDispatch = (dispatch) => {

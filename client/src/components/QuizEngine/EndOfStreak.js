@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
-import SignInForm from "../Auth/SignIn/SignInForm";
 import SignInFormWithStreak from "../Auth/SignIn/SignInFormWithStreak";
 import SignUpFormWithStreak from "../Auth/SignUp/SignUpFormWithStreak";
 import Button from "../Button/Button";
