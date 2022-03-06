@@ -15,7 +15,6 @@ const { requireToken } = require("./middleware");
 router.post("/", requireToken, async (req, res, next) => {
   try {
     const { issue, questionId, source } = req.body;
-    console.log({ issue, questionId, source, user: req.user.id }, "the values");
     await ContestedQuestion.create({
       issue,
       questionId,
