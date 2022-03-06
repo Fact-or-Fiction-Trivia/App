@@ -132,17 +132,7 @@ class App extends Component {
           </QuizContext.Consumer>
 
           <Switch>
-            <Route
-              exact
-              path={routes.LANDING}
-              render={() =>
-                this.props.isLoggedIn ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <LandingPage />
-                )
-              }
-            />
+            <Route exact path={routes.LANDING} render={() => <LandingPage />} />
             <Route
               exact
               path={routes.SIGN_UP}
