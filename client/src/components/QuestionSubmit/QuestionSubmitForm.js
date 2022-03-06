@@ -13,23 +13,31 @@ import {
 
 import { LANDING } from "../../constants/routes";
 import "./form.css";
+import { submitQuestionByUser } from "../../redux/reducers/question";
 
-const QuestionSubmitForm = ({ isLoggedIn }) => {
-  const [question, setQuestion] = useState("");
+const QuestionSubmitForm = ({ isLoggedIn, submitQuestion }) => {
+  const [text, setText] = useState("");
   const [answer, setAnswer] = useState(undefined);
   const [source, setSource] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [explanation, setExplanation] = useState("");
 
   const handleSubmit = () => {
     setSubmitted(true);
-    // todo
+    submitQuestion({
+      answer,
+      explanation,
+      source,
+      text,
+    });
   };
 
   const reset = () => {
-    setQuestion("");
+    setText("");
     setAnswer(undefined);
     setSource("");
     setSubmitted(false);
+    setExplanation("");
   };
 
   if (!isLoggedIn) {
@@ -80,21 +88,23 @@ const QuestionSubmitForm = ({ isLoggedIn }) => {
           </p>
           <form>
             <TextField
-              margin="normal"
               fullWidth
-              value={question}
-              onChange={(event) => setQuestion(event.target.value)}
-              type="text"
               label="Question"
+              margin="normal"
+              onChange={(event) => setText(event.target.value)}
+              type="text"
+              value={text}
+              variant="outlined"
             />
 
             <Select
               fullWidth
-              margin="normal"
-              value={answer}
               label="Answer"
               labelId="submit-answer"
+              margin="normal"
               onChange={(event) => setAnswer(event.target.value)}
+              value={answer}
+              variant="outlined"
             >
               <MenuItem default value={undefined}>
                 <em>Select the correct answer</em>
@@ -103,19 +113,34 @@ const QuestionSubmitForm = ({ isLoggedIn }) => {
               <MenuItem value={"Fiction"}>Fiction</MenuItem>
             </Select>
             <FormHelperText>Is this statement Fact or Fiction?</FormHelperText>
-
             <TextField
-              margin="normal"
               fullWidth
-              value={source}
+              label="Explain why this answer is correct"
+              margin="normal"
+              multiline
+              onChange={(event) => setExplanation(event.target.value)}
+              rows={4}
+              type="text"
+              value={explanation}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Question source"
+              margin="normal"
               onChange={(event) => setSource(event.target.value)}
               type="text"
-              label="Please provide a link to a source verifying that this information is correct."
+              value={source}
+              variant="outlined"
             />
+            <FormHelperText>
+              Please provide a link to a source verifying that this information
+              is correct.
+            </FormHelperText>
           </form>
           <Button
             onClick={handleSubmit}
-            disabled={question === "" || answer === undefined || source === ""}
+            disabled={text === "" || answer === undefined || source === ""}
             color="primary"
             variant="contained"
             id="form-submit"
@@ -137,6 +162,10 @@ const mapState = (state) => {
   };
 };
 const mapDispatch = (dispatch) => {
-  return {};
+  return {
+    submitQuestion(question) {
+      dispatch(submitQuestionByUser(question));
+    },
+  };
 };
 export default connect(mapState, mapDispatch)(QuestionSubmitForm);
