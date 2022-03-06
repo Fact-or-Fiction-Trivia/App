@@ -74,7 +74,7 @@ const ContestAQuestion = ({
   return (
     <Paper className={styles.container}>
       {submitted ? (
-        <>
+        <div className={styles.postSubmit}>
           <h1>Thank you for your input!</h1>
           <p>
             The Fact or Fiction team will review your submission. If we accept
@@ -89,7 +89,7 @@ const ContestAQuestion = ({
           >
             Back to Quiz
           </Button>
-        </>
+        </div>
       ) : (
         <>
           <h1>Contest a Question</h1>
