@@ -10,6 +10,11 @@ const ContestedQuestion = db.define("contested-question", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  status: {
+    type: Sequelize.ENUM("Approved", "Denied", "Pending", "Withdrawn"),
+    allowNull: false,
+    defaultValue: "Pending",
+  },
 });
 
 module.exports = ContestedQuestion;
