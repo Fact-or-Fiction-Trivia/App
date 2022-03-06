@@ -2,7 +2,14 @@
 const { Op } = require("sequelize");
 const db = require("./db");
 
-const { User, Question, Tag, Streak, UserAnswered } = require("./models");
+const {
+  ContestedQuestion,
+  User,
+  Question,
+  Tag,
+  Streak,
+  UserAnswered,
+} = require("./models");
 
 //User Submitted Questions
 User.hasMany(Question);
@@ -20,14 +27,21 @@ Streak.hasMany(UserAnswered);
 Question.belongsToMany(Tag, { through: "question-tags" });
 Tag.belongsToMany(Question, { through: "question-tags" });
 
+// ContestedQuestion Table
+User.hasMany(ContestedQuestion);
+Question.hasMany(ContestedQuestion);
+
+ContestedQuestion.belongsTo(Question);
+
 module.exports = {
   db,
   Op,
   models: {
-    User,
+    ContestedQuestion,
     Question,
-    Tag,
-    UserAnswered,
     Streak,
+    Tag,
+    User,
+    UserAnswered,
   },
 };

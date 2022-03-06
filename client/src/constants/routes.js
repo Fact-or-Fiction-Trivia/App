@@ -11,20 +11,16 @@ export const ADD_TO_HOMESCREEN = "/add-to-homescreen";
 // game routes
 export const GAME = "/game";
 export const PLAY_GAME = "/game/play";
-export const QUIZ_REDIRECT = "/quiz/quiz/:id";
-export const LATEST_QUIZ = "/latest";
-export const PROFILE_TO_QUIZ_REDIRECT = "/profile/quiz/:id";
 export const SUBMIT_QUESTION = "/submit-question";
 export const LEADERBOARD = "/leaderboard";
 export const ABOUT = "/about";
-export const QUIZ = "/quiz/:id";
-export const ARCHIVED_QUIZ = "/archived/:id";
 export const USER_PROFILES = "/profile/:uid";
+export const CONTEST = "/contest";
 
 // admn routes
 export const ADMIN_DASHBOARD = "/admin";
 export const REVIEW = "/review";
-export const CONTEST = "/contest";
+export const REVIEW_CONTEST = "/review-contest";
 export const CREATE_NEW_QUIZ = "/admin/create-new-quiz";
 export const MANAGE_QUIZZES = "/admin/manage-quizzes";
 export const MANAGE_USERS = "/admin/manage-users";
