@@ -5,7 +5,7 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 
 import { app, provider, db } from "../../firebase";
-import { HOME } from "../../constants/routes";
+import { LANDING } from "../../constants/routes";
 import { trackEvent } from "../../utils/googleAnalytics";
 
 const ERROR_CODE_ACCOUNT_EXISTS =
@@ -37,7 +37,7 @@ class FacebookAuth extends Component {
   };
 
   redirect = () => {
-    this.props.history.push(HOME);
+    this.props.history.push(LANDING);
   };
 
   doSignInWithFacebook = () => {
@@ -87,7 +87,7 @@ class FacebookAuth extends Component {
               const date = moment().format("YYYY-MM-DD");
               db.lastActive(uid, date);
               this.props.getSignedInUser(uid);
-              this.props.history.push(HOME);
+              this.props.history.push(LANDING);
 
               if (this.props.scoreObject && this.props.scoreObject === {}) {
                 db.setScore(
@@ -120,7 +120,7 @@ class FacebookAuth extends Component {
     this.doSignInWithFacebook()
       .then(() => {
         this.setState({ error: null });
-        this.props.history.push(HOME);
+        this.props.history.push(LANDING);
       })
       .catch((error) => {
         this.setState({ error });
