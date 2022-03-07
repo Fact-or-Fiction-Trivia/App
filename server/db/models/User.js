@@ -16,33 +16,35 @@ const User = db.define("user", {
       }
       const [firstF, ...restF] = this.firstName;
       const [firstL, ...restL] = this.lastName;
-      return `${firstF.toUpperCase() + restF.join("")} ${firstL.toUpperCase() +
-        restL.join("")}`;
-    }
+      return `${firstF.toUpperCase() + restF.join("")} ${
+        firstL.toUpperCase() + restL.join("")
+      }`;
+    },
   },
   email: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
     validate: {
-      isEmail: true
-    }
+      isEmail: true,
+    },
   },
   password: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   maxScore: {
     type: Sequelize.STRING,
-    defaultValue: 0
+    defaultValue: 0,
   },
   role: {
     type: Sequelize.ENUM("User", "Admin"),
-    allowNull: false
+    allowNull: false,
+    defaultValue: "User",
   },
   affiliation: {
     type: Sequelize.ENUM("Democrat", "Republican", "Independent", "Other"),
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = User;
@@ -50,26 +52,26 @@ module.exports = User;
 /**
  * instanceMethods
  */
-User.prototype.correctPassword = function(candidatePwd) {
+User.prototype.correctPassword = function (candidatePwd) {
   //we need to compare the plain version to an encrypted version of the password
   return bcrypt.compare(candidatePwd, this.password);
 };
 
-User.prototype.generateToken = function() {
+User.prototype.generateToken = function () {
   return jwt.sign({ id: this.id }, process.env.JWT);
 };
 
-User.prototype.ownsAgent = async function(agentId) {
+User.prototype.ownsAgent = async function (agentId) {
   const isOwner = await this.hasAgent(agentId);
   if (!isOwner)
     throw Error(`User with ID ${this.id}does not own Agent with ID ${agentId}`);
 };
 
-User.prototype.generateInviteId = function() {
+User.prototype.generateInviteId = function () {
   return jwt.sign({ id: this.id, timestamp: Date.now() }, process.env.JWT);
 };
 
-User.prototype.setMaxScore = async function(score) {
+User.prototype.setMaxScore = async function (score) {
   if (score > this.maxScore) {
     await this.update({ maxScore: score });
   }
@@ -78,7 +80,7 @@ User.prototype.setMaxScore = async function(score) {
 /**
  * classMethods
  */
-User.authenticate = async function({ email, password }) {
+User.authenticate = async function ({ email, password }) {
   const user = await this.findOne({ where: { email } });
   if (!user || !(await user.correctPassword(password))) {
     const error = Error("Incorrect email/password");
@@ -88,7 +90,7 @@ User.authenticate = async function({ email, password }) {
   return user.generateToken();
 };
 
-User.findByToken = async function(token) {
+User.findByToken = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = await User.findByPk(id);
@@ -103,7 +105,7 @@ User.findByToken = async function(token) {
   }
 };
 
-User.findByTokenOptional = async function(token) {
+User.findByTokenOptional = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = await User.findByPk(id);
@@ -116,7 +118,7 @@ User.findByTokenOptional = async function(token) {
   }
 };
 
-User.isAdmin = async function(token) {
+User.isAdmin = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = await User.findByPk(id);
@@ -134,7 +136,7 @@ User.isAdmin = async function(token) {
     throw error;
   }
 };
-User.validateInvitation = async function(inviteId) {
+User.validateInvitation = async function (inviteId) {
   try {
     const { id, timestamp } = await jwt.verify(inviteId, process.env.JWT);
     if (Date.now() - timestamp > 600000) {
@@ -156,7 +158,7 @@ User.validateInvitation = async function(inviteId) {
 /**
  * hooks
  */
-const hashPassword = async user => {
+const hashPassword = async (user) => {
   // console.log("hello", user.changed("password"), user);
   //in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed("password")) {
@@ -166,4 +168,4 @@ const hashPassword = async user => {
 
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
-User.beforeBulkCreate(users => Promise.all(users.map(hashPassword)));
+User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));

@@ -1,6 +1,8 @@
 // auth routes
 export const SIGN_UP = "/signup";
 export const SIGN_IN = "/signin";
+export const SIGN_IN_WITH_STREAK = "/signin/streak";
+export const SIGN_UP_WITH_STREAK = "/signup/streak";
 export const LANDING = "/";
 export const HOME = "/home";
 export const PROFILE = "/profile";
