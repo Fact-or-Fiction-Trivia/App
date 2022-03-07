@@ -64,23 +64,24 @@ export const authenticate = createAsyncThunk(
 
 export const authenticateWithStreak = createAsyncThunk(
   "auth/authenticateWithStreak",
-  async ({ formData, setLongestStreak, streak }) => {
+  async ({ formData, streak, setLongestStreak, midAuthentication }) => {
     await axios.post(`/auth/login`, formData);
     await axios.post(`/api/streaks`, streak);
     const { data } = await axios.get(`/auth/me`);
     setLongestStreak(data.maxScore);
+    midAuthentication();
     return data;
   }
 );
 
 export const signupWithStreak = createAsyncThunk(
   "auth/signupWithStreak",
-  async ({ formData, setLongestStreak, streak }) => {
+  async ({ formData, streak, setLongestStreak, midAuthentication }) => {
     await axios.post(`/auth/signup`, formData);
     await axios.post(`/api/streaks`, streak);
     const { data } = await axios.get("/auth/me", { credentials: "include" });
     setLongestStreak(data.maxScore);
-    // history.push("/");
+    midAuthentication();
     return data;
   }
 );
@@ -150,6 +151,14 @@ const authSlice = createSlice({
         alert("Incorrect Email and/or Password");
       })
       .addCase(authenticateWithStreak.fulfilled, (state, action) => {
+        state.auth = action.payload;
+        state.loggedIn = true;
+        state.preCheck = true;
+        state.validInvitation = null;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(signupWithStreak.fulfilled, (state, action) => {
         state.auth = action.payload;
         state.loggedIn = true;
         state.preCheck = true;

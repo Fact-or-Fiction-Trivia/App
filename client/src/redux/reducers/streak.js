@@ -25,6 +25,7 @@ const INIT_STATE = {
   streakEnded: false,
   isAnswering: true,
   answeredCorrectly: undefined,
+  midAuthentication: false,
   maxStreak: 0,
   isLoading: false,
   hasError: false,
@@ -46,6 +47,9 @@ const streakSlice = createSlice({
     },
     setMaxScore(state, action) {
       return { ...state, maxStreak: action.payload };
+    },
+    setMidAuth(state, action) {
+      return { ...state, midAuthentication: true };
     },
     setIsAnswering(state, action) {
       return {
@@ -97,8 +101,14 @@ const streakSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setNew, setMaxScore, addToStreak, setIsAnswering, resetQuiz } =
-  streakSlice.actions;
+export const {
+  setNew,
+  setMaxScore,
+  addToStreak,
+  setIsAnswering,
+  resetQuiz,
+  setMidAuth,
+} = streakSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

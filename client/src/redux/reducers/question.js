@@ -8,7 +8,8 @@ export const fetchQuestions = createAsyncThunk(
   async (tag) => {
     const answeredQuestions = localStorage.hasOwnProperty("answeredQuestions")
       ? JSON.parse(localStorage.getItem("answeredQuestions"))
-      : [];
+      : {};
+    console.log(answeredQuestions);
     const { data } = await axios.put(`/api/questions`, {
       answeredQuestions,
       tag,

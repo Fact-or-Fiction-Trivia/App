@@ -18,7 +18,8 @@ router.post("/login", async (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    const token = await User.authenticate(user);
+    const token = await user.generateToken();
+
     res.cookie(`token-${pkg.name}`, token, { maxAge: 432000000 });
     res.sendStatus(201);
   } catch (err) {
