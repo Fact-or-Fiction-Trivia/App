@@ -2,11 +2,10 @@
 const router = require("express").Router();
 
 const {
-  Op,
-  models: { User, Question, Tag, Streak, UserAnswered }
+  models: { User, Question, Streak, UserAnswered },
 } = require("../db");
 
-const { requireToken, isAgentOfUser } = require("./middleware");
+const { requireToken } = require("./middleware");
 
 /**
  * GET/:id/
@@ -32,14 +31,15 @@ router.post("/", requireToken, async (req, res, next) => {
     // Get all of the question this user has answered previously
     // and store them into an array of ids
     const answeredQuestionIds = await User.findByPk(req.user.id, {
-      include: [{ model: Question }]
+      include: [{ model: Question }],
     }).then(({ questions }) => questions.map(({ id }) => id));
 
     // Interate over each question in this streak
     for (const question of req.body) {
       // Check if this question has already been answered before
       const hasQuestion =
-        answeredQuestionIds.findIndex(it => it === question.questionId) !== -1;
+        answeredQuestionIds.findIndex((it) => it === question.questionId) !==
+        -1;
 
       // If this question has not been answered before
       // add it to the answeredQuestions array
@@ -74,7 +74,7 @@ router.post("/", requireToken, async (req, res, next) => {
       await UserAnswered.create({
         ...question,
         userId: req.user.id,
-        streakId: streak.id
+        streakId: streak.id,
       });
     }
 

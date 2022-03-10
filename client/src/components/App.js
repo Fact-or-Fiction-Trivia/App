@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { me } from "../redux/reducers/auth";
+
 import "./App.scss";
 
 import Sponsor from "./StaticPages/sponsor";
@@ -27,10 +23,9 @@ import ReviewContestedQuestions from "./AdminDashboard/ReviewContestedQuestions"
 import PublicProfile from "./Profile/PublicProfile";
 import PrivacyPolicy from "./StaticPages/PrivacyPolicy";
 import AddToHomescreen from "./StaticPages/AddToHomescreen";
-import QuizRedirect from "./QuizEngine/QuizRedirect";
-import ProfileToQuizRedirect from "./QuizEngine/ProfileToQuizRedirect";
 import NoMatch from "./StaticPages/NoMatch";
 import PlayQuiz from "./QuizEngine/PlayQuiz";
+import ContestAQuestion from "./QuizEngine/ContestAQuestion";
 
 import QuizContext from "./context/quizContext";
 
@@ -52,6 +47,9 @@ const theme = createTheme({
     default: {
       main: "#FFDF00",
     },
+  },
+  typography: {
+    fontFamily: ["Quicksand"],
   },
   overrides: {
     MuiTooltip: {
@@ -132,17 +130,7 @@ class App extends Component {
           </QuizContext.Consumer>
 
           <Switch>
-            <Route
-              exact
-              path={routes.LANDING}
-              render={() =>
-                this.props.isLoggedIn ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <LandingPage />
-                )
-              }
-            />
+            <Route exact path={routes.LANDING} render={() => <LandingPage />} />
             <Route
               exact
               path={routes.SIGN_UP}
@@ -230,12 +218,7 @@ class App extends Component {
             {/* Quiz Routes */}
             <Route exact path={routes.GAME} component={GameHome} />
             <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
-            <Route exact path={routes.QUIZ_REDIRECT} component={QuizRedirect} />
-            <Route
-              exact
-              path={routes.PROFILE_TO_QUIZ_REDIRECT}
-              component={ProfileToQuizRedirect}
-            />
+            <Route exact path={routes.CONTEST} component={ContestAQuestion} />
             <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
             <Route exact path={routes.ABOUT} component={About} />
             <Route
@@ -251,7 +234,7 @@ class App extends Component {
             <Route exact path={routes.REVIEW} component={ReviewQuestions} />
             <Route
               exact
-              path={routes.CONTEST}
+              path={routes.REVIEW_CONTEST}
               component={ReviewContestedQuestions}
             />
             <Route

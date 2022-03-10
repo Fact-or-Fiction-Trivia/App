@@ -6,7 +6,7 @@ const {
   models: { User, Question, Tag, UserAnswered },
 } = require("../db");
 
-const { requireTokenOptional } = require("./middleware");
+const { requireToken, requireTokenOptional } = require("./middleware");
 
 /**
  * GET /
@@ -31,6 +31,7 @@ router.put("/", requireTokenOptional, async (req, res, next) => {
             id: {
               [Op.notIn]: [...answeredQuestionIds, ...answeredQuestionsLocally],
             },
+            status: req.body.status,
           },
         })
       );
@@ -43,6 +44,7 @@ router.put("/", requireTokenOptional, async (req, res, next) => {
             : [Tag],
           where: {
             id: { [Op.notIn]: answeredQuestionsLocally },
+            status: req.body.status,
           },
         })
       );
@@ -84,6 +86,31 @@ router.get("/:questionId/percentage", async (req, res, next) => {
         return (numTrue / numTotal) * 100;
       })
     );
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /
+ * Create a new question - both user and admin-submitted
+ */
+router.post("/", requireToken, async (req, res, next) => {
+  try {
+    const { answer, expiration, explanation, source, status, tagId, text } =
+      req.body;
+    await Question.create({
+      answer,
+      expiration,
+      explanation,
+      source,
+      status,
+      tagId,
+      text,
+      userId: req.user.id,
+    });
+
+    res.send({ status: 200 });
   } catch (err) {
     next(err);
   }
