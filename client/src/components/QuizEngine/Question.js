@@ -3,20 +3,14 @@ import classNames from "classnames";
 import styles from "./Question.module.scss";
 import TimerBar from "./TimerBar";
 
-const Question = ({
-  handleAnswer,
-  question,
-  timer,
-  increaseStreak,
-  answered,
-}) => {
+const Question = ({ handleAnswer, question, timer, increaseStreak }) => {
   if (!question) return null;
+  console.log(question.id, "Question");
   return (
     <div>
       <TimerBar
         timer={timer}
         increaseStreak={increaseStreak}
-        answered={answered}
         question={question}
       />
       <h2>
