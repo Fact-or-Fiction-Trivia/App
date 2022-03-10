@@ -1,0 +1,206 @@
+@import "../../variables.scss";
+
+.container {
+  height: calc(100vh - ($nav-height + $footer-height + 2rem));
+  margin-top: $nav-height;
+  padding: 2rem;
+  text-align: center;
+  @media (min-width: $breakpoint-md) {
+    height: calc(100vh - ($nav-height + $footer-height + 8rem));
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $nav-height + 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.owl {
+  width: 300px;
+  margin-right: 0.5rem;
+
+  @media (min-width: $breakpoint-sm) {
+    width: 400px;
+  }
+}
+
+// animation styles
+
+.animationContainer {
+  position: relative;
+}
+
+$size: 100px;
+$sizeBig: 500px;
+$sizeBigMobile: 300px;
+$pad: 10px;
+$numSize: 100px;
+$totalAT: 4s;
+$contBr: 20px;
+
+$num1Len: 72.1554946899414;
+$num2Len: 136.02162170410156;
+$num3Len: 144.4256591796875;
+$numJoin1-2: 82.63925170898438;
+$numJoin2-3: 42.81303787231445;
+$numJoin3-0: 40;
+
+$totalLen: $num1Len + $num2Len + $num3Len + $numJoin1-2 + $numJoin2-3 +
+  $numJoin3-0;
+
+.countdown {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: $sizeBigMobile;
+  height: $size;
+  margin-top: -20px;
+  padding: $pad;
+  border-radius: 20px;
+  transform: translateX(-50%);
+
+  @media (min-width: $breakpoint-sm) {
+    width: $sizeBig;
+  }
+
+  &__inner {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__numbers {
+    overflow: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: $numSize;
+    height: $numSize;
+    margin-left: $numSize/-2;
+    margin-top: $numSize/-2;
+
+    &_path {
+      fill: none;
+      stroke-width: 10px;
+      stroke: #ffc300;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 0, $totalLen;
+      stroke-dashoffset: 0;
+      animation: numAnim $totalAT ease-in-out;
+      opacity: 0;
+      animation-delay: 0.5s;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: $sizeBigMobile;
+    margin-left: calc($sizeBigMobile/-2);
+    height: 100%;
+    text-align: center;
+    line-height: $size;
+    font-size: 100px;
+    color: #ffc300;
+    opacity: 0;
+    text-transform: uppercase;
+    letter-spacing: 15px;
+    transform: translateX(10px);
+    animation: hideText 5s forwards;
+    animation-delay: 0.5s;
+
+    @media (min-width: $breakpoint-sm) {
+      width: $sizeBig;
+      margin-left: calc($sizeBig/-2);
+    }
+  }
+}
+
+@keyframes contAnim {
+  15%,
+  100% {
+    margin-left: $sizeBig/-2;
+    width: $sizeBig;
+  }
+  25%,
+  90% {
+    margin-left: $size/-2;
+    width: $size;
+  }
+}
+
+@keyframes numAnim {
+  15% {
+    stroke-dasharray: 0, $totalLen;
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  25%,
+  41% {
+    opacity: 1;
+    stroke-dasharray: $num3Len, $totalLen;
+    stroke-dashoffset: -$numJoin3-0;
+  }
+  53%,
+  66% {
+    stroke-dasharray: $num2Len, $totalLen;
+    stroke-dashoffset: -$num3Len - $numJoin2-3 -$numJoin3-0;
+  }
+  76% {
+    stroke-dasharray: $num1Len + $numJoin1-2/2, $totalLen;
+    stroke-dashoffset: -$num3Len - $numJoin2-3 - $num2Len - $numJoin1-2 -$numJoin3-0;
+  }
+  88%,
+  100% {
+    stroke-dasharray: $num1Len, $totalLen;
+    stroke-dashoffset: -$num3Len - $numJoin2-3 - $num2Len - $numJoin1-2 -$numJoin3-0;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes countdownAnim {
+  15% {
+    border-radius: $contBr;
+    transform: rotate(0);
+  }
+  30%,
+  43% {
+    border-radius: 50%;
+    transform: rotate(360deg);
+  }
+
+  52%,
+  65% {
+    border-radius: 0;
+    transform: rotate(720deg);
+  }
+
+  78%,
+  90% {
+    border-radius: 50%;
+    transform: rotate(1080deg);
+  }
+
+  100% {
+    border-radius: $contBr;
+    transform: rotate(1440deg);
+  }
+}
+
+@keyframes hideText {
+  76% {
+    opacity: 0;
+  }
+  80%,
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { me } from "../redux/reducers/auth";
+
 import "./App.scss";
 
 import Sponsor from "./StaticPages/sponsor";
