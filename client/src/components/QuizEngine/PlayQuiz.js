@@ -25,7 +25,6 @@ const PlayQuiz = ({
   increaseStreak,
   isAnswering,
   answeredCorrectly,
-  answered,
   isLoggedIn,
   midAuthentication,
   maxStreak,
@@ -66,7 +65,7 @@ const PlayQuiz = ({
     });
 
     // Remove this question from the questions array on redux state.
-    answered(question.id);
+    // answered(question.id);
 
     // This action creator in the redux question slice also adds the
     // question id to localstorage so that the user will never see
@@ -137,7 +136,6 @@ const PlayQuiz = ({
                 handleAnswer={handleAnswer}
                 timer={timer}
                 increaseStreak={increaseStreak}
-                answered={answered}
               />
             ) : (
               <Answer
@@ -167,7 +165,6 @@ const mapState = (state) => {
   const isLoggedIn = !!auth.id;
   return {
     streak,
-
     streakLength: streak.filter((it) => it.answeredCorrectly).length,
     isAnswering,
     answeredCorrectly,
@@ -187,11 +184,9 @@ const mapDispatch = (dispatch) => {
     increaseStreak(data) {
       dispatch(addToStreak(data));
     },
-    nextQuestion() {
-      dispatch(setIsAnswering());
-    },
-    answered(questionId) {
+    nextQuestion(questionId) {
       dispatch(clearAnswer(questionId));
+      dispatch(setIsAnswering());
     },
     getQuestions() {
       dispatch(fetchQuestions());

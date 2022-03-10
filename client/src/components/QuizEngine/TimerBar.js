@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-const TimerBar = ({ timer, increaseStreak, answered, question }) => {
+const TimerBar = ({ timer, increaseStreak, question }) => {
   const [value, setValue] = useState(0);
   useEffect(() => {
     // Set the width of the div to 100% after the component has
@@ -18,7 +18,6 @@ const TimerBar = ({ timer, increaseStreak, answered, question }) => {
         questionId: question.id,
         answeredCorrectly: false,
       });
-      answered(question.id);
       // Timeout in a little over 5 seconds
     }, 5050);
   }, []);
