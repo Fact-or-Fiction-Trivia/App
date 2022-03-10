@@ -19,7 +19,7 @@ import * as routes from "../../constants/routes";
 import { connect } from "react-redux";
 import { reset } from "../../redux/reducers/auth";
 
-import Logo from "../logo1.1.ico";
+import Logo from "../../assets/images/FoFHorizontalLogo.png";
 
 // const Navigation = ({ clearStateOnSignout }) => {
 //   return (

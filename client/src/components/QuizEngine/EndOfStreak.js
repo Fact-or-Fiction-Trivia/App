@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
-import SignInFormWithStreak from "../Auth/SignIn/SignInFormWithStreak";
-import SignUpFormWithStreak from "../Auth/SignUp/SignUpFormWithStreak";
+// import SignInFormWithStreak from "../Auth/SignIn/SignInFormWithStreak";
+// import SignUpFormWithStreak from "../Auth/SignUp/SignUpFormWithStreak";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
+import { SIGN_IN_WITH_STREAK } from "../../constants/routes";
 
 const EndOfStreak = ({
   isLoggedIn,
@@ -33,34 +34,7 @@ const EndOfStreak = ({
         </div>
       ) : (
         <div className={styles.buttonContainer}>
-          {showSignIn.bool ? (
-            showSignIn.type === "signin" ? (
-              <SignInFormWithStreak
-                buttonCopy="Save My Score"
-                streak={streak}
-              />
-            ) : (
-              <SignUpFormWithStreak
-                buttonCopy="Save My Score"
-                streak={streak}
-              />
-            )
-          ) : (
-            <div className="d-flex flex-column">
-              <Button
-                variant="primary"
-                onClick={() => setShowSignIn({ bool: true, type: "signin" })}
-              >
-                Sign in to save your streak
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => setShowSignIn({ bool: true, type: "signup" })}
-              >
-                Sign up to save your streak
-              </Button>
-            </div>
-          )}
+          <Link to={SIGN_IN_WITH_STREAK}>Sign In</Link>
           <div className={styles.horizontalRule}>
             <span>or</span>
           </div>
