@@ -4,6 +4,8 @@ import classNames from "classnames";
 import Button from "../Button/Button";
 import styles from "./Answer.module.scss";
 import { getQuestionPercentCorrect } from "../../redux/reducers/question";
+import { Link } from "react-router-dom";
+import { CONTEST } from "../../constants/routes";
 
 const Answer = ({
   handleContinue,
@@ -13,6 +15,7 @@ const Answer = ({
   isLoadingQuestionDetails,
   getPercentage,
 }) => {
+  console.log(question.id, "Answer");
   useEffect(() => {
     getPercentage(question.id);
   }, []);
@@ -51,15 +54,16 @@ const Answer = ({
       </div>
 
       <div className={styles.buttonContainer}>
-        <Button onClick={() => handleContinue()} variant="primary">
+        <Button onClick={() => handleContinue(question.id)} variant="primary">
           {isCorrect ? "Keep Playing" : "Continue"}
         </Button>
-        <div
+        <Link to={CONTEST}>CHALLENGE this question</Link>
+        {/* <div
           className={classNames(styles.linkStyle, styles.challenge)}
           onClick={() => handleContestQuestion()}
         >
           Challenge this question
-        </div>
+        </div> */}
       </div>
     </>
   );
