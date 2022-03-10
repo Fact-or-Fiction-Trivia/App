@@ -23,7 +23,7 @@ const Question = db.define("question", {
     allowNull: true,
   },
   status: {
-    type: Sequelize.ENUM("Approved", "Denied", "Pending"),
+    type: Sequelize.ENUM("Approved", "Denied", "Pending", "Withdrawn"),
     allowNull: false,
     defaultValue: "Pending",
   },

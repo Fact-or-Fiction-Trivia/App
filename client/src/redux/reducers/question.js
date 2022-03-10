@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
 import axios from "../axiosInstance";
 
 export const fetchQuestions = createAsyncThunk(
@@ -13,6 +12,19 @@ export const fetchQuestions = createAsyncThunk(
     const { data } = await axios.put(`/api/questions`, {
       answeredQuestions,
       tag,
+      status: "Approved",
+    });
+
+    return data;
+  }
+);
+
+export const submitQuestionByUser = createAsyncThunk(
+  "question/submitQuestionByUser",
+  async (question) => {
+    const { data } = await axios.post("/api/questions", {
+      ...question,
+      status: "Pending",
     });
 
     return data;
@@ -32,6 +44,8 @@ const INIT_STATE = {
   questionPercentage: 0,
   isLoading: true,
   hasError: false,
+  isSubmittedLoading: false,
+  hasErrorOnSubmit: false,
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -87,6 +101,18 @@ const questionSlice = createSlice({
         state.questionPercentage = action.payload;
         state.isLoading = false;
         state.hasError = false;
+      })
+      .addCase(submitQuestionByUser.pending, (state, action) => {
+        state.isSubmittedLoading = true;
+        state.hasErrorOnSubmit = false;
+      })
+      .addCase(submitQuestionByUser.fulfilled, (state, action) => {
+        state.isSubmittedLoading = false;
+        state.hasErrorOnSubmit = false;
+      })
+      .addCase(submitQuestionByUser.rejected, (state, action) => {
+        state.isSubmittedLoading = false;
+        state.hasErrorOnSubmit = true;
       });
   },
 });
