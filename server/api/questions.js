@@ -78,7 +78,7 @@ router.get("/:questionId/percentage", async (req, res, next) => {
       await UserAnswered.findAll({
         where: { questionId },
       }).then((answeredQuestions) => {
-        if (!answeredQuestions.length) return 0;
+        if (!answeredQuestions.length) return null;
         const numTotal = answeredQuestions.length;
         const numTrue = answeredQuestions
           .map((q) => q.answeredCorrectly)
