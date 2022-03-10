@@ -10,6 +10,7 @@ const Answer = ({
   isCorrect,
   question,
   questionPercentage,
+  isLoadingQuestionDetails,
   getPercentage,
 }) => {
   useEffect(() => {
@@ -42,7 +43,11 @@ const Answer = ({
         </a>
       </div>
       <div className={styles.textContainer}>
-        {questionPercentage}% of players answered this question correctly.
+        {isLoadingQuestionDetails
+          ? null
+          : questionPercentage === null
+          ? "You're the first to answer this question."
+          : `${questionPercentage}% of players answered this question correctly.`}
       </div>
 
       <div className={styles.buttonContainer}>
@@ -61,9 +66,10 @@ const Answer = ({
 };
 
 const mapState = (state) => {
-  const { questionPercentage } = state.question;
+  const { questionPercentage, isLoadingQuestionDetails } = state.question;
   return {
     questionPercentage,
+    isLoadingQuestionDetails,
   };
 };
 
