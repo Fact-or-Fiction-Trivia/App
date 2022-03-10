@@ -14,11 +14,9 @@ const LandingPage = () => {
       <div className="welcomeHolder">
         <div className="welcomeBlock">
           <h1 id="main">
-            Welcome to polit<span id="iq">IQ</span>
+            Think you know politics<span id="iq">?</span>
           </h1>
-          <h2 style={{ fontSize: "20px", marginBottom: "40px" }}>
-            where you can answer the question...{" "}
-          </h2>
+          <h2 style={{ fontSize: "20px", marginBottom: "40px" }}>Prove it! </h2>
 
           <img
             src={bg}
@@ -26,7 +24,11 @@ const LandingPage = () => {
             alt="democrats and republicans face off"
           />
 
-          <h2 style={{ marginBottom: "40px" }}>Are you smarter than a: </h2>
+          <h2 style={{ marginBottom: "40px" }}>
+            Then, add your score to one of three teams and compare it to other
+            users to prove that you and your political party are the most
+            informed.
+          </h2>
           <div className="title anim-h1">
             <span>Republican?</span>
           </div>
@@ -61,7 +63,7 @@ const LandingPage = () => {
           >
             <div className="icon-div">
               <i className="fas fa-user icon"></i>
-              <h6>Create a Free Profile</h6>
+              <h6 style={{ whiteSpace: "pre-wrap" }}>Create a Free Profile</h6>
               <p>Sign up and create your user profile, it’s very easy.</p>
             </div>
           </NavLink>
@@ -90,10 +92,10 @@ const LandingPage = () => {
           </div>
           <div className="icon-div">
             <i className="fas fa-gift icon"></i>
-            <h6>Get Awarded</h6>
+            <h6>Build team score</h6>
             <p>
-              Players with highest scores eligible to compete in monthly
-              challenge for cash prize!
+              Add your points to one of three team scores. Party with highest
+              score at end of each month receives a prize.
             </p>
           </div>
         </div>

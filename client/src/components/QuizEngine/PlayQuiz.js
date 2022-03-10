@@ -27,6 +27,7 @@ const PlayQuiz = ({
   answeredCorrectly,
   answered,
   isLoggedIn,
+  midAuthentication,
   maxStreak,
   questions,
   getQuestions,
@@ -45,7 +46,7 @@ const PlayQuiz = ({
   useEffect(() => {
     // If the previous question has been answered incorrectly
     // it should attempt to add the streak to the user
-    if (answeredCorrectly === false) {
+    if (answeredCorrectly === false && midAuthentication === false) {
       // Only add the streak to the user if they are loggedin
       if (isLoggedIn) {
         addStreak(streak);
@@ -154,16 +155,24 @@ const PlayQuiz = ({
 
 const mapState = (state) => {
   const { questions } = state.question;
-  const { streak, maxStreak, streakEnded, isAnswering, answeredCorrectly } =
-    state.streak;
+  const {
+    streak,
+    maxStreak,
+    streakEnded,
+    isAnswering,
+    answeredCorrectly,
+    midAuthentication,
+  } = state.streak;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
     streak,
+
     streakLength: streak.filter((it) => it.answeredCorrectly).length,
     isAnswering,
     answeredCorrectly,
     isLoggedIn,
+    midAuthentication,
     maxStreak,
     streakEnded,
     questions,

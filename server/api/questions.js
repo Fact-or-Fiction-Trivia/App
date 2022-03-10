@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 const {
   Op,
-  models: { User, Question, Tag },
+  models: { User, Question, Tag, UserAnswered },
 } = require("../db");
 
 const { requireToken, requireTokenOptional } = require("./middleware");
@@ -68,10 +68,33 @@ router.get("/:questionId", async (req, res, next) => {
 });
 
 /**
+ * GET /:questionId
+ * Question with question ID
+ */
+router.get("/:questionId/percentage", async (req, res, next) => {
+  try {
+    const { questionId } = req.params;
+    res.json(
+      await UserAnswered.findAll({
+        where: { questionId },
+      }).then((answeredQuestions) => {
+        if (!answeredQuestions.length) return 0;
+        const numTotal = answeredQuestions.length;
+        const numTrue = answeredQuestions
+          .map((q) => q.answeredCorrectly)
+          .filter((correct) => correct).length;
+        return (numTrue / numTotal) * 100;
+      })
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * POST /
  * Create a new question - both user and admin-submitted
  */
-
 router.post("/", requireToken, async (req, res, next) => {
   try {
     const { answer, expiration, explanation, source, status, tagId, text } =

@@ -32,6 +32,8 @@ import QuizContext from "./context/quizContext";
 import * as routes from "../constants/routes";
 import { setMaxScore } from "../redux/reducers/streak";
 import GameHome from "./QuizEngine/GameHome";
+import SignInFormWithStreak from "./Auth/SignIn/SignInFormWithStreak";
+import SignUpFormWithStreak from "./Auth/SignUp/SignUpFormWithStreak";
 
 const theme = createTheme({
   palette: {
@@ -151,6 +153,16 @@ class App extends Component {
                   checkAdmin={this.checkAdmin}
                 />
               )}
+            />
+            <Route
+              exact
+              path={routes.SIGN_IN_WITH_STREAK}
+              render={(props) => <SignInFormWithStreak />}
+            />
+            <Route
+              exact
+              path={routes.SIGN_UP_WITH_STREAK}
+              render={(props) => <SignUpFormWithStreak />}
             />
             <Route exact path={"/sponsor"} render={Sponsor} />
             <Route

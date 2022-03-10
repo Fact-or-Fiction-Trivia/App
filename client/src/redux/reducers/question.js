@@ -7,7 +7,8 @@ export const fetchQuestions = createAsyncThunk(
   async (tag) => {
     const answeredQuestions = localStorage.hasOwnProperty("answeredQuestions")
       ? JSON.parse(localStorage.getItem("answeredQuestions"))
-      : [];
+      : {};
+    console.log(answeredQuestions);
     const { data } = await axios.put(`/api/questions`, {
       answeredQuestions,
       tag,
@@ -30,8 +31,17 @@ export const submitQuestionByUser = createAsyncThunk(
   }
 );
 
+export const getQuestionPercentCorrect = createAsyncThunk(
+  "question/getQuestionPercentCorrect",
+  async (questionId) => {
+    const { data } = await axios.get(`/api/questions/${questionId}/percentage`);
+    return data;
+  }
+);
+
 const INIT_STATE = {
   questions: [],
+  questionPercentage: 0,
   isLoading: true,
   hasError: false,
   isSubmittedLoading: false,
@@ -86,6 +96,11 @@ const questionSlice = createSlice({
       })
       .addCase(fetchQuestions.rejected, (state, action) => {
         state = INIT_STATE;
+      })
+      .addCase(getQuestionPercentCorrect.fulfilled, (state, action) => {
+        state.questionPercentage = action.payload;
+        state.isLoading = false;
+        state.hasError = false;
       })
       .addCase(submitQuestionByUser.pending, (state, action) => {
         state.isSubmittedLoading = true;
