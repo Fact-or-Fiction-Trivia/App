@@ -42,6 +42,7 @@ export const getQuestionPercentCorrect = createAsyncThunk(
 const INIT_STATE = {
   questions: [],
   questionPercentage: 0,
+  isLoadingQuestionDetails: true,
   isLoading: true,
   hasError: false,
   isSubmittedLoading: false,
@@ -97,8 +98,14 @@ const questionSlice = createSlice({
       .addCase(fetchQuestions.rejected, (state, action) => {
         state = INIT_STATE;
       })
+      .addCase(getQuestionPercentCorrect.pending, (state, action) => {
+        state.isLoadingQuestionDetails = true;
+        state.isLoading = false;
+        state.hasError = false;
+      })
       .addCase(getQuestionPercentCorrect.fulfilled, (state, action) => {
         state.questionPercentage = action.payload;
+        state.isLoadingQuestionDetails = false;
         state.isLoading = false;
         state.hasError = false;
       })
