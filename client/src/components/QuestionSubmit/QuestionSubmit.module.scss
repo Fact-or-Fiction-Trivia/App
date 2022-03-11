@@ -9,6 +9,17 @@
   padding-left: 5vw;
   padding-right: 5vw;
   padding-bottom: 5vh;
+
+  h3 {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  :global(.MuiFormControll-root),
+  :global(.MuiInputBase-root),
+  :global(.MuiInputLabel-root) {
+    margin-top: 2rem;
+  }
 }
 @media screen and (max-width: 415px) {
   .submitForm {
@@ -26,19 +37,8 @@
   margin-bottom: 0;
 }
 
-#form-back {
-  margin-left: 2vw;
-  margin-top: 3vh;
-}
-
-#form-about {
-  margin-right: 2vw;
-  margin-top: 3vh;
-  height: auto;
-}
-
-#form-submit {
-  margin-top: 3vh;
+.formSubmitButton {
+  margin-top: 2rem;
 }
 
 .formHeader {
