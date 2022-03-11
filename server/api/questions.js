@@ -99,16 +99,17 @@ router.post("/", requireToken, async (req, res, next) => {
   try {
     const { answer, expiration, explanation, source, status, tagId, text } =
       req.body;
-    await Question.create({
+    const q = await Question.create({
       answer,
       expiration,
       explanation,
       source,
       status,
-      tagId,
       text,
       userId: req.user.id,
     });
+
+    q.addTag(tagId);
 
     res.send({ status: 200 });
   } catch (err) {
