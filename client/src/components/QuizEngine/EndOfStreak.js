@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
-// import SignInFormWithStreak from "../Auth/SignIn/SignInFormWithStreak";
-// import SignUpFormWithStreak from "../Auth/SignUp/SignUpFormWithStreak";
+import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
-import { SIGN_IN_WITH_STREAK } from "../../constants/routes";
+import { SIGN_IN } from "../../constants/routes";
 
 const EndOfStreak = ({
   isLoggedIn,
   maxStreak,
-  streak,
+  setRedirect,
   streakLength,
   playNewGame,
 }) => {
-  const [showSignIn, setShowSignIn] = useState({ bool: false, type: "" });
-
   return (
     <div className={styles.container}>
       <p>Final Streak</p>
@@ -34,7 +31,9 @@ const EndOfStreak = ({
         </div>
       ) : (
         <div className={styles.buttonContainer}>
-          <Link to={SIGN_IN_WITH_STREAK}>Sign In</Link>
+          <Link to={SIGN_IN} onClick={() => setRedirect("/game/play")}>
+            Sign In
+          </Link>
           <div className={styles.horizontalRule}>
             <span>or</span>
           </div>
@@ -51,14 +50,6 @@ const EndOfStreak = ({
   );
 };
 
-const mapDispatch = (dispatch) => {
-  return {
-    playNewGame() {
-      dispatch(resetQuiz());
-    },
-  };
-};
-
 const mapState = (state) => {
   const { streak, maxStreak } = state.streak;
   const { auth } = state.auth;
@@ -68,6 +59,17 @@ const mapState = (state) => {
     streak,
     streakLength: streak.filter((it) => it.answeredCorrectly).length,
     maxStreak,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    playNewGame() {
+      dispatch(resetQuiz());
+    },
+    setRedirect(redirect) {
+      dispatch(setPostAuthRedirect(redirect));
+    },
   };
 };
 

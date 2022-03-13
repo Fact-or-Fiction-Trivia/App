@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import classNames from "classnames";
+
 import { Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { connect } from "react-redux";
+
 import { fetchQuestions } from "../../redux/reducers/question";
-import styles from "./ContestAQuestion.module.scss";
-import classNames from "classnames";
 import { createContestedQuestion } from "../../redux/reducers/contestQuestion";
+import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
+import { CONTEST, SIGN_IN } from "../../constants/routes";
+import styles from "./ContestAQuestion.module.scss";
 
 const ContestAQuestion = ({
   getQuestions,
   isLoggedIn,
   question,
+  setRedirect,
   submitContest,
 }) => {
+  const history = useHistory();
   const [issue, setIssue] = useState("");
   const [source, setSource] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -36,7 +43,7 @@ const ContestAQuestion = ({
   };
 
   const backToQuiz = () => {
-    // todo
+    history.push("/game/play");
   };
 
   const renderQ = () => {
@@ -68,7 +75,8 @@ const ContestAQuestion = ({
   };
 
   if (!isLoggedIn) {
-    alert("you must be logged in for this");
+    setRedirect(CONTEST, "You must be logged in to challenge questions");
+    history.push(SIGN_IN);
   }
 
   return (
@@ -161,6 +169,10 @@ const mapDispatch = (dispatch) => {
     // TODO: remove this or only call it in app component - we don't want it to get called repeatedly
     getQuestions() {
       dispatch(fetchQuestions());
+    },
+    setRedirect(redirect, message) {
+      dispatch(setPostAuthRedirect(redirect));
+      dispatch(setAuthMessage(message));
     },
     submitContest(contest) {
       dispatch(createContestedQuestion(contest));
