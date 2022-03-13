@@ -7,7 +7,6 @@ import Paper from "@material-ui/core/Paper";
 
 import "./profile.css";
 
-import { AuthUserContext, withAuthorization } from "../Auth/index";
 import Drawer from "./Drawer";
 import StatsPage from "./StatsPage";
 import NotificationSettingsPage from "./NotificationSettings/NotificationSettingsPage";
@@ -83,45 +82,32 @@ class ProfilePage extends Component {
     this.props.history.push(`/profile/${uid}`);
   };
 
-  // ! what if I take auth user context out of this component?
-  // ! since I can just call it in the child components?
-
-  // TODO: remove context here because it's not necessary anymore
   render() {
     return (
-      <AuthUserContext.Consumer>
-        {(authUser) => (
-          <Paper className="profile settings-page">
-            <Helmet>
-              <title>Settings | politIQ trivia</title>
-            </Helmet>
-            <Drawer
-              toggleEditProfile={this.toggleEditProfile}
-              toggleShowStats={this.toggleShowStats}
-              toggleShowNotifications={this.toggleShowNotifications}
-              toggleShowSecurity={this.toggleShowSecurity}
-              toggleGameSettings={this.toggleGameSettings}
-            />
+      <Paper className="profile settings-page">
+        <Helmet>
+          <title>Settings | politIQ trivia</title>
+        </Helmet>
+        <Drawer
+          toggleEditProfile={this.toggleEditProfile}
+          toggleShowStats={this.toggleShowStats}
+          toggleShowNotifications={this.toggleShowNotifications}
+          toggleShowSecurity={this.toggleShowSecurity}
+          toggleGameSettings={this.toggleGameSettings}
+        />
 
-            {this.state.showEditProfile ? (
-              <EditProfilePage toPublicProfile={this.toPublicProfile} />
-            ) : null}
-            {this.state.showStatsPage ? <StatsPage /> : null}
-            {this.state.showNotificationSettings ? (
-              <NotificationSettingsPage />
-            ) : null}
-            {this.state.showGameSettings ? <GameSettings /> : null}
-            {this.state.showSecurity ? <SecuritySettings /> : null}
-          </Paper>
-        )}
-      </AuthUserContext.Consumer>
+        {this.state.showEditProfile ? (
+          <EditProfilePage toPublicProfile={this.toPublicProfile} />
+        ) : null}
+        {this.state.showStatsPage ? <StatsPage /> : null}
+        {this.state.showNotificationSettings ? (
+          <NotificationSettingsPage />
+        ) : null}
+        {this.state.showGameSettings ? <GameSettings /> : null}
+        {this.state.showSecurity ? <SecuritySettings /> : null}
+      </Paper>
     );
   }
 }
 
-const authCondition = (authUser) => !!authUser;
-
-export default compose(
-  withAuthorization(authCondition),
-  withFirebase
-)(ProfilePage);
+export default compose(withFirebase)(ProfilePage);
