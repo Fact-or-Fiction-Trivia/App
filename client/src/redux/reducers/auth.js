@@ -101,6 +101,7 @@ export const changeEmail = createAsyncThunk(
 
 const INIT_STATE = {
   auth: {},
+  authMessage: null,
   id: null,
   validInvitation: null,
   loggedIn: false,
@@ -115,6 +116,9 @@ const authSlice = createSlice({
   reducers: {
     set(state, action) {
       return { ...state };
+    },
+    setAuthMessage(state, action) {
+      state.authMessage = action.payload;
     },
     setPostAuthRedirect(state, action) {
       state.postAuthRedirect = action.payload;
@@ -136,6 +140,7 @@ const authSlice = createSlice({
       })
       .addCase(authenticateWithStreak.fulfilled, (state, action) => {
         state.auth = action.payload;
+        state.authMessage = null;
         state.loggedIn = true;
         state.preCheck = true;
         state.validInvitation = null;
@@ -144,6 +149,7 @@ const authSlice = createSlice({
       })
       .addCase(signupWithStreak.fulfilled, (state, action) => {
         state.auth = action.payload;
+        state.authMessage = null;
         state.loggedIn = true;
         state.preCheck = true;
         state.validInvitation = null;
@@ -191,7 +197,7 @@ const authSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { set, setPostAuthRedirect } = authSlice.actions;
+export const { set, setAuthMessage, setPostAuthRedirect } = authSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

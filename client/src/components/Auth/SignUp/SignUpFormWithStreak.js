@@ -14,16 +14,17 @@ import {
   Paper,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import "../Auth.css";
+import "../Auth.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
 import { LANDING, SIGN_IN } from "../../../constants/routes";
 
 const SignUpFormWithStreak = ({
-  signUpUserWithStreak,
+  authMessage,
   buttonCopy = "Sign Up",
-  postAuthRedirect,
-  streak,
   isLoggedIn,
+  postAuthRedirect,
+  signUpUserWithStreak,
+  streak,
 }) => {
   const [error] = useState(null);
   const [formData, setFormData] = useState({
@@ -61,8 +62,12 @@ const SignUpFormWithStreak = ({
         <title>Sign Up | politIQ trivia</title>
       </Helmet>
       <h1>Sign Up</h1>
-      <p>Already have an account?</p>
-      <Link to={SIGN_IN}>Sign In</Link>
+      <p>
+        Already have an account? <Link to={SIGN_IN}>Sign In</Link>
+      </p>
+
+      {authMessage && <div className="redirect-error">{authMessage}</div>}
+
       <form>
         <TextField
           margin="normal"
@@ -147,9 +152,10 @@ const SignUpFormWithStreak = ({
 
 const mapState = (state) => {
   const { streak } = state.streak;
-  const { auth, postAuthRedirect } = state.auth;
+  const { auth, authMessage, postAuthRedirect } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
+    authMessage,
     streak,
     isLoggedIn,
     postAuthRedirect,

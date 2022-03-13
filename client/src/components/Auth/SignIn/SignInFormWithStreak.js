@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {
-  authenticate,
-  authenticateWithStreak,
-} from "../../../redux/reducers/auth";
+import { authenticateWithStreak } from "../../../redux/reducers/auth";
 import { Redirect, Link } from "react-router-dom";
 // UI
 import Helmet from "react-helmet";
@@ -11,11 +8,12 @@ import Helmet from "react-helmet";
 import { Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import "../Auth.css";
+import "../Auth.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
 import { LANDING, SIGN_UP } from "../../../constants/routes";
 
 const SignInFormWithStreak = ({
+  authMessage,
   authenticateUser,
   buttonCopy = "Sign In",
   postAuthRedirect,
@@ -55,8 +53,11 @@ const SignInFormWithStreak = ({
         <title>Sign In | politIQ trivia</title>
       </Helmet>
       <h1>Sign In</h1>
-      <p>Don't have an account?</p>
-      <Link to={SIGN_UP}>Sign Up</Link>
+      <p>
+        Don't have an account? <Link to={SIGN_UP}>Sign Up</Link>
+      </p>
+
+      {authMessage && <div className="redirect-error">{authMessage}</div>}
       <form>
         <TextField
           margin="normal"
@@ -96,9 +97,10 @@ const SignInFormWithStreak = ({
 
 const mapState = (state) => {
   const { streak } = state.streak;
-  const { auth, postAuthRedirect } = state.auth;
+  const { auth, authMessage, postAuthRedirect } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
+    authMessage,
     streak,
     isLoggedIn,
     postAuthRedirect,
