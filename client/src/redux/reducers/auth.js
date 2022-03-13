@@ -51,21 +51,13 @@ export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
   return data;
 });
 
-export const authenticate = createAsyncThunk(
-  "auth/authenticate",
-  async ({ formData, setLongestStreak }) => {
-    await axios.post(`/auth/login`, formData);
-    const { data } = await axios.get(`/auth/me`);
-    setLongestStreak(data.maxScore);
-    return data;
-  }
-);
-
 export const authenticateWithStreak = createAsyncThunk(
   "auth/authenticateWithStreak",
   async ({ formData, streak, setLongestStreak, midAuthentication }) => {
     await axios.post(`/auth/login`, formData);
-    await axios.post(`/api/streaks`, streak);
+    if (streak.length > 0) {
+      await axios.post(`/api/streaks`, streak);
+    }
     const { data } = await axios.get(`/auth/me`);
     setLongestStreak(data.maxScore);
     midAuthentication();
@@ -77,7 +69,9 @@ export const signupWithStreak = createAsyncThunk(
   "auth/signupWithStreak",
   async ({ formData, streak, setLongestStreak, midAuthentication }) => {
     await axios.post(`/auth/signup`, formData);
-    await axios.post(`/api/streaks`, streak);
+    if (streak.length > 0) {
+      await axios.post(`/api/streaks`, streak);
+    }
     const { data } = await axios.get("/auth/me", { credentials: "include" });
     setLongestStreak(data.maxScore);
     midAuthentication();
@@ -139,19 +133,6 @@ const authSlice = createSlice({
         state.preCheck = true;
         state.isLoading = false;
         state.hasError = true;
-      })
-      .addCase(authenticate.fulfilled, (state, action) => {
-        state.auth = action.payload;
-        state.id = action.payload.id;
-        state.loggedIn = true;
-        state.preCheck = true;
-        state.validInvitation = null;
-        state.isLoading = false;
-        state.hasError = false;
-      })
-      .addCase(authenticate.rejected, (state, action) => {
-        state = INIT_STATE;
-        alert("Incorrect Email and/or Password");
       })
       .addCase(authenticateWithStreak.fulfilled, (state, action) => {
         state.auth = action.payload;

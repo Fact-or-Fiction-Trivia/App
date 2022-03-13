@@ -9,8 +9,6 @@ import "./App.scss";
 import Sponsor from "./StaticPages/sponsor";
 import Navigation from "./Navigation/Navigation";
 import LandingPage from "./StaticPages/Landing";
-import SignUpPage from "./Auth/SignUp/SignUpPage";
-import SignInPage from "./Auth/SignIn/SignInPage";
 import PasswordForgetPage from "./Auth/PasswordForget";
 import ProfilePage from "./Profile/Profile";
 import Footer from "./Footer";
@@ -134,29 +132,12 @@ class App extends Component {
             <Route
               exact
               path={routes.SIGN_UP}
-              render={(props) => (
-                <SignUpPage
-                  {...props}
-                  getSignedInUser={this.getSignedInUser}
-                  scoreObject={this.state.scoreObject}
-                />
-              )}
+              render={() => <SignUpFormWithStreak />}
             />
             <Route
               exact
               path={routes.SIGN_IN}
               render={() => <SignInFormWithStreak />}
-            />
-            {/* TODO - REMOVE */}
-            <Route
-              exact
-              path={routes.SIGN_IN_WITH_STREAK}
-              render={(props) => <SignInFormWithStreak />}
-            />
-            <Route
-              exact
-              path={routes.SIGN_UP_WITH_STREAK}
-              render={(props) => <SignUpFormWithStreak />}
             />
             <Route exact path={"/sponsor"} render={Sponsor} />
             <Route
@@ -208,7 +189,6 @@ class App extends Component {
               path={routes.ADMIN_DASHBOARD}
               render={(props) => <AdminDashboard {...props} renderPage={""} />}
             />
-
             {/* Quiz Routes */}
             <Route exact path={routes.GAME} component={GameHome} />
             <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
@@ -250,7 +230,6 @@ class App extends Component {
               path={routes.ADD_TO_HOMESCREEN}
               component={AddToHomescreen}
             />
-
             <Route path="*" component={NoMatch} />
           </Switch>
           <Footer signedInUser={this.state.signedInUser} />

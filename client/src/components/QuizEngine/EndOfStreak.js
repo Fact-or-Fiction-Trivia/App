@@ -5,7 +5,7 @@ import { resetQuiz } from "../../redux/reducers/streak";
 import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import styles from "./EndOfStreak.module.scss";
-import { SIGN_IN_WITH_STREAK } from "../../constants/routes";
+import { SIGN_IN } from "../../constants/routes";
 
 const EndOfStreak = ({
   isLoggedIn,
@@ -31,10 +31,7 @@ const EndOfStreak = ({
         </div>
       ) : (
         <div className={styles.buttonContainer}>
-          <Link
-            to={SIGN_IN_WITH_STREAK}
-            onClick={() => setRedirect("/game/play")}
-          >
+          <Link to={SIGN_IN} onClick={() => setRedirect("/game/play")}>
             Sign In
           </Link>
           <div className={styles.horizontalRule}>

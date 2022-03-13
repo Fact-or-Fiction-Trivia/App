@@ -122,7 +122,6 @@ class ProfilePage extends Component {
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
-  // withEmailVerification,
   withAuthorization(authCondition),
   withFirebase
 )(ProfilePage);
