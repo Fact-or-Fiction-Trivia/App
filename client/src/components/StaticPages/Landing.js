@@ -7,6 +7,7 @@ import bg from "./politiq-bg2.jpg";
 import { NavLink } from "react-router-dom";
 import "./Static.css";
 import TodaysQuizButton from "./TodaysQuizButton";
+import { GAME } from "../../constants/routes";
 
 const LandingPage = () => {
   return (
@@ -68,7 +69,7 @@ const LandingPage = () => {
             </div>
           </NavLink>
           <NavLink
-            to={`/play`}
+            to={GAME}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <div className="icon-div">

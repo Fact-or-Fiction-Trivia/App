@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .authCard {
   width: 50%;
   margin-left: auto;
@@ -52,4 +54,9 @@
 .privacy-opt-in {
   font-size: 0.75rem;
   margin-top: 3rem;
+}
+
+.redirect-error {
+  color: $color-red;
+  font-weight: bold;
 }

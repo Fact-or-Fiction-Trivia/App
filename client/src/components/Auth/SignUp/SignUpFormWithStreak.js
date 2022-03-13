@@ -14,15 +14,17 @@ import {
   Paper,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import "../Auth.css";
+import "../Auth.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
-import { SIGN_IN_WITH_STREAK } from "../../../constants/routes";
+import { LANDING, SIGN_IN } from "../../../constants/routes";
 
 const SignUpFormWithStreak = ({
-  signUpUser,
+  authMessage,
   buttonCopy = "Sign Up",
-  streak,
   isLoggedIn,
+  postAuthRedirect,
+  signUpUserWithStreak,
+  streak,
 }) => {
   const [error] = useState(null);
   const [formData, setFormData] = useState({
@@ -38,7 +40,7 @@ const SignUpFormWithStreak = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    signUpUser({ formData, streak });
+    signUpUserWithStreak({ formData, streak });
   };
 
   const handleChange = ({ target }) => {
@@ -48,10 +50,11 @@ const SignUpFormWithStreak = ({
       [name]: value,
     });
   };
+
   if (isLoggedIn) {
-    return <Redirect to="/game/play" />;
-  } else if (!streak.length) {
-    return <Redirect to="/game" />;
+    if (postAuthRedirect) {
+      return <Redirect to={postAuthRedirect} />;
+    } else return <Redirect to={LANDING} />;
   }
   return (
     <Paper className="authCard signIn">
@@ -59,8 +62,12 @@ const SignUpFormWithStreak = ({
         <title>Sign Up | politIQ trivia</title>
       </Helmet>
       <h1>Sign Up</h1>
-      <p>Already have an account?</p>
-      <Link to={SIGN_IN_WITH_STREAK}>Sign In</Link>
+      <p>
+        Already have an account? <Link to={SIGN_IN}>Sign In</Link>
+      </p>
+
+      {authMessage && <div className="redirect-error">{authMessage}</div>}
+
       <form>
         <TextField
           margin="normal"
@@ -145,17 +152,19 @@ const SignUpFormWithStreak = ({
 
 const mapState = (state) => {
   const { streak } = state.streak;
-  const { auth } = state.auth;
+  const { auth, authMessage, postAuthRedirect } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
+    authMessage,
     streak,
     isLoggedIn,
+    postAuthRedirect,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    signUpUser({ formData, streak }) {
+    signUpUserWithStreak({ formData, streak }) {
       dispatch(
         signupWithStreak({
           formData,
