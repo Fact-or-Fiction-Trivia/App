@@ -13,11 +13,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "../Auth.css";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
-import { LANDING, SIGN_UP_WITH_STREAK } from "../../../constants/routes";
+import { LANDING, SIGN_UP } from "../../../constants/routes";
 
 const SignInFormWithStreak = ({
   authenticateUser,
-  authenticateUserWithStreak,
   buttonCopy = "Sign In",
   postAuthRedirect,
   streak,
@@ -33,13 +32,8 @@ const SignInFormWithStreak = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // if there is a non-saved streak, save the streak
-    // works for end of game sign up / in, and mid-game contest question auth
-    if (streak && streak.length > 0) {
-      authenticateUserWithStreak({ formData, streak });
-    } else {
-      authenticateUser({ formData });
-    }
+    // pass the streak object in here - if there is no streak, the api will not be hit
+    authenticateUser({ formData, streak });
   };
 
   const handleChange = ({ target }) => {
@@ -62,7 +56,7 @@ const SignInFormWithStreak = ({
       </Helmet>
       <h1>Sign In</h1>
       <p>Don't have an account?</p>
-      <Link to={SIGN_UP_WITH_STREAK}>Sign Up</Link>
+      <Link to={SIGN_UP}>Sign Up</Link>
       <form>
         <TextField
           margin="normal"
@@ -113,17 +107,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    authenticateUser({ formData }) {
-      dispatch(
-        authenticate({
-          formData,
-          setLongestStreak(score) {
-            dispatch(setMaxScore(score));
-          },
-        })
-      );
-    },
-    authenticateUserWithStreak({ formData, streak }) {
+    authenticateUser({ formData, streak }) {
       dispatch(
         authenticateWithStreak({
           formData,
