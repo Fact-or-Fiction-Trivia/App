@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .submitForm {
   height: auto;
   margin-top: 12vh;
@@ -38,7 +40,7 @@
 }
 
 .formSubmitButton {
-  margin-top: 2rem;
+  margin-top: 2rem !important;
 }
 
 .formHeader {
@@ -49,18 +51,21 @@
 
 .afterSubmit {
   text-align: center;
-  margin-top: 20vh;
+  margin-top: 10rem;
   margin-bottom: auto;
-  height: 25vh;
+  height: 30rem;
   display: flex;
   flex-direction: column;
 }
 
 .submittedButtons {
   width: auto;
-  max-width: 25vw;
   align-self: center;
   margin-top: 1vh !important;
+
+  @media (min-width: $breakpoint-sm) {
+    max-width: 25vw;
+  }
 }
 
 .instructions {

@@ -145,15 +145,9 @@ class App extends Component {
             <Route
               exact
               path={routes.SIGN_IN}
-              render={(props) => (
-                <SignInPage
-                  {...props}
-                  getSignedInUser={this.getSignedInUser}
-                  scoreObject={this.state.scoreObject}
-                  checkAdmin={this.checkAdmin}
-                />
-              )}
+              render={() => <SignInFormWithStreak />}
             />
+            {/* TODO - REMOVE */}
             <Route
               exact
               path={routes.SIGN_IN_WITH_STREAK}
