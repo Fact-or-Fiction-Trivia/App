@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { authenticateWithStreak } from "../../../redux/reducers/auth";
+import {
+  authenticate,
+  authenticateWithStreak,
+} from "../../../redux/reducers/auth";
 import { Redirect, Link } from "react-router-dom";
 // UI
 import Helmet from "react-helmet";
@@ -10,11 +13,13 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "../Auth.css";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
-import { SIGN_UP_WITH_STREAK } from "../../../constants/routes";
+import { LANDING, SIGN_UP_WITH_STREAK } from "../../../constants/routes";
 
 const SignInFormWithStreak = ({
   authenticateUser,
+  authenticateUserWithStreak,
   buttonCopy = "Sign In",
+  postAuthRedirect,
   streak,
   isLoggedIn,
 }) => {
@@ -28,7 +33,13 @@ const SignInFormWithStreak = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    authenticateUser({ formData, streak });
+    // if there is a non-saved streak, save the streak
+    // works for end of game sign up / in, and mid-game contest question auth
+    if (streak && streak.length > 0) {
+      authenticateUserWithStreak({ formData, streak });
+    } else {
+      authenticateUser({ formData });
+    }
   };
 
   const handleChange = ({ target }) => {
@@ -38,10 +49,11 @@ const SignInFormWithStreak = ({
       [name]: value,
     });
   };
+
   if (isLoggedIn) {
-    return <Redirect to="/game/play" />;
-  } else if (!streak.length) {
-    return <Redirect to="/game" />;
+    if (postAuthRedirect) {
+      return <Redirect to={postAuthRedirect} />;
+    } else return <Redirect to={LANDING} />;
   }
   return (
     <Paper className="authCard signIn">
@@ -90,17 +102,28 @@ const SignInFormWithStreak = ({
 
 const mapState = (state) => {
   const { streak } = state.streak;
-  const { auth } = state.auth;
+  const { auth, postAuthRedirect } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
     streak,
     isLoggedIn,
+    postAuthRedirect,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    authenticateUser({ formData, streak }) {
+    authenticateUser({ formData }) {
+      dispatch(
+        authenticate({
+          formData,
+          setLongestStreak(score) {
+            dispatch(setMaxScore(score));
+          },
+        })
+      );
+    },
+    authenticateUserWithStreak({ formData, streak }) {
       dispatch(
         authenticateWithStreak({
           formData,

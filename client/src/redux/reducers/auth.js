@@ -53,11 +53,10 @@ export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ formData, setLongestStreak, callback }) => {
+  async ({ formData, setLongestStreak }) => {
     await axios.post(`/auth/login`, formData);
     const { data } = await axios.get(`/auth/me`);
-    // setLongestStreak(data.maxScore);
-    // callback && callback();
+    setLongestStreak(data.maxScore);
     return data;
   }
 );
@@ -112,6 +111,7 @@ const INIT_STATE = {
   validInvitation: null,
   loggedIn: false,
   preCheck: false,
+  postAuthRedirect: "/",
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -121,6 +121,9 @@ const authSlice = createSlice({
   reducers: {
     set(state, action) {
       return { ...state };
+    },
+    setPostAuthRedirect(state, action) {
+      state.postAuthRedirect = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -207,7 +210,7 @@ const authSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { set } = authSlice.actions;
+export const { set, setPostAuthRedirect } = authSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

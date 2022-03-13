@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import {
@@ -11,12 +11,20 @@ import {
   TextField,
 } from "@material-ui/core";
 import classNames from "classnames";
-import { LANDING } from "../../constants/routes";
+import { LEADERBOARD, SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
 import styles from "./QuestionSubmit.module.scss";
 import { submitQuestionByUser } from "../../redux/reducers/question";
 import { getTags } from "../../redux/reducers/tag";
+import { setPostAuthRedirect } from "../../redux/reducers/auth";
 
-const QuestionSubmitForm = ({ onLoad, submitQuestion, tags }) => {
+const QuestionSubmitForm = ({
+  isLoggedIn,
+  onLoad,
+  setRedirect,
+  submitQuestion,
+  tags,
+}) => {
+  const history = useHistory();
   const [text, setText] = useState("");
   const [answer, setAnswer] = useState("");
   const [source, setSource] = useState("");
@@ -47,6 +55,11 @@ const QuestionSubmitForm = ({ onLoad, submitQuestion, tags }) => {
     setExplanation("");
   };
 
+  if (!isLoggedIn) {
+    setRedirect(SUBMIT_QUESTION);
+    history.push(SIGN_IN);
+  }
+
   return (
     <Paper className={classNames(styles.pageStyle, styles.submitForm)}>
       <Helmet>
@@ -63,7 +76,7 @@ const QuestionSubmitForm = ({ onLoad, submitQuestion, tags }) => {
           >
             Submit another question
           </Button>
-          <Link to={LANDING} style={{ textDecoration: "none" }}>
+          <Link to={LEADERBOARD} style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               color="primary"
@@ -182,6 +195,9 @@ const mapDispatch = (dispatch) => {
   return {
     onLoad() {
       dispatch(getTags());
+    },
+    setRedirect(redirect) {
+      dispatch(setPostAuthRedirect(redirect));
     },
     submitQuestion(question) {
       dispatch(submitQuestionByUser(question));
