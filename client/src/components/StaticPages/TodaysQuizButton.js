@@ -40,7 +40,7 @@ const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
           size="large"
           id="archive-link"
           disabled={disabled || loading}
-          onClick={() => !disabled && history.push("/play")}
+          onClick={() => !disabled && history.push(GAME)}
         >
           {loading ? "Loading..." : "Play Now"}
         </Button>

@@ -15,7 +15,7 @@ import { LEADERBOARD, SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
 import styles from "./QuestionSubmit.module.scss";
 import { submitQuestionByUser } from "../../redux/reducers/question";
 import { getTags } from "../../redux/reducers/tag";
-import { setPostAuthRedirect } from "../../redux/reducers/auth";
+import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
 
 const QuestionSubmitForm = ({
   isLoggedIn,
@@ -56,7 +56,7 @@ const QuestionSubmitForm = ({
   };
 
   if (!isLoggedIn) {
-    setRedirect(SUBMIT_QUESTION);
+    setRedirect(SUBMIT_QUESTION, "You must be logged in to submit a question");
     history.push(SIGN_IN);
   }
 
@@ -196,8 +196,9 @@ const mapDispatch = (dispatch) => {
     onLoad() {
       dispatch(getTags());
     },
-    setRedirect(redirect) {
+    setRedirect(redirect, message) {
       dispatch(setPostAuthRedirect(redirect));
+      dispatch(setAuthMessage(message));
     },
     submitQuestion(question) {
       dispatch(submitQuestionByUser(question));
