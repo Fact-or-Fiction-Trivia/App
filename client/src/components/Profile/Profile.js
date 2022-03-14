@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { withFirebase } from "../../firebase";
-import { compose } from "recompose";
-
+import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
-
-import "./profile.css";
 
 import Drawer from "./Drawer";
 import StatsPage from "./StatsPage";
@@ -13,6 +9,8 @@ import NotificationSettingsPage from "./NotificationSettings/NotificationSetting
 import SecuritySettings from "./SecuritySettings";
 import GameSettings from "./GameSettings";
 import EditProfilePage from "./EditProfile/EditProfilePage";
+import "./profile.css";
+import { SIGN_IN } from "../../constants/routes";
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -83,6 +81,9 @@ class ProfilePage extends Component {
   };
 
   render() {
+    if (!this.props.isLoggedIn) {
+      this.props.history.push(SIGN_IN);
+    }
     return (
       <Paper className="profile settings-page">
         <Helmet>
@@ -110,4 +111,17 @@ class ProfilePage extends Component {
   }
 }
 
-export default compose(withFirebase)(ProfilePage);
+const mapState = (state) => {
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth;
+  return {
+    auth,
+    isLoggedIn,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {};
+};
+
+export default connect(mapState, mapDispatch)(ProfilePage);
