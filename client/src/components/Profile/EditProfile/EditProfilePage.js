@@ -1,6 +1,6 @@
 import React from "react";
 import MediaQuery from "react-responsive";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
@@ -8,6 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Help from "@material-ui/icons/Help";
 import "../../../css/customStyles.css";
 import EditProfileForm from "./EditProfileForm";
+import { SIGN_IN } from "../../../constants/routes";
 import ProfilePhoto from "../ProfilePhoto";
 
 const affiliationText = `
@@ -16,12 +17,16 @@ const affiliationText = `
 
 const EditProfilePage = ({
   auth,
-  getUserInfo,
   initialSignUpMessage,
+  isLoggedIn,
   setFBAuth,
   toPublicProfile,
 }) => {
-  console.log(auth);
+  const history = useHistory();
+
+  if (!isLoggedIn) {
+    history.push(SIGN_IN);
+  }
   return (
     <>
       <MediaQuery minWidth={416}>
@@ -91,15 +96,8 @@ const EditProfilePage = ({
 
       <div className="edit-holder">
         <EditProfileForm
-          displayName={auth.fullName}
-          email={auth.email}
-          // bio={authUser.bio}
-          affiliation={auth.affiliation}
-          uid={auth.id}
           initialSignUpMessage={initialSignUpMessage}
           setFBAuth={setFBAuth}
-          getUserInfo={getUserInfo}
-          authUser={auth}
         />
 
         {/* todo: add photos */}
@@ -113,8 +111,10 @@ const EditProfilePage = ({
 
 const mapState = (state) => {
   const { auth } = state.auth;
+  const isLoggedIn = !!auth;
   return {
     auth,
+    isLoggedIn,
   };
 };
 
