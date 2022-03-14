@@ -105,8 +105,7 @@ class NavigationAuthBase extends Component {
       <div>
         <MediaQuery query="(max-width: 415px)">
           <List component="nav">
-            {this.props.authUser &&
-            this.props.authUser.roles.includes("ADMIN") ? (
+            {this.props.isAdmin ? (
               <>
                 <ListItem button onClick={this.handleAdminClick}>
                   <ListItemText primary="Admin Dashboard" />
@@ -220,15 +219,26 @@ class NavigationAuthBase extends Component {
                 <ListItemText primary="About/FAQ" />
               </ListItem>
             </Link>
-            <ListItem button component="a" onClick={this.signOut}>
-              <ListItemText primary="Sign Out" />
-            </ListItem>
+            {this.props.isLoggedIn ? (
+              <ListItem button component="a" onClick={this.signOut}>
+                <ListItemText primary="Sign Out" />
+              </ListItem>
+            ) : (
+              <Link
+                to={routes.SIGN_IN}
+                style={{ textDecoration: "none" }}
+                onClick={this.toggleDrawer("top", false)}
+              >
+                <ListItem button>
+                  <ListItemText primary="Sign In" />
+                </ListItem>
+              </Link>
+            )}
           </List>
         </MediaQuery>
         <MediaQuery query="(min-width: 416px)">
           <List component="nav">
-            {this.props.authUser &&
-            this.props.authUser.roles.includes("ADMIN") ? (
+            {this.props.isAdmin ? (
               <Link
                 to={routes.ADMIN_DASHBOARD}
                 style={{ textDecoration: "none" }}
@@ -282,9 +292,21 @@ class NavigationAuthBase extends Component {
                 <ListItemText primary="About/FAQ" />
               </ListItem>
             </Link>
-            <ListItem button component="a" onClick={this.signOut}>
-              <ListItemText primary="Sign Out" />
-            </ListItem>
+            {this.props.isLoggedIn ? (
+              <ListItem button component="a" onClick={this.signOut}>
+                <ListItemText primary="Sign Out" />
+              </ListItem>
+            ) : (
+              <Link
+                to={routes.SIGN_IN}
+                style={{ textDecoration: "none" }}
+                onClick={this.toggleDrawer("top", false)}
+              >
+                <ListItem button>
+                  <ListItemText primary="Sign In" />
+                </ListItem>
+              </Link>
+            )}
           </List>
         </MediaQuery>
       </div>
@@ -324,14 +346,16 @@ class NavigationAuthBase extends Component {
               </SwipeableDrawer>
             </div>
             <div style={{ marginLeft: "auto", marginRight: "0" }}>
-              <Link
-                to={`/profile/${this.state.signedInUser}`}
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                <IconButton aria-haspopup="true" color="inherit">
-                  <AccountCircle />
-                </IconButton>
-              </Link>
+              {this.props.isLoggedIn && (
+                <Link
+                  to={`/profile/${this.props.signedInUser}`}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <IconButton aria-haspopup="true" color="inherit">
+                    <AccountCircle />
+                  </IconButton>
+                </Link>
+              )}
               <IconButton
                 aria-label="Menu"
                 color="inherit"
@@ -347,6 +371,15 @@ class NavigationAuthBase extends Component {
   }
 }
 
+const mapState = (state) => {
+  const { auth } = state.auth;
+  return {
+    isLoggedIn: !!auth.id,
+    isAdmin: auth.role === "Admin",
+    signedInUser: auth.id,
+  };
+};
+
 const mapDispatch = (dispatch) => {
   return {
     signOutUser() {
@@ -355,6 +388,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-const NavigationAuth = connect(null, mapDispatch)(NavigationAuthBase);
-
-export default NavigationAuth;
+export default connect(mapState, mapDispatch)(NavigationAuthBase);
