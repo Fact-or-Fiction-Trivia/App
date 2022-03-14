@@ -105,6 +105,13 @@ export const updateUserInfo = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  "auth/deleteUser",
+  async (updates) => {
+    await axios.put(`api/users/${updates.id}`, { ...updates });
+  }
+);
+
 const INIT_STATE = {
   auth: {},
   authMessage: null,
@@ -210,6 +217,19 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
         state.auth = action.payload;
+      })
+      .addCase(deleteUser.pending, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.auth = {};
+        state.isLoading = false;
+        state.hasError = false;
       });
   },
 });

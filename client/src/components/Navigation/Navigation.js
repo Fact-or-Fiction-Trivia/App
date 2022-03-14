@@ -89,8 +89,6 @@ class NavigationAuthBase extends Component {
 
   signOut = () => {
     this.props.signOutUser();
-    this.props.clearStateOnSignout();
-
     this.toggleDrawer("top", false);
   };
 

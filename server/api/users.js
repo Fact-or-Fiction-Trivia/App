@@ -94,19 +94,26 @@ router.put("/", requireToken, async (req, res, next) => {
 //   }
 // });
 
-// router.delete("/:userId", requireAdmin, async (req, res, next) => {
-//   try {
-//     const { userId } = req.params;
-//     await User.destroy({ where: { id: userId } });
-//     const users = await User.findAll({
-//       where: { role: { [Op.not]: "Admin" } },
-//       include: [Permission],
-//     });
-//     res.json(users);
-//   } catch (ex) {
-//     next(ex);
-//   }
-// });
+/*
+ * DELETE your own account
+ * Account ID must match the logged in user
+ */
+
+router.put("/:userId", requireToken, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user || !(await user.correctPassword(req.body.password))) {
+      const error = Error("Incorrect email/password");
+      error.status = 401;
+      throw error;
+    } else {
+      await User.destroy({ where: { id: req.user.id } });
+      res.send({ success: 200 });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
 
 // router.put("/changeEmail/:userId", async (req, res, next) => {
 //   try {

@@ -17,7 +17,7 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
   const [firstName, setFirstName] = useState(auth.firstName);
   const [lastName, setLastName] = useState(auth.lastName);
   const [email, setEmail] = useState(auth.email);
-  const [bio, setBio] = useState(auth.bio);
+  const [bio, setBio] = useState(auth.bio || "");
   const [affiliation, setAffiliation] = useState(auth.affiliation);
 
   const handleSave = async () => {

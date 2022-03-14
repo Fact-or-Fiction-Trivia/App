@@ -113,7 +113,7 @@ class ProfilePage extends Component {
 
 const mapState = (state) => {
   const { auth } = state.auth;
-  const isLoggedIn = !!auth;
+  const isLoggedIn = !!auth.id;
   return {
     auth,
     isLoggedIn,
