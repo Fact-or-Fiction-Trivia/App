@@ -45,6 +45,22 @@ const User = db.define("user", {
     type: Sequelize.ENUM("Democrat", "Republican", "Independent", "Other"),
     allowNull: false,
   },
+  mailchimpId: {
+    type: Sequelize.STRING,
+  },
+  bio: {
+    type: Sequelize.TEXT,
+  },
+  soundsOn: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true,
+    allowNull: false,
+  },
+  invisibleScore: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
 });
 
 module.exports = User;

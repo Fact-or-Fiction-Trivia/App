@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import history from "../../utils/history";
 import axios from "../axiosInstance";
-// import store from "../store";
-// import { setMaxScore } from "./streak";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",
@@ -99,6 +97,14 @@ export const changeEmail = createAsyncThunk(
   }
 );
 
+export const updateUserInfo = createAsyncThunk(
+  "auth/updateUser",
+  async (updates) => {
+    const { data } = await axios.put(`/api/users`, updates);
+    return data;
+  }
+);
+
 const INIT_STATE = {
   auth: {},
   authMessage: null,
@@ -191,6 +197,19 @@ const authSlice = createSlice({
         alert("Email has been reset");
         state.isLoading = false;
         state.hasError = false;
+      })
+      .addCase(updateUserInfo.pending, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(updateUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.auth = action.payload;
       });
   },
 });

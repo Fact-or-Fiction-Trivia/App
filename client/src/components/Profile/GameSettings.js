@@ -1,44 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
+import { updateUserInfo } from "../../redux/reducers/auth";
 
-const GameSettings = ({ auth }) => {
-  const [soundsOn, setSoundsOn] = useState(auth.soundsOn || true);
+const GameSettings = ({ auth, updateInfo }) => {
+  const [soundsOn, setSoundsOn] = useState(auth.soundsOn);
   const [saved, setSaved] = useState(false);
   const [invisibleScore, setInvisibleScore] = useState(
     auth.invisibleScore || false
   );
+  let flashInterval;
 
-  // todo: fix this
-  // componentWillUnmount = () => {
-  //   clearInterval(this.flashInterval);
-  // };
+  useEffect(() => {
+    return clearInterval(flashInterval);
+  });
 
   const handleSubmit = async () => {
-    // const userInfo = this.state.userInfo;
-    // // when the user clicks save changes, update the userInfo object in localStorage/cache to reflect their settings
-    // userInfo.soundsOn = this.state.soundsOn;
-    // userInfo.invisibleScore = this.state.invisibleScore;
-    // localStorage.setItem("authUser", JSON.stringify(userInfo));
-    // // also make a db call to update the user object, so that next time they log in, their preferences
-    // // will be loaded automatically.
-    // const uid = userInfo.uid;
-    // await db.soundSettings(uid, this.state.soundsOn);
-    // await db.scoreVisibility(uid, this.state.invisibleScore);
-    // // once the data has been saved, update the UI to let the user know that it was successful
-    // this.setState({
-    //   saved: true,
-    // });
-    // // display the message for 10 seconds and then have it disappear
-    // this.flashInterval = setInterval(() => {
-    //   this.setState({
-    //     saved: false,
-    //   });
-    // }, 10000);
+    updateInfo({ soundsOn, invisibleScore });
+    setSaved(true);
+    flashInterval = setInterval(() => {
+      setSaved(false);
+    }, 10000);
   };
 
   return (
@@ -96,7 +82,11 @@ const mapState = (state) => {
 };
 
 const mapDispatch = (dispatch) => {
-  return {};
+  return {
+    updateInfo(update) {
+      dispatch(updateUserInfo(update));
+    },
+  };
 };
 
 export default connect(mapState, mapDispatch)(GameSettings);

@@ -10,64 +10,29 @@ import { FormHelperText } from "@material-ui/core";
 
 import ProfilePhoto from "../ProfilePhoto";
 import { useHistory } from "react-router-dom";
+import { updateUserInfo } from "../../../redux/reducers/auth";
 
-const EditProfile = ({ auth, toggleEditProfile }) => {
+const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
   const history = useHistory;
-  const [displayName, setDisplayName] = useState(auth.fullName);
+  const [firstName, setFirstName] = useState(auth.firstName);
+  const [lastName, setLastName] = useState(auth.lastName);
   const [email, setEmail] = useState(auth.email);
   const [bio, setBio] = useState(auth.bio);
   const [affiliation, setAffiliation] = useState(auth.affiliation);
 
   const handleSave = async () => {
-    // const updates = {
-    //   displayName: this.state.displayName,
-    //   email: this.state.email,
-    //   affiliation: this.state.affiliation,
-    //   bio: this.state.bio,
-    // };
-    // const oldUserInfo = this.props.authUser;
-    // const uid = oldUserInfo.uid;
-    // await db.editUser(uid, updates);
-    // if (this.props.email !== this.state.email) {
-    //   const user = auth.currentUser;
-    //   await user
-    //     .updateEmail(this.state.email)
-    //     .then(function () {})
-    //     .catch(function (error) {
-    //       console.error(error);
-    //     });
-    // }
-    // // once the user saves their info, update the local storage object as well because that's used throughout the applicaiton
-    // oldUserInfo.displayName = updates.displayName;
-    // oldUserInfo.email = updates.email;
-    // oldUserInfo.affiliation = updates.affiliation;
-    // oldUserInfo.bio = updates.bio;
-    // localStorage.setItem("authUser", JSON.stringify(oldUserInfo));
-    // if (localStorage.hasOwnProperty("fbAuth")) {
-    //   localStorage.removeItem("fbAuth");
-    // }
+    const update = {
+      firstName,
+      lastName,
+      email,
+      bio,
+      affiliation,
+    };
+    updateInfo(update);
   };
 
   const handleSaveAndView = async () => {
-    // const updates = {
-    //   displayName: this.state.displayName,
-    //   email: this.state.email,
-    //   affiliation: this.state.affiliation,
-    //   bio: this.state.bio,
-    // };
-
-    // await db.editUser(this.props.uid, updates);
-
-    // if (this.props.email !== this.state.email) {
-    //   const user = auth.currentUser;
-    //   await user
-    //     .updateEmail(this.state.email)
-    //     .then(function () {})
-    //     .catch(function (error) {
-    //       console.error(error);
-    //     });
-    // }
-
+    handleSave();
     history.push(`/profile/${this.state.uid}`);
   };
 
@@ -77,8 +42,15 @@ const EditProfile = ({ auth, toggleEditProfile }) => {
         <TextField
           margin="normal"
           label="Display Name"
-          value={displayName}
-          onChange={(event) => setDisplayName(event.target.value)}
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
+          fullWidth
+        />
+        <TextField
+          margin="normal"
+          label="Display Name"
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
           fullWidth
         />
         <TextField
@@ -141,7 +113,11 @@ const mapState = (state) => {
 };
 
 const mapDispatch = (dispatch) => {
-  return {};
+  return {
+    updateInfo(update) {
+      dispatch(updateUserInfo(update));
+    },
+  };
 };
 
 export default connect(mapState, mapDispatch)(EditProfile);
