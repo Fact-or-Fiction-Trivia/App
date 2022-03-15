@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { withFirebase } from "../../firebase";
-import { compose } from "recompose";
-
+import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 
-import "./profile.css";
-
-import { AuthUserContext, withAuthorization } from "../Auth/index";
 import Drawer from "./Drawer";
 import StatsPage from "./StatsPage";
 import NotificationSettingsPage from "./NotificationSettings/NotificationSettingsPage";
 import SecuritySettings from "./SecuritySettings";
 import GameSettings from "./GameSettings";
 import EditProfilePage from "./EditProfile/EditProfilePage";
+import "./profile.css";
+import { SIGN_IN } from "../../constants/routes";
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -83,45 +80,48 @@ class ProfilePage extends Component {
     this.props.history.push(`/profile/${uid}`);
   };
 
-  // ! what if I take auth user context out of this component?
-  // ! since I can just call it in the child components?
-
-  // TODO: remove context here because it's not necessary anymore
   render() {
+    if (!this.props.isLoggedIn) {
+      this.props.history.push(SIGN_IN);
+    }
     return (
-      <AuthUserContext.Consumer>
-        {(authUser) => (
-          <Paper className="profile settings-page">
-            <Helmet>
-              <title>Settings | politIQ trivia</title>
-            </Helmet>
-            <Drawer
-              toggleEditProfile={this.toggleEditProfile}
-              toggleShowStats={this.toggleShowStats}
-              toggleShowNotifications={this.toggleShowNotifications}
-              toggleShowSecurity={this.toggleShowSecurity}
-              toggleGameSettings={this.toggleGameSettings}
-            />
+      <Paper className="profile settings-page">
+        <Helmet>
+          <title>Settings | politIQ trivia</title>
+        </Helmet>
+        <Drawer
+          toggleEditProfile={this.toggleEditProfile}
+          toggleShowStats={this.toggleShowStats}
+          toggleShowNotifications={this.toggleShowNotifications}
+          toggleShowSecurity={this.toggleShowSecurity}
+          toggleGameSettings={this.toggleGameSettings}
+        />
 
-            {this.state.showEditProfile ? (
-              <EditProfilePage toPublicProfile={this.toPublicProfile} />
-            ) : null}
-            {this.state.showStatsPage ? <StatsPage /> : null}
-            {this.state.showNotificationSettings ? (
-              <NotificationSettingsPage />
-            ) : null}
-            {this.state.showGameSettings ? <GameSettings /> : null}
-            {this.state.showSecurity ? <SecuritySettings /> : null}
-          </Paper>
-        )}
-      </AuthUserContext.Consumer>
+        {this.state.showEditProfile ? (
+          <EditProfilePage toPublicProfile={this.toPublicProfile} />
+        ) : null}
+        {this.state.showStatsPage ? <StatsPage /> : null}
+        {this.state.showNotificationSettings ? (
+          <NotificationSettingsPage />
+        ) : null}
+        {this.state.showGameSettings ? <GameSettings /> : null}
+        {this.state.showSecurity ? <SecuritySettings /> : null}
+      </Paper>
     );
   }
 }
 
-const authCondition = (authUser) => !!authUser;
+const mapState = (state) => {
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth.id;
+  return {
+    auth,
+    isLoggedIn,
+  };
+};
 
-export default compose(
-  withAuthorization(authCondition),
-  withFirebase
-)(ProfilePage);
+const mapDispatch = (dispatch) => {
+  return {};
+};
+
+export default connect(mapState, mapDispatch)(ProfilePage);
