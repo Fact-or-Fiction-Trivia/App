@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 
 import Drawer from "./Drawer";
-import StatsPage from "./StatsPage";
 import NotificationSettingsPage from "./NotificationSettings/NotificationSettingsPage";
 import SecuritySettings from "./SecuritySettings";
 import GameSettings from "./GameSettings";
 import EditProfilePage from "./EditProfile/EditProfilePage";
 import "./profile.css";
 import { SIGN_IN } from "../../constants/routes";
+import UserScoreboard from "./UserScoreboard";
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -100,7 +100,7 @@ class ProfilePage extends Component {
         {this.state.showEditProfile ? (
           <EditProfilePage toPublicProfile={this.toPublicProfile} />
         ) : null}
-        {this.state.showStatsPage ? <StatsPage /> : null}
+        {this.state.showStatsPage ? <UserScoreboard /> : null}
         {this.state.showNotificationSettings ? (
           <NotificationSettingsPage />
         ) : null}
