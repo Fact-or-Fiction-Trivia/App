@@ -1,20 +1,27 @@
+// TODO: REMOVE THIS and just use user scoreboard instead
+
 import React from "react";
 
 import UserScoreboard from "../UserScoreboard";
-import CashOutButton from "../CashOutButton";
-import AuthUserContext from "../../Auth/AuthUserContext";
+import { connect } from "react-redux";
 
-const StatsPage = () => {
+const StatsPage = ({ auth }) => {
   return (
-    <AuthUserContext.Consumer>
-      {(authUser) => (
-        <>
-          <UserScoreboard uid={authUser.uid} moneyWon={authUser.moneyWon} />
-          <CashOutButton userInfo={authUser} uid={authUser.uid} />
-        </>
-      )}
-    </AuthUserContext.Consumer>
+    <>
+      <UserScoreboard uid={auth.id} />
+    </>
   );
 };
 
-export default StatsPage;
+const mapState = (state) => {
+  const { auth } = state.auth;
+  return {
+    auth,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {};
+};
+
+export default connect(mapState, mapDispatch)(StatsPage);
