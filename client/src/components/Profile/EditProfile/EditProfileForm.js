@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
@@ -87,9 +86,6 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
         />
       </form>
 
-      <MediaQuery maxWidth={415}>
-        {/* <ProfilePhoto authUser={this.props.authUser} /> */}
-      </MediaQuery>
       <div className="profile-button-holder">
         <Button color="primary" onClick={toggleEditProfile}>
           Cancel
