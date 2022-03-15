@@ -1,5 +1,6 @@
 import React from "react";
-import { auth } from "../../firebase";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import PasswordChangeForm from "../Auth/PasswordChange";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,8 +9,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
+import { deleteUser } from "../../redux/reducers/auth";
+import { LANDING } from "../../constants/routes";
 
-const SecuritySettings = props => {
+const SecuritySettings = ({ auth, deleteUserAccount }) => {
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [deleteAccountInputs, setDeleteAccountInputs] = React.useState({});
 
@@ -21,17 +25,18 @@ const SecuritySettings = props => {
     setOpen(false);
   };
 
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async () => {
     const email = deleteAccountInputs.email;
     const password = deleteAccountInputs.password;
-    auth.deleteUser(email, password);
+    await deleteUserAccount(auth.id, email, password);
+    history.push(LANDING);
   };
 
-  const handleDeleteAccountInputChange = event => {
+  const handleDeleteAccountInputChange = (event) => {
     event.persist();
-    setDeleteAccountInputs(deleteAccountInputs => ({
+    setDeleteAccountInputs((deleteAccountInputs) => ({
       ...deleteAccountInputs,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     }));
   };
 
@@ -87,4 +92,21 @@ const SecuritySettings = props => {
   );
 };
 
-export default SecuritySettings;
+const mapState = (state) => {
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth;
+  return {
+    auth,
+    isLoggedIn,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    deleteUserAccount(id, email, password) {
+      dispatch(deleteUser({ email, password, id }));
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(SecuritySettings);
