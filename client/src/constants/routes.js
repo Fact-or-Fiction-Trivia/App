@@ -13,7 +13,7 @@ export const PLAY_GAME = "/game/play";
 export const SUBMIT_QUESTION = "/submit-question";
 export const LEADERBOARD = "/leaderboard";
 export const ABOUT = "/about";
-export const USER_PROFILES = "/profile/:uid";
+export const USER_PROFILES = "/profile/:userId";
 export const CONTEST = "/contest";
 
 // admn routes

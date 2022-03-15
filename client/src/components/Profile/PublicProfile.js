@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { db } from "../../firebase";
+import React, { useState, useEffect } from "react";
+// import { db } from "../../firebase";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import LoadingGif from "../../6.gif";
 import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
+import { connect } from "react-redux";
 
 // import {
 //   FacebookShareButton,
@@ -26,33 +27,37 @@ import UserScoreboard from "./UserScoreboard";
 import PublicProfilePhoto from "./PublicProfilePhoto";
 
 import "./profile.css";
+import { fetchProfile } from "../../redux/reducers/profile";
 
 const PublicProfile = (props) => {
   const authUser = props.signedInUser;
-  const uid = window.location.href.split("profile/")[1];
-  const [userInfo, setUserInfo] = useState(null);
+  // const uid = window.location.href.split("profile/")[1];
+  const { userId } = props.match.params;
+  // const [userInfo, setUserInfo] = useState(null);
+  useEffect(() => {
+    props.getProfile(userId);
+  }, [userId]);
+  // const fetchUserInfo = async () => {
+  //   // get user info
+  //   db.getOneUser(uid)
+  //     .then((response) => {
+  //       return response.val();
+  //     })
+  //     .then((userData) => {
+  //       setUserInfo({ ...userData, uid: uid });
+  //     });
+  // };
+  // if (userInfo === null) {
+  //   // if there isn't user info yet
+  //   fetchUserInfo();
+  // }
 
-  const fetchUserInfo = async () => {
-    // get user info
-    db.getOneUser(uid)
-      .then((response) => {
-        return response.val();
-      })
-      .then((userData) => {
-        setUserInfo({ ...userData, uid: uid });
-      });
-  };
-  if (userInfo === null) {
-    // if there isn't user info yet
-    fetchUserInfo();
-  }
-
-  if (userInfo) {
-    if (userInfo.uid !== uid) {
-      // if user info needs to be updated to the window url
-      fetchUserInfo();
-    }
-  }
+  // if (userInfo) {
+  //   if (userInfo.uid !== uid) {
+  //     // if user info needs to be updated to the window url
+  //     fetchUserInfo();
+  //   }
+  // }
 
   let content = (
     <center style={{ marginTop: "100px" }}>
@@ -60,17 +65,17 @@ const PublicProfile = (props) => {
     </center>
   );
 
-  if (userInfo !== null) {
+  if (!!props.profile.id) {
     content = (
       <div>
         <Helmet>
-          <title>{userInfo.displayName} Profile | politIQ trivia</title>
+          <title>{props.profile.fullName} Profile | politIQ trivia</title>
         </Helmet>
         <div className="public-profile">
           <div className="public-profile-top">
-            <h1 className="displayNameBox">{userInfo.displayName}</h1>
+            <h1 className="displayNameBox">{props.profile.fullName}</h1>
 
-            {authUser.uid === userInfo.uid ? ( // user is on their own profile
+            {props.profile.id === props.signedInUserId ? ( // user is on their own profile
               <NavLink
                 style={{ textDecoration: "none", color: "white" }}
                 to="/profile"
@@ -80,22 +85,22 @@ const PublicProfile = (props) => {
             ) : null}
           </div>
 
-          <PublicProfilePhoto uid={userInfo.uid} />
+          {/* <PublicProfilePhoto uid={userInfo.uid} /> */}
 
           {
             <center>
               <div className="bioContainer">
-                <p className="bio">{userInfo.bio}</p>
+                <p className="bio">{props.profile.bio}</p>
               </div>
             </center>
           }
 
-          <UserScoreboard
+          {/* <UserScoreboard
             uid={userInfo.uid}
             authUser={authUser}
             public="true"
             name={userInfo.displayName}
-          />
+          /> */}
           <div className="socials">
             <div className="social">
               {/* <FacebookShareButton
@@ -171,5 +176,23 @@ const PublicProfile = (props) => {
   }
   return <Paper className="profile"> {content} </Paper>;
 };
+const mapState = (state) => {
+  const { auth } = state.auth;
+  const { profile } = state.profile;
+  return {
+    isLoggedIn: !!auth.id,
+    isAdmin: auth.role === "Admin",
+    signedInUserId: auth.id,
+    profile,
+  };
+};
 
-export default PublicProfile;
+const mapDispatch = (dispatch) => {
+  return {
+    getProfile(userId) {
+      dispatch(fetchProfile(userId));
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(PublicProfile);
