@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 const router = require("express").Router();
+const moment = require("moment");
 
 const {
+  Op,
   models: { User, Question, Streak, UserAnswered },
 } = require("../db");
 
@@ -15,6 +17,60 @@ const { requireToken } = require("./middleware");
 router.get("/", requireToken, async (req, res, next) => {
   try {
     res.json(req.user.maxScore);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET/all-scores/:id/
+ * Get the highest streak for the user
+ */
+
+router.get("/all-scores/:id", requireToken, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+
+    const week = await user.getStreaks({
+      where: {
+        createdAt: {
+          [Op.gte]: moment().startOf("week").toDate(),
+        },
+      },
+      order: [["score", "DESC"]],
+    });
+
+    const month = await user.getStreaks({
+      where: {
+        createdAt: {
+          [Op.gte]: moment().startOf("month").toDate(),
+        },
+      },
+      order: [["score", "DESC"]],
+    });
+
+    res.json({
+      allTime: parseInt(user.maxScore),
+      month: month[0].score,
+      week: week[0].score,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET/all-scores/
+ * Get the highest 10-25 streaks all users per time period (week, month, all time)
+ */
+
+router.get("/", requireToken, async (req, res, next) => {
+  try {
+    // get all the user-answered for all users within the last week and return the highest 10-25 streaks
+    // get all the user-answered for all users within the last month and return the highest 10-25 streaks
+    // get all the user-answered for all users  and return the highest 10-25 streaks
+    // average of longest streaks in time period by each person affiliated with that party
+    // res.json(req.user.maxScore);
   } catch (err) {
     next(err);
   }
