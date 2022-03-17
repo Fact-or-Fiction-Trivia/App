@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
 
 import { Paper } from "@material-ui/core";
@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import { fetchQuestions } from "../../redux/reducers/question";
 import { createContestedQuestion } from "../../redux/reducers/contestQuestion";
 import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
-import { CONTEST, SIGN_IN } from "../../constants/routes";
+import { ABOUT, CONTEST, SIGN_IN } from "../../constants/routes";
 import styles from "./ContestAQuestion.module.scss";
 
 const ContestAQuestion = ({
@@ -102,11 +102,18 @@ const ContestAQuestion = ({
         <>
           <h1>Contest a Question</h1>
           <p>
-            Think you found a mistake? Let us know below. You can contest each
-            question once. Please provide a credible source to back up your
-            explanation.
+            Think the answer to a question is incorrect? Make your case for why
+            by completing the form below.
           </p>
-          <div>{renderQ()}</div>
+          <p className={styles.emphasis}>
+            If the question is indeed correct, it will be fixed/removed, and you
+            will receive additional points.
+          </p>
+          <p>
+            Be sure to refer to the <Link to={ABOUT}>About/FAQ</Link> page for
+            what constitutes a reliable source and a fact vs. an opinion.
+          </p>
+          {renderQ()}
 
           {question ? (
             <div>
