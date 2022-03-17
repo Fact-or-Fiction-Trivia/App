@@ -32,21 +32,23 @@
   }
 }
 
-.formHeader > h1 {
-  text-align: center;
-  width: 100%;
-  margin-top: 3vh;
-  margin-bottom: 0;
-}
-
 .formSubmitButton {
   margin-top: 2rem !important;
 }
 
 .formHeader {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 3vh;
+  max-width: 500px;
+  margin: 0 auto;
+  h1 {
+    text-align: center;
+    width: 100%;
+    margin-top: 3vh;
+    margin-bottom: 0;
+  }
+  li {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .afterSubmit {
@@ -69,6 +71,9 @@
 }
 
 .instructions {
-  text-align: center;
   line-height: 1.6;
+}
+
+.emphasis {
+  text-decoration: underline;
 }

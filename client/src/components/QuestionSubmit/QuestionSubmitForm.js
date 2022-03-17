@@ -11,7 +11,12 @@ import {
   TextField,
 } from "@material-ui/core";
 import classNames from "classnames";
-import { LEADERBOARD, SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
+import {
+  ABOUT,
+  LEADERBOARD,
+  SIGN_IN,
+  SUBMIT_QUESTION,
+} from "../../constants/routes";
 import styles from "./QuestionSubmit.module.scss";
 import { submitQuestionByUser } from "../../redux/reducers/question";
 import { getTags } from "../../redux/reducers/tag";
@@ -90,14 +95,32 @@ const QuestionSubmitForm = ({
         <div>
           <div className={styles.formHeader}>
             <h1>Submit a Question</h1>
+
+            <h3>
+              Did you find a piece of news that everyone should know about?
+            </h3>
+            <p className={styles.instructions}>
+              As long as it meets the criteria below, it will be accepted and
+              you will receive additional points.
+            </p>
+            <p className={styles.emphasis}>Accepted questions must be:</p>
+            <ol>
+              <li>
+                <b>related to politics</b> (we don't care about what Pete
+                Davidson did yesterday...)
+              </li>
+              <li>
+                <b>verified by a reliable source</b> (see{" "}
+                <Link to={ABOUT}>About/FAQ</Link> page for what kind of sources
+                are accepted)
+              </li>
+              <li>
+                <b>as objective as possible</b> (we're trying to inform folks,
+                not fuel the partisan divide)
+              </li>
+            </ol>
+            <Button>See an example</Button>
           </div>
-          <h3>Did you find a piece of news that everyone should know about?</h3>
-          <p className={styles.instructions}>
-            {" "}
-            Add <b>3 points</b> to your score by dropping it below. We’ll review
-            it and add it to the <b>next</b> quiz if its accepted. <b>Please</b>{" "}
-            be sure to verify your information with a reliable source.
-          </p>
           <form>
             <TextField
               fullWidth
