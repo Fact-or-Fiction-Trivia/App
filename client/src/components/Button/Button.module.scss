@@ -33,3 +33,19 @@
     background-color: $color-gray-light;
   }
 }
+
+.button_link {
+  background-color: $color-white;
+  box-shadow: unset;
+  color: $color-primary;
+  display: inline;
+  font-size: 1rem;
+  font-weight: normal;
+  padding: 0;
+  text-align: left;
+
+  &:hover {
+    background-color: $color-white;
+    text-decoration: underline;
+  }
+}
