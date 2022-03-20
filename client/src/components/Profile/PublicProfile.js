@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-// import { db } from "../../firebase";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import LoadingGif from "../../6.gif";
@@ -30,13 +29,12 @@ import "./profile.css";
 import { fetchProfile } from "../../redux/reducers/profile";
 
 const PublicProfile = (props) => {
-  const authUser = props.signedInUser;
   // const uid = window.location.href.split("profile/")[1];
   const { userId } = props.match.params;
   // const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
     props.getProfile(userId);
-  }, [userId]);
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
   // const fetchUserInfo = async () => {
   //   // get user info
   //   db.getOneUser(uid)
@@ -95,12 +93,7 @@ const PublicProfile = (props) => {
             </center>
           }
 
-          {/* <UserScoreboard
-            uid={userInfo.uid}
-            authUser={authUser}
-            public="true"
-            name={userInfo.displayName}
-          /> */}
+          <UserScoreboard profileId={userId} />
           <div className="socials">
             <div className="social">
               {/* <FacebookShareButton
