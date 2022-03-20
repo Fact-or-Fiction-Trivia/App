@@ -51,8 +51,8 @@ router.get("/all-scores/:id", requireToken, async (req, res, next) => {
 
     res.json({
       allTime: parseInt(user.maxScore),
-      month: month[0].score,
-      week: week[0].score,
+      month: month[0]?.score || 0,
+      week: week[0]?.score || 0,
     });
   } catch (err) {
     next(err);

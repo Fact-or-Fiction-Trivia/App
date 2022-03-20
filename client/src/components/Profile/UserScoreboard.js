@@ -1,26 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import LoadingGif from "../../6.gif";
 import { connect } from "react-redux";
 import { getAllStreaksForUser } from "../../redux/reducers/profile";
 
-const UserScoreboard = ({ auth, getScores, streak }) => {
-  getScores(auth.id);
-  const loadingGif = (
-    <center style={{ height: "150px" }}>
-      <img src={LoadingGif} alt="loading" style={{ maxWidth: "100%" }} />
-    </center>
-  );
-
-  // const [usersMoney, usersMoneyEarned, loadingMoneyWon] = useGetMoneyEarned(
-  //   props.uid
-  // ); // use a hook to get user scores and data into a data frame
-  // const [contestedScore, loadingContestedScore] = useGetContestedQScore(
-  //   props.uid
-  // ); // use a hook to get user scores and data into a data frame
-  // const [submittedScore, loadingSubmittedScore] = useGetSubmittedQScore(
-  //   props.uid
-  // ); // use a hook to get user scores and data into a data frame
+const UserScoreboard = ({ auth, profile, profileId, getScores, scores }) => {
+  useEffect(() => {
+    if (!scores.allTime) {
+      getScores(auth.id);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let content = (
     <div
@@ -32,36 +20,21 @@ const UserScoreboard = ({ auth, getScores, streak }) => {
       }}
     >
       <h2>
-        {/* TODO: fix this */}
-        {/* {authUser.uid === props.uid
-              ? "My Scores" /// if authuser then "my" else find  user page displayname
-              : "Scores"} */}
-        My Longest Streaks
+        {auth.id === profileId ? "My" : `${profile.firstName}'s`} Longest
+        Streaks
       </h2>
       <div className="small-scoreboard">
         <div className="userScore">
           Weekly
-          <span className="s reg-score">0</span>
-          {/* <span className="s reg-score">
-                  {weeklyScores &&
-                    weeklyScores &&
-                    weeklyScores.filter((scoreObject) => {
-                      return scoreObject.uid === props.uid;
-                    })[0].weeklyScore}
-                </span> */}
+          <span className="s reg-score">{scores?.week}</span>
         </div>
         <div className="userScore">
           Monthly
-          <span className="s reg-score">0</span>
-          {/* <span className="s reg-score">
-                  {monthlyScores && monthlyScores.filter(scoreObject => {
-                    return (scoreObject.uid === props.uid)
-                  })[0].monthlyScore}
-                </span> */}
+          <span className="s reg-score">{scores?.month}</span>
         </div>
         <div className="userScore">
           All Time
-          <span className="s reg-score">{streak.maxStreak}</span>
+          <span className="s reg-score">{scores?.allTime}</span>
         </div>
       </div>
     </div>
@@ -72,12 +45,13 @@ const UserScoreboard = ({ auth, getScores, streak }) => {
 
 const mapState = (state) => {
   const { auth } = state.auth;
-  const { streak } = state;
+  const profile = state.profile;
   const isLoggedIn = !!auth.id;
   return {
     auth,
     isLoggedIn,
-    streak,
+    profile: profile.profile,
+    scores: profile.scores,
   };
 };
 
