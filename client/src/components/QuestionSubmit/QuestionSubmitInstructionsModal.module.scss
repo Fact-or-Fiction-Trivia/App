@@ -1,0 +1,34 @@
+@import "../../variables.scss";
+
+.instructionModal {
+  background: $color-white;
+  height: 36rem;
+  left: calc(50% - 150px - 1rem);
+  padding: 1rem;
+  position: absolute;
+  top: calc(50% - 19rem);
+  width: 300px;
+
+  @media (min-width: $breakpoint-md) {
+    height: 32rem;
+    left: calc(50% - 200px);
+    top: calc(50% - 16rem);
+    width: 400px;
+  }
+
+  p:not(:last-of-type) {
+    margin: 0.5rem 0;
+  }
+
+  p:last-of-type {
+    margin-bottom: 2rem;
+  }
+}
+
+.green {
+  color: $color-green;
+}
+
+.red {
+  color: $color-red;
+}

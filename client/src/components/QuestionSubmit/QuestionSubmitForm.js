@@ -3,19 +3,26 @@ import { Link, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import {
-  Button,
+  Button as MaterialButton,
   FormHelperText,
   MenuItem,
   Paper,
   Select,
   TextField,
 } from "@material-ui/core";
+import Button from "../Button/Button";
 import classNames from "classnames";
-import { LEADERBOARD, SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
+import {
+  ABOUT,
+  LEADERBOARD,
+  SIGN_IN,
+  SUBMIT_QUESTION,
+} from "../../constants/routes";
 import styles from "./QuestionSubmit.module.scss";
 import { submitQuestionByUser } from "../../redux/reducers/question";
 import { getTags } from "../../redux/reducers/tag";
 import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
+import QuestionSubmitInstructionsModal from "./QuestionSubmitInstructionsModal";
 
 const QuestionSubmitForm = ({
   isLoggedIn,
@@ -31,6 +38,7 @@ const QuestionSubmitForm = ({
   const [submitted, setSubmitted] = useState(false);
   const [explanation, setExplanation] = useState("");
   const [tagId, setTagId] = useState("");
+  const [showInstructionsModal, setShowInstructionsModal] = useState(false);
 
   useEffect(() => {
     onLoad();
@@ -65,39 +73,66 @@ const QuestionSubmitForm = ({
       <Helmet>
         <title>Submit Question | Fact or Fiction trivia</title>
       </Helmet>
+      <QuestionSubmitInstructionsModal
+        open={showInstructionsModal}
+        onClose={() => setShowInstructionsModal(false)}
+      />
       {submitted ? (
         <div className={styles.afterSubmit}>
           <h2>Thank you for your submission.</h2>
-          <Button
+          <MaterialButton
             variant="contained"
             color="primary"
             className={styles.submittedButtons}
             onClick={() => reset()}
           >
             Submit another question
-          </Button>
+          </MaterialButton>
           <Link to={LEADERBOARD} style={{ textDecoration: "none" }}>
-            <Button
+            <MaterialButton
               variant="contained"
               color="primary"
               className={styles.submittedButtons}
             >
               Done
-            </Button>
+            </MaterialButton>
           </Link>
         </div>
       ) : (
         <div>
           <div className={styles.formHeader}>
             <h1>Submit a Question</h1>
+
+            <h3>
+              Did you find a piece of news that everyone should know about?
+            </h3>
+            <p className={styles.instructions}>
+              As long as it meets the criteria below, it will be accepted and
+              you will receive additional points.
+            </p>
+            <p className={styles.emphasis}>Accepted questions must be:</p>
+            <ol>
+              <li>
+                <b>related to politics</b> (we don't care about what Pete
+                Davidson did yesterday...)
+              </li>
+              <li>
+                <b>verified by a reliable source</b> (see{" "}
+                <Link to={ABOUT}>About/FAQ</Link> page for what kind of sources
+                are accepted)
+              </li>
+              <li>
+                <b>as objective as possible</b> (we're trying to inform folks,
+                not fuel the partisan divide)
+              </li>
+            </ol>
+            <Button
+              onClick={() => setShowInstructionsModal(true)}
+              variant="link"
+            >
+              See an example
+            </Button>
           </div>
-          <h3>Did you find a piece of news that everyone should know about?</h3>
-          <p className={styles.instructions}>
-            {" "}
-            Add <b>3 points</b> to your score by dropping it below. We’ll review
-            it and add it to the <b>next</b> quiz if its accepted. <b>Please</b>{" "}
-            be sure to verify your information with a reliable source.
-          </p>
           <form>
             <TextField
               fullWidth
@@ -165,7 +200,7 @@ const QuestionSubmitForm = ({
             </Select>
             <FormHelperText>Select a category for your question</FormHelperText>
           </form>
-          <Button
+          <MaterialButton
             className={styles.formSubmitButton}
             onClick={handleSubmit}
             disabled={text === "" || answer === "" || source === ""}
@@ -174,7 +209,7 @@ const QuestionSubmitForm = ({
             id="form-submit"
           >
             Submit
-          </Button>
+          </MaterialButton>
         </div>
       )}
     </Paper>
