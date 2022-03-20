@@ -14,7 +14,7 @@
 .question {
   margin: 3rem auto 1rem auto;
   @media (min-width: $breakpoint-sm) {
-    margin: 1.5rem auto;
+    margin: 3rem auto 1.5rem auto;
   }
 
   h2 {
@@ -59,4 +59,8 @@
   min-height: 26rem;
   margin-top: 6rem;
   text-align: center;
+}
+
+.emphasis {
+  text-decoration: underline;
 }
