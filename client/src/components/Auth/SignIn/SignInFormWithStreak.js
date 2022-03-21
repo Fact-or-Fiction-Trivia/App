@@ -10,7 +10,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "../Auth.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
-import { LANDING, SIGN_UP } from "../../../constants/routes";
+import {
+  LANDING,
+  SIGN_UP,
+  REQUEST_FORGOT_PASSWORD,
+} from "../../../constants/routes";
 
 const SignInFormWithStreak = ({
   authMessage,
@@ -88,6 +92,11 @@ const SignInFormWithStreak = ({
         >
           {buttonCopy}
         </Button>
+        <span>
+          <p>
+            <Link to={REQUEST_FORGOT_PASSWORD}>Forgot Password?</Link>
+          </p>
+        </span>
 
         {error && <p>{error.message}</p>}
       </form>

@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const pkg = require("../../package.json");
 const {
-  models: { User, Permission },
+  models: { User, Permission, Token },
 } = require("../db");
+const resetPasswordEmail = require("../sendGrid/resetPassword");
 module.exports = router;
 
 router.post("/login", async (req, res, next) => {
@@ -54,6 +55,65 @@ router.get("/me", async (req, res, next) => {
     res.json(await User.findByToken(req.cookies[`token-${pkg.name}`]));
   } catch (ex) {
     next(ex);
+  }
+});
+
+router.post("/request-reset", async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ where: { email }, include: [Token] });
+
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      if (user.token) {
+        await user.token.destroy();
+      }
+      const token = await Token.create({ userId: user.id });
+      console.log(email);
+      resetPasswordEmail({
+        to: email,
+        accessToken: token.accessToken,
+      });
+
+      res.json(200);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/tokens", async (req, res, next) => {
+  try {
+    const { accessToken } = req.query;
+    const token = await Token.findOne({ where: { accessToken } });
+
+    if (!token || token.hasExpired) {
+      if (token && token.hasExpired) {
+        await token.destroy();
+      }
+      const error = Error("Invalid token");
+      error.status = 401;
+      throw error;
+    }
+    res.json(token.userId);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/password-reset/:userId", async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { password } = req.body;
+    const user = await User.findByPk(userId, { include: [Token] });
+    if (user.token) {
+      await user.token.destroy();
+    }
+    await user.update({ password });
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
   }
 });
 

@@ -9,7 +9,11 @@ const {
   Tag,
   Streak,
   UserAnswered,
+  Token,
 } = require("./models");
+
+User.hasOne(Token);
+Token.belongsTo(User);
 
 //User Submitted Questions
 User.hasMany(Question);
@@ -43,5 +47,6 @@ module.exports = {
     Tag,
     User,
     UserAnswered,
+    Token,
   },
 };
