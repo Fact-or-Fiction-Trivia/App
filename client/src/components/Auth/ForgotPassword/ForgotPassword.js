@@ -30,7 +30,7 @@ const ForgotPassword = ({
   if (validatingToken) {
     return <p>Validating</p>;
   } else if (!validToken) {
-    return <p>Invalid</p>;
+    return <p>Invalid Token</p>;
   }
   if (resetPasswordSuccessful) {
     return <Redirect to={"/signin"} />;
