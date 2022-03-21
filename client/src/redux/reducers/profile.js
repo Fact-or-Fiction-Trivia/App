@@ -18,11 +18,31 @@ export const getAllStreaksForUser = createAsyncThunk(
   }
 );
 
+export const getMailchimpStatus = createAsyncThunk(
+  "mailchimp/getMailchimpStatus",
+  async (mailchimpId) => {
+    const { data } = await axios.get(`/api/mailchimp/${mailchimpId}`);
+    return data;
+  }
+);
+
+export const updateMailchimpStatus = createAsyncThunk(
+  "mailchimp/updateMailchimpStatus",
+  async ({ mailchimpId, dailyUpdate, weeklyUpdate }) => {
+    const { data } = await axios.patch(`/api/mailchimp/${mailchimpId}`, {
+      dailyUpdate,
+      weeklyUpdate,
+    });
+    return data;
+  }
+);
+
 const INIT_STATE = {
   profile: {},
   isLoading: false,
   hasError: false,
   scores: {},
+  mailchimpStatus: null,
 };
 
 const profileSlice = createSlice({
@@ -53,6 +73,32 @@ const profileSlice = createSlice({
         state.hasError = false;
       })
       .addCase(getAllStreaksForUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      .addCase(getMailchimpStatus.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(getMailchimpStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.mailchimpStatus = action.payload;
+      })
+      .addCase(getMailchimpStatus.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      .addCase(updateMailchimpStatus.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(updateMailchimpStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.mailchimpStatus = action.payload;
+      })
+      .addCase(updateMailchimpStatus.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
       });
