@@ -6,21 +6,62 @@ import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { updateUserInfo } from "../../redux/reducers/auth";
+import {
+  getMailchimpStatus,
+  updateMailchimpStatus,
+} from "../../redux/reducers/profile";
 
-const GameSettings = ({ auth, updateInfo }) => {
+const GameSettings = ({
+  auth,
+  getEmailSubscriptionStatus,
+  mailchimpStatus,
+  updateEmailSubscriptionStatus,
+  updateInfo,
+}) => {
   const [soundsOn, setSoundsOn] = useState(auth.soundsOn);
   const [saved, setSaved] = useState(false);
   const [invisibleScore, setInvisibleScore] = useState(
     auth.invisibleScore || false
   );
+
+  const subscribedStatuses = ["subscribed", "transactional"];
+
+  const [dailySubscriptionStatus, setDailySubscriptionStatus] = useState(false);
+  const [weeklySubscriptionStatus, setWeeklySubscriptionStatus] =
+    useState(false);
+
   let flashInterval;
 
   useEffect(() => {
     return clearInterval(flashInterval);
   });
 
+  useEffect(() => {
+    getEmailSubscriptionStatus(auth.mailchimpId);
+  }, []);
+
+  useEffect(() => {
+    setDailySubscriptionStatus(
+      subscribedStatuses.includes(mailchimpStatus?.dailyStatus)
+    );
+    setWeeklySubscriptionStatus(
+      subscribedStatuses.includes(mailchimpStatus?.weeklyStatus)
+    );
+  }, [mailchimpStatus]);
+
   const handleSubmit = async () => {
     updateInfo({ soundsOn, invisibleScore });
+    if (
+      mailchimpStatus.dailyStatus !== dailySubscriptionStatus ||
+      mailchimpStatus.weeklyStatus !== weeklySubscriptionStatus
+    ) {
+      // use archived instead of unsubscribed so that we can still email them
+      updateEmailSubscriptionStatus(
+        auth.mailchimpId,
+        dailySubscriptionStatus ? "subscribed" : "unsubscribed",
+        weeklySubscriptionStatus ? "subscribed" : "unsubscribed"
+      );
+    }
     setSaved(true);
     flashInterval = setInterval(() => {
       setSaved(false);
@@ -62,6 +103,37 @@ const GameSettings = ({ auth, updateInfo }) => {
           label="Hide my scores from the monthly and weekly leaderboards"
         />
       </FormGroup>
+      <h3 className="settings-subheading">Notifications</h3>
+      <FormGroup row className="notification-settings">
+        <FormControlLabel
+          control={
+            <Switch
+              checked={dailySubscriptionStatus}
+              color="primary"
+              name="invisibleScore"
+              onChange={() =>
+                setDailySubscriptionStatus(!dailySubscriptionStatus)
+              }
+            />
+          }
+          label="Receive daily email updates from Fact or Fiction"
+        />
+      </FormGroup>
+      <FormGroup row className="notification-settings">
+        <FormControlLabel
+          control={
+            <Switch
+              checked={weeklySubscriptionStatus}
+              color="primary"
+              name="invisibleScore"
+              onChange={() =>
+                setWeeklySubscriptionStatus(!weeklySubscriptionStatus)
+              }
+            />
+          }
+          label="Receive weekly email updates from Fact or Fiction"
+        />
+      </FormGroup>
       <Button
         color="primary"
         style={{ marginTop: "3vh" }}
@@ -76,13 +148,26 @@ const GameSettings = ({ auth, updateInfo }) => {
 
 const mapState = (state) => {
   const { auth } = state.auth;
+  const { mailchimpStatus } = state.profile;
   return {
     auth,
+    mailchimpStatus,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
+    getEmailSubscriptionStatus(mailchimpId) {
+      // Subscriber's current status. Possible values: "subscribed", "unsubscribed", "cleaned", "pending", "transactional", or "archived".
+      dispatch(getMailchimpStatus(mailchimpId));
+    },
+    updateEmailSubscriptionStatus(mailchimpId, dailyUpdate, weeklyUpdate) {
+      // if the user already has a mailchimp ID
+      dispatch(
+        updateMailchimpStatus({ mailchimpId, dailyUpdate, weeklyUpdate })
+      );
+      // TODO:  else, create a new mailchimp subscription for them
+    },
     updateInfo(update) {
       dispatch(updateUserInfo(update));
     },

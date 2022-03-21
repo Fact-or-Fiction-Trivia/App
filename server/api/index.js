@@ -3,6 +3,7 @@ const router = require("express").Router();
 router.use("/questions", require("./questions"));
 router.use("/streaks", require("./streaks"));
 router.use("/contestQuestion", require("./contested_questions"));
+router.use("/mailchimp", require("./mailchimp"));
 router.use("/tags", require("./tags"));
 router.use("/profiles", require("./profiles"));
 router.use("/users", require("./users"));
