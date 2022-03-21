@@ -30,6 +30,8 @@ import { setMaxScore } from "../redux/reducers/streak";
 import GameHome from "./QuizEngine/GameHome";
 import SignInFormWithStreak from "./Auth/SignIn/SignInFormWithStreak";
 import SignUpFormWithStreak from "./Auth/SignUp/SignUpFormWithStreak";
+import RequestForgotPassword from "./Auth/ForgotPassword/RequestForgotPassword";
+import ForgotPassword from "./Auth/ForgotPassword/ForgotPassword";
 
 const theme = createTheme({
   palette: {
@@ -83,9 +85,19 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
           <Route exact path={"/sponsor"} render={Sponsor} />
           <Route
             exact
+            path={routes.REQUEST_FORGOT_PASSWORD}
+            component={RequestForgotPassword}
+          />
+          <Route
+            exact
+            path={routes.FORGOT_PASSWORD}
+            component={ForgotPassword}
+          />
+          {/* <Route
+            exact
             path={routes.PASSWORD_FORGET}
             component={PasswordForgetPage}
-          />
+          /> */}
           <Route
             exact
             path={routes.PROFILE}
