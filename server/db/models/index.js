@@ -5,4 +5,5 @@ module.exports = {
   Tag: require("./Tag"),
   User: require("./User"),
   UserAnswered: require("./UserAnswered"),
+  Token: require("./Token"),
 };
