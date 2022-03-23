@@ -64,13 +64,120 @@ router.get("/all-scores/:id", requireToken, async (req, res, next) => {
  * Get the highest 10-25 streaks all users per time period (week, month, all time)
  */
 
-router.get("/", requireToken, async (req, res, next) => {
+router.get("/all-scores", requireToken, async (req, res, next) => {
+  const userInfo = [
+    {
+      model: User,
+      attributes: ["firstName", "lastName"],
+      where: {
+        invisibleScore: false,
+      },
+    },
+  ];
+
   try {
-    // get all the user-answered for all users within the last week and return the highest 10-25 streaks
-    // get all the user-answered for all users within the last month and return the highest 10-25 streaks
-    // get all the user-answered for all users  and return the highest 10-25 streaks
-    // average of longest streaks in time period by each person affiliated with that party
-    // res.json(req.user.maxScore);
+    const allTime = await Streak.findAll({
+      order: [["score", "DESC"]],
+      include: userInfo,
+      limit: 10,
+    });
+    const monthly = await Streak.findAll({
+      where: {
+        createdAt: {
+          [Op.gte]: moment().startOf("month").toDate(),
+        },
+      },
+      order: [["score", "DESC"]],
+      include: userInfo,
+      limit: 10,
+    });
+
+    const weekly = await Streak.findAll({
+      where: {
+        createdAt: {
+          [Op.gte]: moment().startOf("week").toDate(),
+        },
+      },
+      order: [["score", "DESC"]],
+      include: userInfo,
+      limit: 10,
+    });
+
+    const getAvgForAffiliation = async (affiliation, timePeriod) => {
+      const userInfo = [
+        {
+          model: User,
+          attributes: ["firstName", "lastName"],
+          where: {
+            invisibleScore: false,
+            affiliation,
+          },
+        },
+      ];
+
+      const allStreaks = await Streak.findAll({
+        where: timePeriod && {
+          createdAt: {
+            [Op.gte]: moment().startOf(timePeriod).toDate(),
+          },
+        },
+        order: [["score", "DESC"]],
+        include: userInfo,
+      }).then((streaks) => {
+        if (streaks.length === 0) return 0;
+
+        const users = {};
+        for (let { userId, score } of streaks) {
+          if (users[userId] && score < users[userId]) continue;
+
+          users[userId] = score;
+        }
+
+        const allScores = Object.values(users);
+
+        return Math.floor(
+          allScores.reduce((a, b) => a + b, 0) / allScores.length
+        );
+      });
+
+      return allStreaks;
+    };
+
+    const promises = await Promise.all([
+      getAvgForAffiliation("Republican"),
+      getAvgForAffiliation("Democrat"),
+      getAvgForAffiliation("Independent"),
+      getAvgForAffiliation("Republican", "month"),
+      getAvgForAffiliation("Democrat", "month"),
+      getAvgForAffiliation("Independent", "month"),
+      getAvgForAffiliation("Republican", "week"),
+      getAvgForAffiliation("Democrat", "week"),
+      getAvgForAffiliation("Independent", "week"),
+    ]);
+    const teamScores = {
+      allTime: {
+        republican: promises[0],
+        democrat: promises[1],
+        independent: promises[2],
+      },
+      monthly: {
+        republican: promises[3],
+        democrat: promises[4],
+        independent: promises[5],
+      },
+      weekly: {
+        republican: promises[6],
+        democrat: promises[7],
+        independent: promises[8],
+      },
+    };
+
+    res.json({
+      allTime,
+      monthly,
+      weekly,
+      teamScores,
+    });
   } catch (err) {
     next(err);
   }
