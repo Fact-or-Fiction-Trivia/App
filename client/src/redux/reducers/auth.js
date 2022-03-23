@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import history from "../../utils/history";
 import axios from "../axiosInstance";
+import { subscribeToEmails } from "./profile";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",
@@ -100,6 +101,7 @@ export const changeEmail = createAsyncThunk(
 export const updateUserInfo = createAsyncThunk(
   "auth/updateUser",
   async (updates) => {
+    console.log(updates, "updates in update user");
     const { data } = await axios.put(`/api/users`, updates);
     return data;
   }
@@ -177,7 +179,6 @@ const authSlice = createSlice({
         state.validInvitation = true;
         state.isLoading = false;
         state.hasError = false;
-        // history.push("/");
       })
       .addCase(receiveInvitation.rejected, (state, action) => {
         state.isLoading = false;
@@ -236,7 +237,8 @@ const authSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { set, setAuthMessage, setPostAuthRedirect } = authSlice.actions;
+export const { set, setAuthMessage, setPostAuthRedirect, updateMe } =
+  authSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
