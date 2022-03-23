@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import { connect } from "react-redux";
 import PolitIQBar from "./PolitIQBar";
 
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
@@ -13,7 +13,9 @@ import useLeaderboard from "../../hooks/useLeaderboard";
 import Marquee from "./marquee";
 import "./leaderboard.css";
 import { db } from "../../firebase";
-var flattenObject = function(ob) {
+import { getAllStreaks } from "../../redux/reducers/leaderboard";
+
+var flattenObject = function (ob) {
   var toReturn = {};
 
   for (var i in ob) {
@@ -32,7 +34,7 @@ var flattenObject = function(ob) {
   }
   return toReturn;
 };
-const Leaderboard = () => {
+const Leaderboard = ({ getStreaks }) => {
   const [showChart, setShowChart] = useState(true);
   const [timeframe, setTimeframe] = useState("Month");
   const [authUserScore, setAuthUserScore] = useState(null);
@@ -47,6 +49,10 @@ const Leaderboard = () => {
     lastWeekScores,
     lastMonthScores,
   } = useLeaderboard();
+
+  useEffect(() => {
+    getStreaks();
+  }, []);
 
   useEffect(() => {
     if (authUser) {
@@ -153,7 +159,7 @@ const Leaderboard = () => {
               <h3>
                 {weeklyScores &&
                   weeklyScores
-                    .map(function(x) {
+                    .map(function (x) {
                       return x.uid;
                     })
                     .indexOf(authUser.uid)}
@@ -178,7 +184,7 @@ const Leaderboard = () => {
               <h3>
                 {monthlyScores &&
                   monthlyScores
-                    .map(function(x) {
+                    .map(function (x) {
                       return x.uid;
                     })
                     .indexOf(authUser.uid)}
@@ -197,7 +203,7 @@ const Leaderboard = () => {
   const renderLeaders = (timeframe) => {
     // Creates teh leaders object based on
     if (timeframe === "Month") {
-      var scoreTotal = monthlyScores.slice(0, 10).reduce(function(prev, cur) {
+      var scoreTotal = monthlyScores.slice(0, 10).reduce(function (prev, cur) {
         // total weekly score
         return prev + cur.monthlyScore;
       }, 0);
@@ -245,7 +251,7 @@ const Leaderboard = () => {
       }
     }
     if (timeframe === "Week") {
-      var scoreTotal = weeklyScores.slice(0, 10).reduce(function(prev, cur) {
+      var scoreTotal = weeklyScores.slice(0, 10).reduce(function (prev, cur) {
         // total weekly score
         return prev + cur.weeklyScore;
       }, 0);
@@ -348,4 +354,19 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+const mapState = (state) => {
+  const { auth } = state.auth;
+  return {
+    auth,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    getStreaks() {
+      dispatch(getAllStreaks());
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(Leaderboard);
