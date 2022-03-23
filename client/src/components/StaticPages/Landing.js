@@ -2,8 +2,10 @@ import React from "react";
 
 import Paper from "@material-ui/core/Paper";
 
-import bg from "./politiq-bg2.jpg";
-
+import bg from "./fof.svg";
+// import Button from "@material-ui/core/Button";
+import Button from "../Button/Button";
+import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "./Static.css";
 import TodaysQuizButton from "./TodaysQuizButton";
@@ -14,32 +16,17 @@ const LandingPage = () => {
     <Paper className="home-holder">
       <div className="welcomeHolder">
         <div className="welcomeBlock">
-          <h1 id="main">
-            Think you know politics<span id="iq">?</span>
-          </h1>
-          <h2 style={{ fontSize: "20px", marginBottom: "40px" }}>Prove it! </h2>
-
+          <h1 id="main">Welcome to</h1>
           <img
             src={bg}
             id="bg-image"
             alt="democrats and republicans face off"
           />
+          <p className="subtitle">Think you know politics?</p>
 
-          <h2 style={{ marginBottom: "40px" }}>
-            Then, add your score to one of three teams and compare it to other
-            users to prove that you and your political party are the most
-            informed.
-          </h2>
-          <div className="title anim-h1">
-            <span>Republican?</span>
-          </div>
-
-          <div className="title anim-h2">
-            <span>Democrat?</span>
-          </div>
-          <div className="title anim-h3">
-            <span>Independent?</span>
-          </div>
+          <Link to={GAME}>
+            <Button variant="primary">Prove it.</Button>
+          </Link>
         </div>
       </div>
       <div className="home-description">
