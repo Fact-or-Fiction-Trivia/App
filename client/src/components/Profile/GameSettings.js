@@ -5,11 +5,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { updateUserInfo } from "../../redux/reducers/auth";
+import { me, updateUserInfo } from "../../redux/reducers/auth";
 import {
   getMailchimpStatus,
+  subscribeToEmails,
   updateMailchimpStatus,
 } from "../../redux/reducers/profile";
+import { setMaxScore } from "../../redux/reducers/streak";
 
 const GameSettings = ({
   auth,
@@ -37,7 +39,9 @@ const GameSettings = ({
   });
 
   useEffect(() => {
-    getEmailSubscriptionStatus(auth.mailchimpId);
+    if (auth.mailchimpId) {
+      getEmailSubscriptionStatus(auth.mailchimpId);
+    }
   }, []);
 
   useEffect(() => {
@@ -52,8 +56,8 @@ const GameSettings = ({
   const handleSubmit = async () => {
     updateInfo({ soundsOn, invisibleScore });
     if (
-      mailchimpStatus.dailyStatus !== dailySubscriptionStatus ||
-      mailchimpStatus.weeklyStatus !== weeklySubscriptionStatus
+      mailchimpStatus?.dailyStatus !== dailySubscriptionStatus ||
+      mailchimpStatus?.weeklyStatus !== weeklySubscriptionStatus
     ) {
       // use archived instead of unsubscribed so that we can still email them
       updateEmailSubscriptionStatus(
@@ -161,12 +165,23 @@ const mapDispatch = (dispatch) => {
       // Subscriber's current status. Possible values: "subscribed", "unsubscribed", "cleaned", "pending", "transactional", or "archived".
       dispatch(getMailchimpStatus(mailchimpId));
     },
-    updateEmailSubscriptionStatus(mailchimpId, dailyUpdate, weeklyUpdate) {
-      // if the user already has a mailchimp ID
-      dispatch(
-        updateMailchimpStatus({ mailchimpId, dailyUpdate, weeklyUpdate })
-      );
-      // TODO:  else, create a new mailchimp subscription for them
+    async updateEmailSubscriptionStatus(
+      mailchimpId,
+      dailyUpdate,
+      weeklyUpdate
+    ) {
+      if (mailchimpId) {
+        dispatch(
+          updateMailchimpStatus({ mailchimpId, dailyUpdate, weeklyUpdate })
+        );
+      } else {
+        await dispatch(
+          subscribeToEmails({
+            daily: dailyUpdate === "subscribed",
+            weekly: weeklyUpdate === "subscribed",
+          })
+        );
+      }
     },
     updateInfo(update) {
       dispatch(updateUserInfo(update));

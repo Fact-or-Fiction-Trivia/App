@@ -37,6 +37,23 @@ export const updateMailchimpStatus = createAsyncThunk(
   }
 );
 
+export const subscribeToEmails = createAsyncThunk(
+  "mailchimp/subscribe",
+  async ({ daily, weekly }) => {
+    console.log(daily, weekly, "in the profile");
+    const subscriptionData = await axios.post(`/api/mailchimp`, {
+      daily,
+      weekly,
+    });
+    const userData = await axios.get("/auth/me", { credentials: "include" });
+    return {
+      userData,
+      subscriptionData,
+    };
+    // return data;
+  }
+);
+
 const INIT_STATE = {
   profile: {},
   isLoading: false,
@@ -99,6 +116,19 @@ const profileSlice = createSlice({
         state.mailchimpStatus = action.payload;
       })
       .addCase(updateMailchimpStatus.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      .addCase(subscribeToEmails.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(subscribeToEmails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.mailchimpStatus = action.payload.subscriptionData;
+      })
+      .addCase(subscribeToEmails.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
       });
