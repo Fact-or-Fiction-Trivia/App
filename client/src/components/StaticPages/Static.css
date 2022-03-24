@@ -53,7 +53,8 @@
   margin-left: auto;
   margin-right: auto;
   display: block;
-  height: 24rem;
+  width: 50vw;
+  max-height: 24rem;
   margin-top: 5px;
 }
 @media screen and (max-width: 415px) {
@@ -260,6 +261,7 @@ h4 {
   height: auto;
   padding-top: 5vh;
   padding-bottom: 5vh;
+  margin-bottom: 2rem;
 }
 
 .how-it-works h2 {
