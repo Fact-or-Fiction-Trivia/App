@@ -26,7 +26,7 @@ const getWeeklyEmailSubscriptionStatus = async (id) => {
 };
 
 const updateEmailSubscriptionWeekly = async (id, status) => {
-  await axios({
+  const weeklyStatus = await axios({
     method: "PATCH",
     url: `https://us20.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_WEEKLY_ID}/members/${id}`,
     headers: {
@@ -35,7 +35,13 @@ const updateEmailSubscriptionWeekly = async (id, status) => {
     data: {
       status,
     },
-  }).catch((error) => console.log(error));
+  })
+    .then((response) => {
+      return response.data.status;
+    })
+    .catch((error) => console.log(error));
+
+  return weeklyStatus;
 };
 
 const subscribeToWeeklyEmails = async (user) => {
@@ -95,7 +101,6 @@ router.patch("/:mailchimpId", requireToken, async (req, res, next) => {
     const { update } = req.body;
 
     const status = await updateEmailSubscriptionWeekly(mailchimpId, update);
-
     res.json({ status });
   } catch (err) {
     next(err);
