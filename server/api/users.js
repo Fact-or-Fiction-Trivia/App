@@ -34,7 +34,6 @@ router.get("/", requireAdmin, async (req, res, next) => {
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
-    console.log(req.body, "the updates in server");
     await User.update(req.body, { where: { id: req.user.id } });
     const user = await User.findOne({ where: { id: req.user.id } });
     res.json(user);
