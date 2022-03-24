@@ -4,14 +4,22 @@
   width: 50%;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 2vh;
-  padding-bottom: 2vh;
-  padding-left: 5vw;
-  padding-right: 5vw;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   text-align: center;
   margin-top: 12vh;
-  margin-bottom: 4vh;
+  margin-bottom: 5rem;
   height: auto;
+
+  form {
+    text-align: left;
+  }
+
+  button {
+    margin-top: 2rem;
+  }
 }
 @media screen and (max-width: 680px) {
   .authCard {
