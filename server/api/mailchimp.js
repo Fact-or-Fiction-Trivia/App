@@ -7,24 +7,6 @@ const {
 
 const { requireToken } = require("./middleware");
 
-const getDailyEmailSubscriptionStatus = async (id) => {
-  const dailyStatus = await axios({
-    method: "GET",
-    url: `https://us20.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_DAILY_ID}/members/${id}`,
-    headers: {
-      Authorization: process.env.MAILCHIMP_API_KEY,
-    },
-  })
-    .then((response) => {
-      return response.data.status;
-    })
-    .catch((error) => {
-      return error;
-    });
-
-  return dailyStatus;
-};
-
 const getWeeklyEmailSubscriptionStatus = async (id) => {
   const weeklyStatus = await axios({
     method: "GET",
@@ -43,19 +25,6 @@ const getWeeklyEmailSubscriptionStatus = async (id) => {
   return weeklyStatus;
 };
 
-const updateEmailSubscriptionDaily = async (id, status) => {
-  await axios({
-    method: "PATCH",
-    url: `https://us20.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_DAILY_ID}/members/${id}`,
-    headers: {
-      Authorization: process.env.MAILCHIMP_API_KEY,
-    },
-    data: {
-      status,
-    },
-  }).catch((error) => console.log(error));
-};
-
 const updateEmailSubscriptionWeekly = async (id, status) => {
   await axios({
     method: "PATCH",
@@ -69,10 +38,10 @@ const updateEmailSubscriptionWeekly = async (id, status) => {
   }).catch((error) => console.log(error));
 };
 
-exports.subscribeToDailyEmails = async (user) => {
+const subscribeToWeeklyEmails = async (user) => {
   const mailchimpId = await axios({
     method: "POST",
-    url: `https://us20.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_DAILY_ID}/members`,
+    url: `https://us20.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_WEEKLY_ID}/members`,
     headers: {
       Authorization: process.env.MAILCHIMP_API_KEY,
     },
@@ -96,23 +65,12 @@ exports.subscribeToDailyEmails = async (user) => {
 
 router.post("/", requireToken, async (req, res, next) => {
   try {
-    const { daily, weekly } = req.body;
-    console.log(daily, weekly);
-    let mailchimpId = null;
-    if (daily) {
-      // if they want to subscribe and are not already, subscribe to daily
-      mailchimpId = await this.subscribeToDailyEmails(req.user);
-      // then take that mailchimp id and use it to add them to the weekly emails
-    } else {
-      console.log("subscribe only to weekly");
-      // mailchimpId =
-    }
-    console.log(mailchimpId);
+    const mailchimpId = await subscribeToWeeklyEmails(req.user);
+
     await User.update({ mailchimpId }, { where: { id: req.user.id } });
 
     res.json({
-      dailyStatus: daily ? "subscribed" : null,
-      weeklyStatus: weekly ? "subscribed" : null,
+      status: "subscribed",
     });
   } catch (err) {
     next(err);
@@ -123,10 +81,9 @@ router.get("/:mailchimpId", requireToken, async (req, res, next) => {
   try {
     const { mailchimpId } = req.params;
 
-    const dailyStatus = await getDailyEmailSubscriptionStatus(mailchimpId);
-    const weeklyStatus = await getWeeklyEmailSubscriptionStatus(mailchimpId);
+    const status = await getWeeklyEmailSubscriptionStatus(mailchimpId);
 
-    res.json({ dailyStatus, weeklyStatus });
+    res.json({ status });
   } catch (err) {
     next(err);
   }
@@ -135,17 +92,11 @@ router.get("/:mailchimpId", requireToken, async (req, res, next) => {
 router.patch("/:mailchimpId", requireToken, async (req, res, next) => {
   try {
     const { mailchimpId } = req.params;
+    const { update } = req.body;
 
-    const { dailyUpdate, weeklyUpdate } = req.body;
-    if (req.body.dailyUpdate) {
-      await updateEmailSubscriptionDaily(mailchimpId, dailyUpdate);
-    }
+    const status = await updateEmailSubscriptionWeekly(mailchimpId, update);
 
-    if (req.body.weeklyUpdate) {
-      await updateEmailSubscriptionWeekly(mailchimpId, weeklyUpdate);
-    }
-
-    res.json({ dailyStatus: dailyUpdate, weeklyStatus: weeklyUpdate });
+    res.json({ status });
   } catch (err) {
     next(err);
   }
