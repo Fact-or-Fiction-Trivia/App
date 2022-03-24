@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Paper from "@material-ui/core/Paper";
 
 import bg from "./fof.svg";
-// import Button from "@material-ui/core/Button";
 import Button from "../Button/Button";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "./Static.css";
 import TodaysQuizButton from "./TodaysQuizButton";
+import PrelaunchModal from "./PrelaunchModal";
 import { GAME } from "../../constants/routes";
 
 const LandingPage = () => {
+  const [prelaunchModalOpen, setPrelaunchModalOpen] = useState(false);
   return (
     <Paper className="home-holder">
+      <PrelaunchModal
+        open={prelaunchModalOpen}
+        onClose={() => setPrelaunchModalOpen(false)}
+      />
       <div className="welcomeHolder">
         <div className="welcomeBlock">
           <h1 id="main">Welcome to</h1>
@@ -23,10 +28,18 @@ const LandingPage = () => {
             alt="democrats and republicans face off"
           />
           <p className="subtitle">Think you know politics?</p>
-
-          <Link to={GAME}>
-            <Button variant="primary">Prove it.</Button>
-          </Link>
+          {process.env.REACT_APP_PRELAUNCH === "true" ? (
+            <Button
+              onClick={() => setPrelaunchModalOpen(true)}
+              variant="primary"
+            >
+              Prove it.
+            </Button>
+          ) : (
+            <Link to={GAME}>
+              <Button variant="primary">Prove it.</Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="home-description">
@@ -104,7 +117,13 @@ const LandingPage = () => {
           <span style={{ fontWeight: "bold" }}>3 points</span> (depending upon
           approval of its content and validity). All are welcome to contribute!
         </p>
-        <TodaysQuizButton />
+        {process.env.REACT_APP_PRELAUNCH === "true" ? (
+          <Button onClick={() => setPrelaunchModalOpen(true)} variant="primary">
+            Play game
+          </Button>
+        ) : (
+          <TodaysQuizButton />
+        )}
       </div>
     </Paper>
   );

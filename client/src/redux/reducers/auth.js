@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import history from "../../utils/history";
 import axios from "../axiosInstance";
-import { subscribeToEmails } from "./profile";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",

@@ -5,7 +5,7 @@ const {
   models: { User },
 } = require("../db");
 
-const { requireToken } = require("./middleware");
+const { requireToken, requireTokenOptional } = require("./middleware");
 
 const getWeeklyEmailSubscriptionStatus = async (id) => {
   const weeklyStatus = await axios({
@@ -55,8 +55,8 @@ const subscribeToWeeklyEmails = async (user) => {
       email_address: user.email,
       status: "subscribed",
       merge_fields: {
-        FNAME: user.firstName,
-        LNAME: user.lastName,
+        FNAME: user.firstName && user.firstName,
+        LNAME: user.lastName && user.lastName,
       },
     },
   })
@@ -69,15 +69,23 @@ const subscribeToWeeklyEmails = async (user) => {
   return mailchimpId;
 };
 
-router.post("/", requireToken, async (req, res, next) => {
+router.post("/", requireTokenOptional, async (req, res, next) => {
   try {
-    const mailchimpId = await subscribeToWeeklyEmails(req.user);
+    if (req.body.email) {
+      // subscribe a user who does not have an account to our email list (prelaunch)
+      await subscribeToWeeklyEmails({ email: req.body.email });
+      res.json({
+        status: "subscribed",
+      });
+    } else {
+      const mailchimpId = await subscribeToWeeklyEmails(req.user);
 
-    await User.update({ mailchimpId }, { where: { id: req.user.id } });
+      await User.update({ mailchimpId }, { where: { id: req.user.id } });
 
-    res.json({
-      status: "subscribed",
-    });
+      res.json({
+        status: "subscribed",
+      });
+    }
   } catch (err) {
     next(err);
   }

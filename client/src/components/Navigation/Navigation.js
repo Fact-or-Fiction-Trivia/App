@@ -170,44 +170,47 @@ class NavigationAuthBase extends Component {
                 </Collapse>
               </>
             ) : null}
-            <Link
-              to={routes.GAME}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary={"Play"} />
-              </ListItem>
-            </Link>
-            <Link
-              to={routes.LEADERBOARD}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary="Leaderboard" />
-              </ListItem>
-            </Link>
-            <Link
-              to={routes.SUBMIT_QUESTION}
-              className="mobile-only"
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary="Submit A Question" />
-              </ListItem>
-            </Link>
-            <Link
-              // to={`/profile/${this.state.signedInUser}`}
-              to={routes.SUBMIT_QUESTION}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary="Submit a question" />
-              </ListItem>
-            </Link>
+            {process.env.REACT_APP_PRELAUNCH === "false" && (
+              <>
+                <Link
+                  to={routes.GAME}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary={"Play"} />
+                  </ListItem>
+                </Link>
+                <Link
+                  to={routes.LEADERBOARD}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Leaderboard" />
+                  </ListItem>
+                </Link>
+                <Link
+                  to={routes.SUBMIT_QUESTION}
+                  className="mobile-only"
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Submit A Question" />
+                  </ListItem>
+                </Link>
+                <Link
+                  to={routes.SUBMIT_QUESTION}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Submit a question" />
+                  </ListItem>
+                </Link>
+              </>
+            )}
             <Link
               to={routes.ABOUT}
               style={{ textDecoration: "none" }}
@@ -217,20 +220,24 @@ class NavigationAuthBase extends Component {
                 <ListItemText primary="About/FAQ" />
               </ListItem>
             </Link>
-            {this.props.isLoggedIn ? (
-              <ListItem button component="a" onClick={this.signOut}>
-                <ListItemText primary="Sign Out" />
-              </ListItem>
-            ) : (
-              <Link
-                to={routes.SIGN_IN}
-                style={{ textDecoration: "none" }}
-                onClick={this.toggleDrawer("top", false)}
-              >
-                <ListItem button>
-                  <ListItemText primary="Sign In" />
-                </ListItem>
-              </Link>
+            {process.env.REACT_APP_PRELAUNCH === "false" && (
+              <>
+                {this.props.isLoggedIn ? (
+                  <ListItem button component="a" onClick={this.signOut}>
+                    <ListItemText primary="Sign Out" />
+                  </ListItem>
+                ) : (
+                  <Link
+                    to={routes.SIGN_IN}
+                    style={{ textDecoration: "none" }}
+                    onClick={this.toggleDrawer("top", false)}
+                  >
+                    <ListItem button>
+                      <ListItemText primary="Sign In" />
+                    </ListItem>
+                  </Link>
+                )}
+              </>
             )}
           </List>
         </MediaQuery>
@@ -247,40 +254,38 @@ class NavigationAuthBase extends Component {
                 </ListItem>
               </Link>
             ) : null}
-            <Link
-              to={this.state.mostRecentQuizURL}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button disabled={this.state.noQuizzes}>
-                <ListItemText
-                  primary={
-                    this.state.noQuizzes
-                      ? "No Available Quizzes"
-                      : "Take Today's Quiz"
-                  }
-                />
-              </ListItem>
-            </Link>
-            <Link
-              to={routes.LEADERBOARD}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary="Leaderboard" />
-              </ListItem>
-            </Link>
-            <Link
-              //to={`/profile/${this.state.signedInUser}`}
-              to={routes.SUBMIT_QUESTION}
-              style={{ textDecoration: "none" }}
-              onClick={this.toggleDrawer("top", false)}
-            >
-              <ListItem button>
-                <ListItemText primary="Submit a question" />
-              </ListItem>
-            </Link>
+            {process.env.REACT_APP_PRELAUNCH === "false" && (
+              <>
+                <Link
+                  to={routes.GAME}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Take Today's Quiz" />
+                  </ListItem>
+                </Link>
+                <Link
+                  to={routes.LEADERBOARD}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Leaderboard" />
+                  </ListItem>
+                </Link>
+                <Link
+                  //to={`/profile/${this.state.signedInUser}`}
+                  to={routes.SUBMIT_QUESTION}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Submit a question" />
+                  </ListItem>
+                </Link>
+              </>
+            )}
             <Link
               to={routes.ABOUT}
               style={{ textDecoration: "none" }}
@@ -290,20 +295,24 @@ class NavigationAuthBase extends Component {
                 <ListItemText primary="About/FAQ" />
               </ListItem>
             </Link>
-            {this.props.isLoggedIn ? (
-              <ListItem button component="a" onClick={this.signOut}>
-                <ListItemText primary="Sign Out" />
-              </ListItem>
-            ) : (
-              <Link
-                to={routes.SIGN_IN}
-                style={{ textDecoration: "none" }}
-                onClick={this.toggleDrawer("top", false)}
-              >
-                <ListItem button>
-                  <ListItemText primary="Sign In" />
-                </ListItem>
-              </Link>
+            {process.env.REACT_APP_PRELAUNCH === "false" && (
+              <>
+                {this.props.isLoggedIn ? (
+                  <ListItem button component="a" onClick={this.signOut}>
+                    <ListItemText primary="Sign Out" />
+                  </ListItem>
+                ) : (
+                  <Link
+                    to={routes.SIGN_IN}
+                    style={{ textDecoration: "none" }}
+                    onClick={this.toggleDrawer("top", false)}
+                  >
+                    <ListItem button>
+                      <ListItemText primary="Sign In" />
+                    </ListItem>
+                  </Link>
+                )}
+              </>
             )}
           </List>
         </MediaQuery>
