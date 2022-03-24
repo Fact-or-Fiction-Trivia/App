@@ -11,7 +11,6 @@ import {
   subscribeToEmails,
   updateMailchimpStatus,
 } from "../../redux/reducers/profile";
-import { setMaxScore } from "../../redux/reducers/streak";
 
 const GameSettings = ({
   auth,
@@ -20,7 +19,6 @@ const GameSettings = ({
   updateEmailSubscriptionStatus,
   updateInfo,
 }) => {
-  const [soundsOn, setSoundsOn] = useState(auth.soundsOn);
   const [saved, setSaved] = useState(false);
   const [invisibleScore, setInvisibleScore] = useState(
     auth.invisibleScore || false
@@ -28,9 +26,7 @@ const GameSettings = ({
 
   const subscribedStatuses = ["subscribed", "transactional"];
 
-  const [dailySubscriptionStatus, setDailySubscriptionStatus] = useState(false);
-  const [weeklySubscriptionStatus, setWeeklySubscriptionStatus] =
-    useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState(false);
 
   let flashInterval;
 
@@ -45,25 +41,15 @@ const GameSettings = ({
   }, []);
 
   useEffect(() => {
-    setDailySubscriptionStatus(
-      subscribedStatuses.includes(mailchimpStatus?.dailyStatus)
-    );
-    setWeeklySubscriptionStatus(
-      subscribedStatuses.includes(mailchimpStatus?.weeklyStatus)
-    );
+    setSubscriptionStatus(subscribedStatuses.includes(mailchimpStatus?.status));
   }, [mailchimpStatus]);
 
   const handleSubmit = async () => {
-    updateInfo({ soundsOn, invisibleScore });
-    if (
-      mailchimpStatus?.dailyStatus !== dailySubscriptionStatus ||
-      mailchimpStatus?.weeklyStatus !== weeklySubscriptionStatus
-    ) {
-      // use archived instead of unsubscribed so that we can still email them
+    updateInfo({ invisibleScore });
+    if (mailchimpStatus?.status !== subscriptionStatus) {
       updateEmailSubscriptionStatus(
         auth.mailchimpId,
-        dailySubscriptionStatus ? "subscribed" : "unsubscribed",
-        weeklySubscriptionStatus ? "subscribed" : "unsubscribed"
+        subscriptionStatus ? "subscribed" : "unsubscribed"
       );
     }
     setSaved(true);
@@ -75,23 +61,21 @@ const GameSettings = ({
   return (
     <div style={{ marginBottom: "10vh" }}>
       <h1 id="settings-heading">Game Settings</h1>
-      <h3 className="settings-subheading">Sounds</h3>
-      {auth ? (
-        <FormGroup row className="notification-settings">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={soundsOn}
-                color={"primary"}
-                onChange={() => setSoundsOn(!soundsOn)}
-                name="soundsOn"
-                inputProps={{ "aria-label": "Sounds On" }}
-              />
-            }
-            label="Game sounds on"
-          />
-        </FormGroup>
-      ) : null}
+      {/* <h3 className="settings-subheading">Sounds</h3> */}
+      {/* <FormGroup row className="notification-settings">
+        <FormControlLabel
+          control={
+            <Switch
+              checked={soundsOn}
+              color={"primary"}
+              onChange={() => setSoundsOn(!soundsOn)}
+              name="soundsOn"
+              inputProps={{ "aria-label": "Sounds On" }}
+            />
+          }
+          label="Game sounds on"
+        />
+      </FormGroup> */}
 
       <h3 className="settings-subheading">Score Visibility</h3>
       <FormGroup row className="notification-settings">
@@ -108,34 +92,18 @@ const GameSettings = ({
         />
       </FormGroup>
       <h3 className="settings-subheading">Notifications</h3>
+
       <FormGroup row className="notification-settings">
         <FormControlLabel
           control={
             <Switch
-              checked={dailySubscriptionStatus}
+              checked={subscriptionStatus}
               color="primary"
               name="invisibleScore"
-              onChange={() =>
-                setDailySubscriptionStatus(!dailySubscriptionStatus)
-              }
+              onChange={() => setSubscriptionStatus(!subscriptionStatus)}
             />
           }
-          label="Receive daily email updates from Fact or Fiction"
-        />
-      </FormGroup>
-      <FormGroup row className="notification-settings">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={weeklySubscriptionStatus}
-              color="primary"
-              name="invisibleScore"
-              onChange={() =>
-                setWeeklySubscriptionStatus(!weeklySubscriptionStatus)
-              }
-            />
-          }
-          label="Receive weekly email updates from Fact or Fiction"
+          label="Receive email updates from Fact or Fiction"
         />
       </FormGroup>
       <Button
@@ -165,22 +133,11 @@ const mapDispatch = (dispatch) => {
       // Subscriber's current status. Possible values: "subscribed", "unsubscribed", "cleaned", "pending", "transactional", or "archived".
       dispatch(getMailchimpStatus(mailchimpId));
     },
-    async updateEmailSubscriptionStatus(
-      mailchimpId,
-      dailyUpdate,
-      weeklyUpdate
-    ) {
+    async updateEmailSubscriptionStatus(mailchimpId, update) {
       if (mailchimpId) {
-        dispatch(
-          updateMailchimpStatus({ mailchimpId, dailyUpdate, weeklyUpdate })
-        );
+        dispatch(updateMailchimpStatus({ mailchimpId, update }));
       } else {
-        await dispatch(
-          subscribeToEmails({
-            daily: dailyUpdate === "subscribed",
-            weekly: weeklyUpdate === "subscribed",
-          })
-        );
+        await dispatch(subscribeToEmails());
       }
     },
     updateInfo(update) {

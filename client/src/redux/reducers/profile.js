@@ -28,10 +28,9 @@ export const getMailchimpStatus = createAsyncThunk(
 
 export const updateMailchimpStatus = createAsyncThunk(
   "mailchimp/updateMailchimpStatus",
-  async ({ mailchimpId, dailyUpdate, weeklyUpdate }) => {
+  async ({ mailchimpId, update }) => {
     const { data } = await axios.patch(`/api/mailchimp/${mailchimpId}`, {
-      dailyUpdate,
-      weeklyUpdate,
+      update,
     });
     return data;
   }
@@ -39,11 +38,9 @@ export const updateMailchimpStatus = createAsyncThunk(
 
 export const subscribeToEmails = createAsyncThunk(
   "mailchimp/subscribe",
-  async ({ daily, weekly }) => {
-    console.log(daily, weekly, "in the profile");
+  async () => {
     const subscriptionData = await axios.post(`/api/mailchimp`, {
-      daily,
-      weekly,
+      status: "subscribed",
     });
     const userData = await axios.get("/auth/me", { credentials: "include" });
     return {
