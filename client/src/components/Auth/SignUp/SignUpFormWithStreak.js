@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { signupWithStreak } from "../../../redux/reducers/auth";
+import { me, signupWithStreak } from "../../../redux/reducers/auth";
 import { Redirect, Link } from "react-router-dom";
 // UI
 import Helmet from "react-helmet";
@@ -9,14 +9,17 @@ import {
   TextField,
   Select,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Paper,
+  Checkbox,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import "../Auth.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
 import { LANDING, SIGN_IN } from "../../../constants/routes";
+import { subscribeToEmails } from "../../../redux/reducers/profile";
 
 const SignUpFormWithStreak = ({
   authMessage,
@@ -34,8 +37,17 @@ const SignUpFormWithStreak = ({
     email: "",
     password: "",
     correctPassword: "",
+    emailOptIn: true,
   });
-  const isInvalid = formData.password === "" || formData.email === "";
+  // All fields are required
+  const isInvalid =
+    formData.password === "" ||
+    formData.email === "" ||
+    formData.firstName === "" ||
+    formData.lastName === "" ||
+    formData.affiliation === "" ||
+    formData.correctPassword === "" ||
+    formData.password !== formData.correctPassword;
   // Handler
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,10 +57,17 @@ const SignUpFormWithStreak = ({
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "emailOptIn") {
+      setFormData({
+        ...formData,
+        emailOptIn: target.checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   if (isLoggedIn) {
@@ -133,19 +152,29 @@ const SignUpFormWithStreak = ({
           name="correctPassword"
           placeholder="Reenter Password"
         />
-        <Button
-          disabled={isInvalid}
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={{ marginTop: "2vh" }}
-          onClick={handleSubmit}
-        >
-          {buttonCopy}
-        </Button>
-
-        {error && <p>{error.message}</p>}
+        <FormControlLabel
+          className="emailOptIn"
+          control={
+            <Checkbox
+              color="primary"
+              checked={formData.emailOptIn}
+              onChange={handleChange}
+              name="emailOptIn"
+            />
+          }
+          label="I would like to receive email updates from Fact or Fiction"
+        />
       </form>
+      <Button
+        disabled={isInvalid}
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+      >
+        {buttonCopy}
+      </Button>
+      {error && <p>{error.message}</p>}
     </Paper>
   );
 };
@@ -164,8 +193,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    signUpUserWithStreak({ formData, streak }) {
-      dispatch(
+    async signUpUserWithStreak({ formData, streak }) {
+      await dispatch(
         signupWithStreak({
           formData,
           streak,
@@ -177,6 +206,10 @@ const mapDispatch = (dispatch) => {
           },
         })
       );
+      if (formData.emailOptIn) {
+        await dispatch(subscribeToEmails());
+        dispatch(me());
+      }
     },
   };
 };
