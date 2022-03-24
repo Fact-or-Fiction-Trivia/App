@@ -46,7 +46,7 @@ export const requestReset = createAsyncThunk(
 
 export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
   const { data } = await axios.get("/auth/me", { credentials: "include" });
-  setLongestStreak(data.maxScore);
+  setLongestStreak && setLongestStreak(data.maxScore);
   return data;
 });
 
@@ -101,7 +101,6 @@ export const changeEmail = createAsyncThunk(
 export const updateUserInfo = createAsyncThunk(
   "auth/updateUser",
   async (updates) => {
-    console.log(updates, "updates in update user");
     const { data } = await axios.put(`/api/users`, updates);
     return data;
   }

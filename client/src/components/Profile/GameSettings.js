@@ -61,21 +61,6 @@ const GameSettings = ({
   return (
     <div style={{ marginBottom: "10vh" }}>
       <h1 id="settings-heading">Game Settings</h1>
-      {/* <h3 className="settings-subheading">Sounds</h3> */}
-      {/* <FormGroup row className="notification-settings">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={soundsOn}
-              color={"primary"}
-              onChange={() => setSoundsOn(!soundsOn)}
-              name="soundsOn"
-              inputProps={{ "aria-label": "Sounds On" }}
-            />
-          }
-          label="Game sounds on"
-        />
-      </FormGroup> */}
 
       <h3 className="settings-subheading">Score Visibility</h3>
       <FormGroup row className="notification-settings">
@@ -139,6 +124,8 @@ const mapDispatch = (dispatch) => {
       } else {
         await dispatch(subscribeToEmails());
       }
+
+      dispatch(me());
     },
     updateInfo(update) {
       dispatch(updateUserInfo(update));
