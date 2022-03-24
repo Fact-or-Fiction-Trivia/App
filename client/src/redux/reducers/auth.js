@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import history from "../../utils/history";
 import axios from "../axiosInstance";
+import { subscribeToEmails } from "./profile";
 
 export const receiveInvitation = createAsyncThunk(
   "auth/receiveInvitation",
@@ -34,7 +35,7 @@ export const receiveToken = createAsyncThunk(
 
 export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
   const { data } = await axios.get("/auth/me", { credentials: "include" });
-  setLongestStreak(data.maxScore);
+  setLongestStreak && setLongestStreak(data.maxScore);
   return data;
 });
 
@@ -169,7 +170,6 @@ const authSlice = createSlice({
         state.validInvitation = true;
         state.isLoading = false;
         state.hasError = false;
-        // history.push("/");
       })
       .addCase(requestReset.rejected, (state, action) => {
         alert("Email not registered with user account");
@@ -249,7 +249,8 @@ const authSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { set, setAuthMessage, setPostAuthRedirect } = authSlice.actions;
+export const { set, setAuthMessage, setPostAuthRedirect, updateMe } =
+  authSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
