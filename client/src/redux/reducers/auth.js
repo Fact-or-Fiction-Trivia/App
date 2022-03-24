@@ -13,33 +13,22 @@ export const receiveInvitation = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
-  async ({ password, userId, token }) => {
-    const { data } = await axios.post(
-      `/api/users/password-reset/${userId}/${token}`,
-      {
-        password,
-      }
-    );
-    if (data === "reset") {
-      alert("Password has been reset");
-      history.push("/");
-    } else {
-      alert("err");
-    }
-    return data;
+  async ({ password, userId }) => {
+    await axios.put(`/auth/password-reset/${userId}`, { password });
   }
 );
 
 export const requestReset = createAsyncThunk(
   "auth/requestReset",
-  async ({ email }) => {
-    const { data } = await axios.post(`/api/users/request-reset`, { email });
-    if (data === "sent") {
-      alert("sent");
-      history.push("/");
-    } else {
-      alert("err");
-    }
+  async (email) => {
+    await axios.post(`/auth/request-reset`, { email });
+  }
+);
+
+export const receiveToken = createAsyncThunk(
+  "auth/receiveToken",
+  async (accessToken) => {
+    const { data } = await axios.get(`/auth/tokens?accessToken=${accessToken}`);
     return data;
   }
 );
@@ -117,7 +106,10 @@ const INIT_STATE = {
   auth: {},
   authMessage: null,
   id: null,
-  validInvitation: null,
+  validatingToken: true,
+  validToken: false,
+  resetPasswordSuccessful: false,
+  requestedPasswordReset: false,
   loggedIn: false,
   preCheck: false,
   postAuthRedirect: "/",
@@ -179,21 +171,42 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
       })
-      .addCase(receiveInvitation.rejected, (state, action) => {
+      .addCase(requestReset.rejected, (state, action) => {
+        alert("Email not registered with user account");
+        state.requestedPasswordReset = true;
         state.isLoading = false;
         state.hasError = true;
       })
-      .addCase(registerInvitation.fulfilled, (state, action) => {
-        state.auth = action.payload;
-        state.validInvitation = null;
-        state.preCheck = true;
+      .addCase(requestReset.fulfilled, (state, action) => {
+        alert("Email has been sent");
+        state.requestedPasswordReset = true;
         state.isLoading = false;
         state.hasError = false;
-        window.location.reload();
       })
-      .addCase(registerInvitation.rejected, (state, action) => {
+      .addCase(receiveToken.pending, (state, action) => {
+        state.validatingToken = true;
+        state.validToken = false;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(receiveToken.fulfilled, (state, action) => {
+        state.validatingToken = false;
+        state.id = action.payload;
+        state.validToken = true;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(receiveToken.rejected, (state, action) => {
+        state.validatingToken = false;
+        state.validToken = false;
         state.isLoading = false;
         state.hasError = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        alert("Password has been reset");
+        state.resetPasswordSuccessful = true;
+        state.isLoading = false;
+        state.hasError = false;
       })
       .addCase(changeEmail.rejected, (state, action) => {
         alert("Password Incorrect");

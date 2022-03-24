@@ -2,15 +2,16 @@
 
 .button {
   background-color: $color-primary;
-  border-radius: 5px;
+  border-radius: 50px;
   box-shadow: 2px 2px 3px rgba($color-black, 0.1);
   color: $color-white;
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1rem;
   padding: 1rem;
   text-align: center;
-
+  width: fit-content;
+  padding: 1rem 2rem;
   &:hover,
   &:active {
     background-color: $color-primary-dark;
