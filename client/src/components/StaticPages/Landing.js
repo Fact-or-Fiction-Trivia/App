@@ -14,6 +14,12 @@ import { GAME } from "../../constants/routes";
 
 const LandingPage = () => {
   const [prelaunchModalOpen, setPrelaunchModalOpen] = useState(false);
+  console.log(process.env.REACT_APP_PRELAUNCH, "ENV");
+  console.log(
+    process.env.REACT_APP_PRELAUNCH === "true",
+    process.env.REACT_APP_PRELAUNCH === true,
+    "true, true"
+  );
   return (
     <Paper className="home-holder">
       <PrelaunchModal
