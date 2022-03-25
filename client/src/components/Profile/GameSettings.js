@@ -24,8 +24,6 @@ const GameSettings = ({
     auth.invisibleScore || false
   );
 
-  const subscribedStatuses = ["subscribed", "transactional"];
-
   const [subscriptionStatus, setSubscriptionStatus] = useState(false);
 
   let flashInterval;
@@ -38,9 +36,11 @@ const GameSettings = ({
     if (auth.mailchimpId) {
       getEmailSubscriptionStatus(auth.mailchimpId);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    const subscribedStatuses = ["subscribed", "transactional"];
+
     setSubscriptionStatus(subscribedStatuses.includes(mailchimpStatus?.status));
   }, [mailchimpStatus]);
 
