@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
@@ -20,7 +21,7 @@ const isFixed = () => {
   }
 };
 
-const Footer = () => (
+const Footer = ({ isLoggedIn }) => (
   <div className="footer" style={isFixed()}>
     {localStorage.hasOwnProperty("authUser") ? (
       <div className="description">
@@ -47,40 +48,31 @@ const Footer = () => (
 
     <div className="links">
       <h3>Quick Links</h3>
-      <Link
-        to={routes.PLAY_GAME}
-        style={{
-          color: "white",
-          textDecoration: "none",
-          marginTop: "1vh",
-          display: "block",
-        }}
-      >
-        Play
-      </Link>
-      <Link
-        to={routes.SUBMIT_QUESTION}
-        style={{
-          color: "white",
-          textDecoration: "none",
-          marginTop: "1vh",
-          display: "block",
-        }}
-      >
-        Submit a Question
-      </Link>
-      {localStorage.hasOwnProperty("authUser") && (
-        <Link
-          to={routes.ABOUT}
-          style={{
-            color: "white",
-            textDecoration: "none",
-            marginTop: "1vh",
-            display: "block",
-          }}
-        >
-          About
-        </Link>
+      {process.env.REACT_APP_PRELAUNCH === "false" && (
+        <>
+          <Link
+            to={routes.PLAY_GAME}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginTop: "1vh",
+              display: "block",
+            }}
+          >
+            Play
+          </Link>
+          <Link
+            to={routes.SUBMIT_QUESTION}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginTop: "1vh",
+              display: "block",
+            }}
+          >
+            Submit a Question
+          </Link>
+        </>
       )}
       <Link
         to={`${routes.ABOUT}#FAQ`}
@@ -104,23 +96,27 @@ const Footer = () => (
       >
         About
       </Link>
-      {localStorage.hasOwnProperty("authUser") ? null : (
-        <Link
-          to={routes.SIGN_UP}
-          style={{
-            color: "white",
-            textDecoration: "none",
-            marginTop: "1vh",
-            display: "block",
-          }}
-        >
-          Sign Up
-        </Link>
+      {process.env.REACT_APP_PRELAUNCH === "false" && (
+        <>
+          {!isLoggedIn && (
+            <Link
+              to={routes.SIGN_UP}
+              style={{
+                color: "white",
+                textDecoration: "none",
+                marginTop: "1vh",
+                display: "block",
+              }}
+            >
+              Sign Up
+            </Link>
+          )}
+        </>
       )}
     </div>
 
     <div className="sharing">
-      <h3>Share on Social Media</h3>
+      {/* <h3>Share on Social Media</h3> */}
 
       <div className="socials" style={{ display: "flex", marginTop: "1vh" }}>
         {/* TODO: FIX SHARE BUTTONS */}
@@ -150,4 +146,13 @@ const Footer = () => (
   </div>
 );
 
-export default Footer;
+const mapState = (state) => {
+  const { auth } = state.auth;
+  const isLoggedIn = !!auth.id;
+
+  return {
+    isLoggedIn,
+  };
+};
+
+export default connect(mapState)(Footer);

@@ -38,9 +38,10 @@ export const updateMailchimpStatus = createAsyncThunk(
 
 export const subscribeToEmails = createAsyncThunk(
   "mailchimp/subscribe",
-  async () => {
+  async (email) => {
     const { data } = await axios.post(`/api/mailchimp`, {
       status: "subscribed",
+      email,
     });
     return data;
   }
