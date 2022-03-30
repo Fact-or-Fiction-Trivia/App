@@ -2,9 +2,11 @@
 
 .button {
   background-color: $color-primary;
+  border: unset;
   border-radius: 50px;
   box-shadow: 2px 2px 3px rgba($color-black, 0.1);
   color: $color-white;
+  font-family: Quicksand;
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 auto 1rem auto;

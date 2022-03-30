@@ -3,66 +3,118 @@
 .textContainer {
   font-size: 1.5rem;
   font-weight: 500;
+  margin: 1rem auto 2rem auto;
+
   padding: 0 1.5rem;
   @media (min-width: $breakpoint-md) {
-    max-width: 750px;
-    margin: 0 auto;
+    max-width: 600px;
   }
 }
 
 .buttonContainer {
   display: flex;
+  flex-direction: column;
 
   @media (min-width: $breakpoint-md) {
-    bottom: 2rem;
-    flex-direction: column;
-    left: 250px;
-    margin: 0 auto;
-    position: absolute;
-    width: 500px;
+    margin: 1rem auto;
+    width: 300px;
   }
 }
 
 .button {
   color: $color-white;
   bottom: 0;
-  box-shadow: 3px 3px 3px rgba($color-black, 0.1);
+  border: unset;
+  border-radius: 50px;
+  box-shadow: 3px 3px 3px rgba($color-black, 0.2);
+  font-family: Quicksand;
   font-size: $font-size-xxl;
   font-weight: $font-weight-extra-bold;
-  padding: 2rem 0.5rem;
-  position: absolute;
+  margin: 1rem auto;
+  padding: 1rem 0.5rem;
   text-align: center;
-  width: calc(50% - 1rem);
+  width: calc(100% - 2rem);
 
   &:hover {
     cursor: pointer;
   }
 
   @media (min-width: $breakpoint-md) {
-    border-radius: 5px;
-    position: relative;
-    margin: 1rem;
     width: calc(100% - 2rem);
   }
 }
 
 .fiction {
-  background-color: $color-red;
+  background-color: $color-black;
   right: 0;
 
   &:hover,
   &:active {
-    background-color: $color-red-hover;
+    background-color: $color-primary-very-dark;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    &:hover {
+      background-color: $color-black;
+      cursor: default;
+    }
+  }
+}
+
+.fictionSelected {
+  border: 2px solid $color-black;
+  background-color: $color-white;
+  color: $color-black;
+
+  &:disabled {
+    opacity: 1;
+    &:hover {
+      background-color: $color-white;
+      cursor: default;
+    }
   }
 }
 
 .fact {
-  background-color: $color-green;
+  background-color: $color-primary;
   min-width: calc(50% - 1rem);
   left: 0;
 
   &:hover,
   &:active {
-    background-color: $color-green-hover;
+    background-color: $color-primary-dark;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    &:hover {
+      background-color: $color-primary;
+      cursor: default;
+    }
+  }
+}
+
+.factSelected {
+  border: 2px solid $color-primary;
+  background-color: $color-white;
+  color: $color-primary;
+
+  &:disabled {
+    opacity: 1;
+    &:hover {
+      background-color: $color-white;
+      cursor: default;
+    }
+  }
+}
+
+.tag {
+  background-color: $color-primary;
+  border-radius: 5px;
+  color: $color-white;
+  display: inline-block;
+  font-weight: bold;
+  margin: 1rem;
+  padding: 0.5rem;
 }
