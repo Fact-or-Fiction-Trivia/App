@@ -83,7 +83,7 @@ router.get("/:questionId/percentage", async (req, res, next) => {
         const numTrue = answeredQuestions
           .map((q) => q.answeredCorrectly)
           .filter((correct) => correct).length;
-        return (numTrue / numTotal) * 100;
+        return Math.floor((numTrue / numTotal) * 100);
       })
     );
   } catch (err) {
