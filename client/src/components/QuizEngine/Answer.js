@@ -8,33 +8,30 @@ import { Link } from "react-router-dom";
 import { CONTEST } from "../../constants/routes";
 
 const Answer = ({
+  getPercentage,
   handleContinue,
   isCorrect,
+  isLoadingQuestionDetails,
   question,
   questionPercentage,
-  isLoadingQuestionDetails,
-  getPercentage,
 }) => {
   console.log(question.id, "Answer");
   useEffect(() => {
     getPercentage(question.id);
   }, []);
-  const handleContestQuestion = () => {
-    alert("Coming Soon");
-  };
 
   return (
     <>
-      {isCorrect ? (
-        <div className={classNames(styles.isCorrect, styles.correct)}>
-          Correct!
-        </div>
-      ) : (
-        <div className={classNames(styles.isCorrect, styles.incorrect)}>
-          Incorrect!
-        </div>
-      )}
       <div className={styles.textContainer}>
+        {isCorrect ? (
+          <span className={classNames(styles.isCorrect, styles.correct)}>
+            Correct!
+          </span>
+        ) : (
+          <span className={classNames(styles.isCorrect, styles.incorrect)}>
+            Incorrect!
+          </span>
+        )}{" "}
         {question.explanation}{" "}
         <a
           className={styles.linkStyle}
@@ -45,25 +42,26 @@ const Answer = ({
           Learn more
         </a>
       </div>
-      <div className={styles.textContainer}>
+      <div className={classNames(styles.textContainer, styles.percentage)}>
         {isLoadingQuestionDetails
           ? null
           : questionPercentage === null
           ? "You're the first to answer this question."
-          : `${questionPercentage}% of players answered this question correctly.`}
+          : `${Math.floor(
+              questionPercentage
+            )}% of players answered this question correctly.`}
       </div>
 
       <div className={styles.buttonContainer}>
-        <Button onClick={() => handleContinue(question.id)} variant="primary">
-          {isCorrect ? "Keep Playing" : "Continue"}
-        </Button>
         <Link to={CONTEST}>CHALLENGE this question</Link>
-        {/* <div
-          className={classNames(styles.linkStyle, styles.challenge)}
-          onClick={() => handleContestQuestion()}
+
+        <Button
+          className={styles.continueButton}
+          onClick={() => handleContinue(question.id)}
+          variant="primary"
         >
-          Challenge this question
-        </div> */}
+          Continue
+        </Button>
       </div>
     </>
   );

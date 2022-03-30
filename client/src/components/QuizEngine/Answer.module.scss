@@ -6,14 +6,13 @@
   padding: 1.5rem;
 
   @media (min-width: $breakpoint-md) {
-    max-width: 750px;
+    max-width: 600px;
     margin: 0 auto;
   }
 }
 
 .isCorrect {
-  font-size: $font-size-xl;
-  font-weight: 600;
+  font-weight: 800;
   text-align: center;
 }
 
@@ -25,6 +24,13 @@
   color: $color-red;
 }
 
+.percentage {
+  color: $color-primary;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 0;
+}
+
 .linkStyle {
   color: $color-primary;
   text-decoration: underline;
@@ -34,16 +40,38 @@
 }
 
 .buttonContainer {
-  bottom: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+
+  margin: 0 auto;
   padding: 1rem;
-  position: absolute;
-  width: calc(100% - 4rem);
-  left: 1rem;
+
+  a {
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  button {
+    width: 60%;
+  }
 
   @media (min-width: $breakpoint-md) {
-    left: calc((100% - 750px) / 2);
-    max-width: 750px;
+    flex-direction: row;
+    justify-content: space-between;
+
+    max-width: 600px;
     padding: 1rem 0;
+
+    .continueButton {
+      margin: unset;
+    }
+    a {
+      align-self: flex-end;
+      margin-top: unset;
+    }
   }
 }
 
