@@ -4,7 +4,7 @@ import styles from "./Button.module.scss";
 
 const Button = ({ children, className, onClick, variant }) => {
   return (
-    <div
+    <button
       className={classNames(
         styles.button,
         styles[`button_${variant}`],
@@ -14,7 +14,7 @@ const Button = ({ children, className, onClick, variant }) => {
       onKeyPress={(e) => e.key === "Enter" && onClick()}
     >
       {children}
-    </div>
+    </button>
   );
 };
 

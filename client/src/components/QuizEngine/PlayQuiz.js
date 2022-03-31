@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Paper } from "@material-ui/core";
 import classNames from "classnames";
@@ -34,6 +34,7 @@ const PlayQuiz = ({
 }) => {
   // Timer reference used in the Question -> TimerBar Component
   const timer = useRef(null);
+  const [selected, setSelected] = useState(null);
 
   //Grab the Questions
   useEffect(() => {
@@ -64,8 +65,7 @@ const PlayQuiz = ({
       answeredCorrectly: question.answer === answer,
     });
 
-    // Remove this question from the questions array on redux state.
-    // answered(question.id);
+    setSelected(answer);
 
     // This action creator in the redux question slice also adds the
     // question id to localstorage so that the user will never see
@@ -105,21 +105,28 @@ const PlayQuiz = ({
     return <NoQuestionsAvailable />;
   }
 
+  const handleNextQuestion = (questionId) => {
+    setSelected(null);
+    nextQuestion(questionId);
+  };
+
   return (
     <div className={styles.quizContainer}>
       <Paper className={styles.questionContainer}>
         <div className={styles.statsContainer}>
-          <div className={styles.streakContainer}>
-            <span
-              className={classNames(
-                styles.streakNum,
-                !isAnswering && answeredCorrectly && styles.bounce
-              )}
-            >
-              {streakLength}
-            </span>{" "}
-            in a row
-          </div>
+          {!streakEnded && (
+            <div className={styles.streakContainer}>
+              <span className={styles.streakLabel}>Current streak: </span>
+              <span
+                className={classNames(
+                  styles.streakNum,
+                  !isAnswering && answeredCorrectly && styles.bounce
+                )}
+              >
+                {streakLength}
+              </span>
+            </div>
+          )}
         </div>
         {streakEnded ? (
           <EndOfStreak
@@ -130,16 +137,16 @@ const PlayQuiz = ({
           />
         ) : (
           <>
-            {isAnswering ? (
-              <Question
-                question={questions[0]}
-                handleAnswer={handleAnswer}
-                timer={timer}
-                increaseStreak={increaseStreak}
-              />
-            ) : (
+            <Question
+              handleAnswer={handleAnswer}
+              increaseStreak={increaseStreak}
+              question={questions[0]}
+              selected={selected}
+              timer={timer}
+            />
+            {!isAnswering && (
               <Answer
-                handleContinue={nextQuestion}
+                handleContinue={handleNextQuestion}
                 isCorrect={answeredCorrectly}
                 question={questions[0]}
               />
