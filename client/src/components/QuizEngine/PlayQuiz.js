@@ -114,17 +114,19 @@ const PlayQuiz = ({
     <div className={styles.quizContainer}>
       <Paper className={styles.questionContainer}>
         <div className={styles.statsContainer}>
-          <div className={styles.streakContainer}>
-            <span className={styles.streakLabel}>Current streak: </span>
-            <span
-              className={classNames(
-                styles.streakNum,
-                !isAnswering && answeredCorrectly && styles.bounce
-              )}
-            >
-              {streakLength}
-            </span>
-          </div>
+          {!streakEnded && (
+            <div className={styles.streakContainer}>
+              <span className={styles.streakLabel}>Current streak: </span>
+              <span
+                className={classNames(
+                  styles.streakNum,
+                  !isAnswering && answeredCorrectly && styles.bounce
+                )}
+              >
+                {streakLength}
+              </span>
+            </div>
+          )}
         </div>
         {streakEnded ? (
           <EndOfStreak
