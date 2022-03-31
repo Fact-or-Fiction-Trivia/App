@@ -1,11 +1,18 @@
 import React from "react";
 import classNames from "classnames";
+import { connect } from "react-redux";
 import styles from "./Question.module.scss";
 import TimerBar from "./TimerBar";
 
-const Question = ({ handleAnswer, question, timer, increaseStreak }) => {
+const Question = ({
+  handleAnswer,
+  increaseStreak,
+  isAnswering,
+  question,
+  selected,
+  timer,
+}) => {
   if (!question) return null;
-  console.log(question.id, "Question");
   return (
     <div>
       <TimerBar
@@ -13,28 +20,43 @@ const Question = ({ handleAnswer, question, timer, increaseStreak }) => {
         increaseStreak={increaseStreak}
         question={question}
       />
-      <h2>
-        {question.tags.map((tag) => (
-          <p>{tag.name}</p>
-        ))}
-      </h2>
+      {question.tags.map((tag) => (
+        <div className={styles.tag}>{tag.name}</div>
+      ))}
       <div className={styles.textContainer}>{question.text}</div>
       <div className={styles.buttonContainer}>
-        <div
-          className={classNames(styles.button, styles.fact)}
+        <button
+          className={classNames(
+            styles.button,
+            styles.fact,
+            !isAnswering && styles.disabled,
+            selected === "Fact" && styles.factSelected
+          )}
+          disabled={!isAnswering}
           onClick={() => handleAnswer(question, "Fact")}
         >
           Fact
-        </div>
-        <div
-          className={classNames(styles.button, styles.fiction)}
+        </button>
+        <button
+          className={classNames(
+            styles.button,
+            styles.fiction,
+            !isAnswering && styles.disabled,
+            selected === "Fiction" && styles.fictionSelected
+          )}
+          disabled={!isAnswering}
           onClick={() => handleAnswer(question, "Fiction")}
         >
           Fiction
-        </div>
+        </button>
       </div>
     </div>
   );
 };
 
-export default Question;
+const mapState = (state) => {
+  const { isAnswering } = state.streak;
+  return { isAnswering };
+};
+
+export default connect(mapState)(Question);
