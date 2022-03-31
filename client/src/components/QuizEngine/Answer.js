@@ -47,9 +47,7 @@ const Answer = ({
           ? null
           : questionPercentage === null
           ? "You're the first to answer this question."
-          : `${Math.floor(
-              questionPercentage
-            )}% of players answered this question correctly.`}
+          : `${questionPercentage}% of players answered this question correctly.`}
       </div>
 
       <div className={styles.buttonContainer}>
