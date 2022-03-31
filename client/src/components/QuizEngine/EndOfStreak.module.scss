@@ -4,6 +4,10 @@
   padding: 1rem;
   text-align: center;
 
+  h1 {
+    margin-top: 2rem;
+  }
+
   p {
     margin-top: 0;
     margin-bottom: 0;
@@ -14,18 +18,71 @@
     margin: 0 auto;
   }
 }
+
+.streakContainer {
+  position: relative;
+  img {
+    max-width: 300px;
+
+    @media (min-width: $breakpoint-md) {
+      max-height: 375px;
+    }
+  }
+}
 .streak {
-  color: $color-primary;
+  color: $color-secondary;
   font-weight: 800;
-  font-size: $font-size-xl;
+  font-size: 7rem;
+  position: absolute;
+  left: calc(50% - 4.8rem);
+  top: calc(50% - 2.5rem);
   margin-bottom: 0;
+  width: 10rem;
+  margin-top: 0;
+  text-align: center;
+}
+
+.streakMessage {
+  font-weight: bold;
+  font-size: $font-size-m;
+}
+
+.green {
+  color: $color-green;
+}
+
+.red {
+  color: $color-red;
+}
+
+.socialMediaHeading {
+  text-transform: uppercase;
 }
 
 .buttonContainer {
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 3rem;
+
+  button {
+    width: 15rem;
+  }
 
   @media (min-width: $breakpoint-md) {
-    margin-top: 5rem;
+    flex-direction: row;
+
+    button {
+      width: unset;
+    }
+  }
+
+  a {
+    margin: 0 auto 1rem auto;
+
+    button {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -40,8 +97,4 @@
     background: #fff;
     padding: 0 10px;
   }
-}
-
-.skipButton {
-  margin-top: 2rem;
 }
