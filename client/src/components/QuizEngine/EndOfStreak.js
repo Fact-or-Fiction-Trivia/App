@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
@@ -14,37 +14,50 @@ const EndOfStreak = ({
   streakLength,
   playNewGame,
 }) => {
+  const [serveAdd, setServeAdd] = useState(true);
+
   return (
     <div className={styles.container}>
-      <p>Final Streak</p>
-      <h1 className={styles.streak}>{streakLength}</h1>
-
-      {maxStreak > 0 && <div>Your record: {maxStreak}</div>}
-      {isLoggedIn ? (
+      {serveAdd ? (
         <div>
-          <Button variant="primary" onClick={playNewGame}>
-            Play Again
+          <p>Add</p>
+          <Button variant="primary" onClick={() => setServeAdd(false)}>
+            Cancel
           </Button>
-          <Link to="/leaderboard">
-            <Button variant="white">View Leaderboard</Button>
-          </Link>
         </div>
       ) : (
-        <div className={styles.buttonContainer}>
-          <Link to={SIGN_IN} onClick={() => setRedirect("/game/play")}>
-            Sign In
-          </Link>
-          <div className={styles.horizontalRule}>
-            <span>or</span>
-          </div>
-          <Button
-            className={styles.skipButton}
-            variant="white"
-            onClick={playNewGame}
-          >
-            Skip and play again
-          </Button>
-        </div>
+        <>
+          <p>Final Streak</p>
+          <h1 className={styles.streak}>{streakLength}</h1>
+
+          {maxStreak > 0 && <div>Your record: {maxStreak}</div>}
+          {isLoggedIn ? (
+            <div>
+              <Button variant="primary" onClick={playNewGame}>
+                Play Again
+              </Button>
+              <Link to="/leaderboard">
+                <Button variant="white">View Leaderboard</Button>
+              </Link>
+            </div>
+          ) : (
+            <div className={styles.buttonContainer}>
+              <Link to={SIGN_IN} onClick={() => setRedirect("/game/play")}>
+                Sign In
+              </Link>
+              <div className={styles.horizontalRule}>
+                <span>or</span>
+              </div>
+              <Button
+                className={styles.skipButton}
+                variant="white"
+                onClick={playNewGame}
+              >
+                Skip and play again
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
