@@ -1,9 +1,25 @@
 @import "../../variables.scss";
 
 .leaderboard {
-  margin: calc($nav-height + 5rem) auto;
-  padding: 2rem;
-  width: 800px;
+  margin: calc($nav-height + 3rem) auto;
+  padding: 1rem;
+
+  @media (min-width: $breakpoint-md) {
+    margin: calc($nav-height + 5rem) auto;
+    padding: 2rem;
+    width: 800px;
+  }
+}
+
+.leaderboardTabs {
+  display: flex;
+}
+
+.individualLeaderboardContainer {
+  h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
 }
 
 .leaderTable {
@@ -29,7 +45,7 @@
   background-color: $color-primary-light;
   color: $color-black;
   font-weight: bold;
-  font-size: $font-size-l;
+  font-size: $font-size-m;
   margin: 0 1rem;
 
   &:nth-child(2n) {
@@ -40,6 +56,10 @@
     background-color: $color-primary;
     cursor: pointer;
   }
+
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-l;
+  }
   td {
     box-sizing: border-box;
     padding: 0.5rem;
@@ -48,7 +68,11 @@
 
   .rank {
     border-right: 0.5rem solid $color-black;
-    width: 6rem;
+    width: 4rem;
+
+    @media (min-width: breakpoint-md) {
+      width: 6rem;
+    }
   }
 
   .scoreInfo {
@@ -57,8 +81,12 @@
     .name {
       display: flex;
       img {
-        height: 4rem;
-        margin-right: 1rem;
+        height: 2rem;
+        margin-right: 0.5rem;
+        @media (min-width: $breakpoint-md) {
+          height: 4rem;
+          margin-right: 1rem;
+        }
       }
       div {
         align-self: center;

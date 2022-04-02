@@ -47,7 +47,7 @@ const Leaderboard = ({ allTime, auth, getStreaks, monthly, weekly }) => {
   };
 
   return (
-    <div>
+    <div className={styles.leaderboardContainer}>
       <Link
         style={{ textDecoration: "none", color: "#554E3F" }}
         to={`/sponsor`}
@@ -55,27 +55,28 @@ const Leaderboard = ({ allTime, auth, getStreaks, monthly, weekly }) => {
         <Marquee />
       </Link>
       <Paper className={styles.leaderboard}>
+        <div className={styles.leaderboardTabs}>
+          <Button
+            onClick={() => setTimeframe("Week")}
+            variant={timeframe === "Week" ? "primary" : "link"}
+          >
+            Weekly
+          </Button>
+          <Button
+            onClick={() => setTimeframe("Month")}
+            variant={timeframe === "Month" ? "primary" : "link"}
+          >
+            Monthly
+          </Button>
+          <Button
+            onClick={() => setTimeframe("All Time")}
+            variant={timeframe === "All Time" ? "primary" : "link"}
+          >
+            All Time
+          </Button>
+        </div>
         <div className={styles.individualLeaderboardContainer}>
-          <div className="leaderboard-tabs">
-            <Button
-              onClick={() => setTimeframe("Week")}
-              variant={timeframe === "Week" ? "primary" : "link"}
-            >
-              Weekly
-            </Button>
-            <Button
-              onClick={() => setTimeframe("Month")}
-              variant={timeframe === "Month" ? "primary" : "link"}
-            >
-              Monthly
-            </Button>
-            <Button
-              onClick={() => setTimeframe("All Time")}
-              variant={timeframe === "All Time" ? "primary" : "link"}
-            >
-              All Time
-            </Button>
-          </div>
+          <h1>Individual Standings</h1>
           <table className={styles.leaderTable}>
             <thead>
               <tr>
