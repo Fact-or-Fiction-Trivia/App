@@ -1,0 +1,73 @@
+@import "../../variables.scss";
+
+.leaderboard {
+  margin: calc($nav-height + 5rem) auto;
+  padding: 2rem;
+  width: 800px;
+}
+
+.leaderTable {
+  background-color: $color-black;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  color: $color-white;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 2rem 1rem;
+  width: 100%;
+}
+.authUserScore {
+  background: linear-gradient(
+    70deg,
+    rgb(239, 188, 77) 0%,
+    rgb(239, 188, 77) 24%,
+    rgb(244, 207, 126) 50%,
+    rgb(255, 244, 219) 100%
+  ) !important;
+}
+
+.leaderboardRow {
+  background-color: $color-primary-light;
+  color: $color-black;
+  font-weight: bold;
+  font-size: $font-size-l;
+  margin: 0 1rem;
+
+  &:nth-child(2n) {
+    background-color: $color-primary-extra-light;
+  }
+
+  &:hover {
+    background-color: $color-primary;
+    cursor: pointer;
+  }
+  td {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-bottom: 0.5rem solid $color-black;
+  }
+
+  .rank {
+    border-right: 0.5rem solid $color-black;
+    width: 6rem;
+  }
+
+  .scoreInfo {
+    display: flex;
+    justify-content: space-between;
+    .name {
+      display: flex;
+      img {
+        height: 4rem;
+        margin-right: 1rem;
+      }
+      div {
+        align-self: center;
+      }
+    }
+    .score {
+      display: flex;
+      align-items: center;
+      margin-right: 30%;
+    }
+  }
+}
