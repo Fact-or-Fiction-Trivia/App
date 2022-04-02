@@ -12,7 +12,7 @@ import LandingPage from "./StaticPages/Landing";
 import ProfilePage from "./Profile/Profile";
 import Footer from "./Footer";
 import AdminDashboard from "./AdminDashboard/AdminDashboard";
-import Leaderboard from "./Leaderboard2/Leaderboard";
+import Leaderboard from "./Leaderboard/Leaderboard";
 import About from "./StaticPages/About";
 import QuestionSubmitForm from "./QuestionSubmit/QuestionSubmitForm";
 import ReviewQuestions from "./AdminDashboard/SubmittedQuestions/ReviewQuestions";
