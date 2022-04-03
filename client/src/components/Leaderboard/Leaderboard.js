@@ -203,7 +203,6 @@ const Leaderboard = ({
                 <span className={styles.whiteGlow}>1</span>
               </div>
               <div>
-                {" "}
                 {getTeamImage(thirdPlaceTeam, "3rd")}
                 <span className={styles.whiteGlow}>3</span>
               </div>
