@@ -9,11 +9,10 @@ import "./App.scss";
 import Sponsor from "./StaticPages/sponsor";
 import Navigation from "./Navigation/Navigation";
 import LandingPage from "./StaticPages/Landing";
-import PasswordForgetPage from "./Auth/PasswordForget";
 import ProfilePage from "./Profile/Profile";
 import Footer from "./Footer";
 import AdminDashboard from "./AdminDashboard/AdminDashboard";
-import Leaderboard from "./Leaderboard2/Leaderboard";
+import Leaderboard from "./Leaderboard/Leaderboard";
 import About from "./StaticPages/About";
 import QuestionSubmitForm from "./QuestionSubmit/QuestionSubmitForm";
 import ReviewQuestions from "./AdminDashboard/SubmittedQuestions/ReviewQuestions";
@@ -93,11 +92,6 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
             path={routes.FORGOT_PASSWORD}
             component={ForgotPassword}
           />
-          {/* <Route
-            exact
-            path={routes.PASSWORD_FORGET}
-            component={PasswordForgetPage}
-          /> */}
           <Route
             exact
             path={routes.PROFILE}
