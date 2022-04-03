@@ -81,6 +81,7 @@ router.get("/all-scores", requireToken, async (req, res, next) => {
       include: userInfo,
       limit: 10,
     });
+
     const monthly = await Streak.findAll({
       where: {
         createdAt: {
@@ -89,7 +90,6 @@ router.get("/all-scores", requireToken, async (req, res, next) => {
       },
       order: [["score", "DESC"]],
       include: userInfo,
-      limit: 10,
     });
 
     const weekly = await Streak.findAll({
@@ -100,7 +100,6 @@ router.get("/all-scores", requireToken, async (req, res, next) => {
       },
       order: [["score", "DESC"]],
       include: userInfo,
-      limit: 10,
     });
 
     const getAvgForAffiliation = async (affiliation, timePeriod) => {
@@ -171,7 +170,6 @@ router.get("/all-scores", requireToken, async (req, res, next) => {
         independent: promises[8],
       },
     };
-
     res.json({
       allTime,
       monthly,
