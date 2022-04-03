@@ -64,7 +64,7 @@ router.get("/all-scores/:id", requireToken, async (req, res, next) => {
  * Get the highest 10-25 streaks all users per time period (week, month, all time)
  */
 
-router.get("/all-scores", requireToken, async (req, res, next) => {
+router.get("/all-scores", async (req, res, next) => {
   const userInfo = [
     {
       model: User,

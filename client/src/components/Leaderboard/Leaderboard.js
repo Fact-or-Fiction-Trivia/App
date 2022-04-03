@@ -9,7 +9,7 @@ import Democrats from "./LeaderboardGraphics/democrats.svg";
 import DemocratsLead from "./LeaderboardGraphics/democratsLead.svg";
 import Independents from "./LeaderboardGraphics/independents.svg";
 import IndependentsLead from "./LeaderboardGraphics/independentsLead.svg";
-
+import { GAME } from "../../constants/routes";
 import owl from "../../images/large_icon.png";
 
 import { Link, useHistory } from "react-router-dom";
@@ -36,20 +36,23 @@ const Leaderboard = ({
   }, []);
 
   useEffect(() => {
-    let scoreList;
-    if (timeframe === "weekly") {
-      scoreList = weekly;
-    } else if (timeframe === "monthly") {
-      scoreList = monthly;
-    } else if (timeframe === "allTime") {
-      scoreList = allTime;
-    }
+    if (auth.id) {
+      let scoreList;
+      if (timeframe === "weekly") {
+        scoreList = weekly;
+      } else if (timeframe === "monthly") {
+        scoreList = monthly;
+      } else if (timeframe === "allTime") {
+        scoreList = allTime;
+      }
 
-    const userHighScore = scoreList.find((score) => score.userId === auth.id);
-    setUserRank({
-      rank: scoreList.indexOf(userHighScore) + 1,
-      score: userHighScore?.score,
-    });
+      const userHighScore = scoreList.find((score) => score.userId === auth.id);
+
+      setUserRank({
+        rank: scoreList.indexOf(userHighScore) + 1,
+        score: userHighScore?.score,
+      });
+    }
 
     sortTeamStandings();
   }, [weekly, monthly, allTime, teamScores, timeframe]);
@@ -114,12 +117,16 @@ const Leaderboard = ({
   const thirdPlaceTeam = teamNames.length > 0 && formatTeamName(teamNames[2]);
 
   const getTeamImage = (team, place) => {
-    console.log(team, place);
     let img;
     switch (team) {
       case "Republicans":
         if (place === "1st") {
-          img = <img src={RepublicansLead} alt={`Republicans take ${place}`} />;
+          img = (
+            <img
+              src={RepublicansLead}
+              alt={`Republicans take ${place} and wear the crown`}
+            />
+          );
         } else {
           img = <img src={Republicans} alt={`Republicans take ${place}`} />;
         }
@@ -127,7 +134,10 @@ const Leaderboard = ({
       case "Independents":
         if (place === "1st") {
           img = (
-            <img src={IndependentsLead} alt={`Independents take ${place}`} />
+            <img
+              src={IndependentsLead}
+              alt={`Independents take ${place} and wear the crown`}
+            />
           );
         } else {
           img = <img src={Independents} alt={`Independents take ${place}`} />;
@@ -135,7 +145,12 @@ const Leaderboard = ({
         break;
       case "Democrats":
         if (place === "1st") {
-          img = <img src={DemocratsLead} alt={`Democratstake ${place}`} />;
+          img = (
+            <img
+              src={DemocratsLead}
+              alt={`Democratstake ${place} and wear the crown`}
+            />
+          );
         } else {
           img = <img src={Democrats} alt={`Democrats take ${place}`} />;
         }
@@ -196,7 +211,7 @@ const Leaderboard = ({
             <h2>{firstPlaceTeam} in the lead!</h2>
             <h3>Average Streak Scores:</h3>
             {Object.keys(teamStandings).map((party) => (
-              <p>
+              <p key={party}>
                 {formatTeamName(party)}: {teamStandings[party]}
               </p>
             ))}
@@ -204,39 +219,52 @@ const Leaderboard = ({
         </div>
         <div className={styles.individualLeaderboardContainer}>
           <h1>Individual Standings</h1>
-          <table className={styles.leaderTable}>
-            <thead>
-              <tr>
-                <td>Rank</td>
-                <td>Username</td>
-                <td>Longest Streak</td>
-              </tr>
-            </thead>
-            {userRank > 10 && (
-              <tr
-                key={auth.id}
-                className={classNames(
-                  styles.authUserScore,
-                  styles.leaderboardRow
-                )}
-                onClick={() => history.push(`/profile/${auth.id}`)}
-              >
-                <td className={styles.rank}>{userRank?.rank}</td>
-                <td colSpan="2">
-                  <div className={styles.scoreInfo}>
-                    <div className={styles.name}>
-                      <img src={owl} alt="SmartOwl" />
-                      <div>
-                        {auth.firstName} {auth.lastName[0]}.
+          {(timeframe === "monthly" && monthly.length > 0) ||
+          (timeframe === "weekly" && weekly.length > 0) ||
+          (timeframe === "allTime" && allTime.length > 0) ? (
+            <table className={styles.leaderTable}>
+              <thead>
+                <tr>
+                  <td>Rank</td>
+                  <td>Username</td>
+                  <td>Longest Streak</td>
+                </tr>
+              </thead>
+              {userRank > 10 && (
+                <tr
+                  key={auth.id}
+                  className={classNames(
+                    styles.authUserScore,
+                    styles.leaderboardRow
+                  )}
+                  onClick={() => history.push(`/profile/${auth.id}`)}
+                >
+                  <td className={styles.rank}>{userRank?.rank}</td>
+                  <td colSpan="2">
+                    <div className={styles.scoreInfo}>
+                      <div className={styles.name}>
+                        <img src={owl} alt="SmartOwl" />
+                        <div>
+                          {auth.firstName} {auth.lastName[0]}.
+                        </div>
                       </div>
+                      <div className={styles.score}>{userRank?.score}</div>
                     </div>
-                    <div className={styles.score}>{userRank?.score}</div>
-                  </div>
-                </td>
-              </tr>
-            )}
-            <tbody>{monthly && weekly && renderLeaders(timeframe)}</tbody>
-          </table>
+                  </td>
+                </tr>
+              )}
+              <tbody>{renderLeaders(timeframe)}</tbody>
+            </table>
+          ) : (
+            <div className={styles.emptyState}>
+              <h2 className={styles.whiteGlow}>
+                No scores yet for this time period!
+              </h2>
+              <Link to={GAME}>
+                <Button variant="primary">Play now to add your score</Button>
+              </Link>
+            </div>
+          )}
         </div>
       </Paper>
     </div>
