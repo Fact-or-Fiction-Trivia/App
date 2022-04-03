@@ -113,11 +113,7 @@ class AdminDashboard extends Component {
     });
     const allDates = Object.keys(data);
     const dateArray = allDates.filter(
-      (date) =>
-        date >
-        moment()
-          .startOf("month")
-          .format("YYYY-MM-DDTHH:mm")
+      (date) => date > moment().startOf("month").format("YYYY-MM-DDTHH:mm")
     );
     const titleArray = [];
     for (let i = 0; i < dateArray.length; i += 1) {
