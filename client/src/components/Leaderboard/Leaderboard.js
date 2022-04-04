@@ -33,7 +33,7 @@ const Leaderboard = ({
 
   useEffect(() => {
     getStreaks();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (auth.id) {
@@ -55,7 +55,7 @@ const Leaderboard = ({
     }
 
     sortTeamStandings();
-  }, [weekly, monthly, allTime, teamScores, timeframe]);
+  }, [weekly, monthly, allTime, teamScores, timeframe]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const sortTeamStandings = () => {
     if (teamScores === undefined) return;
@@ -163,10 +163,7 @@ const Leaderboard = ({
   };
   return (
     <div className={styles.leaderboardContainer}>
-      <Link
-        style={{ textDecoration: "none", color: "#554E3F" }}
-        to={`/sponsor`}
-      >
+      <Link style={{ textDecoration: "none", color: "#554E3F" }} to={`/game`}>
         <Marquee />
       </Link>
       <Paper className={styles.leaderboard}>
