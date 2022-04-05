@@ -48,7 +48,8 @@ const EndOfStreak = ({
               )}
             </>
           )}
-
+          
+          
           {/* <h3 className={styles.socialMediaHeading}>Share on social media</h3> */}
 
           <div className={styles.buttonContainer}>

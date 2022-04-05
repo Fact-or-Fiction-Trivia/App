@@ -12,7 +12,7 @@ const {
 
 router.get("/", async (req, res, next) => {
   try {
-    res.json(await Tag.findAll());
+    res.json(await Tag.findAll({ order: [["name", "ASC"]] }));
   } catch (err) {
     next(err);
   }
