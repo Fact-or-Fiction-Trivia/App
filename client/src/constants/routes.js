@@ -20,6 +20,7 @@ export const CONTEST = "/contest";
 
 // admn routes
 export const ADMIN_DASHBOARD = "/admin";
+export const ADMIN_QUESTIONS = "/admin/questions";
 export const REVIEW = "/review";
 export const REVIEW_CONTEST = "/review-contest";
 export const CREATE_NEW_QUIZ = "/admin/create-new-quiz";

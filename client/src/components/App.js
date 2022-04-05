@@ -32,6 +32,9 @@ import SignInFormWithStreak from "./Auth/SignIn/SignInFormWithStreak";
 import SignUpFormWithStreak from "./Auth/SignUp/SignUpFormWithStreak";
 import RequestForgotPassword from "./Auth/ForgotPassword/RequestForgotPassword";
 import ForgotPassword from "./Auth/ForgotPassword/ForgotPassword";
+import AdminDash from "./AdminDashboard/AdminDash";
+import AdminQuestions from "./AdminDashboard/AdminQuestions";
+import AdminQuestion from "./AdminDashboard/AdminQuestion";
 
 const theme = createTheme({
   palette: {
@@ -135,8 +138,23 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
           <Route
             exact
             path={routes.ADMIN_DASHBOARD}
-            render={(props) => <AdminDashboard {...props} renderPage={""} />}
+            render={(props) => <AdminDash {...props} />}
           />
+          <Route
+            exact
+            path={routes.ADMIN_QUESTIONS}
+            render={(props) => <AdminQuestions {...props} />}
+          />
+          <Route
+            exact
+            path={`${routes.ADMIN_QUESTIONS}/:questionId`}
+            render={(props) => <AdminQuestion {...props} />}
+          />
+          {/* <Route
+            exact
+            path={routes.ADMIN_DASHBOARD}
+            render={(props) => <AdminDashboard {...props} renderPage={""} />}
+          /> */}
           {/* Quiz Routes */}
           <Route exact path={routes.GAME} component={GameHome} />
           <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
