@@ -34,6 +34,7 @@ const PlayQuiz = ({
 }) => {
   // Timer reference used in the Question -> TimerBar Component
   const timer = useRef(null);
+  const interval = useRef(null);
   const [selected, setSelected] = useState(null);
 
   //Grab the Questions
@@ -58,6 +59,7 @@ const PlayQuiz = ({
 
   const handleAnswer = (question, answer) => {
     // Clear the setTimeout which is set in the Question -> TimerBar component
+    clearInterval(interval.current);
     clearTimeout(timer.current);
     // Add a new object to the streak array on redux state
     increaseStreak({
@@ -143,6 +145,7 @@ const PlayQuiz = ({
               question={questions[0]}
               selected={selected}
               timer={timer}
+              interval={interval}
             />
             {!isAnswering && (
               <Answer

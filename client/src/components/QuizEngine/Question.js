@@ -11,12 +11,14 @@ const Question = ({
   question,
   selected,
   timer,
+  interval,
 }) => {
   if (!question) return null;
   return (
     <div>
       <TimerBar
         timer={timer}
+        interval={interval}
         increaseStreak={increaseStreak}
         question={question}
       />

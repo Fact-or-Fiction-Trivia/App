@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+router.use("/admins", require("./admins"));
 router.use("/questions", require("./questions"));
 router.use("/streaks", require("./streaks"));
 router.use("/contestQuestion", require("./contested_questions"));
