@@ -14,7 +14,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:8080",
-      "https://fact-or-fiction-dev-server.herokuapp.com",
+      process.env.REACT_APP_PRODUCTION_BASE_URL,
     ],
   })
 );
