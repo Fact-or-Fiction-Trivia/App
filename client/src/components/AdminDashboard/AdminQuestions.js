@@ -16,7 +16,9 @@ const AdminQuestions = ({ getQuestions, questions }) => {
       <ul>
         {questions.map((question) => (
           <li>
-            <Link to={`/admin/questions/${question.id}`}>{question.text}</Link>
+            <Link to={`/admin/manage-questions/${question.id}`}>
+              {question.text}
+            </Link>
           </li>
         ))}
       </ul>

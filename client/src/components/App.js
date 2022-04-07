@@ -135,10 +135,14 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
               <AdminDashboard {...props} renderPage={"Leaderboard"} />
             )}
           />
-          <Route
+          {/* <Route
             exact
             path={routes.ADMIN_DASHBOARD}
             render={(props) => <AdminDash {...props} />}
+          /> */}
+          <Route
+            path={routes.ADMIN_DASHBOARD}
+            render={(props) => <AdminDashboard {...props} />}
           />
           <Route
             exact
