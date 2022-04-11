@@ -1,24 +1,97 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import Paper from "@material-ui/core/Paper";
+import { IconButton, Paper, Snackbar } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
 import bg from "./fof.svg";
 import fight from "./politiq-bg2.jpg";
 import Button from "../Button/Button";
-import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Static.css";
 import TodaysQuizButton from "./TodaysQuizButton";
 import PrelaunchModal from "./PrelaunchModal";
-import { GAME } from "../../constants/routes";
+import { ADD_TO_HOMESCREEN, GAME } from "../../constants/routes";
 
 const LandingPage = () => {
+  const history = useHistory();
   const [prelaunchModalOpen, setPrelaunchModalOpen] = useState(false);
+  const [shouldAddToHomescreen, setShouldAddToHomescreen] = useState(false);
+
+  useEffect(() => {
+    addToHomeScreen();
+  }, []);
+
+  const addToHomeScreen = () => {
+    // check if the user is running on ios and see if they're running higher than 11.3 (the highest version that supports pwas)
+    function iOSversion() {
+      if (/iP(hone|od|ad)/.test(navigator.platform)) {
+        // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+        var v = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+        return [
+          parseInt(v[1], 10),
+          parseInt(v[2], 10),
+          parseInt(v[3] || 0, 10),
+        ];
+      }
+    }
+
+    let ver = iOSversion();
+    if (ver === undefined) return;
+
+    const needsToSeePrompt = () => {
+      if (navigator.standalone) {
+        return false;
+      } else if (ver[0] <= 11.3) {
+        return false;
+      }
+      return ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+    };
+
+    if (needsToSeePrompt()) {
+      setShouldAddToHomescreen(true);
+    }
+  };
+
   return (
     <Paper className="home-holder">
       <PrelaunchModal
         open={prelaunchModalOpen}
         onClose={() => setPrelaunchModalOpen(false)}
+      />
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        open={shouldAddToHomescreen}
+        autoHideDuration={60000}
+        onClose={() => setShouldAddToHomescreen(false)}
+        ContentProps={{
+          "aria-describedby": "message-id",
+        }}
+        action={[
+          <>
+            <Button
+              size="small"
+              color="primary"
+              style={{ fontSize: "0.777rem" }}
+              onClick={() => {
+                history.push(ADD_TO_HOMESCREEN);
+              }}
+              key="add-to-homescreen"
+            >
+              Add Fact or Fiction to your homescreen
+            </Button>
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={() => setShouldAddToHomescreen(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </>,
+        ]}
       />
       <div className="welcomeHolder">
         <div className="welcomeBlock">
@@ -53,29 +126,19 @@ const LandingPage = () => {
           HOW <span id="it-works">IT WORKS</span>
         </h2>
         <div className="icon-holder">
-          <NavLink
-            to="/signup"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="icon-div">
-              <i className="fas fa-user icon"></i>
-              <h6 style={{ whiteSpace: "pre-wrap" }}>Create a Free Profile</h6>
-              <p>Sign up and create your user profile, it’s very easy.</p>
-            </div>
-          </NavLink>
-          <NavLink
-            to={GAME}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="icon-div">
-              <i className="fas fa-pen-square icon"></i>
-              <h6>Start Playing</h6>
-              <p>
-                Answer on your own time. New questions added daily and expire at
-                the end of each month.
-              </p>
-            </div>
-          </NavLink>
+          <div className="icon-div">
+            <i className="fas fa-user icon"></i>
+            <h6 style={{ whiteSpace: "pre-wrap" }}>Create a Free Profile</h6>
+            <p>Sign up and create your user profile, it’s very easy.</p>
+          </div>
+          <div className="icon-div">
+            <i className="fas fa-pen-square icon"></i>
+            <h6>Start Playing</h6>
+            <p>
+              Answer on your own time. New questions added daily and expire at
+              the end of each month.
+            </p>
+          </div>
 
           <div className="icon-div">
             <i className="fas fa-clipboard icon"></i>
