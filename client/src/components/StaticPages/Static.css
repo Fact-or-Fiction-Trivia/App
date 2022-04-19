@@ -1,40 +1,4 @@
 /* ----- play quiz button on homepage ------------- */
-#home-button {
-  background-color: black;
-  margin-top: 2vh !important;
-  width: 80vw;
-  text-transform: none;
-  color: white;
-  text-decoration: none;
-  /* width: 80vw; */
-  /* margin-bottom: 5vh; */
-  height: 8vh;
-  font-weight: 300;
-  max-width: 400px;
-  font-size: 18px;
-  letter-spacing: 0.5px;
-}
-#home-button > span {
-  color: white;
-}
-@media screen and (max-width: 1024px) {
-  #home-button {
-    width: 40vw !important;
-    max-width: none;
-  }
-}
-@media screen and (max-width: 790px) {
-  #home-button {
-    width: 80vw !important;
-    max-width: none;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  #home-button {
-    font-size: 15px;
-  }
-}
 
 .home-taken {
   color: #a54ee8;
