@@ -21,6 +21,7 @@ import UserShow from "./UserShow/UserShow";
 import PartyLeaders from "../Leaderboard/PartyLeaders";
 
 import loadingGif from "../../loadingGif.gif";
+import AdminCreateQuestion from "./AdminCreateQuestion";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -127,8 +128,8 @@ class AdminDashboard extends Component {
             )}
           />
           <Route
-            path={`${ADMIN_DASHBOARD}/create-questions`}
-            render={(props) => <div>TODO: Create Question</div>}
+            path={`${ADMIN_DASHBOARD}/create-question`}
+            render={(props) => <AdminCreateQuestion {...props} />}
           />
           <Route
             exact
