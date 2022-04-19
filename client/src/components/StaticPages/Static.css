@@ -519,3 +519,7 @@ h6 {
     height: 200px !important;
   }
 }
+
+.todaysQuizButton {
+  margin-top: 1rem;
+}
