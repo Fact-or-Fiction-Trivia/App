@@ -10,6 +10,7 @@ import { Link, useHistory } from "react-router-dom";
 import TodaysQuizButton from "./TodaysQuizButton";
 import PrelaunchModal from "./PrelaunchModal";
 import { ADD_TO_HOMESCREEN, GAME } from "../../constants/routes";
+import promo from "../../assets/promo.mp4";
 import styles from "./Landing.module.scss";
 import "./Static.css";
 
@@ -51,6 +52,16 @@ const LandingPage = () => {
     if (needsToSeePrompt()) {
       setShouldAddToHomescreen(true);
     }
+  };
+
+  const getVideoSize = () => {
+    if (window.innerWidth > 1000) {
+      return 1000;
+    } else if (window.innerWidth > 786) {
+      return 600;
+    } else if (window.innerWidth > 400) {
+      return 400;
+    } else return 300;
   };
 
   return (
@@ -184,6 +195,9 @@ const LandingPage = () => {
           <TodaysQuizButton />
         )}
       </div>
+      <video className={styles.video} width={getVideoSize()} controls>
+        <source src={promo} type="video/mp4" />
+      </video>
     </Paper>
   );
 };

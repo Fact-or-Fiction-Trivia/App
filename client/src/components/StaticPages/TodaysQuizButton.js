@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 
-import Button from "@material-ui/core/Button";
+import Button from "../../components/Button/Button";
 import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchQuestions } from "../../redux/reducers/question";
 import { GAME } from "../../constants/routes";
+import "./Static.css";
 
 const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
   const history = createBrowserHistory();
@@ -16,33 +17,33 @@ const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
     }
   }, []);
 
-  // disable button if there are no questions available
-  const disabled = questions?.length === 0;
-
-  if (disabled || loading) {
+  if (loading) {
     return (
       <Button
+        className="todaysQuizButton"
         color="primary"
         variant="contained"
         size="large"
         id="archive-link"
         disabled={true}
       >
-        {loading ? "Loading..." : "Play Now"}
+        Loading...
       </Button>
     );
   } else {
     return (
       <Link to={GAME}>
         <Button
+          className="todaysQuizButton"
           color="primary"
           variant="contained"
           size="large"
           id="archive-link"
-          disabled={disabled || loading}
-          onClick={() => !disabled && history.push(GAME)}
+          disabled={loading}
+          padded
+          onClick={() => history.push(GAME)}
         >
-          {loading ? "Loading..." : "Play Now"}
+          Play Now
         </Button>
       </Link>
     );
