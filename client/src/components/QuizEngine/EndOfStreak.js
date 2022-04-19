@@ -6,7 +6,7 @@ import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import owl from "../../images/large_icon.png";
 import styles from "./EndOfStreak.module.scss";
-import { SIGN_IN } from "../../constants/routes";
+import { SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
 
 const EndOfStreak = ({
   isLoggedIn,
@@ -48,22 +48,25 @@ const EndOfStreak = ({
               )}
             </>
           )}
-          
-          
+
           {/* <h3 className={styles.socialMediaHeading}>Share on social media</h3> */}
 
           <div className={styles.buttonContainer}>
             <Link to="/leaderboard">
               <Button variant="primary">Leaderboard</Button>
             </Link>
-            {!isLoggedIn && (
+            {isLoggedIn ? (
+              <Link to={SUBMIT_QUESTION}>
+                <Button variant="primary">Submit a Question</Button>
+              </Link>
+            ) : (
               <Link to={SIGN_IN} onClick={() => setRedirect("/game/play")}>
                 <Button variant="black">Save Score</Button>
               </Link>
             )}
             <Button
               className={styles.skipButton}
-              variant="primary"
+              variant={isLoggedIn ? "black" : "primary"}
               onClick={playNewGame}
             >
               Play again
