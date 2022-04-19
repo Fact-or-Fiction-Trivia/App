@@ -51,4 +51,18 @@ router.put("/questions/:questionId", requireAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
+router.post("/questions", requireAdmin, async (req, res, next) => {
+  try {
+    const { questionData, questionTagIds } = req.body;
+    console.log("DATA", questionData);
+    const question = await Question.create(questionData);
+
+    await question.addTags(questionTagIds);
+
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
