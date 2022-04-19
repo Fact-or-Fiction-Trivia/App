@@ -7,10 +7,11 @@ import bg from "./fof.svg";
 import fight from "./politiq-bg2.jpg";
 import Button from "../Button/Button";
 import { Link, useHistory } from "react-router-dom";
-import "./Static.css";
 import TodaysQuizButton from "./TodaysQuizButton";
 import PrelaunchModal from "./PrelaunchModal";
 import { ADD_TO_HOMESCREEN, GAME } from "../../constants/routes";
+import styles from "./Landing.module.scss";
+import "./Static.css";
 
 const LandingPage = () => {
   const history = useHistory();
@@ -107,7 +108,9 @@ const LandingPage = () => {
             </Button>
           ) : (
             <Link to={GAME}>
-              <Button variant="primary">Prove it.</Button>
+              <Button className={styles.playButton} padded variant="primary">
+                Prove it.
+              </Button>
             </Link>
           )}
         </div>

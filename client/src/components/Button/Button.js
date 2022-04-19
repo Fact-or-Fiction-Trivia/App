@@ -2,12 +2,13 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./Button.module.scss";
 
-const Button = ({ children, className, onClick, variant }) => {
+const Button = ({ children, className, onClick, padded, variant }) => {
   return (
     <button
       className={classNames(
         styles.button,
         styles[`button_${variant}`],
+        padded && styles.padded,
         className
       )}
       onClick={onClick}
