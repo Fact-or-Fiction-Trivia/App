@@ -22,22 +22,20 @@ export const fetchAdminQuestion = createAsyncThunk(
 
 export const updateAdminQuestion = createAsyncThunk(
   "admin/updateAdminQuestion",
-  async ({ questionId, body }) => {
+  async ({ questionId, body, cb }) => {
     const { data } = await axios.put(
       `/api/admins/questions/${questionId}`,
       body
     );
+    cb && cb(data);
     return data;
   }
 );
 
-export const createQuestion = createAsyncThunk(
-  "admin/createQuestion",
-  async (question) => {
-    const { data } = await axios.post("/api/questions", {
-      ...question,
-      status: "Pending",
-    });
+export const createAdminQuestion = createAsyncThunk(
+  "admin/createAdminQuestion",
+  async (body) => {
+    const { data } = await axios.post("/api/admins/questions", body);
 
     return data;
   }
@@ -84,6 +82,11 @@ const adminSlice = createSlice({
       })
       .addCase(fetchAdminQuestion.rejected, (state, action) => {
         state = INIT_STATE;
+      })
+      .addCase(updateAdminQuestion.fulfilled, (state, action) => {
+        state.question = action.payload;
+        state.isLoading = false;
+        state.hasError = false;
       });
   },
 });
