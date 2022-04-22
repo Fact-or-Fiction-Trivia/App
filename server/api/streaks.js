@@ -60,6 +60,35 @@ router.get("/all-scores/:id", requireToken, async (req, res, next) => {
 });
 
 /**
+ * GET /todays-high-score
+ * Get the highest score for any user in the last day
+ */
+
+router.get("/todays-high-score", async (req, res, next) => {
+  const userInfo = [
+    {
+      model: User,
+      attributes: ["firstName", "lastName"],
+      where: {
+        invisibleScore: false,
+      },
+    },
+  ];
+
+  const todaysScore = await Streak.findAll({
+    where: {
+      createdAt: {
+        [Op.gte]: moment().startOf("day").toDate(),
+      },
+    },
+    order: [["score", "DESC"]],
+    include: userInfo,
+  });
+
+  res.json({ todaysHighestStreak: todaysScore[0] });
+});
+
+/**
  * GET/all-scores/
  * Get the highest 10-25 streaks all users per time period (week, month, all time)
  */
