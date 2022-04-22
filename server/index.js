@@ -15,6 +15,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:8080",
       "https://fact-or-fiction-dev-server.herokuapp.com",
+      "http://fact-or-fiction-dev-server.herokuapp.com",
     ],
   })
 );
