@@ -1,6 +1,4 @@
-$banner-total: 30s;
-$marquee2-delay: 10s;
-$marquee3-delay: 20s;
+$banner-total: 20s;
 
 .marquee {
   margin-top: 64px;
@@ -42,44 +40,7 @@ $marquee3-delay: 20s;
   -webkit-animation: marquee $banner-total linear infinite;
   animation: marquee $banner-total linear infinite;
 }
-#marquee-text2 {
-  white-space: pre;
-  font-size: 24px;
-  font-weight: bold;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  line-height: 50px;
-  text-align: center;
-  /* starting position */
-  -moz-transform: translatex(100%);
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
-  /* animations */
-  -moz-animation: marquee $banner-total $marquee2-delay linear infinite;
-  -webkit-animation: marquee $banner-total $marquee2-delay linear infinite;
-  animation: marquee $banner-total $marquee2-delay linear infinite;
-}
-#marquee-text3 {
-  white-space: pre;
-  font-size: 24px;
-  font-weight: bold;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  line-height: 50px;
-  text-align: center;
-  /* starting position */
-  -moz-transform: translatex(100%);
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
-  /* animations */
-  -moz-animation: marquee $banner-total $marquee3-delay linear infinite;
-  -webkit-animation: marquee $banner-total $marquee3-delay linear infinite;
-  animation: marquee $banner-total $marquee3-delay linear infinite;
-}
+
 @-moz-keyframes marquee {
   0% {
     -moz-transform: translateX(100%);

@@ -1,43 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { getTodaysHighestStreak } from "../../redux/reducers/leaderboard";
 import "./marquee.scss";
 
-const Marquee = ({ allTime, monthly, weekly }) => {
-  const allTimeHighest = allTime[0];
-  const monthHighest = monthly[0];
-  const weekHighest = weekly[0];
+const Marquee = ({ getMarqueeValues, todaysHighestStreak }) => {
+  useEffect(() => {
+    if (!todaysHighestStreak) {
+      getMarqueeValues();
+    }
+  }, []);
+
   return (
     <div className="marquee">
       <span>
-        {weekHighest ? (
+        {todaysHighestStreak ? (
           <h2 id="marquee-text">
-            Highest streak this week: {weekHighest.firstName}{" "}
-            {weekHighest.lastName[0]} with {weekHighest.score} correct in a row!
+            Today's highest streak: {todaysHighestStreak.user.firstName}{" "}
+            {todaysHighestStreak.user.lastName[0]} with{" "}
+            {todaysHighestStreak.score} correct in a row! Click to challenge!
           </h2>
         ) : (
           <h2 id="marquee-text">
-            Play now to claim the top spot on this week's leaderboard!
-          </h2>
-        )}
-        {monthHighest ? (
-          <h2 id="marquee-text2">
-            Highest streak this week: {weekHighest.firstName}{" "}
-            {weekHighest.lastName[0]} with {weekHighest.score} correct in a row!
-          </h2>
-        ) : (
-          <h2 id="marquee-text2">
-            Play now to claim the top spot on this month's leaderboard!
-          </h2>
-        )}
-        {allTimeHighest ? (
-          <h2 id="marquee-text3">
-            All time highest streak: {allTimeHighest.user.firstName}{" "}
-            {allTimeHighest.user.lastName[0]} with {allTimeHighest.score}{" "}
-            correct in a row!
-          </h2>
-        ) : (
-          <h2 id="marquee-text3">
-            Play now to claim the top spot on the all time leaderboard!
+            Play now to claim the top spot on the leaderboard!
           </h2>
         )}
       </span>
@@ -46,12 +30,18 @@ const Marquee = ({ allTime, monthly, weekly }) => {
 };
 
 const mapState = (state) => {
-  const { allTime, monthly, weekly } = state.leaderboard;
+  const { todaysHighestStreak } = state.leaderboard;
   return {
-    allTime,
-    monthly,
-    weekly,
+    todaysHighestStreak,
   };
 };
 
-export default connect(mapState)(Marquee);
+const mapDispatch = (dispatch) => {
+  return {
+    getMarqueeValues() {
+      dispatch(getTodaysHighestStreak());
+    },
+  };
+};
+
+export default connect(mapState, mapDispatch)(Marquee);
