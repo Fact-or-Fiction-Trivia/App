@@ -9,6 +9,14 @@ export const getAllStreaks = createAsyncThunk(
   }
 );
 
+export const getTodaysHighestStreak = createAsyncThunk(
+  "leaderboard/getTodaysHighestStreak",
+  async () => {
+    const { data } = await axios.get(`api/streaks/todays-high-score`);
+    return data;
+  }
+);
+
 const INIT_STATE = {
   allTime: [],
   monthly: [],
@@ -34,6 +42,17 @@ const streakSlice = createSlice({
       })
       .addCase(getAllStreaks.rejected, (state, action) => {
         state = INIT_STATE;
+      })
+      .addCase(getTodaysHighestStreak.pending, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(getTodaysHighestStreak.fulfilled, (state, action) => {
+        state.todaysHighestStreak = action.payload.todaysHighestStreak;
+      })
+      .addCase(getTodaysHighestStreak.rejected, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
       });
   },
 });
