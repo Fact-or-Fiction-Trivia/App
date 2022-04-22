@@ -124,13 +124,6 @@ const AdminCreateQuestion = ({ getTags, tags, createQuestion }) => {
             ))}
           </Select>
           <FormHelperText>Select a category for your question</FormHelperText>
-          {/* <p>
-            {question.hasExpired
-              ? "Expired"
-              : question.expiresIn === undefined
-              ? "Never expires"
-              : `Expires in ${question.expiresIn} days`}
-          </p> */}
           <FormControlLabel
             control={
               <Checkbox
