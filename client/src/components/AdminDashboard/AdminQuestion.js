@@ -8,7 +8,10 @@ import {
   Paper,
   Select,
   TextField,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
+
 import Button from "../Button/Button";
 import classNames from "classnames";
 
@@ -32,8 +35,11 @@ const AdminQuestion = ({
     answer: "",
     explanation: "",
     source: "",
+    expiration: "",
+    status: "Approved",
   });
   const [questionTagIds, setQuestionTagIds] = useState([]);
+  const [questionExpires, setQuestionExpires] = useState(false);
   const { questionId } = match.params;
 
   useEffect(() => {
@@ -41,13 +47,7 @@ const AdminQuestion = ({
     getQuestion({
       questionId,
       cb(question) {
-        setQuestionData({
-          text: question.text,
-          answer: question.answer,
-          explanation: question.explanation,
-          source: question.source,
-        });
-        setQuestionTagIds(question.tags.map((tag) => tag.id));
+        mapQuestionToState(question);
       },
     });
   }, [getTags, getQuestion, questionId]);
@@ -56,7 +56,33 @@ const AdminQuestion = ({
     setQuestionData({ ...questionData, [name]: value });
   };
   const handleSubmit = () => {
-    updateQuestion({ questionId, body: { questionData, questionTagIds } });
+    updateQuestion({
+      questionId,
+      body: {
+        questionData: {
+          ...questionData,
+          expiration: questionExpires ? questionData.expiration : null,
+        },
+        questionTagIds,
+      },
+      cb(question) {
+        mapQuestionToState(question);
+      },
+    });
+  };
+  
+  const mapQuestionToState = (question) => {
+    setQuestionData({
+      text: question.text,
+      answer: question.answer,
+      explanation: question.explanation,
+      source: question.source,
+      expiration:
+        question.expiration === null ? "" : question.expiration.split("T")[0],
+      status: question.status,
+    });
+    setQuestionTagIds(question.tags.map((tag) => tag.id));
+    setQuestionExpires(question.expiresIn !== undefined);
   };
   return (
     <Paper className={classNames(styles.pageStyle, styles.submitForm)}>
@@ -134,6 +160,46 @@ const AdminQuestion = ({
             ))}
           </Select>
           <FormHelperText>Select a category for your question</FormHelperText>
+          <p>
+            {question.hasExpired
+              ? "Expired"
+              : question.expiresIn === undefined
+              ? "Never expires"
+              : `Expires in ${question.expiresIn} days`}
+          </p>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={questionExpires}
+                onChange={({ target: { checked } }) =>
+                  setQuestionExpires(checked)
+                }
+              />
+            }
+            label="Expires"
+          />
+          {questionExpires && (
+            <input
+              type="date"
+              name="expiration"
+              value={questionData.expiration}
+              onChange={handleChangeQuestion}
+            />
+          )}
+          <Select
+            fullWidth
+            label="Status"
+            labelId="question-status"
+            onChange={handleChangeQuestion}
+            name="status"
+            value={questionData.status}
+            variant="outlined"
+          >
+            <MenuItem value={"Approved"}>Approved</MenuItem>
+            <MenuItem value={"Denied"}>Denied</MenuItem>
+            <MenuItem value={"Pending"}>Pending</MenuItem>
+            <MenuItem value={"Withdrawn"}>Withdrawn</MenuItem>
+          </Select>
         </form>
         <MaterialButton
           className={styles.formSubmitButton}
