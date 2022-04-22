@@ -55,7 +55,6 @@ router.put("/questions/:questionId", requireAdmin, async (req, res, next) => {
 router.post("/questions", requireAdmin, async (req, res, next) => {
   try {
     const { questionData, questionTagIds } = req.body;
-    console.log("DATA", questionData);
     const question = await Question.create(questionData);
 
     await question.addTags(questionTagIds);

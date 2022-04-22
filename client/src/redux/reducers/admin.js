@@ -35,7 +35,6 @@ export const updateAdminQuestion = createAsyncThunk(
 export const createAdminQuestion = createAsyncThunk(
   "admin/createAdminQuestion",
   async (body) => {
-    console.log(body);
     const { data } = await axios.post("/api/admins/questions", body);
 
     return data;
