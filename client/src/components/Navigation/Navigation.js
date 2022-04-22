@@ -178,7 +178,7 @@ class NavigationAuthBase extends Component {
                   onClick={this.toggleDrawer("top", false)}
                 >
                   <ListItem button>
-                    <ListItemText primary={"Play"} />
+                    <ListItemText primary={"Play Now"} />
                   </ListItem>
                 </Link>
                 <Link
@@ -198,15 +198,6 @@ class NavigationAuthBase extends Component {
                 >
                   <ListItem button>
                     <ListItemText primary="Submit A Question" />
-                  </ListItem>
-                </Link>
-                <Link
-                  to={routes.SUBMIT_QUESTION}
-                  style={{ textDecoration: "none" }}
-                  onClick={this.toggleDrawer("top", false)}
-                >
-                  <ListItem button>
-                    <ListItemText primary="Submit a question" />
                   </ListItem>
                 </Link>
               </>
@@ -262,7 +253,7 @@ class NavigationAuthBase extends Component {
                   onClick={this.toggleDrawer("top", false)}
                 >
                   <ListItem button>
-                    <ListItemText primary="Take Today's Quiz" />
+                    <ListItemText primary="Play Now" />
                   </ListItem>
                 </Link>
                 <Link
@@ -281,7 +272,7 @@ class NavigationAuthBase extends Component {
                   onClick={this.toggleDrawer("top", false)}
                 >
                   <ListItem button>
-                    <ListItemText primary="Submit a question" />
+                    <ListItemText primary="Submit a Question" />
                   </ListItem>
                 </Link>
               </>

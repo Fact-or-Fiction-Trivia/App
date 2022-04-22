@@ -1,0 +1,177 @@
+@import "../../variables.scss";
+
+.leaderboard {
+  margin: calc($nav-height + 3rem) auto;
+  padding: 1rem;
+
+  @media (min-width: $breakpoint-md) {
+    margin: calc($nav-height + 5rem) auto;
+    padding: 2rem;
+    width: 800px;
+  }
+}
+
+.leaderboardTabs {
+  display: flex;
+}
+
+.teamLeaderboardContainer {
+  margin-bottom: 3rem;
+  h1 {
+    text-align: center;
+  }
+}
+
+.teamLeaderboard {
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  background-color: $color-black;
+  color: $color-white;
+  padding: 1rem;
+  text-align: center;
+  h3 {
+    color: $color-white;
+    font-size: $font-size-m;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: $font-size-m;
+    margin: 0 0 0.5rem 0;
+  }
+
+  h2 {
+    color: $color-primary-light;
+    font-size: $font-size-xl;
+    margin-top: 1rem;
+
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px $color-primary-light;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-xxl;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.podium {
+  display: flex;
+
+  img {
+    height: 7rem;
+    @media (min-width: $breakpoint-md) {
+      height: 16rem;
+    }
+  }
+}
+.whiteGlow {
+  font-size: $font-size-xl;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px $color-primary-extra-light;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-xxl;
+  }
+}
+
+.individualLeaderboardContainer {
+  h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.leaderTable {
+  background-color: $color-black;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  color: $color-white;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 2rem 1rem;
+  width: 100%;
+}
+.authUserScore {
+  background: linear-gradient(
+    70deg,
+    rgb(239, 188, 77) 0%,
+    rgb(239, 188, 77) 24%,
+    rgb(244, 207, 126) 50%,
+    rgb(255, 244, 219) 100%
+  ) !important;
+}
+
+.leaderboardRow {
+  background-color: $color-primary-light;
+  color: $color-black;
+  font-weight: bold;
+  font-size: $font-size-m;
+  margin: 0 1rem;
+
+  &:nth-child(2n) {
+    background-color: $color-primary-extra-light;
+  }
+
+  &:hover {
+    background-color: $color-primary;
+    cursor: pointer;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-l;
+  }
+  td {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-bottom: 0.5rem solid $color-black;
+  }
+
+  .rank {
+    border-right: 0.5rem solid $color-black;
+    width: 4rem;
+
+    @media (min-width: breakpoint-md) {
+      width: 6rem;
+    }
+  }
+
+  .scoreInfo {
+    display: flex;
+    justify-content: space-between;
+    .name {
+      display: flex;
+      img {
+        height: 2rem;
+        margin-right: 0.5rem;
+        @media (min-width: $breakpoint-md) {
+          height: 4rem;
+          margin-right: 1rem;
+        }
+      }
+      div {
+        align-self: center;
+      }
+    }
+    .score {
+      display: flex;
+      align-items: center;
+      margin-right: 30%;
+    }
+  }
+}
+
+.emptyState {
+  background-color: $color-black;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+
+  padding: 2rem;
+  text-align: center;
+
+  .whiteGlow {
+    font-size: $font-size-l;
+  }
+
+  h2 {
+    color: $color-white;
+  }
+}
