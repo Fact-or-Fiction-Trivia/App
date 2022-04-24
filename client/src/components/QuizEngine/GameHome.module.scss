@@ -2,6 +2,7 @@
 
 .container {
   height: calc(100vh - ($nav-height + $footer-height + 2rem));
+  min-height: 28rem;
   margin-top: $nav-height;
   padding: 2rem;
   text-align: center;
