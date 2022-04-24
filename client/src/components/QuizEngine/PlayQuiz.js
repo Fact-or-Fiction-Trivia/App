@@ -110,6 +110,7 @@ const PlayQuiz = ({
   const handleNextQuestion = (questionId) => {
     setSelected(null);
     nextQuestion(questionId);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -142,6 +143,7 @@ const PlayQuiz = ({
             <Question
               handleAnswer={handleAnswer}
               increaseStreak={increaseStreak}
+              isCorrect={answeredCorrectly}
               question={questions[0]}
               selected={selected}
               timer={timer}

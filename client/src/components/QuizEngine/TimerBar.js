@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+
+const isProduction = process.env.NODE_ENV === "production";
+const timerDuration = isProduction ? 15000 : 5000;
+const timerInterval = isProduction ? 150 : 50;
 
 const TimerBar = ({ timer, interval, increaseStreak, question }) => {
   const [value, setValue] = useState({ mil: Date.now(), dif: 0 });
@@ -11,7 +15,7 @@ const TimerBar = ({ timer, interval, increaseStreak, question }) => {
     interval.current = setInterval(() => {
       setValue((prev) => {
         const mil = Date.now();
-        const dif = (mil - prev.mil) / 50;
+        const dif = (mil - prev.mil) / timerInterval;
         return { mil, dif: dif + prev.dif };
       });
     }, 10);
@@ -26,8 +30,7 @@ const TimerBar = ({ timer, interval, increaseStreak, question }) => {
         questionId: question.id,
         answeredCorrectly: false,
       });
-      // Timeout in a little over 5 seconds
-    }, 5000);
+    }, timerDuration);
     return () => {
       clearInterval(interval.current);
     };
