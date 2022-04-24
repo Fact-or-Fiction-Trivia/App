@@ -24,12 +24,6 @@ const EndOfStreak = ({
   let animationEnd = Date.now() + duration;
   let skew = 1;
 
-  useEffect(() => {
-    return () => {
-      confetti.reset();
-    };
-  }, []);
-
   function randomInRange(min, max) {
     return Math.random() * (max - min) + min;
   }
