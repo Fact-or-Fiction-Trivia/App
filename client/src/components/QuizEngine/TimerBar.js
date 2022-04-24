@@ -34,7 +34,7 @@ const TimerBar = ({ timer, interval, increaseStreak, question }) => {
     return () => {
       clearInterval(interval.current);
     };
-  }, [question]);
+  }, [question]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div>
       <div

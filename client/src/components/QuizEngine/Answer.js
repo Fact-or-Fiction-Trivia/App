@@ -18,7 +18,7 @@ const Answer = ({
   console.log(question.id, "Answer");
   useEffect(() => {
     getPercentage(question.id);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
