@@ -8,7 +8,7 @@ const Marquee = ({ getMarqueeValues, todaysHighestStreak }) => {
     if (!todaysHighestStreak) {
       getMarqueeValues();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="marquee">

@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { Link, Redirect, Switch, Route } from "react-router-dom";
-import { compose } from "recompose";
-import moment from "moment";
 import MediaQuery from "react-responsive";
 import Helmet from "react-helmet";
 

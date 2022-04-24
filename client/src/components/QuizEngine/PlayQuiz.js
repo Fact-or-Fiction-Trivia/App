@@ -42,7 +42,7 @@ const PlayQuiz = ({
     if (questions.length === 0) {
       getQuestions();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // If the previous question has been answered incorrectly
@@ -55,7 +55,7 @@ const PlayQuiz = ({
     }
     // The streak array in redux is updated when the "increaseStreak" method is called
     // from the Question component in the "handleAnswer" method below.
-  }, [streak]);
+  }, [streak]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAnswer = (question, answer) => {
     // Clear the setTimeout which is set in the Question -> TimerBar component

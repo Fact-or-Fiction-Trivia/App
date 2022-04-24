@@ -12,11 +12,9 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 
-import Button from "../Button/Button";
 import classNames from "classnames";
 
 import styles from "../QuestionSubmit/QuestionSubmit.module.scss";
-import { Link } from "react-router-dom";
 import {
   fetchAdminQuestion,
   updateAdminQuestion,
@@ -70,7 +68,7 @@ const AdminQuestion = ({
       },
     });
   };
-  
+
   const mapQuestionToState = (question) => {
     setQuestionData({
       text: question.text,
