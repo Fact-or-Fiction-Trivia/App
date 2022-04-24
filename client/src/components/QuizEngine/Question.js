@@ -8,6 +8,7 @@ const Question = ({
   handleAnswer,
   increaseStreak,
   isAnswering,
+  isCorrect,
   question,
   selected,
   timer,
@@ -32,7 +33,8 @@ const Question = ({
             styles.button,
             styles.fact,
             !isAnswering && styles.disabled,
-            selected === "Fact" && styles.factSelected
+            selected === "Fact" && styles.factSelected,
+            selected === "Fact" && isCorrect && styles.correctAnswer
           )}
           disabled={!isAnswering}
           onClick={() => handleAnswer(question, "Fact")}
@@ -44,7 +46,8 @@ const Question = ({
             styles.button,
             styles.fiction,
             !isAnswering && styles.disabled,
-            selected === "Fiction" && styles.fictionSelected
+            selected === "Fiction" && styles.fictionSelected,
+            selected === "Fiction" && isCorrect && styles.correctAnswer
           )}
           disabled={!isAnswering}
           onClick={() => handleAnswer(question, "Fiction")}
