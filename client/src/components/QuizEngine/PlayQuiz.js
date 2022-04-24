@@ -152,7 +152,6 @@ const PlayQuiz = ({
             {!isAnswering && (
               <Answer
                 handleContinue={handleNextQuestion}
-                isCorrect={answeredCorrectly}
                 question={questions[0]}
               />
             )}

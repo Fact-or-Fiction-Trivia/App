@@ -22,6 +22,7 @@ const Question = ({
         interval={interval}
         increaseStreak={increaseStreak}
         question={question}
+        selected={selected}
       />
       {question.tags.map((tag) => (
         <div className={styles.tag}>{tag.name}</div>

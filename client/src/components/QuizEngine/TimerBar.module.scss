@@ -1,0 +1,29 @@
+@import "../../variables.scss";
+
+.timer {
+  width: 100%;
+  background-color: rgb(233, 233, 233);
+  border-radius: 0.5rem;
+}
+
+.timerFill {
+  background-color: $color-primary;
+  height: 10px;
+  border-radius: 1rem;
+
+  @include redBlueGradient;
+
+  &:after {
+    border-radius: 1rem;
+    filter: unset;
+    top: 0;
+    transform: unset;
+    z-index: unset;
+  }
+}
+
+.paused {
+  &:after {
+    animation-play-state: paused;
+  }
+}
