@@ -25,11 +25,11 @@ const Answer = ({
       <div className={styles.textContainer}>
         {isCorrect ? (
           <span className={classNames(styles.isCorrect, styles.correct)}>
-            Correct!
+            Fact!
           </span>
         ) : (
           <span className={classNames(styles.isCorrect, styles.incorrect)}>
-            Incorrect!
+            Fiction!
           </span>
         )}{" "}
         {question.explanation}{" "}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
@@ -7,6 +7,7 @@ import Button from "../Button/Button";
 import owl from "../../images/large_icon.png";
 import styles from "./EndOfStreak.module.scss";
 import { SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
+import confetti from "canvas-confetti";
 
 const EndOfStreak = ({
   isLoggedIn,
@@ -15,7 +16,43 @@ const EndOfStreak = ({
   streakLength,
   playNewGame,
 }) => {
-  const [serveAdd, setServeAdd] = useState(true);
+  const [serveAdd, setServeAdd] = useState(false);
+
+  const beatPreviousScore = parseInt(streakLength) > parseInt(maxStreak);
+
+  const duration = 3 * 1000;
+  let animationEnd = Date.now() + duration;
+  let skew = 1;
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  beatPreviousScore &&
+    (function frame() {
+      var timeLeft = animationEnd - Date.now();
+      var ticks = Math.max(200, 500 * (timeLeft / duration));
+      skew = Math.max(0.8, skew - 0.001);
+
+      confetti({
+        particleCount: 1,
+        startVelocity: 0,
+        ticks: ticks,
+        origin: {
+          x: Math.random(),
+          // since particles fall down, skew start toward the top
+          y: Math.random() * skew - 0.2,
+        },
+        colors: ["#ffc300"],
+        gravity: randomInRange(0.4, 0.6),
+        scalar: randomInRange(0.4, 1),
+        drift: randomInRange(-0.4, 0.4),
+      });
+
+      if (timeLeft > 0) {
+        requestAnimationFrame(frame);
+      }
+    })();
 
   return (
     <div className={styles.container}>
@@ -33,7 +70,7 @@ const EndOfStreak = ({
             <img src={owl} alt="Fact or Fiction Owl" />
             <h2 className={styles.streak}>{streakLength}</h2>
           </div>
-          {maxStreak > 0 && streakLength > maxStreak ? (
+          {beatPreviousScore ? (
             <p className={styles.streakMessage}>
               <span className={styles.green}>Congratulations</span> on your new
               high score!
