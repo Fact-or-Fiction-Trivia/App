@@ -23,6 +23,7 @@ const LandingPage = () => {
     addToHomeScreen();
   }, []);
 
+  // this function will only run on iOS
   const addToHomeScreen = () => {
     // check if the user is running on ios and see if they're running higher than 11.3 (the highest version that supports pwas)
     function iOSversion() {
@@ -53,6 +54,18 @@ const LandingPage = () => {
       setShouldAddToHomescreen(true);
     }
   };
+
+  // TODO: remove this, included for debugging purposes only
+  window.addEventListener("beforeinstallprompt", (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    // deferredPrompt = e;
+    // Update UI notify the user they can install the PWA
+    // showInstallPromotion();
+    // Optionally, send analytics event that PWA install promo was shown.
+    console.log(`'beforeinstallprompt' event was fired.`);
+  });
 
   const getVideoSize = () => {
     if (window.innerWidth > 1000) {
