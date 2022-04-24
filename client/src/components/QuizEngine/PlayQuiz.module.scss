@@ -13,6 +13,7 @@
 .questionContainer {
   height: 100%;
   max-width: 1000px;
+  min-height: 45rem;
   margin: calc($nav-height + 1rem) 1rem 1rem 1rem;
   position: relative;
   padding-bottom: 2rem;
@@ -21,6 +22,7 @@
 
   @media (min-width: $breakpoint-md) {
     margin: calc($nav-height + 2rem) auto 1rem auto;
+    min-height: 38rem;
   }
 }
 

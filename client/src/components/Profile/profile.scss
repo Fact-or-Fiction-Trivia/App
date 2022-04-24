@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 /* profile page styles */
 .profile-header {
   display: flex;
@@ -30,7 +32,6 @@
 .profile h1 {
   margin: 10px;
   text-align: center;
-  /* margin-left: 15vw; */
 }
 .public-profile h1 {
   overflow: hidden;
@@ -43,15 +44,12 @@
 
 /* --------heading for most phone screens ----- */
 @media screen and (max-width: 415px) {
-  
   #profile-heading {
     margin-left: 0;
   }
 }
 /* -------- iPhone 5 and equivalent phone screens ---- */
 @media screen and (max-width: 320px) {
-  .profile h1 {
-  }
   #profile-heading {
     margin-top: 14vh;
   }
@@ -70,12 +68,6 @@
   margin-left: auto;
   margin-right: auto;
 }
-
-/* .profile-photo {
-  max-width: 36vw;
-  max-height: 40vh;
-  min-width: 270px;
-} */
 
 .public-photo,
 .profile-photo {
@@ -125,10 +117,11 @@
 }
 
 .profile {
-  margin-top: 10vh;
-  margin-bottom: 25vh;
+  margin-top: calc($nav-height + 2rem);
+  margin-bottom: 6rem;
   width: 85vw;
-  height: auto;
+  height: fit-content;
+  min-height: 32rem;
   overflow: scroll;
   margin-left: auto;
   margin-right: auto;
@@ -137,8 +130,9 @@
 }
 @media screen and (max-width: 415px) {
   .profile {
-    height: auto;
-    margin-bottom: 10vh;
+    height: fit-content;
+    min-height: 42rem;
+    margin-bottom: 3rem;
   }
 }
 .profile-button-holder {
@@ -343,7 +337,6 @@
 @media screen and (min-width: 1120px) {
   .settings-page {
     margin-left: 23vw;
-    /* width: 76vw; */
   }
 }
 

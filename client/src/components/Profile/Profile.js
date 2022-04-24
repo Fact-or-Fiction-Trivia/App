@@ -8,7 +8,7 @@ import NotificationSettingsPage from "./NotificationSettings/NotificationSetting
 import SecuritySettings from "./SecuritySettings";
 import GameSettings from "./GameSettings";
 import EditProfilePage from "./EditProfile/EditProfilePage";
-import "./profile.css";
+import "./profile.scss";
 import { SIGN_IN } from "../../constants/routes";
 import UserScoreboard from "./UserScoreboard";
 
