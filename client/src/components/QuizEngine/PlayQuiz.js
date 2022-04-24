@@ -142,6 +142,7 @@ const PlayQuiz = ({
             <Question
               handleAnswer={handleAnswer}
               increaseStreak={increaseStreak}
+              isCorrect={answeredCorrectly}
               question={questions[0]}
               selected={selected}
               timer={timer}
