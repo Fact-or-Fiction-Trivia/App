@@ -10,12 +10,10 @@ import { CONTEST } from "../../constants/routes";
 const Answer = ({
   getPercentage,
   handleContinue,
-  isCorrect,
   isLoadingQuestionDetails,
   question,
   questionPercentage,
 }) => {
-  console.log(question.id, "Answer");
   useEffect(() => {
     getPercentage(question.id);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -23,7 +21,7 @@ const Answer = ({
   return (
     <>
       <div className={styles.textContainer}>
-        {isCorrect ? (
+        {question.answer === "Fact" ? (
           <span className={classNames(styles.isCorrect, styles.correct)}>
             Fact!
           </span>
