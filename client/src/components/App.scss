@@ -11,17 +11,6 @@ body {
   text-align: center;
 }
 
-.footer {
-  bottom: 0;
-  height: 24vh;
-  background-color: black;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  z-index: 5;
-}
-
 .shareable:hover {
   cursor: pointer;
 }
@@ -72,10 +61,6 @@ h3 {
   color: $color-primary-light;
 }
 
-.bottom-nav {
-  display: none;
-}
-
 hr {
   border: 1px solid rgba(45, 45, 45, 0.8);
   margin-left: auto;
@@ -88,9 +73,6 @@ hr {
   .sharing,
   .links {
     display: none;
-  }
-  .footer {
-    height: 5vh;
   }
   #play {
     border-left: none;
@@ -114,17 +96,7 @@ hr {
   }
 }
 
-@media (min-width: 1000px) {
-  .footer {
-    height: 20vh;
-    min-height: 140px;
-  }
-}
-
 @media screen and (min-height: 1025px) {
-  .footer {
-    position: fixed;
-  }
   .home {
     margin-bottom: 23vh;
   }
