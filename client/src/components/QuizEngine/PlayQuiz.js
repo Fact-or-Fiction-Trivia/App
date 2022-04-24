@@ -110,6 +110,7 @@ const PlayQuiz = ({
   const handleNextQuestion = (questionId) => {
     setSelected(null);
     nextQuestion(questionId);
+    window.scrollTo(0, 0);
   };
 
   return (
