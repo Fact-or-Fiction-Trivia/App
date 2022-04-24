@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import classNames from "classnames";
+import styles from "./TimerBar.module.scss";
 
 const isProduction = process.env.NODE_ENV === "production";
 const timerDuration = isProduction ? 15000 : 5000;
 const timerInterval = isProduction ? 150 : 50;
 
-const TimerBar = ({ timer, interval, increaseStreak, question }) => {
+const TimerBar = ({ timer, interval, increaseStreak, question, selected }) => {
   const [value, setValue] = useState({ mil: Date.now(), dif: 0 });
   useEffect(() => {
     // Set the width of the div to 100% after the component has
@@ -35,21 +37,14 @@ const TimerBar = ({ timer, interval, increaseStreak, question }) => {
       clearInterval(interval.current);
     };
   }, [question]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div>
-      <div
-        style={{
-          width: "100%",
-          backgroundColor: "rgb(233, 233, 233)",
-          borderRadius: ".5rem",
-        }}
-      >
+      <div className={styles.timer}>
         <div
+          className={classNames(styles.timerFill, selected && styles.paused)}
           style={{
             width: `${value.dif}%`,
-            backgroundColor: "rgb(62, 122, 235)",
-            height: 10,
-            borderRadius: "1rem",
           }}
         />
       </div>
