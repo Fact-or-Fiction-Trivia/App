@@ -157,7 +157,6 @@ h4 {
 
 .home-description {
   height: auto;
-  width: 100vw;
   background: rgb(35, 89, 157);
   background: -moz-radial-gradient(
     circle,
@@ -201,7 +200,6 @@ h4 {
   padding-top: 9vh;
   padding-bottom: 8vh;
   height: auto;
-  width: 100vw;
 }
 
 .home-description2 h4 {
