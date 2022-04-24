@@ -1,3 +1,5 @@
+// THIS FUNCTIONALITY IS DEPRECATED BUT KEEPING TO REUSE STYLING
+
 import React, { Component } from "react";
 
 import { storage } from "../../firebase";
@@ -8,7 +10,7 @@ class PublicProfilePhoto extends Component {
     this.state = {
       avatarUrl: "",
       uid: "",
-      loading: true
+      loading: true,
     };
   }
 
@@ -23,7 +25,7 @@ class PublicProfilePhoto extends Component {
   getPhoto = () => {
     const set = () => {
       this.setState({
-        loading: false
+        loading: false,
         // avatarUrl: `${Placeholder}`
       });
     };
@@ -32,11 +34,11 @@ class PublicProfilePhoto extends Component {
       storage.imageRef
         .child(imgName)
         .getDownloadURL()
-        .then(url => {
+        .then((url) => {
           this.setState({
             avatarUrl: url,
             uid: this.props.uid,
-            loading: false
+            loading: false,
           });
         })
         .catch(function (error) {
@@ -73,7 +75,7 @@ class PublicProfilePhoto extends Component {
           style={{
             display: "flex",
             justifyContent: "center",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <img

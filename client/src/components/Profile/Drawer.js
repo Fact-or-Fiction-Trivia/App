@@ -102,7 +102,7 @@ class ResponsiveDrawer extends Component {
             <ListItemIcon>
               <TrendingUp />
             </ListItemIcon>
-            <ListItemText primary={"Scores & Earnings"} />
+            <ListItemText primary={"Score History"} />
           </ListItem>
           <ListItem
             button
