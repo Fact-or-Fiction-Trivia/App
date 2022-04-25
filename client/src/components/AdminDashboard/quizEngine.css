@@ -55,11 +55,13 @@
   display: flex;
   width: 100vw;
   justify-content: space-around;
-  height: auto;
+  height: fit-content;
+  min-height: 38rem;
 }
 @media screen and (max-width: 416px) {
   .dashboard {
-    height: auto;
+    height: fit-content;
+    min-height: 45rem;
     flex-direction: column-reverse;
     margin-top: 8vh;
   }
