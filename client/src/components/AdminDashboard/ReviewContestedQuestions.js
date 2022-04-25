@@ -10,7 +10,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { db } from "../../firebase";
 import { ADMIN_DASHBOARD } from "../../constants/routes";
 
-import loadingGif from "../../loadingGif.gif";
 import "./dashboard.css";
 
 class ReviewContestedQuestions extends Component {
@@ -24,7 +23,7 @@ class ReviewContestedQuestions extends Component {
       selectedQuizId: "",
       selectedQuiz: {},
       qNum: 0,
-      qVal: 0
+      qVal: 0,
     };
   }
 
@@ -33,11 +32,11 @@ class ReviewContestedQuestions extends Component {
   };
 
   getContest = () => {
-    db.getContestedQuiz().then(response => {
+    db.getContestedQuiz().then((response) => {
       if (response.val() === null) {
         this.setState({
           noQuestionsRemaining: true,
-          loaded: true
+          loaded: true,
         });
       } else {
         const data = response.val();
@@ -45,7 +44,7 @@ class ReviewContestedQuestions extends Component {
         const quizTitles = [];
         for (let i = 0; i < quizzes.length; i += 1) {
           db.getQuiz(quizzes[i])
-            .then(quizResponse => {
+            .then((quizResponse) => {
               const quizData = quizResponse.val();
               const quizTitle = quizData["quiz-title"];
               quizTitles.push(quizTitle);
@@ -55,7 +54,7 @@ class ReviewContestedQuestions extends Component {
                 quizzes,
                 quizTitles,
                 data,
-                loaded: true
+                loaded: true,
               });
             });
         }
@@ -63,18 +62,18 @@ class ReviewContestedQuestions extends Component {
     });
   };
 
-  selectQuiz = event => {
+  selectQuiz = (event) => {
     this.setState({
-      selectedQuizId: event.target.id
+      selectedQuizId: event.target.id,
     });
     this.getQuiz(event.target.id);
   };
 
-  getQuiz = date => {
-    db.getQuiz(date).then(response => {
+  getQuiz = (date) => {
+    db.getQuiz(date).then((response) => {
       const data = response.val();
       this.setState({
-        selectedQuiz: data
+        selectedQuiz: data,
       });
     });
     this.getQuestionUid();
@@ -85,7 +84,7 @@ class ReviewContestedQuestions extends Component {
     if (Object.keys(data)[0] === undefined) {
       this.setState({
         selectedQuizId: "",
-        selectedQuiz: {}
+        selectedQuiz: {},
         // noQuestionsRemaining: true,
       });
       return;
@@ -94,12 +93,12 @@ class ReviewContestedQuestions extends Component {
     const objectWithUids = data[date];
     const uid = Object.keys(Object.values(objectWithUids)[qNum])[qVal];
 
-    await db.getDisplayNames2(uid).then(response => {
+    await db.getDisplayNames2(uid).then((response) => {
       const nameData = response;
       const { displayName } = nameData;
       this.setState({
         currentQUid: uid,
-        currentQDisplayName: displayName
+        currentQDisplayName: displayName,
       });
     });
   };
@@ -110,39 +109,36 @@ class ReviewContestedQuestions extends Component {
     const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId];
 
     // qVal is the value
-    const userKeys = this.state.data[this.state.selectedQuizId][
-      Object.keys(contestedQsForThisQuiz)[qNum]
-    ]; // eslint-disable-line max-len
+    const userKeys =
+      this.state.data[this.state.selectedQuizId][
+        Object.keys(contestedQsForThisQuiz)[qNum]
+      ]; // eslint-disable-line max-len
 
     if (Object.keys(userKeys).length === 1) {
       qNum += 1;
 
       if (qNum > Object.keys(contestedQsForThisQuiz).length - 1) {
-
         this.getContest();
         this.setState({
           selectedQuiz: {},
           selectedQuizId: "",
-          qNum: 0
+          qNum: 0,
         });
         return;
       }
       this.getContest();
       this.setState({
-        qNum
+        qNum,
       });
     } else if (Object.keys(userKeys).length > 1) {
-
       let { qVal } = this.state;
       if (qVal === Object.keys(userKeys)) {
-
         qNum += 1;
         this.setState({
           qVal: 0,
-          qNum
+          qNum,
         });
       } else {
-
         qVal += 1;
         this.setState({ qVal });
       }
@@ -177,7 +173,7 @@ class ReviewContestedQuestions extends Component {
     const date = this.state.selectedQuizId;
 
     db.acceptContest(this.state.selectedQuizId, selected, uid, issue, source);
-    await db.getSubmittedOrContestedScoreByUid(uid).then(async response => {
+    await db.getSubmittedOrContestedScoreByUid(uid).then(async (response) => {
       if (response.val() === null || response.val() === undefined) {
         await db.setContestedScoreByUid(uid, date, 2);
       } else {
@@ -200,7 +196,6 @@ class ReviewContestedQuestions extends Component {
     // get the first key from each contest object
     const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId];
 
-
     // gets the first contested question
     const questionNum = Object.keys(contestedQsForThisQuiz)[this.state.qNum];
     const question = this.state.selectedQuiz[questionNum];
@@ -212,7 +207,7 @@ class ReviewContestedQuestions extends Component {
         qNum += 1;
         this.setState({
           qNum,
-          qVal: 0
+          qVal: 0,
         });
         return;
       }
@@ -241,7 +236,7 @@ class ReviewContestedQuestions extends Component {
                   color: "green",
                   marginRight: "1vw",
                   marginTop: "auto",
-                  marginBottom: "auto"
+                  marginBottom: "auto",
                 }}
               >
                 {question["a1correct"] ? "Correct Answer" : null}
@@ -257,7 +252,7 @@ class ReviewContestedQuestions extends Component {
                   color: "green",
                   marginRight: "1vw",
                   marginTop: "auto",
-                  marginBottom: "auto"
+                  marginBottom: "auto",
                 }}
               >
                 {question["a2correct"] ? "Correct Answer" : null}
@@ -273,7 +268,7 @@ class ReviewContestedQuestions extends Component {
                   color: "green",
                   marginRight: "1vw",
                   marginTop: "auto",
-                  marginBottom: "auto"
+                  marginBottom: "auto",
                 }}
               >
                 {question["a3correct"] ? "Correct Answer" : null}
@@ -323,7 +318,7 @@ class ReviewContestedQuestions extends Component {
             id={quiz}
             role="button" // eslint-disable-line
             tabIndex={0}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (e.keyCode === 13) {
                 this.selectQuiz();
               }
@@ -354,15 +349,13 @@ class ReviewContestedQuestions extends Component {
             </Button>
           </Link>
         </MediaQuery>
-        {this.state.loaded ? null : (
-          <img src={loadingGif} className="gifStyle" alt="loadingGif" />
-        )}
+
         {this.state.noQuestionsRemaining ? (
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              flexDirection: "column"
+              flexDirection: "column",
             }}
           >
             <h1 style={{ marginTop: "1vh", marginLeft: "2vw" }}>
@@ -377,51 +370,51 @@ class ReviewContestedQuestions extends Component {
             </MediaQuery>
           </div>
         ) : (
-            <div>
-              {this.state.selectedQuizId === "" ? (
-                <div>
-                  <h1 id="reviewHeading">Quizzes with Contested Questions</h1>
-                  <div className="questionHolder">{quizzes}</div>
-                </div>
-              ) : (
-                  <div>
-                    <h1 id="reviewHeading">Contested Questions</h1>
-                    <div className="questionHolder">
-                      {question}
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-between"
+          <div>
+            {this.state.selectedQuizId === "" ? (
+              <div>
+                <h1 id="reviewHeading">Quizzes with Contested Questions</h1>
+                <div className="questionHolder">{quizzes}</div>
+              </div>
+            ) : (
+              <div>
+                <h1 id="reviewHeading">Contested Questions</h1>
+                <div className="questionHolder">
+                  {question}
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Button color="primary">
+                      <span
+                        style={{ color: "red" }}
+                        onClick={this.reject}
+                        onKeyDown={(e) => {
+                          if (e.keyCode === 13) {
+                            this.reject();
+                          }
                         }}
+                        role="button"
+                        tabIndex={0}
                       >
-                        <Button color="primary">
-                          <span
-                            style={{ color: "red" }}
-                            onClick={this.reject}
-                            onKeyDown={e => {
-                              if (e.keyCode === 13) {
-                                this.reject();
-                              }
-                            }}
-                            role="button"
-                            tabIndex={0}
-                          >
-                            Reject Issue
+                        Reject Issue
                       </span>
-                        </Button>
-                        <Button color="primary" onClick={this.skip}>
-                          Skip
                     </Button>
-                        <Button color="primary" onClick={this.accept}>
-                          Accept Issue
+                    <Button color="primary" onClick={this.skip}>
+                      Skip
                     </Button>
-                      </div>
-                    </div>
+                    <Button color="primary" onClick={this.accept}>
+                      Accept Issue
+                    </Button>
                   </div>
-                )}{" "}
-            </div>
-          )}
+                </div>
+              </div>
+            )}{" "}
+          </div>
+        )}
       </Paper>
     );
   }

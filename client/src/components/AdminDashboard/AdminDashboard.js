@@ -17,7 +17,6 @@ import Scoreboard from "../Leaderboard/Scoreboard";
 import UserShow from "./UserShow/UserShow";
 import PartyLeaders from "../Leaderboard/PartyLeaders";
 
-import loadingGif from "../../loadingGif.gif";
 import AdminCreateQuestion from "./AdminCreateQuestion";
 
 class AdminDashboard extends Component {
@@ -52,16 +51,6 @@ class AdminDashboard extends Component {
       return <Redirect to={LANDING} />;
     }
     const { value } = this.state;
-
-    const isLoaded = () => {
-      if (this.state.dateArray.length === 0) {
-        return (
-          <div className="gifStyle">
-            <img src={loadingGif} alt="loading gif" />
-          </div>
-        );
-      }
-    };
 
     return (
       <div>
@@ -113,7 +102,7 @@ class AdminDashboard extends Component {
             path={ADMIN_DASHBOARD}
             render={(props) => (
               <div className="dashboard">
-                <Paper className="dashContainer">{isLoaded()}</Paper>
+                <Paper className="dashContainer"></Paper>
                 <div className="dashContainer2">
                   <Link to={LEADERBOARD} style={{ textDecoration: "none" }}>
                     <Scoreboard />

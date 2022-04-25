@@ -31,7 +31,6 @@ import SignInFormWithStreak from "./Auth/SignIn/SignInFormWithStreak";
 import SignUpFormWithStreak from "./Auth/SignUp/SignUpFormWithStreak";
 import RequestForgotPassword from "./Auth/ForgotPassword/RequestForgotPassword";
 import ForgotPassword from "./Auth/ForgotPassword/ForgotPassword";
-import AdminDash from "./AdminDashboard/AdminDash";
 import AdminQuestions from "./AdminDashboard/AdminQuestions";
 import AdminQuestion from "./AdminDashboard/AdminQuestion";
 
@@ -60,12 +59,10 @@ const theme = createTheme({
   },
 });
 
-const App = ({ getMe, preCheck, setLongestStreak }) => {
+const App = ({ getMe, setLongestStreak }) => {
   useEffect(() => {
     getMe(setLongestStreak);
   }, []);
-
-  if (!preCheck) return <p>Loading</p>;
 
   return (
     <Router>
@@ -129,11 +126,6 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
               <AdminDashboard {...props} renderPage={"Leaderboard"} />
             )}
           />
-          {/* <Route
-            exact
-            path={routes.ADMIN_DASHBOARD}
-            render={(props) => <AdminDash {...props} />}
-          /> */}
           <Route
             path={routes.ADMIN_DASHBOARD}
             render={(props) => <AdminDashboard {...props} />}
@@ -148,11 +140,6 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
             path={`${routes.ADMIN_QUESTIONS}/:questionId`}
             render={(props) => <AdminQuestion {...props} />}
           />
-          {/* <Route
-            exact
-            path={routes.ADMIN_DASHBOARD}
-            render={(props) => <AdminDashboard {...props} renderPage={""} />}
-          /> */}
           {/* Quiz Routes */}
           <Route exact path={routes.GAME} component={GameHome} />
           <Route exact path={routes.PLAY_GAME} component={PlayQuiz} />
@@ -195,10 +182,9 @@ const App = ({ getMe, preCheck, setLongestStreak }) => {
 };
 
 const mapState = (state) => {
-  const { auth, preCheck } = state.auth;
+  const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
-    preCheck,
     isLoggedIn,
   };
 };
