@@ -1,3 +1,5 @@
+// THIS IS ONLY USED IN THE ADMIN DASHBOARD.
+
 import React, { Component } from "react";
 
 import { db } from "../../firebase";
@@ -8,8 +10,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-
-import loadingGif from "../../loadingGif.gif";
 
 class PartyScores extends Component {
   constructor(props) {
@@ -150,7 +150,7 @@ class PartyScores extends Component {
 
     const isLoading = () => {
       if (!this.state.isLoaded) {
-        return <img src={loadingGif} alt="loadingGif" />;
+        return;
       } else {
         return (
           <Table>
