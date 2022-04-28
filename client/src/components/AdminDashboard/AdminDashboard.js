@@ -18,6 +18,7 @@ import UserShow from "./UserShow/UserShow";
 import PartyLeaders from "../Leaderboard/PartyLeaders";
 
 import AdminCreateQuestion from "./AdminCreateQuestion";
+import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class AdminDashboard extends Component {
   };
 
   render() {
-    if (!this.props.isAdmin) {
+    if (this.props.precheck && !this.props.isAdmin) {
       return <Redirect to={LANDING} />;
     }
     const { value } = this.state;
@@ -122,9 +123,14 @@ class AdminDashboard extends Component {
             path={`${ADMIN_DASHBOARD}/manage-questions`}
             render={(props) => <AdminQuestions {...props} />}
           />
+
           <Route
             path={`${ADMIN_DASHBOARD}/manage-questions/:questionId`}
             render={(props) => <AdminQuestion {...props} />}
+          />
+          <Route
+            path={`${ADMIN_DASHBOARD}/review-submitted-questions`}
+            render={(props) => <ReviewQuestions {...props} />}
           />
           <Route
             path={`${ADMIN_DASHBOARD}/manage-users`}
@@ -155,9 +161,10 @@ class AdminDashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth } = state.auth;
+  const { auth, precheck } = state.auth;
   return {
     isAdmin: auth.role === "Admin",
+    precheck,
   };
 };
 
