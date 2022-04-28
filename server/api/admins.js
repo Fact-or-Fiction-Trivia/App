@@ -10,7 +10,16 @@ const { requireAdmin } = require("./middleware");
 
 router.get("/questions", requireAdmin, async (req, res, next) => {
   try {
-    res.json(await Question.findAll());
+    const { status } = req.query;
+    if (status) {
+      res.json(await Question.findAll({ where: { status } }));
+    } else {
+      res.json(
+        await Question.findAll({
+          where: { status: { [Op.notIn]: ["Pending", "Withdrawn"] } },
+        })
+      );
+    }
   } catch (err) {
     next(err);
   }

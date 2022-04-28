@@ -59,10 +59,12 @@ const theme = createTheme({
   },
 });
 
-const App = ({ getMe, setLongestStreak }) => {
+const App = ({ getMe, isLoggedIn, setLongestStreak }) => {
   useEffect(() => {
-    getMe(setLongestStreak);
-  }, []);
+    if (!isLoggedIn) {
+      getMe(setLongestStreak);
+    }
+  }, [isLoggedIn]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Router>
