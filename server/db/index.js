@@ -36,6 +36,7 @@ User.hasMany(ContestedQuestion);
 Question.hasMany(ContestedQuestion);
 
 ContestedQuestion.belongsTo(Question);
+ContestedQuestion.belongsTo(User);
 
 module.exports = {
   db,

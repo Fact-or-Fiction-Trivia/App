@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 const {
   Op,
-  models: { User, Question, Tag },
+  models: { User, Question, Tag, ContestedQuestion },
 } = require("../db");
 
 const { requireAdmin } = require("./middleware");
@@ -20,6 +20,14 @@ router.get("/questions", requireAdmin, async (req, res, next) => {
         })
       );
     }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/contested-questions", requireAdmin, async (req, res, next) => {
+  try {
+    res.json(await ContestedQuestion.findAll({ include: [User, Question] }));
   } catch (err) {
     next(err);
   }

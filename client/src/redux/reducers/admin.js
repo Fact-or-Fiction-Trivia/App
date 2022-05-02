@@ -29,6 +29,15 @@ export const fetchAdminQuestionsToReview = createAsyncThunk(
   }
 );
 
+export const fetchAdminContestedQuestions = createAsyncThunk(
+  "admin/fetchAdminContestedQuestions",
+  async (cb) => {
+    const { data } = await axios.get(`/api/admins/contested-questions`);
+    cb && data[0] && cb(data[0]); // setting the first question as active reivew question
+    return data;
+  }
+);
+
 export const updateAdminQuestion = createAsyncThunk(
   "admin/updateAdminQuestion",
   async ({ questionId, body, cb }) => {
@@ -54,6 +63,7 @@ const INIT_STATE = {
   questions: [],
   question: {},
   questionsToReview: [],
+  contestedQuestions: [],
   isLoading: true,
   hasError: false,
 };
@@ -103,6 +113,18 @@ const adminSlice = createSlice({
         state.hasError = false;
       })
       .addCase(fetchAdminQuestionsToReview.rejected, (state, action) => {
+        state = INIT_STATE;
+      })
+      .addCase(fetchAdminContestedQuestions.pending, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(fetchAdminContestedQuestions.fulfilled, (state, action) => {
+        state.contestedQuestions = action.payload;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(fetchAdminContestedQuestions.rejected, (state, action) => {
         state = INIT_STATE;
       })
       .addCase(updateAdminQuestion.fulfilled, (state, action) => {
