@@ -19,6 +19,7 @@ import PartyLeaders from "../Leaderboard/PartyLeaders";
 
 import AdminCreateQuestion from "./AdminCreateQuestion";
 import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
+import ReviewContestedQuestions from "./ReviewContestedQuestions";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -132,6 +133,11 @@ class AdminDashboard extends Component {
             path={`${ADMIN_DASHBOARD}/review-submitted-questions`}
             render={(props) => <ReviewQuestions {...props} />}
           />
+          <Route
+            path={`${ADMIN_DASHBOARD}/review-contested-questions`}
+            render={(props) => <ReviewContestedQuestions {...props} />}
+          />
+
           <Route
             path={`${ADMIN_DASHBOARD}/manage-users`}
             render={(props) => <div>TODO: Manage Users</div>}

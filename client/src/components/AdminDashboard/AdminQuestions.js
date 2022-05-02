@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
 import { fetchAdminQuestions } from "../../redux/reducers/admin";
-import { REVIEW } from "../../constants/routes";
+import { REVIEW, REVIEW_CONTEST } from "../../constants/routes";
 const AdminQuestions = ({ getQuestions, questions }) => {
   useEffect(() => {
     getQuestions();
@@ -15,6 +15,7 @@ const AdminQuestions = ({ getQuestions, questions }) => {
       </Helmet>
       <h1>Questions</h1>
       <Link to={REVIEW}>Review Submitted Questions</Link>
+      <Link to={REVIEW_CONTEST}>Review Contested Questions</Link>
       <ul>
         {questions.map((question) => (
           <li>
