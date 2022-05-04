@@ -27,11 +27,37 @@ router.get("/questions", requireAdmin, async (req, res, next) => {
 
 router.get("/contested-questions", requireAdmin, async (req, res, next) => {
   try {
-    res.json(await ContestedQuestion.findAll({ include: [User, Question] }));
+    res.json(
+      await ContestedQuestion.findAll({
+        include: [User, Question],
+        where: { status: "Pending" },
+      })
+    );
   } catch (err) {
     next(err);
   }
 });
+
+router.put(
+  "/contested-questions/:contestedQuestionId",
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const { contestedQuestionId } = req.params;
+      const contestedQuestion = await ContestedQuestion.findByPk(
+        contestedQuestionId,
+        { include: [User, Question] }
+      );
+      await contestedQuestion.update(req.body);
+      if (req.body.status === "Approved") {
+        console.log("SEND EMAIL");
+      }
+      res.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 router.get("/questions/:questionId", requireAdmin, async (req, res, next) => {
   try {
