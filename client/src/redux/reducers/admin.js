@@ -38,6 +38,17 @@ export const fetchAdminContestedQuestions = createAsyncThunk(
   }
 );
 
+export const updateContestedQuestions = createAsyncThunk(
+  "admin/updateContestedQuestions",
+  async ({ contestedQuestionId, status, questionIdx }) => {
+    await axios.put(`/api/admins/contested-questions/${contestedQuestionId}`, {
+      status,
+    });
+
+    return questionIdx;
+  }
+);
+
 export const updateAdminQuestion = createAsyncThunk(
   "admin/updateAdminQuestion",
   async ({ questionId, body, cb }) => {
@@ -73,8 +84,10 @@ const adminSlice = createSlice({
   name: "admin",
   initialState: INIT_STATE,
   reducers: {
-    setNew(state, action) {
-      return { ...state };
+    skipContestedQuestion(state, action) {
+      const newQuestions = [...state.contestedQuestions];
+      newQuestions.push(newQuestions.shift());
+      return { ...state, contestedQuestions: newQuestions };
     },
   },
   extraReducers: (builder) => {
@@ -127,6 +140,16 @@ const adminSlice = createSlice({
       .addCase(fetchAdminContestedQuestions.rejected, (state, action) => {
         state = INIT_STATE;
       })
+      .addCase(updateContestedQuestions.fulfilled, (state, action) => {
+        const questionIdx = action.payload;
+
+        state.contestedQuestions = state.contestedQuestions.filter(
+          (_, idx) => idx !== questionIdx
+        );
+        state.isLoading = false;
+        state.hasError = false;
+      })
+
       .addCase(updateAdminQuestion.fulfilled, (state, action) => {
         state.question = action.payload;
         state.isLoading = false;
