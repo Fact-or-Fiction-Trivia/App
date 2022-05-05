@@ -5,6 +5,7 @@ import { resetQuiz } from "../../redux/reducers/streak";
 import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import owl from "../../images/large_icon.png";
+import fight from "../StaticPages/politiq-bg2.jpg";
 import styles from "./EndOfStreak.module.scss";
 import { SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
 import confetti from "canvas-confetti";
@@ -59,6 +60,7 @@ const EndOfStreak = ({
       {serveAdd ? (
         <div>
           <p>Add</p>
+          <img src={fight} alt="Elephant and Donkey Fighting" />
           <Button variant="primary" onClick={() => setServeAdd(false)}>
             Cancel
           </Button>

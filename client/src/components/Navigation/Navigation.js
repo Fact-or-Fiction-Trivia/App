@@ -90,6 +90,8 @@ class NavigationAuthBase extends Component {
   signOut = () => {
     this.props.signOutUser();
     this.toggleDrawer("top", false);
+    this.props.history.push("/");
+    window.location.reload();
   };
 
   handleAdminClick = () => {
