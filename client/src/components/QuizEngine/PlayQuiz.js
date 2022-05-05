@@ -9,6 +9,7 @@ import Question from "./Question";
 import NoQuestionsAvailable from "./NoQuestionsAvailable";
 import Answer from "./Answer";
 import EndOfStreak from "./EndOfStreak";
+import store from "../../redux/store";
 
 import { clearAnswer } from "../../redux/reducers/question";
 import {
@@ -37,11 +38,31 @@ const PlayQuiz = ({
   const interval = useRef(null);
   const [selected, setSelected] = useState(null);
 
+  const clearTimers = () => {
+    clearInterval(interval.current);
+    clearTimeout(timer.current);
+  };
   //Grab the Questions
   useEffect(() => {
     if (questions.length === 0) {
       getQuestions();
     }
+    return () => {
+      const { streak, isAnswering } = store.getState().streak;
+      const { questions } = store.getState().question;
+      if (isAnswering) {
+        clearTimers();
+        if (questions.length) {
+          if (isLoggedIn) {
+            addStreak([
+              ...streak,
+              { questionId: questions[0].id, answeredCorrectly: false },
+            ]);
+          }
+          nextQuestion(questions[0].id);
+        }
+      }
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -50,6 +71,7 @@ const PlayQuiz = ({
     if (answeredCorrectly === false && midAuthentication === false) {
       // Only add the streak to the user if they are loggedin
       if (isLoggedIn) {
+        console.log("STREAK SAVED", streak);
         addStreak(streak);
       }
     }

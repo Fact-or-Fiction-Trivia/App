@@ -8,7 +8,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 import { fetchQuestions } from "../../redux/reducers/question";
-import { createContestedQuestion } from "../../redux/reducers/contestQuestion";
+import {
+  createContestedQuestion,
+  midContestedQuestion,
+} from "../../redux/reducers/contestQuestion";
 import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
 import { ABOUT, CONTEST, SIGN_IN } from "../../constants/routes";
 import styles from "./ContestAQuestion.module.scss";
@@ -19,6 +22,7 @@ const ContestAQuestion = ({
   question,
   setRedirect,
   submitContest,
+  setMidContest,
 }) => {
   const history = useHistory();
   const [issue, setIssue] = useState("");
@@ -43,6 +47,7 @@ const ContestAQuestion = ({
   };
 
   const backToQuiz = () => {
+    setMidContest(true);
     history.push("/game/play");
   };
 
@@ -183,6 +188,9 @@ const mapDispatch = (dispatch) => {
     },
     submitContest(contest) {
       dispatch(createContestedQuestion(contest));
+    },
+    setMidContest(bool) {
+      dispatch(midContestedQuestion(bool));
     },
   };
 };

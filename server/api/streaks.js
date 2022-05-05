@@ -256,7 +256,8 @@ router.post("/", requireToken, async (req, res, next) => {
      * TODO: Need to alert user that their streak has been decreased
      * to account for duplicate answers.
      */
-    let score = answeredQuestions.length - 1;
+    let score =
+      answeredQuestions.length === 0 ? 0 : answeredQuestions.length - 1;
 
     const streak = await Streak.create({ score, userId: req.user.id });
 

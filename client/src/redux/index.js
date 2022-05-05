@@ -9,6 +9,7 @@ import profile from "./reducers/profile";
 import question from "./reducers/question";
 import streak from "./reducers/streak";
 import tag from "./reducers/tag";
+import contestQuestion from "./reducers/contestQuestion";
 
 const rootReducer = combineReducers({
   auth,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   question,
   streak,
   tag,
+  contestQuestion,
 });
 
 export default rootReducer;
