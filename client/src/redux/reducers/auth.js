@@ -39,29 +39,62 @@ export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
 
 export const authenticateWithStreak = createAsyncThunk(
   "auth/authenticateWithStreak",
-  async ({ formData, streak, setLongestStreak, midAuthentication }) => {
-    await axios.post(`/auth/login`, formData);
-    if (streak.length > 0) {
-      await axios.post(`/api/streaks`, streak);
+  async (
+    { formData, streak, setError, setLongestStreak, midAuthentication },
+    { rejectWithValue }
+  ) => {
+    try {
+      await axios.post(`/auth/login`, formData);
+      if (streak.length > 0) {
+        await axios.post(`/api/streaks`, streak);
+      }
+      const { data } = await axios.get(`/auth/me`);
+      setLongestStreak(data.maxScore);
+      midAuthentication();
+      setError(null);
+      return data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      if (err.response.data === "Incorrect email/password") {
+        setError({
+          message: "Username or password is incorrect.",
+        });
+      }
+      return rejectWithValue(err.response.data);
     }
-    const { data } = await axios.get(`/auth/me`);
-    setLongestStreak(data.maxScore);
-    midAuthentication();
-    return data;
   }
 );
 
 export const signupWithStreak = createAsyncThunk(
   "auth/signupWithStreak",
-  async ({ formData, streak, setLongestStreak, midAuthentication }) => {
-    await axios.post(`/auth/signup`, formData);
-    if (streak.length > 0) {
-      await axios.post(`/api/streaks`, streak);
+  async (
+    { formData, streak, setError, setLongestStreak, midAuthentication },
+    { rejectWithValue }
+  ) => {
+    try {
+      await axios.post(`/auth/signup`, formData);
+      if (streak.length > 0) {
+        await axios.post(`/api/streaks`, streak);
+      }
+      const { data } = await axios.get("/auth/me", { credentials: "include" });
+      setLongestStreak(data.maxScore);
+      midAuthentication();
+      setError(null);
+      return data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      if (err.response.data === "User already exists") {
+        setError({
+          message:
+            "An account already exists with this email address. Please log in.",
+        });
+      }
+      return rejectWithValue(err.response.data);
     }
-    const { data } = await axios.get("/auth/me", { credentials: "include" });
-    setLongestStreak(data.maxScore);
-    midAuthentication();
-    return data;
   }
 );
 
@@ -157,6 +190,10 @@ const authSlice = createSlice({
         state.loggedIn = true;
         state.preCheck = true;
         state.validInvitation = null;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(signupWithStreak.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
       })

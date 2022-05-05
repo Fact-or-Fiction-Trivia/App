@@ -12,7 +12,11 @@ router.post("/login", async (req, res, next) => {
     res.cookie(`token-${pkg.name}`, token, { maxAge: 432000000 });
     res.sendStatus(201);
   } catch (err) {
-    next(err);
+    if (err.message === "Incorrect email/password") {
+      res.status(401).send("Incorrect email/password");
+    } else {
+      next(err);
+    }
   }
 });
 
