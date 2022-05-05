@@ -14,6 +14,7 @@ export const createContestedQuestion = createAsyncThunk(
 );
 
 const INIT_STATE = {
+  midContest: false,
   isLoading: false,
   hasError: false,
 };
@@ -21,6 +22,11 @@ const INIT_STATE = {
 const contestedQuestionSlice = createSlice({
   name: "contestedQuestion",
   initialState: INIT_STATE,
+  reducers: {
+    midContestedQuestion(state, action) {
+      return { ...state, midContest: action.payload };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createContestedQuestion.pending, (state) => {
@@ -37,6 +43,10 @@ const contestedQuestionSlice = createSlice({
       });
   },
 });
+
+//Actions
+/////////////////////////////////////////////////////////////
+export const { midContestedQuestion } = contestedQuestionSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

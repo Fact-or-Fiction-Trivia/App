@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from "react-router-dom";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { me } from "../redux/reducers/auth";
 
@@ -60,6 +65,7 @@ const theme = createTheme({
 });
 
 const App = ({ getMe, isLoggedIn, setLongestStreak }) => {
+  const history = useHistory();
   useEffect(() => {
     if (!isLoggedIn) {
       getMe(setLongestStreak);
@@ -69,7 +75,7 @@ const App = ({ getMe, isLoggedIn, setLongestStreak }) => {
   return (
     <Router>
       <MuiThemeProvider theme={theme}>
-        <Navigation />
+        <Navigation history={history} />
 
         <Switch>
           <Route exact path={routes.LANDING} render={() => <LandingPage />} />

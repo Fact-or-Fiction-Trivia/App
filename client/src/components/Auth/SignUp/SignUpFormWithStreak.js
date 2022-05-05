@@ -29,7 +29,7 @@ const SignUpFormWithStreak = ({
   signUpUserWithStreak,
   streak,
 }) => {
-  const [error] = useState(null);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -50,9 +50,13 @@ const SignUpFormWithStreak = ({
     formData.password !== formData.correctPassword;
   // Handler
   const handleSubmit = (e) => {
+    if (formData.password.length < 8) {
+      setError({ message: "Password should be at least 8 characters" });
+      return;
+    }
     e.preventDefault();
 
-    signUpUserWithStreak({ formData, streak });
+    signUpUserWithStreak({ formData, streak, setError });
   };
 
   const handleChange = ({ target }) => {
@@ -193,11 +197,12 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    async signUpUserWithStreak({ formData, streak }) {
+    async signUpUserWithStreak({ formData, streak, setError }) {
       await dispatch(
         signupWithStreak({
           formData,
           streak,
+          setError,
           setLongestStreak(score) {
             dispatch(setMaxScore(score));
           },

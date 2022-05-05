@@ -24,7 +24,7 @@ const SignInFormWithStreak = ({
   streak,
   isLoggedIn,
 }) => {
-  const [error] = useState(null);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,7 +35,7 @@ const SignInFormWithStreak = ({
     e.preventDefault();
 
     // pass the streak object in here - if there is no streak, the api will not be hit
-    authenticateUser({ formData, streak });
+    authenticateUser({ formData, streak, setError });
   };
 
   const handleChange = ({ target }) => {
@@ -118,11 +118,12 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    authenticateUser({ formData, streak }) {
+    authenticateUser({ formData, streak, setError }) {
       dispatch(
         authenticateWithStreak({
           formData,
           streak,
+          setError,
           setLongestStreak(score) {
             dispatch(setMaxScore(score));
           },
