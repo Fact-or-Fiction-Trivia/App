@@ -33,7 +33,7 @@ const ContestAQuestion = ({
     if (!question) {
       getQuestions();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = () => {
     setSubmitted(true);
