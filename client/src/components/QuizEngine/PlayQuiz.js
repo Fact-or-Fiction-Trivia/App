@@ -48,12 +48,12 @@ const PlayQuiz = ({
       getQuestions();
     }
     return () => {
-      const { streak, isAnswering } = store.getState().streak;
+      const { streak, streakEnded, isAnswering } = store.getState().streak;
       const { questions } = store.getState().question;
       if (isAnswering) {
         clearTimers();
         if (questions.length) {
-          if (isLoggedIn) {
+          if (isLoggedIn && !streakEnded) {
             addStreak([
               ...streak,
               { questionId: questions[0].id, answeredCorrectly: false },
@@ -71,7 +71,6 @@ const PlayQuiz = ({
     if (answeredCorrectly === false && midAuthentication === false) {
       // Only add the streak to the user if they are loggedin
       if (isLoggedIn) {
-        console.log("STREAK SAVED", streak);
         addStreak(streak);
       }
     }
@@ -155,7 +154,6 @@ const PlayQuiz = ({
         </div>
         {streakEnded ? (
           <EndOfStreak
-            addStreak={addStreak}
             longestStreak={maxStreak}
             streakTotal={streak.length}
             streak={streak}

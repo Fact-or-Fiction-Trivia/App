@@ -29,7 +29,11 @@ const Leaderboard = ({
   const history = useHistory();
   const [timeframe, setTimeframe] = useState("weekly");
   const [userRank, setUserRank] = useState({ rank: 0, score: 0 });
-  const [teamStandings, setTeamStandings] = useState({});
+  const [teamStandings, setTeamStandings] = useState([
+    ["Republicans", 0],
+    ["Independents", 0],
+    ["Democrats", 0],
+  ]);
 
   useEffect(() => {
     getStreaks();
@@ -60,14 +64,16 @@ const Leaderboard = ({
   const sortTeamStandings = () => {
     if (teamScores === undefined) return;
     const timeScores = teamScores[timeframe];
-    const ordered = Object.keys(timeScores)
-      .sort()
-      .reduce((obj, key) => {
-        obj[key] = timeScores[key];
-        return obj;
-      }, {});
 
-    setTeamStandings(ordered);
+    let entries = Object.entries(timeScores);
+    entries.sort((a, b) => b[1] - a[1]);
+
+    const formattedEntries = [];
+    entries.forEach((entry) => {
+      formattedEntries.push([formatTeamName(entry[0]), entry[1]]);
+    });
+
+    setTeamStandings(formattedEntries);
   };
 
   const renderLeaders = () => {
@@ -110,11 +116,9 @@ const Leaderboard = ({
     return `${name[0].toUpperCase() + name.slice(1)}s`;
   };
 
-  const teamNames = Object.keys(teamStandings);
-
-  const firstPlaceTeam = teamNames.length > 0 && formatTeamName(teamNames[0]);
-  const secondPlaceTeam = teamNames.length > 0 && formatTeamName(teamNames[1]);
-  const thirdPlaceTeam = teamNames.length > 0 && formatTeamName(teamNames[2]);
+  const firstPlaceTeam = teamStandings[0][0];
+  const secondPlaceTeam = teamStandings[1][0];
+  const thirdPlaceTeam = teamStandings[2][0];
 
   const getTeamImage = (team, place) => {
     let img;
@@ -206,9 +210,9 @@ const Leaderboard = ({
             </div>
             <h2>{firstPlaceTeam} in the lead!</h2>
             <h3>Average Streak Scores:</h3>
-            {Object.keys(teamStandings).map((party) => (
+            {teamStandings.map((party) => (
               <p key={party}>
-                {formatTeamName(party)}: {teamStandings[party]}
+                {party[0]}: {party[1]}
               </p>
             ))}
           </div>

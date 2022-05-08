@@ -97,18 +97,42 @@ router.get("/all-scores", async (req, res, next) => {
   const userInfo = [
     {
       model: User,
-      attributes: ["firstName", "lastName"],
+      attributes: ["id", "firstName", "lastName"],
       where: {
         invisibleScore: false,
       },
     },
   ];
 
+  const returnHighestStreakOnly = (streaks) => {
+    if (streaks.length === 0) return [];
+
+    const filteredStreaks = [];
+    streaks.forEach((streak) => {
+      const existing = filteredStreaks.find(
+        (s) => s.user.id === streak.user.id
+      );
+      if (existing) {
+        if (streak.score > existing.score) {
+          const index = filteredStreaks.indexOf(existing);
+          filteredStreaks.splice(index, 1, streak);
+        }
+        // else do nothing
+      } else {
+        filteredStreaks.push(streak);
+      }
+    });
+
+    return filteredStreaks;
+  };
+
   try {
     const allTime = await Streak.findAll({
       order: [["score", "DESC"]],
       include: userInfo,
       limit: 10,
+    }).then((streaks) => {
+      return returnHighestStreakOnly(streaks);
     });
 
     const monthly = await Streak.findAll({
@@ -119,6 +143,8 @@ router.get("/all-scores", async (req, res, next) => {
       },
       order: [["score", "DESC"]],
       include: userInfo,
+    }).then((streaks) => {
+      return returnHighestStreakOnly(streaks);
     });
 
     const weekly = await Streak.findAll({
@@ -129,6 +155,8 @@ router.get("/all-scores", async (req, res, next) => {
       },
       order: [["score", "DESC"]],
       include: userInfo,
+    }).then((streaks) => {
+      return returnHighestStreakOnly(streaks);
     });
 
     const getAvgForAffiliation = async (affiliation, timePeriod) => {

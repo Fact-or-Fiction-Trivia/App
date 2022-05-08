@@ -24,9 +24,8 @@ const Question = ({
         question={question}
         selected={selected}
       />
-      {question.tags.map((tag) => (
-        <div className={styles.tag}>{tag.name}</div>
-      ))}
+      {/* only show the first tag if there are multiple */}
+      <div className={styles.tag}>{question.tags[0].name}</div>
       <div className={styles.textContainer}>{question.text}</div>
       <div className={styles.buttonContainer}>
         <button
