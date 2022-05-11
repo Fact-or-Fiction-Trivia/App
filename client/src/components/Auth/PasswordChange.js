@@ -1,79 +1,55 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import { auth, withFirebase } from '../../firebase';
+const PasswordChangeForm = ({ resetUserPassword }) => {
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
 
-const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value,
-});
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData({ ...formData, [name]: value });
+  };
 
-const INITIAL_STATE = {
-  passwordOne: '',
-  passwordTwo: '',
-  error: null,
+  return (
+    <form className="password-change-form">
+      <TextField
+        fullWidth
+        value={formData.password}
+        onChange={handleChange}
+        type="password"
+        name="password"
+        placeholder="New Password"
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm New Password"
+        margin="normal"
+      />
+      <Button
+        color="primary"
+        variant="contained"
+        disabled={
+          (formData.password === "" && formData.confirmPassword === "") ||
+          formData.password !== formData.confirmPassword ||
+          formData.password.length < 8
+        }
+        onClick={() => resetUserPassword(formData.password)}
+        style={{ marginTop: "3vh" }}
+      >
+        Reset My Password
+      </Button>
+
+      {/* {error && <p>{error.message}</p>} */}
+    </form>
+  );
 };
 
-class PasswordChangeForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { ...INITIAL_STATE };
-  }
-
-  onSubmit = (event) => {
-    const { passwordOne } = this.state;
-
-    auth.doPasswordUpdate(passwordOne)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE });
-      })
-      .catch((error) => {
-        this.setState(byPropKey('error', error));
-      });
-
-    event.preventDefault();
-    // this.props.toggleResetPassword()
-  }
-
-  render() {
-    const {
-      passwordOne,
-      passwordTwo,
-      error,
-    } = this.state;
-
-    const isInvalid = passwordOne !== passwordTwo
-      || passwordOne === '';
-
-    return (
-      <form onSubmit={this.onSubmit} className="password-change-form">
-        <TextField
-          fullWidth
-          value={passwordOne}
-          onChange={(event) => this.setState(byPropKey('passwordOne', event.target.value))}
-          type="password"
-          placeholder="New Password"
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          value={passwordTwo}
-          onChange={(event) => this.setState(byPropKey('passwordTwo', event.target.value))}
-          type="password"
-          placeholder="Confirm New Password"
-          margin="normal"
-        />
-        <Button color="primary" variant="contained" disabled={isInvalid} type="submit" style={{ marginTop: '3vh' }}>
-          Reset My Password
-        </Button>
-
-        { error && <p>{error.message}</p> }
-      </form>
-    );
-  }
-}
-
-
-export default withFirebase(PasswordChangeForm);
+export default PasswordChangeForm;

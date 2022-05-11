@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { resetQuiz } from "../../redux/reducers/streak";
 import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import owl from "../../images/large_icon.png";
 import fight from "../StaticPages/politiq-bg2.jpg";
 import styles from "./EndOfStreak.module.scss";
-import { SIGN_IN, SUBMIT_QUESTION } from "../../constants/routes";
+import { SIGN_IN, SUBMIT_QUESTION, GAME } from "../../constants/routes";
 import confetti from "canvas-confetti";
 
 const EndOfStreak = ({
@@ -18,7 +18,7 @@ const EndOfStreak = ({
   playNewGame,
 }) => {
   const [serveAdd, setServeAdd] = useState(false);
-
+  const history = useHistory();
   const beatPreviousScore = parseInt(streakLength) > parseInt(maxStreak);
 
   const duration = 3 * 1000;
@@ -106,7 +106,10 @@ const EndOfStreak = ({
             <Button
               className={styles.skipButton}
               variant={isLoggedIn ? "black" : "primary"}
-              onClick={playNewGame}
+              onClick={() => {
+                playNewGame();
+                history.push(GAME);
+              }}
             >
               Play again
             </Button>
