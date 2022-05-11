@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const pkg = require("../../package.json");
+const { requireToken } = require("../api/middleware");
 const {
   models: { User, Permission, Token },
 } = require("../db");
@@ -120,6 +121,19 @@ router.put("/password-reset/:userId", async (req, res, next) => {
     next(err);
   }
 });
+
+router.put(
+  "/password-reset-logged-in",
+  requireToken,
+  async (req, res, next) => {
+    try {
+      await req.user.update(req.body);
+      res.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 router.delete("/logout", async (req, res, next) => {
   try {
