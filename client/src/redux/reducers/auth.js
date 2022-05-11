@@ -16,6 +16,13 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+export const resetLoggedInUsersPassword = createAsyncThunk(
+  "auth/resetLoggedInUsersPassword",
+  async (password) => {
+    await axios.put(`/auth/password-reset-logged-in`, { password });
+  }
+);
+
 export const requestReset = createAsyncThunk(
   "auth/requestReset",
   async (email) => {

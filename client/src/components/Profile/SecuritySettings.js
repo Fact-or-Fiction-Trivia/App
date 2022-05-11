@@ -9,10 +9,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import { deleteUser } from "../../redux/reducers/auth";
+import {
+  deleteUser,
+  resetLoggedInUsersPassword,
+  resetPassword,
+} from "../../redux/reducers/auth";
 import { LANDING } from "../../constants/routes";
 
-const SecuritySettings = ({ auth, deleteUserAccount }) => {
+const SecuritySettings = ({ auth, deleteUserAccount, resetUserPassword }) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [deleteAccountInputs, setDeleteAccountInputs] = React.useState({});
@@ -44,7 +48,7 @@ const SecuritySettings = ({ auth, deleteUserAccount }) => {
     <>
       <h1 id="settings-heading">Security Settings</h1>
       <h3 className="settings-subheading">Reset Your Password</h3>
-      <PasswordChangeForm />
+      <PasswordChangeForm resetUserPassword={resetUserPassword} />
       <Button onClick={handleClickOpen} id="delete-account-button">
         <span style={{ color: "red" }}>Delete Account</span>
       </Button>
@@ -103,6 +107,9 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
+    resetUserPassword(data) {
+      dispatch(resetLoggedInUsersPassword(data));
+    },
     deleteUserAccount(id, email, password) {
       dispatch(deleteUser({ email, password, id }));
     },
