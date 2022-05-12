@@ -18,7 +18,7 @@ import {
 import Button from "@material-ui/core/Button";
 import "../Auth.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
-import { LANDING, SIGN_IN } from "../../../constants/routes";
+import { LANDING, PRIVACY, SIGN_IN } from "../../../constants/routes";
 import { subscribeToEmails } from "../../../redux/reducers/profile";
 
 const SignUpFormWithStreak = ({
@@ -179,6 +179,10 @@ const SignUpFormWithStreak = ({
         {buttonCopy}
       </Button>
       {error && <p>{error.message}</p>}
+      <p className="privacy-opt-in">
+        By registering a profile, I agree to FOF's{" "}
+        <Link to={PRIVACY}>Privacy Policy and Terms of Service</Link>
+      </p>
     </Paper>
   );
 };
