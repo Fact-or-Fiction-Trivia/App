@@ -1,4 +1,5 @@
 /* ----- play quiz button on homepage ------------- */
+@import "../../variables.scss";
 
 .home-taken {
   color: #a54ee8;
@@ -149,7 +150,7 @@
 }
 
 h4 {
-  margin-top: 5vh;
+  margin-top: 1rem;
   font-weight: 700;
   letter-spacing: 1px;
   font-size: 19px;
@@ -200,22 +201,36 @@ h4 {
   padding-top: 9vh;
   padding-bottom: 8vh;
   height: auto;
-}
 
-.home-description2 h4 {
-  margin-top: 0;
-  width: 80vw;
-  margin-left: auto;
-  margin-right: auto;
-}
+  @media (max-width: $breakpoint-sm) {
+    padding: 3rem 2rem;
+  }
 
-.home-description2 p {
-  width: 80vw;
-  margin-left: auto;
-  margin-right: auto;
-  letter-spacing: 2px;
-  line-height: 1.8em;
-  text-align: left;
+  p {
+    width: 50rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 2px;
+    line-height: 1.8em;
+    text-align: left;
+
+    @media (max-width: $breakpoint-sm) {
+      width: 100%;
+    }
+  }
+
+  h4 {
+    margin-top: 0;
+    max-width: 1200px;
+    width: 50rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (max-width: $breakpoint-sm) {
+      width: 100%;
+    }
+  }
 }
 
 .how-it-works {

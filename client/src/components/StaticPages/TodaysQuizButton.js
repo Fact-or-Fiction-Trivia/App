@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchQuestions } from "../../redux/reducers/question";
 import { GAME } from "../../constants/routes";
-import "./Static.css";
+import "./Static.scss";
 
 const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
   const history = createBrowserHistory();
@@ -15,7 +15,7 @@ const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
     if (!questions || questions.length === 0) {
       getQuestions();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (
