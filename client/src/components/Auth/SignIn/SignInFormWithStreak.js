@@ -26,7 +26,7 @@ const SignInFormWithStreak = ({
 }) => {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    email: "",
+    emailOrUsername: "",
     password: "",
   });
   const isInvalid = formData.password === "" || formData.email === "";
@@ -66,11 +66,11 @@ const SignInFormWithStreak = ({
         <TextField
           margin="normal"
           fullWidth
-          name="email"
-          value={formData.email}
+          name="emailOrUsername"
+          value={formData.emailOrUsername}
           onChange={handleChange}
           type="text"
-          placeholder="Email Address"
+          placeholder="Email Address or Username"
         />
         <br />
         <TextField
