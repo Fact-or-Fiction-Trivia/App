@@ -15,7 +15,7 @@ const TodaysQuizButton = ({ getQuestions, loading, questions }) => {
     if (!questions || questions.length === 0) {
       getQuestions();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (
