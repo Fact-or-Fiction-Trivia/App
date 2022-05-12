@@ -7,7 +7,7 @@ import owl from "../../images/large_icon.png";
 import styles from "./GameHome.module.scss";
 import { resetQuiz } from "../../redux/reducers/streak";
 
-const GameHome = ({ reset }) => {
+const GameHome = ({ maxStreak, reset }) => {
   const history = useHistory();
 
   const listener = () => {
@@ -24,7 +24,7 @@ const GameHome = ({ reset }) => {
 
   return (
     <Paper className={styles.container}>
-      <h1>Ready?</h1>
+      <h1>Ready to beat your high streak of {maxStreak || 0}?</h1>
       <div className={styles.animationContainer}>
         <img className={styles.owl} alt="Fact or Fiction Owl" src={owl} />
         <div className={styles.countdown}>
@@ -69,7 +69,12 @@ const GameHome = ({ reset }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  const { maxStreak } = state.streak;
+  return {
+    maxStreak,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
