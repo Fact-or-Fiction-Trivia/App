@@ -12,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import {
   deleteUser,
   resetLoggedInUsersPassword,
-  resetPassword,
 } from "../../redux/reducers/auth";
 import { LANDING } from "../../constants/routes";
 
