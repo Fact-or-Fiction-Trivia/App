@@ -87,7 +87,7 @@ class ProfilePage extends Component {
     return (
       <Paper className="profile settings-page">
         <Helmet>
-          <title>Settings | politIQ trivia</title>
+          <title>Settings | Fact or Fiction</title>
         </Helmet>
         <Drawer
           toggleEditProfile={this.toggleEditProfile}

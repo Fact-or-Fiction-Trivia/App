@@ -31,20 +31,30 @@ const SignUpFormWithStreak = ({
 }) => {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     affiliation: "",
     email: "",
     password: "",
     correctPassword: "",
     emailOptIn: true,
   });
+
+  const isValidUsername = (value) => {
+    const regex = new RegExp("^[a-zA-Z0-9_]*$", "g");
+    const validated = regex.test(value);
+    if (!validated) {
+      setError({ message: "Username must contain only numbers and letters" });
+    } else {
+      setError(null);
+    }
+    return validated;
+  };
+
   // All fields are required
   const isInvalid =
     formData.password === "" ||
     formData.email === "" ||
-    formData.firstName === "" ||
-    formData.lastName === "" ||
+    formData.username === "" ||
     formData.affiliation === "" ||
     formData.correctPassword === "" ||
     formData.password !== formData.correctPassword;
@@ -67,6 +77,9 @@ const SignUpFormWithStreak = ({
         emailOptIn: target.checked,
       });
     } else {
+      if (name === "username") {
+        isValidUsername(value);
+      }
       setFormData({
         ...formData,
         [name]: value,
@@ -82,7 +95,7 @@ const SignUpFormWithStreak = ({
   return (
     <Paper className="authCard signIn">
       <Helmet>
-        <title>Sign Up | politIQ trivia</title>
+        <title>Sign Up | Fact or Fiction</title>
       </Helmet>
       <h1>Sign Up</h1>
       <p>
@@ -95,23 +108,12 @@ const SignUpFormWithStreak = ({
         <TextField
           margin="normal"
           fullWidth
-          name="firstName"
-          value={formData.firstName}
+          name="username"
+          value={formData.username}
           onChange={handleChange}
           type="text"
-          placeholder="First Name"
+          placeholder="Username"
         />
-        <br />
-        <TextField
-          margin="normal"
-          fullWidth
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          type="text"
-          placeholder="Last Name"
-        />
-        <br />
         <FormControl fullWidth>
           <InputLabel id="affiliation-select-label">Affiliation</InputLabel>
           <Select

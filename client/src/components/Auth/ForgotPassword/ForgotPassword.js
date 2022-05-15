@@ -19,7 +19,7 @@ const ForgotPassword = ({
   const { accessToken } = match.params;
   useEffect(() => {
     recieveAccessToken(accessToken);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
@@ -48,7 +48,7 @@ const ForgotPassword = ({
       }}
     >
       <Helmet>
-        <title>Reset Password | politIQ trivia</title>
+        <title>Reset Password | Fact or Fiction</title>
       </Helmet>
       <h2>Forgot Your Password?</h2>
       <form>

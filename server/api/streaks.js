@@ -68,7 +68,7 @@ router.get("/todays-high-score", async (req, res, next) => {
   const userInfo = [
     {
       model: User,
-      attributes: ["firstName", "lastName"],
+      attributes: ["username"],
       where: {
         invisibleScore: false,
       },
@@ -97,7 +97,7 @@ router.get("/all-scores", async (req, res, next) => {
   const userInfo = [
     {
       model: User,
-      attributes: ["id", "firstName", "lastName"],
+      attributes: ["id", "username"],
       where: {
         invisibleScore: false,
       },
@@ -163,7 +163,7 @@ router.get("/all-scores", async (req, res, next) => {
       const userInfo = [
         {
           model: User,
-          attributes: ["firstName", "lastName"],
+          attributes: ["username"],
           where: {
             invisibleScore: false,
             affiliation,
