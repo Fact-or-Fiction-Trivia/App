@@ -3,7 +3,7 @@
 .textContainer {
   font-size: 1.5rem;
   font-weight: 500;
-  margin: 1rem auto 2rem auto;
+  margin: 1rem auto;
 
   padding: 0 1.5rem;
   @media (min-width: $breakpoint-md) {
@@ -16,7 +16,7 @@
   flex-direction: column;
 
   @media (min-width: $breakpoint-md) {
-    margin: 1rem auto;
+    margin: auto;
     width: 300px;
   }
 }
