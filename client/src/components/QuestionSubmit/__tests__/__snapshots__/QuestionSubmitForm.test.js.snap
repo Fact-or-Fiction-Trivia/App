@@ -81,13 +81,13 @@ exports[`<QuestionSubmitForm /> should render correctly and match snapshot 1`] =
               <SideEffect(NullComponent)
                 defer={true}
                 encodeSpecialCharacters={true}
-                title="Submit Question | politIQ trivia"
+                title="Submit Question | Fact or Fiction
                 titleAttributes={Object {}}
               >
                 <NullComponent
                   defer={true}
                   encodeSpecialCharacters={true}
-                  title="Submit Question | politIQ trivia"
+                  title="Submit Question | Fact or Fiction"
                   titleAttributes={Object {}}
                 />
               </SideEffect(NullComponent)>

@@ -15,9 +15,11 @@ const AddToHomescreen = () => {
   return (
     <Paper className="home" style={{ marginBottom: "4vh" }}>
       <Helmet>
-        <title>Add To Homescreen | politIQ trivia</title>
+        <title>Add To Homescreen | Fact or Fiction</title>
       </Helmet>
-      <h1 style={{ fontSize: "2.5em" }}>Add politIQ to your homescreen</h1>
+      <h1 style={{ fontSize: "2.5em" }}>
+        Add Fact or Fiction to your homescreen
+      </h1>
       <div
         style={{ display: "flex", justifyContent: "center", height: "32px" }}
       >

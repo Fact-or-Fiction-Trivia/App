@@ -54,7 +54,7 @@ const SignInFormWithStreak = ({
   return (
     <Paper className="authCard signIn">
       <Helmet>
-        <title>Sign In | politIQ trivia</title>
+        <title>Sign In | Fact or Fiction</title>
       </Helmet>
       <h1>Sign In</h1>
       <p>

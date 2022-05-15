@@ -14,7 +14,7 @@ const About = () => {
     if (faqRef && window.location.href.includes("#FAQ")) {
       scrollToFAQ();
     }
-  }, [faqRef, window.location.href]);
+  }, [faqRef, window.location.href]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const scrollToFAQ = () => {
     faqRef.current.scrollIntoView();
@@ -22,7 +22,7 @@ const About = () => {
   return (
     <Paper className="about-holder">
       <Helmet>
-        <title>About & FAQ | politIQ trivia</title>
+        <title>About & FAQ | Fact or Fiction</title>
       </Helmet>
       <div className="heading">
         <h1>About Us</h1>
