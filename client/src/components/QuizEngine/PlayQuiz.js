@@ -44,6 +44,7 @@ const PlayQuiz = ({
   };
   //Grab the Questions
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (questions.length === 0) {
       getQuestions();
     }
