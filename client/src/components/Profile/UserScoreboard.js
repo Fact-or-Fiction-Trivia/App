@@ -21,8 +21,7 @@ const UserScoreboard = ({ auth, profile, profileId, getScores, scores }) => {
       }}
     >
       <h2>
-        {auth.id === profileId ? "My" : `${profile.firstName}'s`} Longest
-        Streaks
+        {auth.id === profileId ? "My" : `${profile.username}'s`} Longest Streaks
       </h2>
       <div className="small-scoreboard">
         <div className="userScore">

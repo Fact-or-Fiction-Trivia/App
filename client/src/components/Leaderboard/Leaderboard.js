@@ -100,9 +100,7 @@ const Leaderboard = ({
             <div className={styles.scoreInfo}>
               <div className={styles.name}>
                 <img src={owl} alt="SmartOwl" />
-                <div>
-                  {d.user.firstName} {d.user.lastName[0]}.
-                </div>
+                <div>{d.user.username}</div>
               </div>
               <div className={styles.score}>{d.score}</div>
             </div>
@@ -244,9 +242,7 @@ const Leaderboard = ({
                     <div className={styles.scoreInfo}>
                       <div className={styles.name}>
                         <img src={owl} alt="SmartOwl" />
-                        <div>
-                          {auth.firstName} {auth.lastName[0]}.
-                        </div>
+                        <div>{auth.username}</div>
                       </div>
                       <div className={styles.score}>{userRank?.score}</div>
                     </div>
