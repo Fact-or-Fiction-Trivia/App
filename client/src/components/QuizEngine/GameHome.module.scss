@@ -7,12 +7,18 @@
   padding: 2rem;
   text-align: center;
   @media (min-width: $breakpoint-md) {
-    height: calc(100vh - ($nav-height + $footer-height + 8rem));
     max-width: 1000px;
+    min-height: fit-content;
     margin-left: auto;
     margin-right: auto;
     margin-top: $nav-height + 2rem;
     margin-bottom: 2rem;
+    padding: unset;
+    width: calc(100% - 2rem);
+  }
+
+  h1 {
+    padding-top: 3rem;
   }
 }
 
