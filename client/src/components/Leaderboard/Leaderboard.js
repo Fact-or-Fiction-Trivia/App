@@ -12,7 +12,7 @@ import IndependentsLead from "./LeaderboardGraphics/independentsLead.svg";
 import { GAME } from "../../constants/routes";
 import owl from "../../images/large_icon.png";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Marquee from "./marquee";
 import styles from "./leaderboard.module.scss";
@@ -26,7 +26,6 @@ const Leaderboard = ({
   teamScores,
   weekly,
 }) => {
-  const history = useHistory();
   const [timeframe, setTimeframe] = useState("weekly");
   const [userRank, setUserRank] = useState({ rank: 0, score: 0 });
   const [teamStandings, setTeamStandings] = useState([
@@ -93,7 +92,6 @@ const Leaderboard = ({
             i + 1 === userRank.rank && styles.authUserScore,
             styles.leaderboardRow
           )}
-          onClick={() => history.push(`/profile/${d.id}`)}
         >
           <td className={styles.rank}>{i + 1}</td>
           <td colSpan="2">
@@ -235,7 +233,6 @@ const Leaderboard = ({
                     styles.authUserScore,
                     styles.leaderboardRow
                   )}
-                  onClick={() => history.push(`/profile/${auth.id}`)}
                 >
                   <td className={styles.rank}>{userRank?.rank}</td>
                   <td colSpan="2">
