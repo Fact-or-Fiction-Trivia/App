@@ -16,8 +16,7 @@ const Marquee = ({ getMarqueeValues, todaysHighestStreak }) => {
         {todaysHighestStreak ? (
           <h2 id="marquee-text">
             Play now to claim the top spot on the leaderboards. Today’s leader
-            with the longest streak is: {todaysHighestStreak.user.firstName}{" "}
-            {todaysHighestStreak.user.lastName[0]} with{" "}
+            with the longest streak is: {todaysHighestStreak.user.username} with{" "}
             {todaysHighestStreak.score} correct in a row!
           </h2>
         ) : (

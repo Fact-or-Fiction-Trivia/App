@@ -7,7 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import { FormHelperText } from "@material-ui/core";
 
-import ProfilePhoto from "../ProfilePhoto";
 import { useHistory } from "react-router-dom";
 import { updateUserInfo } from "../../../redux/reducers/auth";
 
@@ -15,6 +14,7 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
   const history = useHistory;
   const [firstName, setFirstName] = useState(auth.firstName);
   const [lastName, setLastName] = useState(auth.lastName);
+  const [username, setUsername] = useState(auth.username);
   const [email, setEmail] = useState(auth.email);
   const [bio, setBio] = useState(auth.bio || "");
   const [affiliation, setAffiliation] = useState(auth.affiliation);
@@ -23,6 +23,7 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
     const update = {
       firstName,
       lastName,
+      username,
       email,
       bio,
       affiliation,
@@ -40,14 +41,21 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
       <form>
         <TextField
           margin="normal"
-          label="Display Name"
+          label="Username"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+          fullWidth
+        />
+        <TextField
+          margin="normal"
+          label="First Name"
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
           fullWidth
         />
         <TextField
           margin="normal"
-          label="Display Name"
+          label="Last Name"
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
           fullWidth
