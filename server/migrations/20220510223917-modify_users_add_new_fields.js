@@ -5,16 +5,20 @@ module.exports = {
     return Promise.all([
       queryInterface.addColumn(
         "users", // table name
-        "points", // new field name
+        "username", // new field name
         {
-          type: Sequelize.INTEGER,
-          allowNull: true,
+          type: Sequelize.STRING,
+          unique: true,
+          allowNull: false,
+          validate: {
+            is: /^[a-zA-Z0-9_]*$/g,
+          },
         }
       ),
     ]);
   },
 
   async down(queryInterface, Sequelize) {
-    return Promise.all([queryInterface.removeColumn("users", "points")]);
+    return Promise.all([queryInterface.removeColumn("users", "username")]);
   },
 };

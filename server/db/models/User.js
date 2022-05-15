@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { Op } = require("sequelize");
 const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -19,6 +20,14 @@ const User = db.define("user", {
       return `${firstF.toUpperCase() + restF.join("")} ${
         firstL.toUpperCase() + restL.join("")
       }`;
+    },
+  },
+  username: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      is: /^[a-zA-Z0-9_]*$/g,
     },
   },
   email: {
@@ -96,8 +105,10 @@ User.prototype.setMaxScore = async function (score) {
 /**
  * classMethods
  */
-User.authenticate = async function ({ email, password }) {
-  const user = await this.findOne({ where: { email } });
+User.authenticate = async function ({ emailOrUsername, password }) {
+  const user = await this.findOne({
+    where: { [Op.or]: { email: emailOrUsername, username: emailOrUsername } },
+  });
   if (!user || !(await user.correctPassword(password))) {
     const error = Error("Incorrect email/password");
     error.status = 401;
@@ -174,7 +185,6 @@ User.validateInvitation = async function (inviteId) {
  * hooks
  */
 const hashPassword = async (user) => {
-  // console.log("hello", user.changed("password"), user);
   //in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed("password")) {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);

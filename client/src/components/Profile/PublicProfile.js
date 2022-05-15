@@ -27,11 +27,11 @@ const PublicProfile = (props) => {
     content = (
       <div>
         <Helmet>
-          <title>{props.profile.fullName} Profile | politIQ trivia</title>
+          <title>{props.profile.username} Profile | Fact or Fiction</title>
         </Helmet>
         <div className="public-profile">
           <div className="public-profile-top">
-            <h1 className="displayNameBox">{props.profile.fullName}</h1>
+            <h1 className="displayNameBox">{props.profile.username}</h1>
 
             {props.profile.id === props.signedInUserId ? ( // user is on their own profile
               <NavLink

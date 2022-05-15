@@ -22,6 +22,7 @@ async function seed() {
           firstName: f,
           lastName: l,
           email: `${f + l}@factorfiction.com`,
+          username: `${f + l}`,
           password: "12345678",
           role: r,
           affiliation: a,

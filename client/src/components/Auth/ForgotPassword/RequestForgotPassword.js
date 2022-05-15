@@ -28,7 +28,7 @@ const RequestForgotPassword = ({
       }}
     >
       <Helmet>
-        <title>Reset Password | politIQ trivia</title>
+        <title>Reset Password | Fact or Fiction</title>
       </Helmet>
       <h2>Forgot Your Password?</h2>
       <form>

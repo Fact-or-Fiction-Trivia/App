@@ -57,7 +57,7 @@ class AdminDashboard extends Component {
     return (
       <div>
         <Helmet>
-          <title>Admin Dashboard | politIQ trivia</title>
+          <title>Admin Dashboard | Fact or Fiction</title>
         </Helmet>
         <MediaQuery minWidth={415}>
           <AppBar position="static" color="default">
