@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 
 import Drawer from "./Drawer";
-import NotificationSettingsPage from "./NotificationSettings/NotificationSettingsPage";
 import SecuritySettings from "./SecuritySettings";
 import GameSettings from "./GameSettings";
 import EditProfilePage from "./EditProfile/EditProfilePage";
@@ -41,16 +40,6 @@ class ProfilePage extends Component {
       showEditProfile: false,
       showStatsPage: true,
       showNotificationSettings: false,
-      showSecurity: false,
-      showGameSettings: false,
-    });
-  };
-
-  toggleShowNotifications = () => {
-    this.setState({
-      showEditProfile: false,
-      showStatsPage: false,
-      showNotificationSettings: true,
       showSecurity: false,
       showGameSettings: false,
     });
@@ -102,9 +91,6 @@ class ProfilePage extends Component {
         ) : null}
         {this.state.showStatsPage ? (
           <UserScoreboard profileId={this.props.auth.id} />
-        ) : null}
-        {this.state.showNotificationSettings ? (
-          <NotificationSettingsPage />
         ) : null}
         {this.state.showGameSettings ? <GameSettings /> : null}
         {this.state.showSecurity ? <SecuritySettings /> : null}

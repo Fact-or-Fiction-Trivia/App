@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { authenticateWithStreak } from "../../../redux/reducers/auth";
 import { Redirect, Link } from "react-router-dom";
+import classNames from "classnames";
 // UI
 import Helmet from "react-helmet";
 
 import { Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import "../Auth.scss";
+import styles from "../Auth.module.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
 import {
   LANDING,
@@ -52,55 +53,59 @@ const SignInFormWithStreak = ({
     } else return <Redirect to={LANDING} />;
   }
   return (
-    <Paper className="authCard signIn">
-      <Helmet>
-        <title>Sign In | Fact or Fiction</title>
-      </Helmet>
-      <h1>Sign In</h1>
-      <p>
-        Don't have an account? <Link to={SIGN_UP}>Sign Up</Link>
-      </p>
+    <div className={styles.authContainer}>
+      <Paper className={classNames(styles.authCard, styles.signIn)}>
+        <Helmet>
+          <title>Sign In | Fact or Fiction</title>
+        </Helmet>
+        <h1>Sign In</h1>
+        <p>
+          Don't have an account? <Link to={SIGN_UP}>Sign Up</Link>
+        </p>
 
-      {authMessage && <div className="redirect-error">{authMessage}</div>}
-      <form>
-        <TextField
-          margin="normal"
-          fullWidth
-          name="emailOrUsername"
-          value={formData.emailOrUsername}
-          onChange={handleChange}
-          type="text"
-          placeholder="Email Address or Username"
-        />
-        <br />
-        <TextField
-          margin="normal"
-          fullWidth
-          value={formData.password}
-          onChange={handleChange}
-          type="password"
-          name="password"
-          placeholder="Password"
-        />
-        <Button
-          disabled={isInvalid}
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={{ marginTop: "2vh" }}
-          onClick={handleSubmit}
-        >
-          {buttonCopy}
-        </Button>
-        <span>
-          <p>
-            <Link to={REQUEST_FORGOT_PASSWORD}>Forgot Password?</Link>
-          </p>
-        </span>
+        {authMessage && (
+          <div className={styles.redirectError}>{authMessage}</div>
+        )}
+        <form>
+          <TextField
+            margin="normal"
+            fullWidth
+            name="emailOrUsername"
+            value={formData.emailOrUsername}
+            onChange={handleChange}
+            type="text"
+            placeholder="Email Address or Username"
+          />
+          <br />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={formData.password}
+            onChange={handleChange}
+            type="password"
+            name="password"
+            placeholder="Password"
+          />
+          <Button
+            disabled={isInvalid}
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ marginTop: "2vh" }}
+            onClick={handleSubmit}
+          >
+            {buttonCopy}
+          </Button>
+          <span>
+            <p>
+              <Link to={REQUEST_FORGOT_PASSWORD}>Forgot Password?</Link>
+            </p>
+          </span>
 
-        {error && <p>{error.message}</p>}
-      </form>
-    </Paper>
+          {error && <p>{error.message}</p>}
+        </form>
+      </Paper>
+    </div>
   );
 };
 
