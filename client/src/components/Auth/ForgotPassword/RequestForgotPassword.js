@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { requestReset } from "../../../redux/reducers/auth";
 import { Redirect } from "react-router-dom";
+import styles from "../Auth.module.scss";
 
 const RequestForgotPassword = ({
   requestResetPassword,
@@ -16,33 +17,30 @@ const RequestForgotPassword = ({
     return <Redirect to="/" />;
   }
   return (
-    <Paper
-      style={{
-        padding: "5vh",
-        marginBottom: "40vh",
-        marginTop: "10vh",
-        width: "80vw",
-        marginLeft: "auto",
-        marginRight: "auto",
-        textAlign: "center",
-      }}
-    >
-      <Helmet>
-        <title>Reset Password | Fact or Fiction</title>
-      </Helmet>
-      <h2>Forgot Your Password?</h2>
-      <form>
-        <TextField
-          value={email}
-          onChange={({ target: { value } }) => setEmail(value)}
-          type="text"
-          placeholder="Email Address"
-          style={{ width: "30vw" }}
-          color="primary"
-        />
-        <Button onClick={() => requestResetPassword(email)}>Send</Button>
-      </form>
-    </Paper>
+    <div className={styles.authContainer}>
+      <Paper className={styles.passwordForgetForm}>
+        <Helmet>
+          <title>Reset Password | Fact or Fiction</title>
+        </Helmet>
+        <h1>Forgot Your Password?</h1>
+        <form>
+          <TextField
+            value={email}
+            onChange={({ target: { value } }) => setEmail(value)}
+            type="text"
+            placeholder="Email Address"
+            color="primary"
+          />
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => requestResetPassword(email)}
+          >
+            Send
+          </Button>
+        </form>
+      </Paper>
+    </div>
   );
 };
 

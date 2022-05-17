@@ -21,25 +21,6 @@ import { reset } from "../../redux/reducers/auth";
 
 import Logo from "../../assets/images/FoFHorizontalLogo.png";
 
-// const Navigation = ({ clearStateOnSignout }) => {
-//   return (
-//     <AuthUserContext.Consumer>
-//       {(authUser) => (
-//         <>
-//           {authUser !== null ? (
-//             <NavigationAuth
-//               authUser={authUser}
-//               clearStateOnSignout={clearStateOnSignout}
-//             />
-//           ) : (
-//             <NavigationNonAuth />
-//           )}
-//         </>
-//       )}
-//     </AuthUserContext.Consumer>
-//   );
-// };
-
 const drawerWidth = 240;
 
 const styles = (theme) => ({

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { me, signupWithStreak } from "../../../redux/reducers/auth";
 import { Redirect, Link } from "react-router-dom";
+import classNames from "classnames";
 // UI
 import Helmet from "react-helmet";
 
@@ -16,7 +17,7 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import "../Auth.scss";
+import styles from "../Auth.module.scss";
 import { setMaxScore, setMidAuth } from "../../../redux/reducers/streak";
 import { LANDING, PRIVACY, SIGN_IN } from "../../../constants/routes";
 import { subscribeToEmails } from "../../../redux/reducers/profile";
@@ -93,7 +94,7 @@ const SignUpFormWithStreak = ({
     } else return <Redirect to={LANDING} />;
   }
   return (
-    <Paper className="authCard signIn">
+    <Paper className={classNames(styles.authCard, styles.signIn)}>
       <Helmet>
         <title>Sign Up | Fact or Fiction</title>
       </Helmet>
@@ -102,7 +103,7 @@ const SignUpFormWithStreak = ({
         Already have an account? <Link to={SIGN_IN}>Sign In</Link>
       </p>
 
-      {authMessage && <div className="redirect-error">{authMessage}</div>}
+      {authMessage && <div className={styles.redirectError}>{authMessage}</div>}
 
       <form>
         <TextField
@@ -159,7 +160,7 @@ const SignUpFormWithStreak = ({
           placeholder="Reenter Password"
         />
         <FormControlLabel
-          className="emailOptIn"
+          className={styles.emailOptIn}
           control={
             <Checkbox
               color="primary"
@@ -181,7 +182,7 @@ const SignUpFormWithStreak = ({
         {buttonCopy}
       </Button>
       {error && <p>{error.message}</p>}
-      <p className="privacy-opt-in">
+      <p className={styles.privacyOptIn}>
         By registering a profile, I agree to FOF's{" "}
         <Link to={PRIVACY}>Privacy Policy and Terms of Service</Link>
       </p>

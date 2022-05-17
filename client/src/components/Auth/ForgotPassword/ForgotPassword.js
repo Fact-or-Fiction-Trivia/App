@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { receiveToken, resetPassword } from "../../../redux/reducers/auth";
 import { Redirect } from "react-router-dom";
+import styles from "../Auth.module.scss";
 
 const ForgotPassword = ({
   recieveAccessToken,
@@ -36,17 +37,7 @@ const ForgotPassword = ({
     return <Redirect to={"/signin"} />;
   }
   return (
-    <Paper
-      style={{
-        padding: "5vh",
-        marginBottom: "40vh",
-        marginTop: "10vh",
-        width: "80vw",
-        marginLeft: "auto",
-        marginRight: "auto",
-        textAlign: "center",
-      }}
-    >
+    <Paper className={styles.passwordForgetForm}>
       <Helmet>
         <title>Reset Password | Fact or Fiction</title>
       </Helmet>

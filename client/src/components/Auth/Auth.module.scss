@@ -1,0 +1,98 @@
+@import "../../variables.scss";
+
+.authContainer {
+  height: 45rem;
+
+  @media (min-width: $breakpoint-md) {
+    height: 32rem;
+  }
+}
+
+.authCard {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: $space-md;
+  text-align: center;
+  margin-top: calc($nav-height + $space-md);
+  margin-bottom: $space-lg;
+  height: auto;
+
+  form {
+    text-align: left;
+  }
+
+  :global(.MuiInputBase-root) {
+    margin-bottom: $space-sm;
+  }
+
+  button {
+    margin-top: $space-md;
+    margin-bottom: $space-sm;
+  }
+}
+@media screen and (max-width: $breakpoint-md) {
+  .authCard {
+    width: calc(100% - 7rem);
+    margin: calc($nav-height + $space-md) $space-sm 0 $space-sm;
+  }
+}
+
+.passwordChangeForm {
+  width: 50%;
+  margin: calc($nav-height + 3rem) auto;
+}
+
+.passwordForgetForm {
+  margin: calc($nav-height + 3rem) auto;
+  padding: 2rem;
+  text-align: center;
+  width: 50%;
+
+  h1 {
+    font-size: $font-size-l;
+    margin-bottom: $space-md;
+  }
+
+  button {
+    margin: $space-md auto 0 auto;
+    width: 10rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 18rem;
+  }
+}
+
+.field-with-tooltip {
+  display: flex;
+  justify-content: space-between;
+}
+
+.field-with-tooltip > svg {
+  margin: auto 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.auth-field {
+  text-align: left;
+  width: calc(100% - 2rem);
+}
+
+.privacyOptIn {
+  font-size: 0.75rem;
+  margin-top: 3rem;
+}
+
+.redirectError {
+  color: $color-red;
+  font-weight: bold;
+}
