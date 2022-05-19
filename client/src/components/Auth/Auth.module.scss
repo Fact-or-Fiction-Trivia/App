@@ -92,7 +92,8 @@
   margin-top: 3rem;
 }
 
-.redirectError {
+.redirectError,
+.error {
   color: $color-red;
   font-weight: bold;
 }
