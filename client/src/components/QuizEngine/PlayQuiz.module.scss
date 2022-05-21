@@ -24,6 +24,10 @@
     margin: calc($nav-height + 2rem) auto 1rem auto;
     min-height: 38rem;
   }
+
+  @media (min-width: $breakpoint-lg) {
+    min-height: 45rem;
+  }
 }
 
 .statsContainer {
