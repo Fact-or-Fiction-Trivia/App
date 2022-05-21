@@ -35,6 +35,7 @@ const Leaderboard = ({
   ]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getStreaks();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -195,7 +196,7 @@ const Leaderboard = ({
                 {getTeamImage(secondPlaceTeam, "2nd")}
                 <span className={styles.whiteGlow}>2</span>
               </div>
-              <div>
+              <div className={styles.firstPlace}>
                 {getTeamImage(firstPlaceTeam, "1st")}
                 <span className={styles.whiteGlow}>1</span>
               </div>

@@ -5,17 +5,7 @@ import Paper from "@material-ui/core/Paper";
 
 const PrivacyPolicy = () => {
   return (
-    <Paper
-      className="home-holder"
-      style={{
-        width: "65vw",
-        textAlign: "left",
-        marginLeft: "auto",
-        marginRight: "auto",
-        padding: "5vw",
-        marginBottom: "5vw",
-      }}
-    >
+    <Paper className="home-holder privacy-container">
       <Helmet>
         <title>Privacy Policy | Fact or Fiction</title>
       </Helmet>

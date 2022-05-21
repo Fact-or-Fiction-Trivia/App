@@ -6,10 +6,8 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import Help from "@material-ui/icons/Help";
-import "../../../css/customStyles.css";
 import EditProfileForm from "./EditProfileForm";
 import { SIGN_IN } from "../../../constants/routes";
-import ProfilePhoto from "../ProfilePhoto";
 
 const affiliationText = `
   Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
@@ -99,11 +97,6 @@ const EditProfilePage = ({
           initialSignUpMessage={initialSignUpMessage}
           setFBAuth={setFBAuth}
         />
-
-        {/* todo: add photos */}
-        {/* <MediaQuery minWidth={416}>
-              <ProfilePhoto authUser={authUser} />
-            </MediaQuery> */}
       </div>
     </>
   );

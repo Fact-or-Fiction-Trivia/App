@@ -17,6 +17,10 @@
     width: calc(100% - 2rem);
   }
 
+  @media (min-width: $breakpoint-lg) {
+    max-height: 47rem;
+  }
+
   h1 {
     padding-top: 3rem;
   }
