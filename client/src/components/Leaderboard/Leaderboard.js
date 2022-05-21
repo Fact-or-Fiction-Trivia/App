@@ -35,7 +35,6 @@ const Leaderboard = ({
   ]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     getStreaks();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

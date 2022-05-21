@@ -37,7 +37,7 @@ const Footer = ({ isLoggedIn }) => (
         {process.env.REACT_APP_PRELAUNCH === "false" && (
           <>
             <Link
-              to={routes.PLAY_GAME}
+              to={routes.GAME}
               style={{
                 color: "white",
                 textDecoration: "none",

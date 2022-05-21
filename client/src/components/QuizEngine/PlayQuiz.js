@@ -19,19 +19,20 @@ import {
 } from "../../redux/reducers/streak";
 
 const PlayQuiz = ({
-  streak,
-  streakLength,
-  streakEnded,
   addStreak,
+  answeredCorrectly,
+  getQuestions,
   increaseStreak,
   isAnswering,
-  answeredCorrectly,
+  isLoading,
   isLoggedIn,
   midAuthentication,
   maxStreak,
-  questions,
-  getQuestions,
   nextQuestion,
+  questions,
+  streak,
+  streakEnded,
+  streakLength,
 }) => {
   // Timer reference used in the Question -> TimerBar Component
   const timer = useRef(null);
@@ -44,7 +45,6 @@ const PlayQuiz = ({
   };
   //Grab the Questions
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (questions.length === 0) {
       getQuestions();
     }
@@ -125,7 +125,7 @@ const PlayQuiz = ({
       startVelocity: 55,
       origin: { x: 0.5, y: 1 },
     });
-  if (questions.length === 0) {
+  if (!isLoading && questions.length === 0) {
     return <NoQuestionsAvailable />;
   }
 
@@ -184,27 +184,28 @@ const PlayQuiz = ({
 };
 
 const mapState = (state) => {
-  const { questions } = state.question;
+  const { questions, isLoading } = state.question;
   const {
-    streak,
-    maxStreak,
-    streakEnded,
-    isAnswering,
     answeredCorrectly,
+    isAnswering,
+    maxStreak,
     midAuthentication,
+    streak,
+    streakEnded,
   } = state.streak;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
-    streak,
-    streakLength: streak.filter((it) => it.answeredCorrectly).length,
-    isAnswering,
     answeredCorrectly,
+    isAnswering,
+    isLoading,
     isLoggedIn,
     midAuthentication,
     maxStreak,
-    streakEnded,
     questions,
+    streak,
+    streakEnded,
+    streakLength: streak.filter((it) => it.answeredCorrectly).length,
   };
 };
 
