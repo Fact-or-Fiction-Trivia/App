@@ -1,0 +1,32 @@
+@import "../../variables.scss";
+
+.container {
+  height: 83vh;
+  margin-top: $nav-height;
+  padding: $space-sm;
+  text-align: center;
+
+  @media (min-width: $breakpoint-md) {
+    height: 60vh;
+    padding: $space-lg;
+  }
+
+  h2 {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 24px;
+    max-width: 1100px;
+    letter-spacing: 1px;
+  }
+
+  img {
+    margin-top: $space-lg;
+  }
+}
+
+.noMatchLink {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
