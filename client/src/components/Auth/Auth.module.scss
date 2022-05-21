@@ -6,6 +6,10 @@
   @media (min-width: $breakpoint-md) {
     height: 32rem;
   }
+
+  @media (min-width: $breakpoint-xl) {
+    height: 44rem;
+  }
 }
 
 .authCard {
@@ -92,7 +96,8 @@
   margin-top: 3rem;
 }
 
-.redirectError {
+.redirectError,
+.error {
   color: $color-red;
   font-weight: bold;
 }

@@ -172,6 +172,7 @@ const SignUpFormWithStreak = ({
           label="I would like to receive email updates from Fact or Fiction"
         />
       </form>
+      {error && <p className={styles.error}>{error.message}</p>}
       <Button
         disabled={isInvalid}
         type="submit"
@@ -181,7 +182,6 @@ const SignUpFormWithStreak = ({
       >
         {buttonCopy}
       </Button>
-      {error && <p>{error.message}</p>}
       <p className={styles.privacyOptIn}>
         By registering a profile, I agree to FOF's{" "}
         <Link to={PRIVACY}>Privacy Policy and Terms of Service</Link>

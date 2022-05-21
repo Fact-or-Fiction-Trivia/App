@@ -86,6 +86,9 @@ const SignInFormWithStreak = ({
             name="password"
             placeholder="Password"
           />
+
+          {error && <p className={styles.error}>{error.message}</p>}
+
           <Button
             disabled={isInvalid}
             type="submit"
@@ -101,8 +104,6 @@ const SignInFormWithStreak = ({
               <Link to={REQUEST_FORGOT_PASSWORD}>Forgot Password?</Link>
             </p>
           </span>
-
-          {error && <p>{error.message}</p>}
         </form>
       </Paper>
     </div>

@@ -14,6 +14,7 @@ $color-secondary: #ffc300;
 
 $color-white: #fff;
 $color-black: #000;
+$color-gray: #7c8d9b;
 $color-gray-light: #f8f8f8;
 $color-red: #c70039;
 $color-red-hover: #b5204b;
@@ -25,6 +26,7 @@ $color-green-hover: #4bb520;
 $space-sm: 1rem;
 $space-md: 2.5rem;
 $space-lg: 5rem;
+$space-xl: 10rem;
 
 // text tokens
 
@@ -41,5 +43,6 @@ $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
+$breakpoint-xxl: 1600px;
 
 @forward "./animation.scss";
