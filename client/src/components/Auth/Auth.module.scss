@@ -6,6 +6,10 @@
   @media (min-width: $breakpoint-md) {
     height: 32rem;
   }
+
+  @media (min-width: $breakpoint-xl) {
+    height: 44rem;
+  }
 }
 
 .authCard {

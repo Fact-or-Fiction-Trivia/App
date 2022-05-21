@@ -62,43 +62,46 @@ const GameSettings = ({
     <div style={{ marginBottom: "10vh" }}>
       <h1 id="settings-heading">Game Settings</h1>
 
-      <h3 className="settings-subheading">Score Visibility</h3>
-      <FormGroup row className="notification-settings">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={invisibleScore}
-              color="primary"
-              name="invisibleScore"
-              onChange={() => setInvisibleScore(!invisibleScore)}
-            />
-          }
-          label="Hide my scores from the monthly and weekly leaderboards"
-        />
-      </FormGroup>
-      <h3 className="settings-subheading">Notifications</h3>
+      <div className="settings-content">
+        <h3 className="settings-subheading">Score Visibility</h3>
+        <FormGroup row className="notification-settings">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={invisibleScore}
+                color="primary"
+                name="invisibleScore"
+                onChange={() => setInvisibleScore(!invisibleScore)}
+              />
+            }
+            label="Hide my scores from the monthly and weekly leaderboards"
+          />
+        </FormGroup>
+        <h3 className="settings-subheading">Notifications</h3>
 
-      <FormGroup row className="notification-settings">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={subscriptionStatus}
-              color="primary"
-              name="invisibleScore"
-              onChange={() => setSubscriptionStatus(!subscriptionStatus)}
-            />
-          }
-          label="Receive email updates from Fact or Fiction"
-        />
-      </FormGroup>
-      <Button
-        color="primary"
-        style={{ marginTop: "3vh" }}
-        onClick={handleSubmit}
-      >
-        Save Changes
-      </Button>
-      {saved ? <p>Your preferences have been updated successfully!</p> : null}
+        <FormGroup row className="notification-settings">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={subscriptionStatus}
+                color="primary"
+                name="invisibleScore"
+                onChange={() => setSubscriptionStatus(!subscriptionStatus)}
+              />
+            }
+            label="Receive email updates from Fact or Fiction"
+          />
+        </FormGroup>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{ marginTop: "3vh" }}
+          onClick={handleSubmit}
+        >
+          Save Changes
+        </Button>
+        {saved ? <p>Your preferences have been updated successfully!</p> : null}
+      </div>
     </div>
   );
 };

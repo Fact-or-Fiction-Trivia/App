@@ -5,7 +5,8 @@ import LoadingGif from "../../6.gif";
 import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
-
+import Button from "../../components/Button/Button";
+import SettingsIcon from "@material-ui/icons/Settings";
 import UserScoreboard from "./UserScoreboard";
 
 import "./profile.scss";
@@ -38,7 +39,10 @@ const PublicProfile = (props) => {
                 style={{ textDecoration: "none", color: "white" }}
                 to="/profile"
               >
-                <button className="customButton">Edit My Profile</button>
+                <Button>
+                  <SettingsIcon />
+                  <span>Edit My Profile</span>
+                </Button>
               </NavLink>
             ) : null}
           </div>
