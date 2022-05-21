@@ -28,6 +28,35 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
+
+  button {
+    display: flex;
+    margin-top: $space-sm;
+    margin-right: $space-md;
+    svg {
+      margin-right: 0.5rem;
+    }
+    @media (max-width: $breakpoint-sm) {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      svg {
+        margin-right: 0;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+
+  .displayNameBox {
+    height: 100%;
+    vertical-align: middle;
+
+    @media (min-width: $breakpoint-sm) {
+      margin-left: $space-md;
+    }
+  }
 }
 .profile h1 {
   margin: 10px;
@@ -117,24 +146,30 @@
 }
 
 .profile {
-  margin-top: calc($nav-height + 2rem);
+  margin-top: calc($nav-height + $space-md);
   margin-bottom: 6rem;
   width: 85vw;
   height: fit-content;
-  min-height: 32rem;
+  min-height: 38rem;
   overflow: scroll;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 5vh;
   text-align: center;
-}
-@media screen and (max-width: 415px) {
-  .profile {
+
+  @media screen and (max-width: 415px) {
     height: fit-content;
     min-height: 42rem;
-    margin-bottom: 3rem;
+    margin-bottom: $space-sm;
+    margin-top: calc($nav-height + $space-sm);
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    margin-top: calc($nav-height + $space-lg);
+    margin-bottom: 7.5rem;
   }
 }
+
 .profile-button-holder {
   display: flex;
   flex-direction: row;
@@ -148,27 +183,19 @@
 @media screen and (max-width: 415px) {
   .profile-button-holder {
     flex-direction: row;
-    /* margin-left: 0; */
   }
-}
-
-.edit-profile {
-  width: 60%;
 }
 
 @media screen and (max-width: 415px) {
   .edit-profile {
-    width: 80%;
-    padding-right: 8vw;
-    padding-left: 8vw;
+    padding-right: $space-sm;
+    padding-left: $space-sm;
   }
 }
 
 .edit-holder {
-  display: flex;
-  justify-content: space-between;
-  padding-left: 5vw;
-  padding-right: 5vw;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 415px) {
@@ -206,13 +233,11 @@
 }
 
 .upload-button {
-  /* margin-top: auto !important; */
   margin-bottom: auto !important;
   height: 6vh;
   padding: 1vw !important;
   width: 20vw;
   margin-top: 3vh !important;
-  /* margin-right: 10vw !important; */
 }
 
 .upload-button > span {
@@ -229,11 +254,12 @@
 .back-button {
   align-self: flex-start;
   margin-top: 1vh !important;
-  /* margin-right: 3vw !important; */
 }
 
 .edit-profile {
   align-self: flex-end;
+  padding-right: $space-sm;
+  padding-left: $space-sm;
 }
 
 @media screen and (max-width: 415px) {
@@ -244,7 +270,6 @@
 
 .notification-settings {
   width: 80%;
-  margin-left: 5vw;
   margin-right: auto;
   margin-top: 3vh;
 }
@@ -285,7 +310,7 @@
 /*  ---------- drawer styles ----------- */
 .drawer > div {
   z-index: 2 !important;
-  top: 8vh;
+  top: $nav-height;
   max-width: 250px;
 }
 
@@ -296,53 +321,32 @@
 
 .drawer-closed > div {
   overflow-x: hidden;
-  width: 56px;
+  width: 3.5rem;
   transition: 300ms ease;
 }
 
 /* -------- settings page styles ---------------- */
 
 .settings-page {
-  width: 85vw;
-  margin-left: 66px;
-}
+  margin-left: 4.5rem;
+  margin-right: $space-sm;
+  width: auto;
 
-@media screen and (max-width: 415px) {
-  .settings-page {
-    margin-left: 66px;
-    width: 81vw;
+  @media (min-width: $breakpoint-md) {
+    padding: $space-md;
   }
-}
 
-@media screen and (max-width: 320px) {
-  .settings-page {
-    width: 77vw;
-  }
-}
-
-@media screen and (min-width: 769px) {
-  .settings-page {
-    width: 65vw;
+  @media screen and (min-width: $breakpoint-md) {
     margin-left: 32vw;
   }
-}
 
-@media screen and (min-width: 1000px) {
-  .settings-page {
-    width: 74vw;
-    margin-left: 25vw;
-  }
-}
-
-@media screen and (min-width: 1120px) {
-  .settings-page {
+  @media screen and (min-width: $breakpoint-xl) {
+    width: 50rem;
     margin-left: 23vw;
   }
-}
 
-@media screen and (min-width: 1200px) {
-  .settings-page {
-    margin-left: 21vw;
+  @media (min-width: $breakpoint-xxl) {
+    width: 70rem;
   }
 }
 
@@ -351,16 +355,19 @@
   margin-bottom: 1vh;
 }
 
+.settings-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .settings-subheading {
   text-align: left;
-  margin-left: 5vw;
   margin-bottom: 0;
 }
 
 #delete-account-button {
   margin-top: 5vh;
   float: left;
-  margin-left: 5vw;
 }
 
 .fbAuthBox {
