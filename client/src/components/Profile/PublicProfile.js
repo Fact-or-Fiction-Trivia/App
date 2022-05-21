@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import LoadingGif from "../../6.gif";
-import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import Button from "../../components/Button/Button";
