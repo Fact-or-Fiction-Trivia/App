@@ -37,16 +37,19 @@ const GameSettings = ({
       getEmailSubscriptionStatus(auth.mailchimpId);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const subscribedStatuses = ["subscribed", "transactional"];
 
   useEffect(() => {
-    const subscribedStatuses = ["subscribed", "transactional"];
-
     setSubscriptionStatus(subscribedStatuses.includes(mailchimpStatus?.status));
-  }, [mailchimpStatus]);
+  }, [mailchimpStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async () => {
     updateInfo({ invisibleScore });
-    if (mailchimpStatus?.status !== subscriptionStatus) {
+    if (
+      // if you're not subscribed and you've toggled your switch to true
+      !subscribedStatuses.includes(mailchimpStatus?.status) &&
+      subscriptionStatus
+    ) {
       updateEmailSubscriptionStatus(
         auth.mailchimpId,
         subscriptionStatus ? "subscribed" : "unsubscribed"
