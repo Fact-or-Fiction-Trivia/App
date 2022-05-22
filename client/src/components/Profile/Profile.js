@@ -70,9 +70,6 @@ class ProfilePage extends Component {
   };
 
   render() {
-    if (!this.props.isLoggedIn) {
-      this.props.history.push(SIGN_IN);
-    }
     return (
       <Paper className="profile settings-page">
         <Helmet>

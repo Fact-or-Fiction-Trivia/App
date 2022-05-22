@@ -1,17 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MediaQuery from "react-responsive";
 import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Help from "@material-ui/icons/Help";
 import EditProfileForm from "./EditProfileForm";
 import { SIGN_IN } from "../../../constants/routes";
-
-const affiliationText = `
-  Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
-`;
 
 const EditProfilePage = ({
   auth,
@@ -22,9 +16,12 @@ const EditProfilePage = ({
 }) => {
   const history = useHistory();
 
-  if (!isLoggedIn) {
-    history.push(SIGN_IN);
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push(SIGN_IN);
+    }
+  }, [auth.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       <MediaQuery minWidth={416}>
@@ -68,30 +65,6 @@ const EditProfilePage = ({
         </Link>
       </MediaQuery>
 
-      {localStorage.hasOwnProperty("fbAuth") ? (
-        <div className="fbAuthBox">
-          <h3>Welcome to PolitIQ!</h3>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "85%",
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "2vh",
-              marginBottom: "2vh",
-            }}
-          >
-            <p style={{ display: "inline", margin: "0" }}>
-              Please add a political affiliation to complete your registration.
-            </p>
-            <Tooltip title={affiliationText} placement="right-start">
-              <Help color="primary" style={{ height: "15" }} />
-            </Tooltip>
-          </div>
-        </div>
-      ) : null}
-
       <div className="edit-holder">
         <EditProfileForm
           initialSignUpMessage={initialSignUpMessage}
@@ -111,8 +84,4 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
-  return {};
-};
-
-export default connect(mapState, mapDispatch)(EditProfilePage);
+export default connect(mapState)(EditProfilePage);
