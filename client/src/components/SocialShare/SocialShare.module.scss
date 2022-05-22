@@ -1,0 +1,14 @@
+@import "../../variables.scss";
+
+.container {
+  color: $color-white;
+  display: flex;
+  justify-content: space-between;
+
+  svg {
+    &:hover {
+      color: $color-primary-light;
+      cursor: pointer;
+    }
+  }
+}
