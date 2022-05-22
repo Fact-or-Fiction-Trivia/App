@@ -6,7 +6,7 @@ import { getAllStreaksForUser } from "../../redux/reducers/profile";
 const UserScoreboard = ({ auth, profile, profileId, getScores, scores }) => {
   // TODO: make this compatible with profile ids as well, since this will not work on the public profile page
   useEffect(() => {
-    if (!scores.allTime && auth.id) {
+    if (auth.id) {
       getScores(auth.id);
     }
   }, [auth.id]); // eslint-disable-line react-hooks/exhaustive-deps
