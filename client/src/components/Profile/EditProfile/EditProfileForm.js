@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -12,12 +12,25 @@ import { updateUserInfo } from "../../../redux/reducers/auth";
 
 const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
   const history = useHistory;
-  const [firstName, setFirstName] = useState(auth.firstName);
-  const [lastName, setLastName] = useState(auth.lastName);
-  const [username, setUsername] = useState(auth.username);
-  const [email, setEmail] = useState(auth.email);
-  const [bio, setBio] = useState(auth.bio || "");
-  const [affiliation, setAffiliation] = useState(auth.affiliation);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [bio, setBio] = useState("");
+  const [affiliation, setAffiliation] = useState("");
+
+  useEffect(() => {
+    // there's a slight delay between when this page loads and the auth object is fetched, so we need to
+    // set the initial state here.
+    if (auth.id) {
+      setFirstName(auth.firstName);
+      setLastName(auth.lastName);
+      setUsername(auth.username);
+      setEmail(auth.email);
+      setBio(auth.bio || "");
+      setAffiliation(auth.affiliation);
+    }
+  }, [auth]);
 
   const handleSave = async () => {
     const update = {
