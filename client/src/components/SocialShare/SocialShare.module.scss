@@ -1,0 +1,49 @@
+@import "../../variables.scss";
+
+.container {
+  display: flex;
+
+  svg {
+    margin-right: 1rem;
+
+    @media (max-width: $breakpoint-lg) {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.primary {
+  color: $color-primary;
+  a,
+  svg {
+    color: $color-primary;
+    &:hover {
+      color: $color-primary-dark;
+      cursor: pointer;
+    }
+  }
+}
+
+.black {
+  color: $color-black;
+  a,
+  svg {
+    color: $color-black;
+    &:hover {
+      color: $color-primary-dark;
+      cursor: pointer;
+    }
+  }
+}
+
+.white {
+  color: $color-white;
+  a,
+  svg {
+    color: $color-white;
+    &:hover {
+      color: $color-primary-light;
+      cursor: pointer;
+    }
+  }
+}
