@@ -50,7 +50,7 @@ const Footer = ({ isLoggedIn }) => (
 
       <div className={styles.sharing}>
         <h3>Share on Social Media</h3>
-        <SocialShare />
+        <SocialShare color="white" />
       </div>
     </div>
     <div className={styles.bottomNav}>
