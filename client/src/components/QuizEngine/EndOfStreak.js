@@ -9,6 +9,7 @@ import fight from "../StaticPages/politiq-bg2.jpg";
 import styles from "./EndOfStreak.module.scss";
 import { SIGN_IN, SUBMIT_QUESTION, GAME } from "../../constants/routes";
 import confetti from "canvas-confetti";
+import SocialShare from "../SocialShare/SocialShare";
 
 const EndOfStreak = ({
   isLoggedIn,
@@ -87,8 +88,12 @@ const EndOfStreak = ({
               )}
             </>
           )}
-
-          {/* <h3 className={styles.socialMediaHeading}>Share on social media</h3> */}
+          <div className={styles.socialContainer}>
+            <h3 className={styles.socialMediaHeading}>
+              Share your streak on social media
+            </h3>
+            <SocialShare color="black" />
+          </div>
 
           <div className={styles.buttonContainer}>
             <Link to="/leaderboard">

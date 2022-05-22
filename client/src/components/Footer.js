@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import styles from "./Footer.module.scss";
+import SocialShare from "./SocialShare/SocialShare";
 
 const Footer = ({ isLoggedIn }) => (
   <>
     <div className={styles.footer}>
       {isLoggedIn ? (
-        <div className="description">
+        <div className={styles.description}>
           <h3>Find some news we should include?</h3>
           <p>
             Increase your score by clicking the link below to submit your own
@@ -19,7 +20,7 @@ const Footer = ({ isLoggedIn }) => (
           <Link to={routes.SUBMIT_QUESTION}>Submit a Question Now</Link>
         </div>
       ) : (
-        <div className="description">
+        <div className={styles.description}>
           <h3>About Us</h3>
           <p>
             In an effort to combat polarization and improve the dialogue around
@@ -32,89 +33,24 @@ const Footer = ({ isLoggedIn }) => (
         </div>
       )}
 
-      <div className="links">
+      <div className={styles.links}>
         <h3>Quick Links</h3>
         {process.env.REACT_APP_PRELAUNCH === "false" && (
           <>
-            <Link
-              to={routes.GAME}
-              style={{
-                color: "white",
-                textDecoration: "none",
-                marginTop: "1vh",
-                display: "block",
-              }}
-            >
-              Play
-            </Link>
-            <Link
-              to={routes.SUBMIT_QUESTION}
-              style={{
-                color: "white",
-                textDecoration: "none",
-                marginTop: "1vh",
-                display: "block",
-              }}
-            >
-              Submit a Question
-            </Link>
+            <Link to={routes.GAME}>Play</Link>
+            <Link to={routes.SUBMIT_QUESTION}>Submit a Question</Link>
           </>
         )}
-        <Link
-          to={`${routes.ABOUT}#FAQ`}
-          style={{
-            color: "white",
-            textDecoration: "none",
-            marginTop: "1vh",
-            display: "block",
-          }}
-        >
-          FAQ
-        </Link>
-        <Link
-          to={routes.ABOUT}
-          style={{
-            color: "white",
-            textDecoration: "none",
-            marginTop: "1vh",
-            display: "block",
-          }}
-        >
-          About
-        </Link>
+        <Link to={`${routes.ABOUT}#FAQ`}>FAQ</Link>
+        <Link to={routes.ABOUT}>About</Link>
         {process.env.REACT_APP_PRELAUNCH === "false" && !isLoggedIn && (
-          <Link
-            to={routes.SIGN_UP}
-            style={{
-              color: "white",
-              textDecoration: "none",
-              marginTop: "1vh",
-              display: "block",
-            }}
-          >
-            Sign Up
-          </Link>
+          <Link to={routes.SIGN_UP}>Sign Up</Link>
         )}
       </div>
 
-      <div className="sharing">
-        <div className="socials" style={{ display: "flex", marginTop: "1vh" }}>
-          {/* TODO: FIX SHARE BUTTONS */}
-          {/* <TwitterShareButton
-              url={getHref()}
-              title="Think you can beat my high score?"
-              className="shareable"
-            >
-              <TwitterIcon round={true} size={32} />
-            </TwitterShareButton>
-            <FacebookShareButton
-              url={getHref()}
-              className="shareable"
-              quote="Think you can beat my high score?"
-            >
-              <FacebookIcon round={true} size={32} />
-            </FacebookShareButton> */}
-        </div>
+      <div className={styles.sharing}>
+        <h3>Share on Social Media</h3>
+        <SocialShare color="white" />
       </div>
     </div>
     <div className={styles.bottomNav}>
