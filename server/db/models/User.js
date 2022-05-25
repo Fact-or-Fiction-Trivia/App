@@ -70,6 +70,11 @@ const User = db.define("user", {
     defaultValue: false,
     allowNull: false,
   },
+  points: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false,
+  },
 });
 
 module.exports = User;
