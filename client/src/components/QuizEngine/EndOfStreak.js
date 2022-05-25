@@ -92,7 +92,7 @@ const EndOfStreak = ({
             <h3 className={styles.socialMediaHeading}>
               Share your streak on social media
             </h3>
-            <SocialShare color="black" />
+            <SocialShare color="black" shouldShowInstagram={true} />
           </div>
 
           <div className={styles.buttonContainer}>
