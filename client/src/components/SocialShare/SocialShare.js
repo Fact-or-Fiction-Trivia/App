@@ -5,9 +5,16 @@ import { Link, Facebook, Instagram, Twitter } from "@material-ui/icons";
 import styles from "./SocialShare.module.scss";
 import InstagramShare from "./InstagramShare";
 
-const SocialShare = ({ color, highestStreak, shouldShowInstagram }) => {
+const SocialShare = ({
+  color,
+  highestStreak,
+  shouldShowInstagram,
+  streakLength,
+}) => {
   const [igModalOpen, setIgModalOpen] = useState(false);
-  const highScoreText = highestStreak ? `of ${highestStreak}` : "";
+  const highScoreText = highestStreak
+    ? `of ${streakLength > highestStreak ? streakLength : highestStreak}`
+    : "";
   const shareText = `Think you know more about POLITICS than me? PROVE IT by beating my high score ${highScoreText} on FactOrFictionTrivia.com!`;
   const handleFbShare = () => {
     window.FB.ui({
@@ -49,9 +56,10 @@ const SocialShare = ({ color, highestStreak, shouldShowInstagram }) => {
 };
 
 const mapState = (state) => {
-  const { maxStreak } = state.streak;
+  const { maxStreak, streak } = state.streak;
   return {
     highestStreak: maxStreak,
+    streakLength: streak.filter((it) => it.answeredCorrectly).length,
   };
 };
 
