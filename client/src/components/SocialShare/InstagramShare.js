@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
-import { Dialog, IconButton, Slide, Toolbar } from "@material-ui/core";
+import { Dialog, Slide } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import Button from "../../components/Button/Button";
+import { exportComponentAsPNG } from "react-component-export-image";
 import styles from "./InstagramShare.module.scss";
 import owl from "../../images/large_icon.png";
 import logo from "../../assets/images/FoFHorizontalLogo.png";
@@ -35,10 +36,16 @@ const InstagramShare = ({
   highestStreak,
   open,
   shareText,
-  score,
+  streakLength,
 }) => {
   const string1 = shareText.split("?")[0] + "?";
   const string2 = shareText.split("?")[1];
+  const componentRef = useRef();
+
+  const handleDownload = () => {
+    exportComponentAsPNG(componentRef, { w: 1080, h: 1920 });
+    handleClose();
+  };
   return (
     <Dialog
       aria-labelledby="share_modal"
@@ -48,30 +55,36 @@ const InstagramShare = ({
       onClose={handleClose}
       fullScreen
       TransitionComponent={Transition}
+      scroll="body"
     >
       <div className={styles.modalContent}>
-        {/* <h2 id="share_modal_header">Get your personalized share graphic</h2> */}
-        <div className={styles.shareImage}>
+        <Close className={styles.close} onClick={handleClose} />
+        <div className={styles.shareImage} ref={componentRef}>
           <img className={styles.logo} src={logo} alt="Fact or Fiction Logo" />
           <div className={styles.shareImageInner}>
             <h2>{string1}</h2>
             <div className={styles.streakContainer}>
               <img src={owl} alt="Fact or Fiction Owl" />
-              <h2 className={styles.streak}>{highestStreak}</h2>
+              <h2 className={styles.streak}>
+                {streakLength > highestStreak ? streakLength : highestStreak}
+              </h2>
             </div>
             <h2>{string2}</h2>
           </div>
         </div>
-        <Button onClick={handleClose}>Download to Share</Button>
+        <Button className={styles.download} onClick={handleDownload}>
+          Download to Share
+        </Button>
       </div>
     </Dialog>
   );
 };
 
 const mapState = (state) => {
-  const { maxStreak } = state.streak;
+  const { maxStreak, streak } = state.streak;
   return {
     highestStreak: maxStreak,
+    streakLength: streak.filter((it) => it.answeredCorrectly).length,
   };
 };
 

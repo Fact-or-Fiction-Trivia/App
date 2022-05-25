@@ -1,15 +1,20 @@
 @import "../../variables.scss";
 
 .modalContent {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
-  text-align: center;
+
+  .close {
+    align-self: end;
+    margin-bottom: 2rem;
+  }
 }
 
 .shareImage {
-  //   background: $color-primary-darker;
   border: 1px solid $color-primary-darker;
-
   margin-bottom: $space-md;
+  text-align: center;
 
   .shareImageInner {
     padding: 0 1rem;
@@ -18,16 +23,15 @@
   h2 {
     color: $color-primary-dark;
     margin-bottom: 1rem;
+
+    &:last-of-type {
+      margin-bottom: $space-md;
+    }
   }
 
   img {
     max-width: 100%;
   }
-
-  //   .logo {
-  //     margin-top: -($space-md);
-  //     width: calc(100% + 2rem);
-  //   }
 }
 
 .streakContainer {
