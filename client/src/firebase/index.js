@@ -1,20 +1,14 @@
-import * as auth from './auth';
-import * as db from './db';
-import * as firebase from './firebase';
-import * as storage from './storage';
-import * as messaging from './messaging';
-import { app, provider, googleProvider } from './firebase';
-import FirebaseContext, { withFirebase } from './context';
+import { initializeApp } from "firebase/app";
 
-export {
-  app,
-  auth,
-  db,
-  firebase,
-  storage,
-  provider,
-  messaging,
-  FirebaseContext,
-  withFirebase,
-  googleProvider
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_apiKey,
+  authDomain: process.env.REACT_APP_authDomain,
+  databaseURL: process.env.REACT_APP_databaseURL,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
+
+initializeApp(firebaseConfig);
