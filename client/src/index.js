@@ -7,6 +7,7 @@ import ReactGA from "react-ga";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import "./firebase";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const history = createBrowserHistory();
