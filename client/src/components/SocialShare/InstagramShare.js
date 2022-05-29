@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
+import { getAnalytics, logEvent } from "firebase/analytics";
 import { Dialog, Slide } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import Button from "../../components/Button/Button";
@@ -38,12 +39,15 @@ const InstagramShare = ({
   shareText,
   streakLength,
 }) => {
+  const analytics = getAnalytics();
+
   const string1 = shareText.split("?")[0] + "?";
   const string2 = shareText.split("?")[1];
   const componentRef = useRef();
 
   const handleDownload = () => {
     exportComponentAsPNG(componentRef, { w: 1080, h: 1920 });
+    logEvent(analytics, "instagram_share", { event_name: "image_downloaded" });
     handleClose();
   };
   return (
