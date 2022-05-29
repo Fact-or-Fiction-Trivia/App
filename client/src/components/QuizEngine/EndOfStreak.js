@@ -88,13 +88,6 @@ const EndOfStreak = ({
               )}
             </>
           )}
-          <div className={styles.socialContainer}>
-            <h3 className={styles.socialMediaHeading}>
-              Share your streak on social media
-            </h3>
-            <SocialShare color="black" />
-          </div>
-
           <div className={styles.buttonContainer}>
             <Link to="/leaderboard">
               <Button variant="primary">Leaderboard</Button>
@@ -118,6 +111,10 @@ const EndOfStreak = ({
             >
               Play again
             </Button>
+          </div>
+          <div className={styles.socialContainer}>
+            <h3 className={styles.socialMediaHeading}>Share your streak</h3>
+            <SocialShare color="black" shouldShowInstagram={true} />
           </div>
         </div>
       )}
