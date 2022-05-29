@@ -50,7 +50,7 @@ const Footer = ({ isLoggedIn }) => (
 
       <div className={styles.sharing}>
         <h3>Share on Social Media</h3>
-        <SocialShare color="white" />
+        <SocialShare color="white" shouldShowInstagram={false} />
       </div>
     </div>
     <div className={styles.bottomNav}>
