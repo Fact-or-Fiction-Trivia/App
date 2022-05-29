@@ -36,7 +36,7 @@ const SocialShare = ({
       />
       <Facebook onClick={() => handleFbShare()} />
       {/* only show instagram on mobile for now, can revisit */}
-      {process.env.REACT_APP_ENABLE_IG_SHARING &&
+      {process.env.REACT_APP_ENABLE_IG_SHARING === "true" &&
         shouldShowInstagram &&
         window.innerWidth < 576 && (
           <Instagram
