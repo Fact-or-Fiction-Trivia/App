@@ -48,7 +48,7 @@ const Answer = ({
           : `${questionPercentage}% of players answered this question correctly.`}
       </div>
 
-      <div className={styles.buttonContainer}>
+      <div id="continue" className={styles.buttonContainer}>
         <Link to={CONTEST}>CHALLENGE this question</Link>
 
         <Button
