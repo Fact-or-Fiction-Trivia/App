@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import LogRocket from "logrocket";
 import axios from "../axiosInstance";
 
 export const receiveInvitation = createAsyncThunk(
@@ -47,6 +48,10 @@ export const me = createAsyncThunk(
     if (data.status === 401) {
       return rejectWithValue(data);
     }
+    LogRocket.identify(data.id, {
+      email: data.email,
+    });
+
     return data;
   }
 );

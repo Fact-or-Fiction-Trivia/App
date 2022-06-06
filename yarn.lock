@@ -5362,6 +5362,7 @@ __metadata:
     classnames: ^2.3.1
     css-loader: ^6.6.0
     firebase: ^9.8.2
+    logrocket: ^3.0.0
     moment: ^2.29.1
     prop-types: ^15.8.1
     react: ^17.0.2
@@ -10667,6 +10668,13 @@ __metadata:
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
+  languageName: node
+  linkType: hard
+
+"logrocket@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "logrocket@npm:3.0.0"
+  checksum: 4fa83785ffe673434868c5a9fdeff3e238f3290e83a8a6ff54be9b34e5a301ddc73fbbf6cf628b714c8198c1bf96f943e4141bd59e738c2952ab5bce21accf9c
   languageName: node
   linkType: hard
 
