@@ -38,11 +38,18 @@ export const receiveToken = createAsyncThunk(
   }
 );
 
-export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
-  const { data } = await axios.get("/auth/me", { credentials: "include" });
-  setLongestStreak && setLongestStreak(data.maxScore);
-  return data;
-});
+export const me = createAsyncThunk(
+  "auth/me",
+  async (setLongestStreak, { rejectWithValue }) => {
+    const { data } = await axios.get("/auth/me", { credentials: "include" });
+    setLongestStreak && setLongestStreak(data.maxScore);
+
+    if (data.status === 401) {
+      return rejectWithValue(data);
+    }
+    return data;
+  }
+);
 
 const maybeSaveLocalStorageStreak = async (streak) => {
   const localStorageStreak =
