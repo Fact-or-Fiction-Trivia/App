@@ -8,7 +8,10 @@ import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./firebase";
+import LogRocket from "logrocket";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+
+process.env.NODE_ENV === "production" && LogRocket.init("uz84go/factorfiction");
 
 const history = createBrowserHistory();
 ReactGA.initialize("UA-141105324-1");
