@@ -28,32 +28,48 @@ const Question = ({
       <div className={styles.tag}>{question.tags[0].name}</div>
       <div className={styles.textContainer}>{question.text}</div>
       <div className={styles.buttonContainer}>
-        <button
+        <div
           className={classNames(
-            styles.button,
-            styles.fact,
-            !isAnswering && styles.disabled,
-            selected === "Fact" && styles.factSelected,
+            styles.individualButtonContainer,
             selected === "Fact" && isCorrect && styles.correctAnswer
           )}
-          disabled={!isAnswering}
-          onClick={() => handleAnswer(question, "Fact")}
         >
-          Fact
-        </button>
-        <button
+          <button
+            className={classNames(
+              styles.button,
+              styles.fact,
+              !isAnswering && styles.disabled,
+              selected === "Fact" && styles.factSelected,
+              selected === "Fact" && isCorrect && styles.correctAnimation,
+              selected === "Fact" && !isCorrect && styles.incorrectAnimation
+            )}
+            disabled={!isAnswering}
+            onClick={() => handleAnswer(question, "Fact")}
+          >
+            Fact
+          </button>
+        </div>
+        <div
           className={classNames(
-            styles.button,
-            styles.fiction,
-            !isAnswering && styles.disabled,
-            selected === "Fiction" && styles.fictionSelected,
+            styles.individualButtonContainer,
             selected === "Fiction" && isCorrect && styles.correctAnswer
           )}
-          disabled={!isAnswering}
-          onClick={() => handleAnswer(question, "Fiction")}
         >
-          Fiction
-        </button>
+          <button
+            className={classNames(
+              styles.button,
+              styles.fiction,
+              !isAnswering && styles.disabled,
+              selected === "Fiction" && styles.fictionSelected,
+              selected === "Fiction" && isCorrect && styles.correctAnimation,
+              selected === "Fiction" && !isCorrect && styles.incorrectAnimation
+            )}
+            disabled={!isAnswering}
+            onClick={() => handleAnswer(question, "Fiction")}
+          >
+            Fiction
+          </button>
+        </div>
       </div>
     </div>
   );

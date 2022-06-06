@@ -19,6 +19,9 @@
 
   @media (min-width: $breakpoint-lg) {
     max-height: 47rem;
+    height: fit-content;
+
+    padding-bottom: $space-md;
   }
 
   h1 {

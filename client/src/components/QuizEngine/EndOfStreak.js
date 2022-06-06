@@ -14,6 +14,7 @@ import SocialShare from "../SocialShare/SocialShare";
 const EndOfStreak = ({
   isLoggedIn,
   maxStreak,
+  midAuthentication,
   setRedirect,
   streakLength,
   playNewGame,
@@ -21,6 +22,8 @@ const EndOfStreak = ({
   const [serveAdd, setServeAdd] = useState(false);
   const history = useHistory();
   const beatPreviousScore = parseInt(streakLength) > parseInt(maxStreak);
+  const returningFromAuth =
+    midAuthentication && parseInt(streakLength) === parseInt(maxStreak);
 
   const duration = 3 * 1000;
   let animationEnd = Date.now() + duration;
@@ -73,7 +76,7 @@ const EndOfStreak = ({
             <img src={owl} alt="Fact or Fiction Owl" />
             <h2 className={styles.streak}>{streakLength}</h2>
           </div>
-          {beatPreviousScore ? (
+          {returningFromAuth || beatPreviousScore ? (
             <p className={styles.streakMessage}>
               <span className={styles.green}>Congratulations</span> on your new
               high score!
@@ -123,14 +126,15 @@ const EndOfStreak = ({
 };
 
 const mapState = (state) => {
-  const { streak, maxStreak } = state.streak;
+  const { streak, maxStreak, midAuthentication } = state.streak;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
     isLoggedIn,
+    maxStreak,
+    midAuthentication,
     streak,
     streakLength: streak.filter((it) => it.answeredCorrectly).length,
-    maxStreak,
   };
 };
 

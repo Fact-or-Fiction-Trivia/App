@@ -57,14 +57,58 @@
 
 .podium {
   display: flex;
+  justify-content: center;
+  margin-bottom: $space-md;
 
-  img {
-    height: 7rem;
-    @media (min-width: $breakpoint-md) {
-      height: 16rem;
+  @media (min-width: $breakpoint-md) {
+    margin-bottom: $space-lg;
+  }
+
+  .firstPlace {
+    img {
+      height: 7rem;
+      margin: 0 1rem;
+
+      @media (min-width: $breakpoint-md) {
+        height: 16rem;
+      }
+    }
+  }
+
+  .secondPlace {
+    img {
+      height: 5rem;
+      margin: 0 1rem;
+      @media (min-width: $breakpoint-md) {
+        height: 12rem;
+      }
+    }
+  }
+
+  .thirdPlace {
+    img {
+      height: 4rem;
+      margin: 0 1rem;
+      @media (min-width: $breakpoint-md) {
+        height: 10rem;
+      }
     }
   }
 }
+
+.score {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+
+  span {
+    position: absolute;
+    bottom: -2rem;
+    left: calc((100% - 1.5rem) / 2);
+  }
+}
+
 .whiteGlow {
   font-size: $font-size-xl;
   font-weight: bold;
@@ -154,7 +198,13 @@
     .score {
       display: flex;
       align-items: center;
-      margin-right: 30%;
+      margin-right: 1rem;
+      min-width: 5rem;
+
+      @media (min-width: $breakpoint-md) {
+        max-width: 23rem;
+        width: 100%;
+      }
     }
   }
 }

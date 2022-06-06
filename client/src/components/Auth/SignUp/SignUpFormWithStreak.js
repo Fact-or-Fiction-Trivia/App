@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { me, signupWithStreak } from "../../../redux/reducers/auth";
 import { Redirect, Link } from "react-router-dom";
 import classNames from "classnames";
+import { getAnalytics, logEvent } from "firebase/analytics";
+
 // UI
 import Helmet from "react-helmet";
 
@@ -30,6 +32,8 @@ const SignUpFormWithStreak = ({
   signUpUserWithStreak,
   streak,
 }) => {
+  const analytics = getAnalytics();
+
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     username: "",
@@ -68,6 +72,10 @@ const SignUpFormWithStreak = ({
     e.preventDefault();
 
     signUpUserWithStreak({ formData, streak, setError });
+
+    logEvent(analytics, "account_created", {
+      event_name: "account_created",
+    });
   };
 
   const handleChange = ({ target }) => {

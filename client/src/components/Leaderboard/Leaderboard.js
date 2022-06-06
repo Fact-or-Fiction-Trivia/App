@@ -26,7 +26,7 @@ const Leaderboard = ({
   teamScores,
   weekly,
 }) => {
-  const [timeframe, setTimeframe] = useState("weekly");
+  const [timeframe, setTimeframe] = useState("allTime");
   const [userRank, setUserRank] = useState({ rank: 0, score: 0 });
   const [teamStandings, setTeamStandings] = useState([
     ["Republicans", 0],
@@ -169,6 +169,12 @@ const Leaderboard = ({
       <Paper className={styles.leaderboard}>
         <div className={styles.leaderboardTabs}>
           <Button
+            onClick={() => setTimeframe("allTime")}
+            variant={timeframe === "allTime" ? "primary" : "link"}
+          >
+            All Time
+          </Button>
+          <Button
             onClick={() => setTimeframe("weekly")}
             variant={timeframe === "weekly" ? "primary" : "link"}
           >
@@ -180,37 +186,29 @@ const Leaderboard = ({
           >
             Monthly
           </Button>
-          <Button
-            onClick={() => setTimeframe("allTime")}
-            variant={timeframe === "allTime" ? "primary" : "link"}
-          >
-            All Time
-          </Button>
         </div>
         <div className={styles.teamLeaderboardContainer}>
           <h1>Team Standings</h1>
           <div className={styles.teamLeaderboard}>
             <div className={styles.podium}>
-              <div>
+              <div className={classNames(styles.score, styles.secondPlace)}>
                 {getTeamImage(secondPlaceTeam, "2nd")}
                 <span className={styles.whiteGlow}>2</span>
               </div>
-              <div className={styles.firstPlace}>
+              <div className={classNames(styles.score, styles.firstPlace)}>
                 {getTeamImage(firstPlaceTeam, "1st")}
                 <span className={styles.whiteGlow}>1</span>
               </div>
-              <div>
+              <div className={classNames(styles.score, styles.thirdPlace)}>
                 {getTeamImage(thirdPlaceTeam, "3rd")}
                 <span className={styles.whiteGlow}>3</span>
               </div>
             </div>
             <h2>{firstPlaceTeam} in the lead!</h2>
             <h3>Average Streak Scores:</h3>
-            {teamStandings.map((party) => (
-              <p key={party}>
-                {party[0]}: {party[1]}
-              </p>
-            ))}
+            <p>
+              {teamStandings[0][0]}: {teamStandings[0][1]}
+            </p>
           </div>
         </div>
         <div className={styles.individualLeaderboardContainer}>

@@ -38,11 +38,28 @@ export const receiveToken = createAsyncThunk(
   }
 );
 
-export const me = createAsyncThunk("auth/me", async (setLongestStreak) => {
-  const { data } = await axios.get("/auth/me", { credentials: "include" });
-  setLongestStreak && setLongestStreak(data.maxScore);
-  return data;
-});
+export const me = createAsyncThunk(
+  "auth/me",
+  async (setLongestStreak, { rejectWithValue }) => {
+    const { data } = await axios.get("/auth/me", { credentials: "include" });
+    setLongestStreak && setLongestStreak(data.maxScore);
+
+    if (data.status === 401) {
+      return rejectWithValue(data);
+    }
+    return data;
+  }
+);
+
+const maybeSaveLocalStorageStreak = async (streak) => {
+  const localStorageStreak =
+    localStorage.hasOwnProperty("streak") &&
+    JSON.parse(localStorage.getItem("streak"));
+  if (localStorageStreak?.length > streak.length) {
+    await axios.post(`/api/streaks`, localStorageStreak);
+    localStorage.removeItem("streak");
+  }
+};
 
 export const authenticateWithStreak = createAsyncThunk(
   "auth/authenticateWithStreak",
@@ -55,6 +72,9 @@ export const authenticateWithStreak = createAsyncThunk(
       if (streak.length > 0) {
         await axios.post(`/api/streaks`, streak);
       }
+      // if there is another, longer streak in local storage, save that one too
+      await maybeSaveLocalStorageStreak(streak);
+
       const { data } = await axios.get(`/auth/me`);
       setLongestStreak(data.maxScore);
       midAuthentication();
@@ -82,10 +102,15 @@ export const signupWithStreak = createAsyncThunk(
   ) => {
     try {
       await axios.post(`/auth/signup`, formData);
+      // grab the most recent streak from the redux store
       if (streak.length > 0) {
         await axios.post(`/api/streaks`, streak);
       }
+      // if there is another, longer streak in local storage, save that one too
+      await maybeSaveLocalStorageStreak(streak);
+
       const { data } = await axios.get("/auth/me", { credentials: "include" });
+
       setLongestStreak(data.maxScore);
       midAuthentication();
       setError(null);
