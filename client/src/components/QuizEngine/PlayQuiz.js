@@ -73,6 +73,15 @@ const PlayQuiz = ({
       // Only add the streak to the user if they are loggedin
       if (isLoggedIn) {
         addStreak(streak);
+      } else {
+        // Store the highest streak for a non-logged in user in localStorage so that
+        // when the user creates an account, their longest streak can be saved to the db.
+        const prevStreak = localStorage.hasOwnProperty("streak")
+          ? JSON.parse(localStorage.getItem("streak"))
+          : [];
+        if (streak.length > prevStreak.length) {
+          localStorage.setItem("streak", JSON.stringify(streak));
+        }
       }
     }
     // The streak array in redux is updated when the "increaseStreak" method is called
@@ -90,6 +99,14 @@ const PlayQuiz = ({
     });
 
     setSelected(answer);
+
+    // on small screens, scroll the continue button into view once the user answers a question
+    if (window.innerWidth < 576) {
+      setTimeout(() => {
+        const contd = document.getElementById("continue");
+        contd.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, [500]);
+    }
 
     // This action creator in the redux question slice also adds the
     // question id to localstorage so that the user will never see
