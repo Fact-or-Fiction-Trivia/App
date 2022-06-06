@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import styles from "./Footer.module.scss";
-import SocialShare from "./SocialShare/SocialShare";
+import SocialFollow from "./SocialShare/SocialFollow";
 
 const Footer = ({ isLoggedIn }) => (
   <>
@@ -49,8 +49,8 @@ const Footer = ({ isLoggedIn }) => (
       </div>
 
       <div className={styles.sharing}>
-        <h3>Share on Social Media</h3>
-        <SocialShare color="white" shouldShowInstagram={false} />
+        <h3>Follow on Social Media</h3>
+        <SocialFollow color="white" />
       </div>
     </div>
     <div className={styles.bottomNav}>
