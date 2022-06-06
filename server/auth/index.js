@@ -58,7 +58,12 @@ router.put("/register", async (req, res, next) => {
 
 router.get("/me", async (req, res, next) => {
   try {
-    res.json(await User.findByToken(req.cookies[`token-${pkg.name}`]));
+    const user = await User.findByToken(req.cookies[`token-${pkg.name}`]);
+    if (user.status !== 401) {
+      res.json(user);
+    } else {
+      res.send({ status: 401 });
+    }
   } catch (ex) {
     next(ex);
   }
