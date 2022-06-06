@@ -15,9 +15,9 @@ const SocialShare = ({
   const analytics = getAnalytics();
 
   const [igModalOpen, setIgModalOpen] = useState(false);
-  const highScoreText = highestStreak
-    ? `of ${streakLength > highestStreak ? streakLength : highestStreak}`
-    : "";
+  const streakToShare =
+    streakLength > highestStreak ? streakLength : highestStreak;
+  const highScoreText = streakToShare ? `of ${streakToShare}` : "";
   const shareText = `Think you know more about POLITICS than me? PROVE IT by beating my high score ${highScoreText} on FactOrFictionTrivia.com!`;
   const handleFbShare = () => {
     window.FB.ui({
@@ -34,7 +34,14 @@ const SocialShare = ({
         handleClose={() => setIgModalOpen(false)}
         shareText={shareText}
       />
-      <Facebook onClick={() => handleFbShare()} />
+      <Facebook
+        onClick={() => {
+          logEvent(analytics, "facebook_share", {
+            event_name: "fb_share_button_clicked",
+          });
+          handleFbShare();
+        }}
+      />
       {/* only show instagram on mobile for now, can revisit */}
       {process.env.REACT_APP_ENABLE_IG_SHARING === "true" &&
         shouldShowInstagram &&
@@ -50,13 +57,23 @@ const SocialShare = ({
           />
         )}
       <a
-        href={`https://twitter.com/intent/tweet?text=Think%20you%20know%20more%20about%20POLITICS%20than%20me?%20PROVE%20IT%20by%20beating%20my%20high%20score%20of%20${highestStreak}%20on%20FactOrFictionTrivia.com!`}
+        href={`https://twitter.com/intent/tweet?text=Think%20you%20know%20more%20about%20POLITICS%20than%20me?%20PROVE%20IT%20by%20beating%20my%20high%20score%20of%20${streakToShare}%20on%20FactOrFictionTrivia.com!`}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => {
+          logEvent(analytics, "twitter_share", {
+            event_name: "twitter_share_button_clicked",
+          });
+        }}
       >
         <Twitter />
       </a>
 
       <Link
         onClick={() => {
+          logEvent(analytics, "link_copied", {
+            event_name: "link_copied",
+          });
           navigator.clipboard.writeText("https://factorfictiontrivia.com");
         }}
       />

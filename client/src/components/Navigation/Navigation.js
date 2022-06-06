@@ -82,6 +82,7 @@ class NavigationAuthBase extends Component {
   };
 
   render() {
+    console.log(process.env.REACT_APP_PRELAUNCH, "PRELAUNCH");
     const fullList = (
       <div>
         <MediaQuery query="(max-width: 415px)">

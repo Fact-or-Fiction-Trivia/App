@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 const router = require("express").Router();
-// const getBase = require("../utils/getBase");
 
-// const mailer = require("../../mailer/email");
 const {
   Op,
   models: { User, Permission, Token },
@@ -42,58 +40,6 @@ router.put("/", requireToken, async (req, res, next) => {
   }
 });
 
-// router.post("/request-reset", async (req, res, next) => {
-//   try {
-//     const { email } = req.body;
-//     const user = await User.findOne({ where: { email } });
-//     const [token, created] = await Token.findOrCreate({
-//       where: { userId: user.id },
-//       defaults: {
-//         token: crypto.randomBytes(32).toString("hex"),
-//       },
-//     });
-
-//     const text = `Reset password link: ${getBase()}password-reset/${user.id}/${
-//       token.token
-//     }`;
-//     const message = await mailer({
-//       to: email,
-//       subject: "Reset Password",
-//       text,
-//     });
-//     res.send(message);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-// router.post("/password-reset/:userId/:token", async (req, res, next) => {
-//   try {
-//     const { userId, token } = req.params;
-//     const { password } = req.body;
-
-//     const user = await User.findByPk(userId);
-//     if (!user) {
-//       throw "invalid link or expired";
-//     }
-
-//     const foundToken = await Token.findOne({
-//       where: { userId, token },
-//     });
-//     if (!foundToken) {
-//       throw "invalid link or expired";
-//     }
-
-//     await user.update({ password });
-
-//     await foundToken.destroy();
-
-//     res.send("reset");
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 /*
  * DELETE your own account
  * Account ID must match the logged in user
@@ -114,28 +60,5 @@ router.put("/:userId", requireToken, async (req, res, next) => {
     next(err);
   }
 });
-
-// router.put("/changeEmail/:userId", async (req, res, next) => {
-//   try {
-//     const { userId } = req.params;
-//     const { email, password } = req.body;
-
-//     const userCheck = await User.findByPk(userId);
-
-//     if (!userCheck || !(await userCheck.correctPassword(password))) {
-//       const error = Error("Incorrect email/password");
-//       error.status = 401;
-//       throw error;
-//     }
-
-//     await userCheck.update({ email }, { where: { id: userId } });
-//     const user = await User.findByPk(userId);
-//     const token = await user.generateToken();
-//     res.cookie("token", token, { maxAge: 8640000 });
-//     res.json(201);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
 
 module.exports = router;
