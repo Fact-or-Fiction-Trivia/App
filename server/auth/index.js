@@ -9,6 +9,7 @@ module.exports = router;
 
 router.post("/login", async (req, res, next) => {
   try {
+    
     const token = await User.authenticate(req.body);
     res.cookie(`token-${pkg.name}`, token, { maxAge: 432000000 });
     res.sendStatus(201);
