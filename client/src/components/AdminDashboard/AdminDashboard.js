@@ -20,6 +20,7 @@ import PartyLeaders from "../Leaderboard/PartyLeaders";
 import AdminCreateQuestion from "./AdminCreateQuestion";
 import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
 import ReviewContestedQuestions from "./ReviewContestedQuestions";
+import AdminUsers from "./AdminUsers";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -140,7 +141,7 @@ class AdminDashboard extends Component {
 
           <Route
             path={`${ADMIN_DASHBOARD}/manage-users`}
-            render={(props) => <div>TODO: Manage Users</div>}
+            render={(props) => <AdminUsers {...props} />}
           />
           <Route
             path={`${ADMIN_DASHBOARD}/manage-leaders`}

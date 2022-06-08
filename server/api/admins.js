@@ -8,17 +8,83 @@ const {
 
 const { requireAdmin } = require("./middleware");
 
+router.get("/users", requireAdmin, async (req, res, next) => {
+  try {
+    const { searchTerm } = req.query;
+
+    if (searchTerm !== "undefined") {
+      res.json(
+        await User.findAll({
+          where: {
+            [Op.or]: {
+              username: {
+                [Op.regexp]: `(?i)${searchTerm}`,
+              },
+              email: {
+                [Op.regexp]: `(?i)${searchTerm}`,
+              },
+              firstName: {
+                [Op.regexp]: `(?i)${searchTerm}`,
+              },
+              lastName: {
+                [Op.regexp]: `(?i)${searchTerm}`,
+              },
+            },
+          },
+        })
+      );
+    } else {
+      res.json(await User.findAll());
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/users/:userId", requireAdmin, async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    await User.update(req.body, { where: { id: userId } });
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/questions", requireAdmin, async (req, res, next) => {
   try {
-    const { status } = req.query;
+    const { status, searchTerm } = req.query;
     if (status) {
       res.json(await Question.findAll({ where: { status } }));
     } else {
-      res.json(
-        await Question.findAll({
-          where: { status: { [Op.notIn]: ["Pending", "Withdrawn"] } },
-        })
-      );
+      if (searchTerm !== "undefined") {
+        res.json(
+          await Question.findAll({
+            where: {
+              [Op.and]: {
+                status: { [Op.notIn]: ["Pending", "Withdrawn"] },
+                [Op.or]: {
+                  text: {
+                    [Op.regexp]: `(?i)${searchTerm}`,
+                  },
+                  source: {
+                    [Op.regexp]: `(?i)${searchTerm}`,
+                  },
+                  explanation: {
+                    [Op.regexp]: `(?i)${searchTerm}`,
+                  },
+                },
+              },
+            },
+          })
+        );
+      } else {
+        res.json(
+          await Question.findAll({
+            where: { status: { [Op.notIn]: ["Pending", "Withdrawn"] } },
+          })
+        );
+      }
     }
   } catch (err) {
     next(err);
