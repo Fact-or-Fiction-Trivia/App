@@ -1,0 +1,11 @@
+@import "../../variables.scss";
+
+.toast {
+  background-color: $color-green;
+  border-radius: 5px;
+  color: $color-white;
+  font-weight: bold;
+  margin: $space-md auto;
+  max-width: 30rem;
+  padding: 1rem 0.5rem;
+}
