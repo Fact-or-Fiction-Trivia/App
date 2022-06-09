@@ -45,7 +45,7 @@ const streakSlice = createSlice({
       };
     },
     setMaxScore(state, action) {
-      return { ...state, maxStreak: action.payload };
+      return { ...state, maxStreak: action.payload || 0 };
     },
     setMidAuth(state, action) {
       return { ...state, midAuthentication: true };
