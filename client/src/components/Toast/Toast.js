@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef } from "react";
+import classNames from "classnames";
 import styles from "./Toast.module.scss";
-const Toast = ({ duration, text, open, onClose }) => {
+const Toast = ({ duration, filled, text, open, onClose, variant }) => {
   const flashInterval = useRef();
 
   useEffect(() => {
@@ -10,7 +11,7 @@ const Toast = ({ duration, text, open, onClose }) => {
   const handleOpen = useCallback(() => {
     if (open) {
       flashInterval.current = setInterval(() => {
-        onClose();
+        onClose && onClose();
       }, duration);
     }
   }, [open, duration, onClose]);
@@ -19,7 +20,22 @@ const Toast = ({ duration, text, open, onClose }) => {
     handleOpen();
   }, [open, handleOpen]);
 
-  return <>{open && <div className={styles.toast}>{text}</div>}</>;
+  return (
+    <>
+      {open && (
+        <div
+          className={classNames(
+            styles.toast,
+            filled
+              ? styles[`toast-filled-${variant}`]
+              : styles[`toast-${variant}`]
+          )}
+        >
+          {text}
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Toast;

@@ -105,10 +105,12 @@ const GameSettings = ({
           Save Changes
         </Button>
         <Toast
+          filled
           duration={10000}
           text="Your preferences have been updated successfully!"
           onClose={() => setSaved(false)}
           open={saved}
+          variant="success"
         />
       </div>
     </div>

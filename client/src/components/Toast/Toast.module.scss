@@ -1,11 +1,24 @@
 @import "../../variables.scss";
 
 .toast {
-  background-color: $color-green;
   border-radius: 5px;
-  color: $color-white;
   font-weight: bold;
   margin: $space-md auto;
   max-width: 30rem;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
+}
+
+.toast-filled-success {
+  background-color: $color-green;
+  color: $color-white;
+}
+
+.toast-success {
+  color: $color-green;
+  background-color: $color-white;
+}
+
+.toast-warning {
+  color: $color-red;
+  background-color: $color-white;
 }
