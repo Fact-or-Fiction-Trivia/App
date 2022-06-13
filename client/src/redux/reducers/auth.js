@@ -26,8 +26,12 @@ export const resetLoggedInUsersPassword = createAsyncThunk(
 
 export const requestReset = createAsyncThunk(
   "auth/requestReset",
-  async (email) => {
-    await axios.post(`/auth/request-reset`, { email });
+  async (email, { rejectWithValue }) => {
+    const data = await axios.post(`/auth/request-reset`, { email });
+    if (data.data.status === 404) {
+      return rejectWithValue(data);
+    }
+    return data;
   }
 );
 
@@ -172,8 +176,11 @@ export const deleteUser = createAsyncThunk(
 
 const INIT_STATE = {
   auth: {},
-  authMessage: null,
+  authMessage: null, // Ex. User must be logged in to view this page.
   id: null,
+  isLoading: false,
+  hasError: false,
+  message: null, // Ex. Email or user not found
   validatingToken: true,
   validToken: false,
   resetPasswordSuccessful: false,
@@ -244,16 +251,22 @@ const authSlice = createSlice({
         state.hasError = false;
       })
       .addCase(requestReset.rejected, (state, action) => {
-        alert("Email not registered with user account");
         state.requestedPasswordReset = true;
         state.isLoading = false;
         state.hasError = true;
+        state.message = "Email not registered with user account.";
+      })
+      .addCase(requestReset.pending, (state, action) => {
+        state.requestedPasswordReset = true;
+        state.isLoading = true;
+        state.hasError = false;
+        state.message = null;
       })
       .addCase(requestReset.fulfilled, (state, action) => {
-        alert("Email has been sent");
         state.requestedPasswordReset = true;
         state.isLoading = false;
         state.hasError = false;
+        state.message = "Email has been sent.";
       })
       .addCase(receiveToken.pending, (state, action) => {
         state.validatingToken = true;
@@ -275,20 +288,31 @@ const authSlice = createSlice({
         state.hasError = true;
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
-        alert("Password has been reset");
         state.resetPasswordSuccessful = true;
         state.isLoading = false;
         state.hasError = false;
+        state.message = "Password has been reset.";
+      })
+      .addCase(resetPassword.pending, (state, action) => {
+        state.resetPasswordSuccessful = true;
+        state.isLoading = true;
+        state.hasError = false;
+        state.message = null;
       })
       .addCase(changeEmail.rejected, (state, action) => {
-        alert("Password Incorrect");
         state.isLoading = false;
         state.hasError = true;
+        state.message = "Password Incorrect.";
+      })
+      .addCase(changeEmail.pending, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
+        state.message = null;
       })
       .addCase(changeEmail.fulfilled, (state, action) => {
-        alert("Email has been reset");
         state.isLoading = false;
         state.hasError = false;
+        state.message = "Email has been reset.";
       })
       .addCase(updateUserInfo.pending, (state, action) => {
         state.isLoading = true;
