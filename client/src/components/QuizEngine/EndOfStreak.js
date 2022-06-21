@@ -15,11 +15,14 @@ const EndOfStreak = ({
   isLoggedIn,
   maxStreak,
   midAuthentication,
+  numAnsweredQuestions,
   setRedirect,
   streakLength,
   playNewGame,
 }) => {
-  const [serveAd, setServeAd] = useState(true);
+  const [serveAd, setServeAd] = useState(
+    !!process.env.REACT_APP_ENABLE_ADS && numAnsweredQuestions % 10 === 0
+  );
   const history = useHistory();
   const beatPreviousScore = parseInt(streakLength) > parseInt(maxStreak);
   const returningFromAuth =
@@ -121,12 +124,14 @@ const EndOfStreak = ({
 
 const mapState = (state) => {
   const { streak, maxStreak, midAuthentication } = state.streak;
+  const { numAnsweredQuestions } = state.question;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
     isLoggedIn,
     maxStreak,
     midAuthentication,
+    numAnsweredQuestions,
     streak,
     streakLength: streak.filter((it) => it.answeredCorrectly).length,
   };
