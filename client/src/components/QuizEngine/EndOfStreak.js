@@ -5,7 +5,7 @@ import { resetQuiz } from "../../redux/reducers/streak";
 import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import owl from "../../images/large_icon.png";
-import fight from "../StaticPages/politiq-bg2.jpg";
+import InGameAds from "./InGameAds";
 import styles from "./EndOfStreak.module.scss";
 import { SIGN_IN, SUBMIT_QUESTION, GAME } from "../../constants/routes";
 import confetti from "canvas-confetti";
@@ -19,7 +19,7 @@ const EndOfStreak = ({
   streakLength,
   playNewGame,
 }) => {
-  const [serveAdd, setServeAdd] = useState(false);
+  const [serveAd, setServeAd] = useState(true);
   const history = useHistory();
   const beatPreviousScore = parseInt(streakLength) > parseInt(maxStreak);
   const returningFromAuth =
@@ -61,14 +61,8 @@ const EndOfStreak = ({
 
   return (
     <div className={styles.container}>
-      {serveAdd ? (
-        <div>
-          <p>Add</p>
-          <img src={fight} alt="Elephant and Donkey Fighting" />
-          <Button variant="primary" onClick={() => setServeAdd(false)}>
-            Cancel
-          </Button>
-        </div>
+      {serveAd ? (
+        <InGameAds onCloseAd={() => setServeAd(false)} />
       ) : (
         <div>
           <h1 className={styles.header}>Your final streak:</h1>
