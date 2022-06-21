@@ -244,7 +244,6 @@ class UserShow extends Component {
   };
 
   handleDeleteUser = () => {
-    const selected = [...this.state.selected];
     const { selectedIndex } = this.state;
     // selected.forEach((user, i) => {
     //   db.deleteUser(selected[i]);
