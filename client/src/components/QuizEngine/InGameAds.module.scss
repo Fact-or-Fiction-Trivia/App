@@ -1,0 +1,17 @@
+@import "../../variables.scss";
+
+.adContainer {
+  button {
+    margin-top: $space-md;
+  }
+
+  h2 {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  img {
+    margin-top: $space-md;
+    max-width: 100%;
+  }
+}
