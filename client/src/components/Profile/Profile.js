@@ -86,7 +86,7 @@ class ProfilePage extends Component {
           <EditProfilePage toPublicProfile={this.toPublicProfile} />
         ) : null}
         {this.state.showStatsPage ? (
-          <UserScoreboard profileId={this.props.auth.id} />
+          <UserScoreboard profileId={this.props.auth.id} isPublic={false} />
         ) : null}
         {this.state.showGameSettings ? <GameSettings /> : null}
         {this.state.showSecurity ? <SecuritySettings /> : null}
