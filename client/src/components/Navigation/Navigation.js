@@ -70,7 +70,7 @@ class NavigationAuthBase extends Component {
   };
 
   render() {
-    const { hootPoints, isAdmin, isLoggedIn, signedInUser } = this.props;
+    const { isAdmin, isLoggedIn, maxScore, signedInUser } = this.props;
     const navItems = [
       {
         name: "Play Now",
@@ -92,7 +92,11 @@ class NavigationAuthBase extends Component {
     const fullList = (
       <List component="nav">
         {navItems.map((item) => (
-          <Link to={item.route} onClick={this.toggleDrawer("top", false)}>
+          <Link
+            to={item.route}
+            key={item.name}
+            onClick={this.toggleDrawer("top", false)}
+          >
             <ListItem button>
               <ListItemText primary={item.name} />
             </ListItem>
@@ -146,8 +150,8 @@ class NavigationAuthBase extends Component {
                 <Link to={`/profile/${signedInUser}`}>
                   <div className={navStyles.hootContainer}>
                     <img src={transparentOwl} alt="Fact or Fiction Owl" />
-                    <span className={navStyles.hootPoints}>{hootPoints}</span>
-                    <span className={navStyles.hootLabel}>hoots</span>
+                    <span className={navStyles.hootLabel}>Longest streak:</span>
+                    <span className={navStyles.hootPoints}>{maxScore}</span>
                   </div>
                 </Link>
               )}
@@ -169,9 +173,9 @@ class NavigationAuthBase extends Component {
 const mapState = (state) => {
   const { auth } = state.auth;
   return {
-    hootPoints: auth.points,
     isLoggedIn: !!auth.id,
     isAdmin: auth.role === "Admin",
+    maxScore: auth.maxScore,
     signedInUser: auth.id,
   };
 };

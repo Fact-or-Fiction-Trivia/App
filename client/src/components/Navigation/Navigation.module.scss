@@ -15,27 +15,36 @@
     }
   }
 
+  @media (min-width: $breakpoint-sm) {
+    margin-right: 1rem;
+  }
+
   img {
     height: 2.5rem;
     margin: 0.25rem 0.5rem;
   }
 
   .hootPoints {
-    color: $color-secondary;
-    font-size: $font-size-xl;
+    color: $color-primary-light;
+    font-size: $font-size-l;
     font-weight: bold;
     line-height: 2.5rem;
+    margin-right: 1rem;
     padding-top: 0.2rem;
   }
 
   .hootLabel {
-    color: $color-secondary;
-    font-size: $font-size-l;
+    color: $color-primary-light;
+    font-size: $font-size-m;
     font-weight: bold;
     line-height: 2.5rem;
     padding-top: 0.2rem;
     margin-left: 0.5rem;
     padding-right: 1rem;
+
+    @media (max-width: $breakpoint-sm) {
+      display: none;
+    }
   }
 }
 
