@@ -1,0 +1,46 @@
+@import "../../variables.scss";
+
+.container {
+  padding: $space-md;
+  h1 {
+    text-align: center;
+  }
+
+  .streak {
+    color: $color-secondary;
+    font-size: 6rem;
+    font-weight: bold;
+    margin: 0 $space-sm 0 $space-md;
+
+    @media (min-width: $breakpoint-sm) {
+      font-size: 12rem;
+      margin: 0 $space-md;
+    }
+  }
+
+  .owl {
+    @media (max-width: $breakpoint-sm) {
+      width: 60%;
+    }
+  }
+
+  .streakContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $space-md;
+    max-width: 100%;
+
+    @media (min-width: $breakpoint-sm) {
+      margin-bottom: $space-lg;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      margin-bottom: $space-md;
+    }
+  }
+}
