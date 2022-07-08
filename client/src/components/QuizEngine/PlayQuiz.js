@@ -17,11 +17,13 @@ import {
   createStreak,
   setIsAnswering,
 } from "../../redux/reducers/streak";
+import AvailableLifelines from "./AvailableLifelines";
 
 const PlayQuiz = ({
   addStreak,
   answeredCorrectly,
   getQuestions,
+  hootPoints,
   increaseStreak,
   isAnswering,
   isLoading,
@@ -171,11 +173,17 @@ const PlayQuiz = ({
           )}
         </div>
         {streakEnded ? (
-          <EndOfStreak
-            longestStreak={maxStreak}
-            streakTotal={streak.length}
-            streak={streak}
-          />
+          <>
+            {hootPoints > 0 ? (
+              <AvailableLifelines streak={streakLength} />
+            ) : (
+              <EndOfStreak
+                longestStreak={maxStreak}
+                streakTotal={streak.length}
+                streak={streak}
+              />
+            )}
+          </>
         ) : (
           <>
             <Question
@@ -214,6 +222,7 @@ const mapState = (state) => {
   const isLoggedIn = !!auth.id;
   return {
     answeredCorrectly,
+    hootPoints: auth.points,
     isAnswering,
     isLoading,
     isLoggedIn,
