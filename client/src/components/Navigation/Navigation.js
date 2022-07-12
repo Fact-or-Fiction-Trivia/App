@@ -78,9 +78,15 @@ class NavigationAuthBase extends Component {
       },
       { name: "Leaderboard", route: routes.LEADERBOARD },
       { name: "Submit a Question", route: routes.SUBMIT_QUESTION },
-      { name: "Profile", route: `/profile/${signedInUser}` },
       { name: "About/FAQ", route: routes.ABOUT },
     ];
+
+    if (signedInUser) {
+      navItems.splice(navItems.length - 1, 0, {
+        name: "Profile",
+        route: `/profile/${signedInUser}`,
+      });
+    }
 
     if (isAdmin) {
       navItems.unshift({
