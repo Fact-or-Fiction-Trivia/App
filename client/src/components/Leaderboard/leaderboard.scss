@@ -52,15 +52,6 @@
     width: 97vw;
   }
 }
-.small-scoreboard {
-  display: flex;
-  text-align: center;
-  width: 100%;
-  justify-content: space-between;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 #demScore {
   width: 32.6%;
@@ -92,11 +83,6 @@
   color: white;
   box-sizing: border-box;
   font-size: 2.5vh;
-}
-
-.s {
-  font-size: 5vh;
-  font-weight: bold;
 }
 
 @media screen and (max-width: 416px) {
@@ -132,98 +118,6 @@
   letter-spacing: 3px;
 }
 
-.small-scoreboardHolder {
-  box-sizing: border-box;
-  text-align: center;
-  color: white;
-  padding: 2vh;
-  -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
-  height: fit-content;
-  width: 75%;
-  border-radius: 15px;
-  margin-top: 5vh !important;
-  margin-bottom: 2vh !important;
-  background: rgba(62, 29, 87, 1);
-  background: -moz-linear-gradient(
-    -45deg,
-    rgba(62, 29, 87, 1) 0%,
-    rgba(62, 29, 87, 1) 20%,
-    rgba(41, 20, 58, 1) 44%,
-    rgba(62, 29, 87, 1) 76%,
-    rgba(62, 29, 87, 1) 100%
-  );
-  background: -webkit-gradient(
-    left top,
-    right bottom,
-    color-stop(0%, rgba(62, 29, 87, 1)),
-    color-stop(20%, rgba(62, 29, 87, 1)),
-    color-stop(44%, rgba(41, 20, 58, 1)),
-    color-stop(76%, rgba(62, 29, 87, 1)),
-    color-stop(100%, rgba(62, 29, 87, 1))
-  );
-  background: -webkit-linear-gradient(
-    -45deg,
-    rgba(62, 29, 87, 1) 0%,
-    rgba(62, 29, 87, 1) 20%,
-    rgba(41, 20, 58, 1) 44%,
-    rgba(62, 29, 87, 1) 76%,
-    rgba(62, 29, 87, 1) 100%
-  );
-  background: -o-linear-gradient(
-    -45deg,
-    rgba(62, 29, 87, 1) 0%,
-    rgba(62, 29, 87, 1) 20%,
-    rgba(41, 20, 58, 1) 44%,
-    rgba(62, 29, 87, 1) 76%,
-    rgba(62, 29, 87, 1) 100%
-  );
-  background: -ms-linear-gradient(
-    -45deg,
-    rgba(62, 29, 87, 1) 0%,
-    rgba(62, 29, 87, 1) 20%,
-    rgba(41, 20, 58, 1) 44%,
-    rgba(62, 29, 87, 1) 76%,
-    rgba(62, 29, 87, 1) 100%
-  );
-  background: linear-gradient(
-    135deg,
-    rgba(62, 29, 87, 1) 0%,
-    rgba(62, 29, 87, 1) 20%,
-    rgba(41, 20, 58, 1) 44%,
-    rgba(62, 29, 87, 1) 76%,
-    rgba(62, 29, 87, 1) 100%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e1d57', endColorstr='#3e1d57', GradientType=1 );
-}
-
-.small-scoreboardHolder h2 {
-  font-size: 2em;
-  margin: 2vh auto 2vh auto;
-  text-transform: uppercase;
-  letter-spacing: 1.3px;
-  font-weight: 400;
-}
-
-.userScore {
-  width: 30%;
-  max-width: 175px;
-  background-color: #8e6da7;
-  color: white;
-  box-sizing: border-box;
-  font-size: 17px;
-  display: flex;
-  flex-direction: column;
-  height: 13vh;
-  border-radius: 15px;
-  padding: 1vh;
-  text-transform: uppercase;
-  -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
-}
-
 #submittedQScore {
   font-size: 13px;
 }
@@ -247,27 +141,9 @@
   margin-top: 1.6vh;
 }
 
-@media screen and (min-width: 1200px) {
-  .reg-score {
-    margin-top: 1.6vh;
-  }
-}
-
 @media screen and (max-width: 980px) {
   .score {
     font-size: 24px;
-  }
-  .userScore {
-    font-size: 15px;
-    min-height: 80px;
-  }
-  .small-scoreboardHolder {
-    /* height: 42.5vh; */
-    width: 60vw;
-    min-height: 250px;
-  }
-  .small-scoreboard {
-    width: 56.8vw;
   }
 }
 
@@ -276,44 +152,12 @@
     width: 60vw;
     flex-wrap: wrap;
   }
-
-  .small-scoreboardHolder {
-    width: 72vw;
-  }
-
-  .small-scoreboard {
-    width: 66.8vw;
-  }
 }
 
 @media screen and (max-width: 415px) {
-  .small-scoreboardHolder {
-    width: 90%;
-  }
-  .small-scoreboard {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-  }
   #submittedQScore {
     font-size: 12px;
     height: 13vh;
-  }
-  .userScore {
-    width: 45%;
-    height: 13vh;
-    &:first-of-type {
-      margin-right: 0.5rem;
-    }
-    &:nth-of-type(2) {
-      margin-left: 0.5rem;
-    }
-    &:not(:last-of-type) {
-      margin-bottom: 1rem;
-    }
-  }
-  .reg-score {
-    margin-top: 0;
   }
   .last-mobile {
     margin-top: 1.6vh;

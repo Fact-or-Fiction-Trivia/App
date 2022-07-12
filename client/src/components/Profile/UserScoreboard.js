@@ -1,10 +1,20 @@
 import React, { useEffect } from "react";
-
+import classNames from "classnames";
 import { connect } from "react-redux";
 import { getAllStreaksForUser } from "../../redux/reducers/profile";
+import styles from "./UserScoreboard.module.scss";
 
-const UserScoreboard = ({ auth, profile, profileId, getScores, scores }) => {
+const UserScoreboard = ({
+  auth,
+  profile,
+  profileId,
+  isPublic,
+  getScores,
+  hootPoints,
+  scores,
+}) => {
   // TODO: make this compatible with profile ids as well, since this will not work on the public profile page
+  // public profile pages are turned off
   useEffect(() => {
     if (auth.id) {
       getScores(auth.id);
@@ -13,28 +23,30 @@ const UserScoreboard = ({ auth, profile, profileId, getScores, scores }) => {
 
   let content = (
     <div
-      className="small-scoreboardHolder user-scoreboard-public"
-      style={{
-        justifyContent: "center",
-        height: "auto",
-        padding: "20px 20px 20px 18px",
-      }}
+      className={classNames(
+        styles.smallScoreboardHolder,
+        isPublic && styles.userScoreboardPublic
+      )}
     >
       <h2>
         {auth.id === profileId ? "My" : `${profile.username}'s`} Longest Streaks
       </h2>
-      <div className="small-scoreboard">
-        <div className="userScore">
+      <div className={styles.smallScoreboard}>
+        <div className={styles.userScore}>
           Weekly
-          <span className="s reg-score">{scores?.week}</span>
+          <span className={styles.regScore}>{scores?.week}</span>
         </div>
-        <div className="userScore">
+        <div className={styles.userScore}>
           Monthly
-          <span className="s reg-score">{scores?.month}</span>
+          <span className={styles.regScore}>{scores?.month}</span>
         </div>
-        <div className="userScore">
+        <div className={styles.userScore}>
           All Time
-          <span className="s reg-score">{scores?.allTime}</span>
+          <span className={styles.regScore}>{scores?.allTime}</span>
+        </div>
+        <div className={styles.userScore}>
+          HootPoints
+          <span className={styles.regScore}>{hootPoints}</span>
         </div>
       </div>
     </div>
@@ -52,6 +64,7 @@ const mapState = (state) => {
     isLoggedIn,
     profile: profile.profile,
     scores: profile.scores,
+    hootPoints: auth.points,
   };
 };
 
