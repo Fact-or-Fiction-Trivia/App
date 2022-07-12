@@ -23,6 +23,7 @@ const PlayQuiz = ({
   addStreak,
   answeredCorrectly,
   getQuestions,
+  hasLifelineOption,
   hootPoints,
   increaseStreak,
   isAnswering,
@@ -150,7 +151,7 @@ const PlayQuiz = ({
 
   const handleNextQuestion = (questionId) => {
     setSelected(null);
-    nextQuestion(questionId);
+    nextQuestion(questionId, hootPoints);
     window.scrollTo(0, 0);
   };
 
@@ -174,8 +175,8 @@ const PlayQuiz = ({
         </div>
         {streakEnded ? (
           <>
-            {hootPoints > 0 ? (
-              <AvailableLifelines streak={streakLength} />
+            {hasLifelineOption ? (
+              <AvailableLifelines />
             ) : (
               <EndOfStreak
                 longestStreak={maxStreak}
@@ -212,6 +213,7 @@ const mapState = (state) => {
   const { questions, isLoading } = state.question;
   const {
     answeredCorrectly,
+    hasLifelineOption,
     isAnswering,
     maxStreak,
     midAuthentication,
@@ -222,6 +224,7 @@ const mapState = (state) => {
   const isLoggedIn = !!auth.id;
   return {
     answeredCorrectly,
+    hasLifelineOption,
     hootPoints: auth.points,
     isAnswering,
     isLoading,
@@ -243,9 +246,9 @@ const mapDispatch = (dispatch) => {
     increaseStreak(data) {
       dispatch(addToStreak(data));
     },
-    nextQuestion(questionId) {
+    nextQuestion(questionId, hootPoints) {
       dispatch(clearAnswer(questionId));
-      dispatch(setIsAnswering());
+      dispatch(setIsAnswering(hootPoints));
     },
     getQuestions() {
       dispatch(fetchQuestions());
