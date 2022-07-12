@@ -19,54 +19,11 @@
   flex-direction: column;
 }
 
-.public-profile {
-  flex-direction: row;
-}
-.public-profile-top {
-  background-color: rgba(53, 25, 74);
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: baseline;
-
-  button {
-    display: flex;
-    margin-top: $space-sm;
-    margin-right: $space-md;
-    svg {
-      margin-right: 0.5rem;
-    }
-    @media (max-width: $breakpoint-sm) {
-      margin: 0.5rem;
-      padding: 0.5rem;
-      svg {
-        margin-right: 0;
-      }
-      span {
-        display: none;
-      }
-    }
-  }
-
-  .displayNameBox {
-    height: 100%;
-    vertical-align: middle;
-
-    @media (min-width: $breakpoint-sm) {
-      margin-left: $space-md;
-    }
-  }
-}
 .profile h1 {
   margin: 10px;
   text-align: center;
 }
-.public-profile h1 {
-  overflow: hidden;
-  color: white;
-  font-weight: bold;
-}
+
 #profile-heading {
   margin-left: 15vw;
 }
@@ -85,18 +42,6 @@
 }
 
 /* ------- iPad ------------ */
-@media screen and (max-width: 768px) {
-}
-.public-profile p,
-.public-profile h3 {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.user-scoreboard-public {
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .public-photo,
 .profile-photo {
@@ -146,7 +91,7 @@
 }
 
 .profile {
-  margin-top: calc($nav-height + $space-md);
+  margin-top: calc($nav-height + $space-sm);
   margin-bottom: 6rem;
   width: 85vw;
   height: fit-content;
@@ -164,8 +109,13 @@
     margin-top: calc($nav-height + $space-sm);
   }
 
+  @media (min-height: $breakpoint-lg) {
+    min-height: 50rem;
+    margin-bottom: 15rem;
+  }
+
   @media (min-width: $breakpoint-xl) {
-    margin-top: calc($nav-height + $space-lg);
+    margin-top: calc($nav-height + $space-md);
     margin-bottom: 7.5rem;
   }
 }
@@ -446,20 +396,4 @@
   .cashout-modal p {
     line-height: 1.4;
   }
-}
-
-/* -------------- Public Bio styles ------------------- */
-
-.bio {
-  display: inline-block;
-  color: rgb(99, 43, 146);
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  display: inline-block;
-}
-.bioContainer {
-  width: 70vw;
-
-  text-align: center;
 }

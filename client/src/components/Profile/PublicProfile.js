@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Button from "../../components/Button/Button";
 import SettingsIcon from "@material-ui/icons/Settings";
 import UserScoreboard from "./UserScoreboard";
+import styles from "./PublicProfile.module.scss";
 
 import "./profile.scss";
 import { fetchProfile } from "../../redux/reducers/profile";
@@ -34,8 +35,8 @@ const PublicProfile = ({ getProfile, profile, match, signedInUserId }) => {
         <Helmet>
           <title>{profile.username} Profile | Fact or Fiction</title>
         </Helmet>
-        <div className="public-profile">
-          <div className="public-profile-top">
+        <div className={styles.publicProfile}>
+          <div className={styles.publicProfileTop}>
             <h1 className="displayNameBox">{profile.username}</h1>
 
             {profile.id === signedInUserId ? ( // user is on their own profile
@@ -52,12 +53,12 @@ const PublicProfile = ({ getProfile, profile, match, signedInUserId }) => {
           </div>
 
           <center>
-            <div className="bioContainer">
-              <p className="bio">{profile.bio}</p>
+            <div className={styles.bioContainer}>
+              <p className={styles.bio}>{profile.bio}</p>
             </div>
           </center>
 
-          <UserScoreboard profileId={userId} />
+          <UserScoreboard profileId={userId} isPublic={true} />
         </div>
       </div>
     </Paper>
