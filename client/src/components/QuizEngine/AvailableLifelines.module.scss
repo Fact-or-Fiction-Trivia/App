@@ -43,4 +43,22 @@
       margin-bottom: $space-md;
     }
   }
+
+  .hoots {
+    font-weight: bold;
+    margin-bottom: $space-md;
+    margin-top: 0;
+    text-align: center;
+
+    @media (min-width: $breakpoint-sm) {
+      font-size: $font-size-m;
+    }
+  }
+  .hootPoints {
+    color: $color-secondary;
+    font-size: $font-size-m;
+    @media (min-width: $breakpoint-sm) {
+      font-size: $font-size-l;
+    }
+  }
 }
