@@ -1,0 +1,86 @@
+@import "src/variables.scss";
+
+.review {
+  position: relative;
+  width: 60rem;
+  min-height: 28rem;
+  height: fit-content;
+  padding-bottom: $space-md;
+  margin-top: $space-md;
+  margin-bottom: $space-md;
+  margin-left: auto;
+  margin-right: auto;
+
+  h1 {
+    padding: $space-sm 0;
+    text-align: center;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    width: 95vw;
+  }
+}
+
+.containerInner {
+  display: flex;
+  margin: $space-md;
+
+  h4 {
+    margin-left: 0;
+    margin-top: 0;
+
+    &:hover {
+      color: #a54ee8;
+    }
+  }
+}
+
+.reviewBackButton {
+  position: absolute;
+  text-decoration: none;
+  margin-left: $space-sm;
+  margin-top: $space-sm;
+}
+
+.question,
+.userInfo {
+  border: 1px solid $color-black;
+  padding: $space-sm;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.question {
+  flex-grow: 2;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.userInfo {
+  min-width: 33%;
+  border-left: unset;
+}
+
+.user {
+  font-weight: bold;
+  font-size: $font-size-m;
+}
+
+.bold {
+  display: inline-block;
+  font-weight: bold;
+  width: 9rem;
+}
+
+.reviewButtonHolder {
+  bottom: $space-sm;
+  display: flex;
+  justify-content: center;
+  left: calc(50% - 15rem);
+  position: absolute;
+  width: 30rem;
+}

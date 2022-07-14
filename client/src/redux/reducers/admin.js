@@ -70,6 +70,14 @@ export const createAdminQuestion = createAsyncThunk(
   }
 );
 
+export const getPendingQuestionCount = createAsyncThunk(
+  "admin/getPendingQuestionCount",
+  async () => {
+    const { data } = await axios.get(`/api/admins/review_count`);
+    return data;
+  }
+);
+
 const INIT_STATE = {
   questions: [],
   question: {},
@@ -77,6 +85,8 @@ const INIT_STATE = {
   contestedQuestions: [],
   isLoading: true,
   hasError: false,
+  pendingQuestionCount: 0,
+  pendingQuestionCountLoading: false,
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -154,6 +164,13 @@ const adminSlice = createSlice({
         state.question = action.payload;
         state.isLoading = false;
         state.hasError = false;
+      })
+      .addCase(getPendingQuestionCount.pending, (state, action) => {
+        state.pendingQuestionCountLoading = true;
+      })
+      .addCase(getPendingQuestionCount.fulfilled, (state, action) => {
+        state.pendingQuestionCountLoading = false;
+        state.pendingQuestionCount = action.payload;
       });
   },
 });

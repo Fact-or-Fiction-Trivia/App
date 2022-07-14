@@ -106,7 +106,7 @@ router.post("/", requireToken, async (req, res, next) => {
       source,
       status,
       text,
-      userId: req.user.id,
+      author: req.user.id,
     });
 
     q.addTag(tagId);
