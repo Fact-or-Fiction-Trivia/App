@@ -99,6 +99,17 @@ const adminSlice = createSlice({
       newQuestions.push(newQuestions.shift());
       return { ...state, contestedQuestions: newQuestions };
     },
+    skipSubmittedQuestion(state) {
+      const newQuestions = [...state.questionsToReview];
+      newQuestions.push(newQuestions.shift());
+      return { ...state, questionsToReview: newQuestions };
+    },
+    removeSubmittedQuestion(state) {
+      // remove a question from the queue when it is accepted or rejected
+      const newQuestions = [...state.questionsToReview];
+      newQuestions.shift();
+      return { ...state, questionsToReview: newQuestions };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -177,7 +188,12 @@ const adminSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setNew } = adminSlice.actions;
+export const {
+  setNew,
+  removeSubmittedQuestion,
+  skipContestedQuestion,
+  skipSubmittedQuestion,
+} = adminSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

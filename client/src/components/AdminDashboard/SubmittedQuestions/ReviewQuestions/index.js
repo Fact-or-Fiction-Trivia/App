@@ -9,14 +9,24 @@ import Paper from "@material-ui/core/Paper";
 import Button from "../../../Button/Button";
 import MaterialButton from "@material-ui/core/Button";
 
-import { fetchAdminQuestionsToReview } from "../../../../redux/reducers/admin";
+import {
+  fetchAdminQuestionsToReview,
+  removeSubmittedQuestion,
+  skipSubmittedQuestion,
+  updateAdminQuestion,
+} from "../../../../redux/reducers/admin";
 
 import { ADMIN_DASHBOARD } from "../../../../constants/routes";
 
 import "../../dashboard.css";
 import styles from "./ReviewQuestions.module.scss";
 
-const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
+const ReviewQuestions = ({
+  getQuestionsToReview,
+  questionsToReview,
+  reject,
+  skip,
+}) => {
   const [selectedQ, setSelectedQ] = useState(0);
   // this.state = {
   //   selectedQ: {},
@@ -30,13 +40,15 @@ const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
     getQuestionsToReview(setSelectedQ);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (questionsToReview[0] !== selectedQ) {
+      setSelectedQ(questionsToReview[0]);
+    }
+  }, [questionsToReview]);
+
   const rejectQ = () => {
     // set status to Denied
     // shift question off of questions to review array
-  };
-
-  const skipQ = () => {
-    // shift + push question to end of questions to Review array
   };
 
   // will need to modify this when I add in contested question
@@ -127,12 +139,15 @@ const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
       ) : (
         <>
           <h1>User-Submitted Questions</h1>
+          <p className={styles.counter}>
+            Questions remaining: {questionsToReview.length}
+          </p>
           {question()}
           <div className={styles.reviewButtonHolder}>
-            <Button onClick={rejectQ} variant="red">
-              <span>Reject</span>
+            <Button onClick={() => reject(q.id, q)} variant="red">
+              Reject
             </Button>
-            <Button onClick={skipQ} variant="black">
+            <Button onClick={() => skip()} variant="black">
               Skip
             </Button>
             <Button onClick={acceptQ} variant="primary">
@@ -156,6 +171,18 @@ const mapDispatch = (dispatch) => {
   return {
     getQuestionsToReview(cb) {
       dispatch(fetchAdminQuestionsToReview(cb));
+    },
+    reject(questionId, question) {
+      dispatch(
+        updateAdminQuestion({
+          questionId,
+          body: { questionData: { ...question, status: "Denied" } },
+        })
+      );
+      dispatch(removeSubmittedQuestion());
+    },
+    skip() {
+      dispatch(skipSubmittedQuestion());
     },
   };
 };
