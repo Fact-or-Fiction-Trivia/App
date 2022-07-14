@@ -84,3 +84,11 @@
   position: absolute;
   width: 30rem;
 }
+
+.counter {
+  color: $color-primary;
+  font-weight: bold;
+  position: absolute;
+  right: $space-sm;
+  top: $space-xs;
+}
