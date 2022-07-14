@@ -48,6 +48,16 @@
   }
 }
 
+.button_red {
+  background-color: $color-red;
+  color: $color-white;
+
+  &:hover,
+  &:active {
+    background-color: $color-red-hover;
+  }
+}
+
 .button_link {
   background-color: $color-white;
   box-shadow: unset;

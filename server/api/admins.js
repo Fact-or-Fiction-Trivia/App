@@ -2,6 +2,7 @@
 const router = require("express").Router();
 
 const {
+  db,
   Op,
   models: { User, Question, Tag, ContestedQuestion },
 } = require("../db");
@@ -12,7 +13,11 @@ router.get("/questions", requireAdmin, async (req, res, next) => {
   try {
     const { status } = req.query;
     if (status) {
-      res.json(await Question.findAll({ where: { status } }));
+      const questions = await db.query(
+        `SELECT questions.id, questions.text, questions.answer, questions.source, questions.explanation, questions.author, users.username, users.email, users.affiliation FROM questions JOIN users ON questions.author = users.id WHERE status='${status}'`
+      );
+
+      res.json(questions[0]); // the response here includes an array with more than what we want
     } else {
       res.json(
         await Question.findAll({
@@ -58,6 +63,19 @@ router.put(
     }
   }
 );
+
+/**
+ * GET /review_count
+ * Get the number of questions with status = pending
+ */
+router.get("/review_count", requireAdmin, async (req, res, next) => {
+  try {
+    res.json(await Question.count({ where: { status: "Pending" } }));
+  } catch (err) {
+    res.send(err);
+    next(err);
+  }
+});
 
 router.get("/questions/:questionId", requireAdmin, async (req, res, next) => {
   try {

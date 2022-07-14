@@ -6,16 +6,18 @@ import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
 
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import Button from "../../../Button/Button";
+import MaterialButton from "@material-ui/core/Button";
 
 import { fetchAdminQuestionsToReview } from "../../../../redux/reducers/admin";
 
 import { ADMIN_DASHBOARD } from "../../../../constants/routes";
 
 import "../../dashboard.css";
+import styles from "./ReviewQuestions.module.scss";
 
 const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
-  const [selectedQ, setSelectedQ] = useState(null);
+  const [selectedQ, setSelectedQ] = useState(0);
   // this.state = {
   //   selectedQ: {},
   //   index: 0,
@@ -52,45 +54,44 @@ const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
 
   /* eslint-disable dot-notation */
 
+  console.log(questionsToReview, selectedQ);
+
   const question = () => {
     if (questionsToReview.length > 0) {
       return (
-        <div className="questionHolder">
-          <p style={{ fontWeight: "bold" }}>
-            Submitted by:{" "}
-            <Link to={`profile/${q["fromUser"]}`} data-target="username">
-              {q["displayName"] !== undefined ? q["displayName"] : "User"}
-            </Link>
-          </p>
-          <p style={{ fontWeight: "bold" }}>
-            User Email:{" "}
-            {q["userEmail"] !== undefined ? (
+        <div className={styles.containerInner}>
+          <div className={styles.question}>
+            <h2 data-target="question">
+              <span className={styles.bold}>Question:</span> {q.text}
+            </h2>
+            <p>
+              <span className={styles.bold}>Answer:</span> {q.answer}
+            </p>
+            <p>
+              <span className={styles.bold}>Explanation:</span> {q.explanation}
+            </p>
+            <p>
+              <span className={styles.bold}>Source:</span>{" "}
+              <a href={q.source}>{q.source}</a>
+            </p>
+          </div>
+          <div className={styles.userInfo}>
+            <h2 className={styles.user}>
+              <span className={styles.bold}>Submitted by:</span> {q.username}
+            </h2>
+            <p>
+              <span className={styles.bold}>Email:</span>{" "}
               <a
-                href={`mailto:${q["userEmail"]}`}
+                href={`mailto:${q.email}`}
                 style={{ fontWeight: "normal" }}
                 data-target="email"
               >
-                {q["userEmail"]}
+                {q.email}
               </a>
-            ) : (
-              "N / A"
-            )}
-          </p>
-          <h3 data-target="question">{q["text"]}</h3>
-          <div>{q["answer"]}</div>
-          <div>
-            <p>
-              Sources: <a href={q["source"]}>{q["source"]}</a>
             </p>
-          </div>
-          <div className="reviewButtonHolder">
-            <Button onClick={rejectQ}>
-              <span style={{ color: "red", marginRight: "2vw" }}>Reject</span>
-            </Button>
-            <Button onClick={skipQ}>Skip</Button>
-            <Button onClick={acceptQ}>
-              <span style={{ color: "purple", marginLeft: "2vw" }}>Accept</span>
-            </Button>
+            <p>
+              <span className={styles.bold}>Affiliation:</span> {q.affiliation}
+            </p>
           </div>
         </div>
       );
@@ -98,14 +99,12 @@ const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
   };
 
   return (
-    <Paper className="review">
-      <MediaQuery minWidth={416}>
-        <Link to={ADMIN_DASHBOARD} id="reviewBackButton">
-          <Button variant="contained" color="primary">
-            Back to Dashboard
-          </Button>
-        </Link>
-      </MediaQuery>
+    <Paper className={styles.review}>
+      <Link to={ADMIN_DASHBOARD} className={styles.reviewBackButton}>
+        <MaterialButton variant="contained" color="primary">
+          Back to Dashboard
+        </MaterialButton>
+      </Link>
       {questionsToReview.length === 0 ? (
         <div
           style={{
@@ -126,10 +125,21 @@ const ReviewQuestions = ({ getQuestionsToReview, questionsToReview }) => {
           </MediaQuery>
         </div>
       ) : (
-        <div>
-          <h1 id="reviewHeading">User-Submitted Questions</h1>
+        <>
+          <h1>User-Submitted Questions</h1>
           {question()}
-        </div>
+          <div className={styles.reviewButtonHolder}>
+            <Button onClick={rejectQ} variant="red">
+              <span>Reject</span>
+            </Button>
+            <Button onClick={skipQ} variant="black">
+              Skip
+            </Button>
+            <Button onClick={acceptQ} variant="primary">
+              <span>Accept</span>
+            </Button>
+          </div>
+        </>
       )}
     </Paper>
   );
