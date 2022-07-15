@@ -16,10 +16,12 @@ import AdminQuestion from "./AdminQuestion";
 import Scoreboard from "../Leaderboard/Scoreboard";
 import UserShow from "./UserShow/UserShow";
 import PartyLeaders from "../Leaderboard/PartyLeaders";
+import QuestionsToReview from "./SubmittedQuestions/QuestionsToReview";
 
 import AdminCreateQuestion from "./AdminCreateQuestion";
 import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
 import ReviewContestedQuestions from "./ReviewContestedQuestions";
+import ContestedQuestions from "./ContestedQuestions";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -109,8 +111,8 @@ class AdminDashboard extends Component {
                   <Link to={LEADERBOARD} style={{ textDecoration: "none" }}>
                     <Scoreboard />
                   </Link>
-                  {/* <QuestionsToReview />
-                  <ContestedQuestions /> */}
+                  <QuestionsToReview />
+                  <ContestedQuestions />
                 </div>
               </div>
             )}
