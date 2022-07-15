@@ -26,7 +26,8 @@
     "pg": "^8.5.1",
     "qs": "^6.10.1",
     "sendgrid": "^5.2.3",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
