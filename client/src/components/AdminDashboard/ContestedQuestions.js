@@ -1,54 +1,38 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { db } from '../../firebase';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { CONTEST } from '../../constants/routes';
+import { REVIEW_CONTEST } from "../../constants/routes";
 
-import './dashboard.css';
+import "./dashboard.css";
+import { getContestedQuestionCount } from "../../redux/reducers/admin";
 
-class ContestedQuestions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      num: 0,
-    };
-  }
+const ContestedQuestions = ({ onLoad, contestedCount }) => {
+  useEffect(() => {
+    onLoad();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  componentDidMount = () => {
-    this.numToReview();
-  }
+  return (
+    <Link to={REVIEW_CONTEST} style={{ textDecoration: "none" }}>
+      <div className="reviewWidget contestWidget">
+        <div className="counterDisplay">{contestedCount}</div>
+        <h1>Contested Questions</h1>
+      </div>
+    </Link>
+  );
+};
 
-  componentWillUnmount = () => {
-    this.setState({ undefined });
-  }
+const mapState = (state) => {
+  const { contestedQuestionCount } = state.admin;
+  return {
+    contestedCount: contestedQuestionCount,
+  };
+};
 
-  numToReview = async () => {
-    await db.getContestedQuiz()
-      .then((response) => {
-        if (response.val() === null) { return; }
+const mapDispatch = (dispatch) => ({
+  onLoad() {
+    dispatch(getContestedQuestionCount());
+  },
+});
 
-        const data = response.val();
-        const dates = Object.keys(data);
-        let counter = 0;
-        for (let i = 0; i < dates.length; i += 1) {
-          counter += Object.keys(data[dates[i]]).length;
-        }
-        this.setState({
-          num: counter,
-        });
-      });
-  }
-
-  render() {
-    return (
-      <Link to={CONTEST} style={{ textDecoration: 'none' }}>
-        <div className="reviewWidget contestWidget">
-          <div className="counterDisplay">{this.state.num}</div>
-          <h1>Contested Questions</h1>
-        </div>
-      </Link>
-    );
-  }
-}
-
-export default ContestedQuestions;
+export default connect(mapState, mapDispatch)(ContestedQuestions);

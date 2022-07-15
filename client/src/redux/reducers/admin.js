@@ -70,13 +70,40 @@ export const createAdminQuestion = createAsyncThunk(
   }
 );
 
+export const getPendingQuestionCount = createAsyncThunk(
+  "admin/getPendingQuestionCount",
+  async () => {
+    const { data } = await axios.get(`/api/admins/review_count`);
+    return data;
+  }
+);
+
+export const getContestedQuestionCount = createAsyncThunk(
+  "admin/getContestedQuestionCount",
+  async () => {
+    const { data } = await axios.get(`/api/admins/contested_count`);
+    return data;
+  }
+);
+
+export const updateUserPoints = createAsyncThunk(
+  "admin/updatePointsForUser",
+  async ({ userId }) => {
+    await axios.put(`api/admins/user/${userId}/score`, { positive: true });
+  }
+);
+
 const INIT_STATE = {
   questions: [],
   question: {},
   questionsToReview: [],
   contestedQuestions: [],
+  contestedQuestionCount: 0,
+  contestedQuestionCountLoading: false,
   isLoading: true,
   hasError: false,
+  pendingQuestionCount: 0,
+  pendingQuestionCountLoading: false,
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -88,6 +115,17 @@ const adminSlice = createSlice({
       const newQuestions = [...state.contestedQuestions];
       newQuestions.push(newQuestions.shift());
       return { ...state, contestedQuestions: newQuestions };
+    },
+    skipSubmittedQuestion(state) {
+      const newQuestions = [...state.questionsToReview];
+      newQuestions.push(newQuestions.shift());
+      return { ...state, questionsToReview: newQuestions };
+    },
+    removeSubmittedQuestion(state) {
+      // remove a question from the queue when it is accepted or rejected
+      const newQuestions = [...state.questionsToReview];
+      newQuestions.shift();
+      return { ...state, questionsToReview: newQuestions };
     },
   },
   extraReducers: (builder) => {
@@ -154,13 +192,32 @@ const adminSlice = createSlice({
         state.question = action.payload;
         state.isLoading = false;
         state.hasError = false;
+      })
+      .addCase(getPendingQuestionCount.pending, (state, action) => {
+        state.pendingQuestionCountLoading = true;
+      })
+      .addCase(getPendingQuestionCount.fulfilled, (state, action) => {
+        state.pendingQuestionCountLoading = false;
+        state.pendingQuestionCount = action.payload;
+      })
+      .addCase(getContestedQuestionCount.pending, (state, action) => {
+        state.contestedQuestionCountLoading = true;
+      })
+      .addCase(getContestedQuestionCount.fulfilled, (state, action) => {
+        state.contestedQuestionCountLoading = false;
+        state.contestedQuestionCount = action.payload;
       });
   },
 });
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setNew } = adminSlice.actions;
+export const {
+  setNew,
+  removeSubmittedQuestion,
+  skipContestedQuestion,
+  skipSubmittedQuestion,
+} = adminSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
