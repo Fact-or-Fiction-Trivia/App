@@ -14,6 +14,7 @@ import {
   removeSubmittedQuestion,
   skipSubmittedQuestion,
   updateAdminQuestion,
+  updateUserPoints,
 } from "../../../../redux/reducers/admin";
 
 import { ADMIN_DASHBOARD } from "../../../../constants/routes";
@@ -127,7 +128,7 @@ const ReviewQuestions = ({
             <Button onClick={() => skip()} variant="black">
               Skip
             </Button>
-            <Button onClick={() => accept(q.id, q)} variant="primary">
+            <Button onClick={() => accept(q.id, q, q.author)} variant="primary">
               <span>Accept</span>
             </Button>
           </div>
@@ -161,7 +162,7 @@ const mapDispatch = (dispatch) => {
     skip() {
       dispatch(skipSubmittedQuestion());
     },
-    accept(questionId, question) {
+    accept(questionId, question, userId) {
       dispatch(
         updateAdminQuestion({
           questionId,
@@ -169,6 +170,7 @@ const mapDispatch = (dispatch) => {
         })
       );
       dispatch(removeSubmittedQuestion());
+      dispatch(updateUserPoints({ userId }));
     },
   };
 };
