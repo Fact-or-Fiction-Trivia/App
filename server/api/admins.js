@@ -65,6 +65,19 @@ router.put(
 );
 
 /**
+ * GET /contested_count
+ * Get the number of questions with status = pending
+ */
+router.get("/contested_count", requireAdmin, async (req, res, next) => {
+  try {
+    res.json(await ContestedQuestion.count({ where: { status: "Pending" } }));
+  } catch (err) {
+    res.send(err);
+    next(err);
+  }
+});
+
+/**
  * GET /review_count
  * Get the number of questions with status = pending
  */
