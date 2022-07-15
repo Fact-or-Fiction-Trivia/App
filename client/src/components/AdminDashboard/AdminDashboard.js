@@ -21,6 +21,7 @@ import QuestionsToReview from "./SubmittedQuestions/QuestionsToReview";
 import AdminCreateQuestion from "./AdminCreateQuestion";
 import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
 import ReviewContestedQuestions from "./ReviewContestedQuestions";
+import ContestedQuestions from "./ContestedQuestions";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -111,7 +112,7 @@ class AdminDashboard extends Component {
                     <Scoreboard />
                   </Link>
                   <QuestionsToReview />
-                  {/* <ContestedQuestions /> */}
+                  <ContestedQuestions />
                 </div>
               </div>
             )}

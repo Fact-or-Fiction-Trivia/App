@@ -12,7 +12,7 @@ import { getPendingQuestionCount } from "../../../../redux/reducers/admin";
 const QuestionsToReview = ({ onLoad, reviewCount }) => {
   useEffect(() => {
     onLoad();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Link to={REVIEW} style={{ textDecoration: "none" }}>

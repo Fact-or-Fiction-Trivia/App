@@ -78,6 +78,14 @@ export const getPendingQuestionCount = createAsyncThunk(
   }
 );
 
+export const getContestedQuestionCount = createAsyncThunk(
+  "admin/getContestedQuestionCount",
+  async () => {
+    const { data } = await axios.get(`/api/admins/contested_count`);
+    return data;
+  }
+);
+
 export const updateUserPoints = createAsyncThunk(
   "admin/updatePointsForUser",
   async ({ userId }) => {
@@ -90,6 +98,8 @@ const INIT_STATE = {
   question: {},
   questionsToReview: [],
   contestedQuestions: [],
+  contestedQuestionCount: 0,
+  contestedQuestionCountLoading: false,
   isLoading: true,
   hasError: false,
   pendingQuestionCount: 0,
@@ -189,6 +199,13 @@ const adminSlice = createSlice({
       .addCase(getPendingQuestionCount.fulfilled, (state, action) => {
         state.pendingQuestionCountLoading = false;
         state.pendingQuestionCount = action.payload;
+      })
+      .addCase(getContestedQuestionCount.pending, (state, action) => {
+        state.contestedQuestionCountLoading = true;
+      })
+      .addCase(getContestedQuestionCount.fulfilled, (state, action) => {
+        state.contestedQuestionCountLoading = false;
+        state.contestedQuestionCount = action.payload;
       });
   },
 });

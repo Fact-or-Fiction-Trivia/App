@@ -85,6 +85,10 @@
   @media (min-width: $breakpoint-sm) {
     border-left: unset;
     border-top: 1px solid $color-black;
+
+    p:first-of-type {
+      margin-top: 0;
+    }
   }
 }
 
@@ -100,7 +104,7 @@
   width: 9rem;
 
   @media (min-width: $breakpoint-sm) {
-    display: inline-block;
+    display: block;
     margin-bottom: unset;
   }
 }
