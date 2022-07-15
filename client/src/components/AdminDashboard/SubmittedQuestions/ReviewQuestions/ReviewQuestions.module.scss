@@ -14,16 +14,32 @@
   h1 {
     padding: $space-sm 0;
     text-align: center;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-l;
+      margin-bottom: 0;
+      padding-top: $space-lg;
+      padding-bottom: $space-sm;
+    }
   }
 
   @media (max-width: $breakpoint-sm) {
-    width: 95vw;
+    height: fit-content;
+    margin: $space-lg $space-sm $space-md $space-sm;
+    min-height: 35rem;
+    width: calc(100% - ($space-sm * 2));
   }
 }
 
 .containerInner {
   display: flex;
-  margin: $space-md;
+  flex-direction: column;
+  margin: $space-sm;
+
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    margin: $space-md;
+  }
 
   h4 {
     margin-left: 0;
@@ -46,9 +62,11 @@
 .userInfo {
   border: 1px solid $color-black;
   padding: $space-sm;
+  word-wrap: break-word;
 
   h2 {
     margin-top: 0;
+    font-size: $font-size-m;
   }
 }
 
@@ -62,7 +80,11 @@
 
 .userInfo {
   min-width: 33%;
-  border-left: unset;
+  border-left: 1px solid $color-black;
+  border-top: unset;
+  @media (min-width: $breakpoint-sm) {
+    border-left: unset;
+  }
 }
 
 .user {
@@ -71,18 +93,33 @@
 }
 
 .bold {
-  display: inline-block;
+  display: block;
   font-weight: bold;
+  margin-bottom: $space-sm;
   width: 9rem;
+
+  @media (min-width: $breakpoint-sm) {
+    display: inline-block;
+    margin-bottom: unset;
+  }
 }
 
 .reviewButtonHolder {
   bottom: $space-sm;
   display: flex;
+  flex-direction: column-reverse;
   justify-content: center;
-  left: calc(50% - 15rem);
-  position: absolute;
-  width: 30rem;
+
+  button {
+    width: 10rem;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    left: calc(50% - 15rem);
+    position: absolute;
+    width: 30rem;
+  }
 }
 
 .counter {

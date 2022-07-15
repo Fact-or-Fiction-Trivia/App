@@ -22,19 +22,13 @@ import "../../dashboard.css";
 import styles from "./ReviewQuestions.module.scss";
 
 const ReviewQuestions = ({
+  accept,
   getQuestionsToReview,
   questionsToReview,
   reject,
   skip,
 }) => {
   const [selectedQ, setSelectedQ] = useState(0);
-  // this.state = {
-  //   selectedQ: {},
-  //   index: 0,
-  //   dateArray: [],
-  //   noQuestionsRemaining: false,
-  //   loaded: false,
-  // };
 
   useEffect(() => {
     getQuestionsToReview(setSelectedQ);
@@ -44,29 +38,12 @@ const ReviewQuestions = ({
     if (questionsToReview[0] !== selectedQ) {
       setSelectedQ(questionsToReview[0]);
     }
-  }, [questionsToReview]);
-
-  const rejectQ = () => {
-    // set status to Denied
-    // shift question off of questions to review array
-  };
-
-  // will need to modify this when I add in contested question
-  const acceptQ = async () => {
-    // change the question status to approved
-    // shift question off of questions to review array
-    // send an email to the user that their question was accepted
-    // increase their points
-  };
+  }, [questionsToReview]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let q = {};
   if (selectedQ) {
     q = selectedQ;
   }
-
-  /* eslint-disable dot-notation */
-
-  console.log(questionsToReview, selectedQ);
 
   const question = () => {
     if (questionsToReview.length > 0) {
@@ -114,7 +91,7 @@ const ReviewQuestions = ({
     <Paper className={styles.review}>
       <Link to={ADMIN_DASHBOARD} className={styles.reviewBackButton}>
         <MaterialButton variant="contained" color="primary">
-          Back to Dashboard
+          {window.innerWidth > 576 ? "Back to Dashboard" : "Back"}
         </MaterialButton>
       </Link>
       {questionsToReview.length === 0 ? (
@@ -150,7 +127,7 @@ const ReviewQuestions = ({
             <Button onClick={() => skip()} variant="black">
               Skip
             </Button>
-            <Button onClick={acceptQ} variant="primary">
+            <Button onClick={() => accept(q.id, q)} variant="primary">
               <span>Accept</span>
             </Button>
           </div>
@@ -183,6 +160,15 @@ const mapDispatch = (dispatch) => {
     },
     skip() {
       dispatch(skipSubmittedQuestion());
+    },
+    accept(questionId, question) {
+      dispatch(
+        updateAdminQuestion({
+          questionId,
+          body: { questionData: { ...question, status: "Approved" } },
+        })
+      );
+      dispatch(removeSubmittedQuestion());
     },
   };
 };

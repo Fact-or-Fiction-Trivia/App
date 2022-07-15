@@ -91,7 +91,6 @@ router.put("/questions/:questionId", requireAdmin, async (req, res, next) => {
     const { questionId } = req.params;
     const { questionData, questionTagIds } = req.body;
 
-    console.log(questionId, questionData);
     const question = await Question.findByPk(questionId, { include: [Tag] });
 
     const currentTagIds = await question
