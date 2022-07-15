@@ -126,4 +126,20 @@ router.post("/questions", requireAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
+router.put("/user/:userId/score", requireAdmin, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    if (req.body.positive) {
+      await user.update({ points: user.points + 1 });
+    } else {
+      await user.update({ points: user.points - 1 });
+    }
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
 module.exports = router;

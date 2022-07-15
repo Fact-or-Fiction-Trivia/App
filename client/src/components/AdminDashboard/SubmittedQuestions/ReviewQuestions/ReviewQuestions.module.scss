@@ -84,6 +84,7 @@
   border-top: unset;
   @media (min-width: $breakpoint-sm) {
     border-left: unset;
+    border-top: 1px solid $color-black;
   }
 }
 
@@ -119,6 +120,10 @@
     left: calc(50% - 15rem);
     position: absolute;
     width: 30rem;
+
+    button {
+      width: unset;
+    }
   }
 }
 

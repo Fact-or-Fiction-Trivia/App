@@ -78,6 +78,13 @@ export const getPendingQuestionCount = createAsyncThunk(
   }
 );
 
+export const updateUserPoints = createAsyncThunk(
+  "admin/updatePointsForUser",
+  async ({ userId }) => {
+    await axios.put(`api/admins/user/${userId}/score`, { positive: true });
+  }
+);
+
 const INIT_STATE = {
   questions: [],
   question: {},
