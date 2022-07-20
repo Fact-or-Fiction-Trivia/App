@@ -1,11 +1,13 @@
 import { getAnalytics, logEvent } from "firebase/analytics";
+import { connect } from "react-redux";
 import React from "react";
 import Button from "../Button/Button";
+import { updateUserInfo } from "../../redux/reducers/auth";
 import fight from "../StaticPages/politiq-bg2.jpg";
 
 import styles from "./InGameAds.module.scss";
 
-const InGameAds = ({ onCloseAd }) => {
+const InGameAds = ({ hootPoints, onCloseAd, updateHootPoints }) => {
   const analytics = getAnalytics();
   return (
     <div className={styles.adContainer}>
@@ -22,6 +24,7 @@ const InGameAds = ({ onCloseAd }) => {
           logEvent(analytics, "vote_clicked", {
             event_name: "vote_clicked",
           });
+          updateHootPoints(hootPoints);
         }}
       >
         <Button variant="primary">Find your nearest upcoming election</Button>
@@ -34,4 +37,17 @@ const InGameAds = ({ onCloseAd }) => {
   );
 };
 
-export default InGameAds;
+const mapState = (state) => {
+  const { auth } = state.auth;
+  return {
+    hootPoints: auth.points,
+  };
+};
+
+const mapDispatch = (dispatch) => ({
+  updateHootPoints(hootPoints) {
+    dispatch(updateUserInfo({ points: hootPoints + 1 }));
+  },
+});
+
+export default connect(mapState, mapDispatch)(InGameAds);
