@@ -98,3 +98,12 @@
   text-align: center;
   text-decoration: underline;
 }
+
+.challengeLink {
+  display: flex;
+
+  img {
+    height: 1.5rem;
+    margin-right: 3px;
+  }
+}
