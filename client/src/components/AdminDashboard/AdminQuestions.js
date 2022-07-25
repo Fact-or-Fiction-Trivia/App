@@ -40,8 +40,20 @@ const AdminQuestions = ({ getQuestions, questions }) => {
       <Helmet>
         <title>Questions List</title>
       </Helmet>
-      <Link to={REVIEW}>Review Submitted Questions</Link>
-      <Link to={REVIEW_CONTEST}>Review Contested Questions</Link>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginBottom: "1rem",
+        }}
+      >
+        <Link style={{ marginRight: "1rem" }} to={REVIEW}>
+          Review Submitted Questions
+        </Link>
+        <Link to={REVIEW_CONTEST}>Review Contested Questions</Link>
+      </div>
       <div
         style={{
           display: "flex",
