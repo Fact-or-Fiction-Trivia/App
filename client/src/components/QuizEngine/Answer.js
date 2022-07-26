@@ -6,6 +6,7 @@ import styles from "./Answer.module.scss";
 import { getQuestionPercentCorrect } from "../../redux/reducers/question";
 import { Link } from "react-router-dom";
 import { CONTEST } from "../../constants/routes";
+import owl from "../../images/large_icon.png";
 
 const Answer = ({
   getPercentage,
@@ -49,7 +50,10 @@ const Answer = ({
       </div>
 
       <div id="continue" className={styles.buttonContainer}>
-        <Link to={CONTEST}>CHALLENGE this question</Link>
+        <Link className={styles.challengeLink} to={CONTEST}>
+          <img src={owl} alt="Earn hoot points here!" />
+          CHALLENGE this question
+        </Link>
 
         <Button
           className={styles.continueButton}
