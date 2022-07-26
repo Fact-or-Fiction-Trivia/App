@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import classNames from "classnames";
 
 import { REVIEW_CONTEST } from "../../constants/routes";
-
-import "./dashboard.css";
+import styles from "./dashboard.module.scss";
 import { getContestedQuestionCount } from "../../redux/reducers/admin";
 
 const ContestedQuestions = ({ onLoad, contestedCount }) => {
@@ -14,8 +14,8 @@ const ContestedQuestions = ({ onLoad, contestedCount }) => {
 
   return (
     <Link to={REVIEW_CONTEST} style={{ textDecoration: "none" }}>
-      <div className="reviewWidget contestWidget">
-        <div className="counterDisplay">{contestedCount}</div>
+      <div className={classNames(styles.reviewWidget, styles.contestWidget)}>
+        <div className={styles.counterDisplay}>{contestedCount}</div>
         <h1>Contested Questions</h1>
       </div>
     </Link>

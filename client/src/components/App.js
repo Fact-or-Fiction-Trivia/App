@@ -52,6 +52,9 @@ const theme = createTheme({
     default: {
       main: "#FFDF00",
     },
+    danger: {
+      main: "#c70039",
+    },
   },
   typography: {
     fontFamily: ["Quicksand"],

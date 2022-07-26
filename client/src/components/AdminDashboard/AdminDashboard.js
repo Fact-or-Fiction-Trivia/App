@@ -21,6 +21,7 @@ import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
 import ReviewContestedQuestions from "./ReviewContestedQuestions";
 import AdminUsers from "./AdminUsers";
 import ContestedQuestions from "./ContestedQuestions";
+import styles from "./dashboard.module.scss";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -34,14 +35,12 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: true,
       dateArray: [],
       titleArray: [],
       value: 0,
       selectedQuizId: "",
       selectedQuiz: {},
       showDeleteModal: false,
-      cashoutData: {},
     };
   }
 
@@ -79,12 +78,6 @@ class AdminDashboard extends Component {
                 }
               />
               <Tab
-                label="Manage Questions"
-                onClick={() =>
-                  this.props.history.push(`${ADMIN_DASHBOARD}/manage-questions`)
-                }
-              />
-              <Tab
                 label="Manage Users"
                 onClick={() =>
                   this.props.history.push(`${ADMIN_DASHBOARD}/manage-users`)
@@ -103,10 +96,12 @@ class AdminDashboard extends Component {
           <Route
             exact
             path={ADMIN_DASHBOARD}
-            render={(props) => (
-              <div className="dashboard">
-                <Paper className="dashContainer"></Paper>
-                <div className="dashContainer2">
+            render={() => (
+              <div className={styles.dashboard}>
+                <Paper className={styles.dashContainer}>
+                  <AdminQuestions />
+                </Paper>
+                <div className={styles.dashContainer2}>
                   <Link to={LEADERBOARD} style={{ textDecoration: "none" }}>
                     <Scoreboard />
                   </Link>
@@ -119,11 +114,6 @@ class AdminDashboard extends Component {
           <Route
             path={`${ADMIN_DASHBOARD}/create-question`}
             render={(props) => <AdminCreateQuestion {...props} />}
-          />
-          <Route
-            exact
-            path={`${ADMIN_DASHBOARD}/manage-questions`}
-            render={(props) => <AdminQuestions {...props} />}
           />
 
           <Route
