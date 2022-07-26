@@ -76,7 +76,7 @@ router.post("/request-reset", async (req, res, next) => {
     const user = await User.findOne({ where: { email }, include: [Token] });
 
     if (!user) {
-      res.sendStatus(404);
+      res.send({ status: 404, message: "User not found" });
     } else {
       if (user.token) {
         await user.token.destroy();

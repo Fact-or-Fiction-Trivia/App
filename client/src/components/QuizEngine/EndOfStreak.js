@@ -5,7 +5,7 @@ import { resetQuiz } from "../../redux/reducers/streak";
 import { setPostAuthRedirect } from "../../redux/reducers/auth";
 import Button from "../Button/Button";
 import owl from "../../images/large_icon.png";
-import fight from "../StaticPages/politiq-bg2.jpg";
+import InGameAds from "./InGameAds";
 import styles from "./EndOfStreak.module.scss";
 import { SIGN_IN, SUBMIT_QUESTION, GAME } from "../../constants/routes";
 import confetti from "canvas-confetti";
@@ -15,11 +15,14 @@ const EndOfStreak = ({
   isLoggedIn,
   maxStreak,
   midAuthentication,
+  numAnsweredQuestions,
   setRedirect,
   streakLength,
   playNewGame,
 }) => {
-  const [serveAdd, setServeAdd] = useState(false);
+  const [serveAd, setServeAd] = useState(
+    !!process.env.REACT_APP_ENABLE_ADS && numAnsweredQuestions % 10 === 0
+  );
   const history = useHistory();
   const beatPreviousScore = parseInt(streakLength) > parseInt(maxStreak);
   const returningFromAuth =
@@ -61,14 +64,8 @@ const EndOfStreak = ({
 
   return (
     <div className={styles.container}>
-      {serveAdd ? (
-        <div>
-          <p>Add</p>
-          <img src={fight} alt="Elephant and Donkey Fighting" />
-          <Button variant="primary" onClick={() => setServeAdd(false)}>
-            Cancel
-          </Button>
-        </div>
+      {serveAd ? (
+        <InGameAds onCloseAd={() => setServeAd(false)} />
       ) : (
         <div>
           <h1 className={styles.header}>Your final streak:</h1>
@@ -127,12 +124,14 @@ const EndOfStreak = ({
 
 const mapState = (state) => {
   const { streak, maxStreak, midAuthentication } = state.streak;
+  const { numAnsweredQuestions } = state.question;
   const { auth } = state.auth;
   const isLoggedIn = !!auth.id;
   return {
     isLoggedIn,
     maxStreak,
     midAuthentication,
+    numAnsweredQuestions,
     streak,
     streakLength: streak.filter((it) => it.answeredCorrectly).length,
   };

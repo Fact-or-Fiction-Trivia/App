@@ -5,6 +5,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
+import Toast from "../Toast/Toast";
 import { me, updateUserInfo } from "../../redux/reducers/auth";
 import {
   getMailchimpStatus,
@@ -103,7 +104,14 @@ const GameSettings = ({
         >
           Save Changes
         </Button>
-        {saved ? <p>Your preferences have been updated successfully!</p> : null}
+        <Toast
+          filled
+          duration={10000}
+          text="Your preferences have been updated successfully!"
+          onClose={() => setSaved(false)}
+          open={saved}
+          variant="success"
+        />
       </div>
     </div>
   );

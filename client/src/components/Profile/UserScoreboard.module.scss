@@ -1,0 +1,180 @@
+@import "../../variables.scss";
+
+.smallScoreboardHolder {
+  box-sizing: border-box;
+  text-align: center;
+  color: white;
+  padding: 2vh;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  height: fit-content;
+  width: 75%;
+  border-radius: 15px;
+  margin-top: 5vh !important;
+  margin-bottom: 2vh !important;
+  background: rgba(62, 29, 87, 1);
+  background: -moz-linear-gradient(
+    -45deg,
+    rgba(62, 29, 87, 1) 0%,
+    rgba(62, 29, 87, 1) 20%,
+    rgba(41, 20, 58, 1) 44%,
+    rgba(62, 29, 87, 1) 76%,
+    rgba(62, 29, 87, 1) 100%
+  );
+  background: -webkit-gradient(
+    left top,
+    right bottom,
+    color-stop(0%, rgba(62, 29, 87, 1)),
+    color-stop(20%, rgba(62, 29, 87, 1)),
+    color-stop(44%, rgba(41, 20, 58, 1)),
+    color-stop(76%, rgba(62, 29, 87, 1)),
+    color-stop(100%, rgba(62, 29, 87, 1))
+  );
+  background: -webkit-linear-gradient(
+    -45deg,
+    rgba(62, 29, 87, 1) 0%,
+    rgba(62, 29, 87, 1) 20%,
+    rgba(41, 20, 58, 1) 44%,
+    rgba(62, 29, 87, 1) 76%,
+    rgba(62, 29, 87, 1) 100%
+  );
+  background: -o-linear-gradient(
+    -45deg,
+    rgba(62, 29, 87, 1) 0%,
+    rgba(62, 29, 87, 1) 20%,
+    rgba(41, 20, 58, 1) 44%,
+    rgba(62, 29, 87, 1) 76%,
+    rgba(62, 29, 87, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    -45deg,
+    rgba(62, 29, 87, 1) 0%,
+    rgba(62, 29, 87, 1) 20%,
+    rgba(41, 20, 58, 1) 44%,
+    rgba(62, 29, 87, 1) 76%,
+    rgba(62, 29, 87, 1) 100%
+  );
+  background: linear-gradient(
+    135deg,
+    rgba(62, 29, 87, 1) 0%,
+    rgba(62, 29, 87, 1) 20%,
+    rgba(41, 20, 58, 1) 44%,
+    rgba(62, 29, 87, 1) 76%,
+    rgba(62, 29, 87, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e1d57', endColorstr='#3e1d57', GradientType=1 );
+
+  h2 {
+    font-size: 2rem;
+    margin: 2vh auto 2vh auto;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-weight: 400;
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    width: 28rem;
+    min-height: 250px;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    width: 90%;
+  }
+}
+
+.userScoreboardPublic {
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (min-width: $breakpoint-md) {
+    width: 40rem;
+
+    .userScore {
+      max-width: 200px;
+    }
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 50rem;
+  }
+}
+
+.smallScoreboard {
+  display: flex;
+  flex-wrap: wrap;
+
+  text-align: center;
+  width: 100%;
+  justify-content: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+}
+
+.userScore {
+  max-width: 175px;
+  background-color: #8e6da7;
+  color: white;
+  box-sizing: border-box;
+  font-size: 17px;
+  display: flex;
+  flex-direction: column;
+  height: 13vh;
+  border-radius: 15px;
+  padding: 1vh;
+  text-transform: uppercase;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  width: 50%;
+  margin-bottom: 1rem;
+
+  &:nth-of-type(2n-1) {
+    margin-right: 0.5rem;
+  }
+  &:nth-of-type(2n) {
+    margin-left: 0.5rem;
+  }
+  &:not(:last-of-type) {
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    font-size: $font-size-s;
+    min-height: 80px;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-xs;
+    width: 45%;
+    height: 13vh;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    max-width: 200px;
+    min-height: 6rem;
+
+    .regScore {
+      font-size: $font-size-xl;
+    }
+  }
+}
+
+.regScore {
+  font-size: 5vh;
+  font-weight: bold;
+  @media (max-width: $breakpoint-sm) {
+    margin-top: 0;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    margin-top: 1.6vh;
+  }
+}

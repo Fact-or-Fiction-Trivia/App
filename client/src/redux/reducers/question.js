@@ -46,6 +46,7 @@ const INIT_STATE = {
   hasError: false,
   isSubmittedLoading: false,
   hasErrorOnSubmit: false,
+  numAnsweredQuestions: 0,
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -58,10 +59,13 @@ const questionSlice = createSlice({
     },
     clearAnswer(state, action) {
       const questionId = action.payload;
+      let numAnsweredQuestions = 1; // store the number of answered questions on the redux store, used for ad frequency
+
       if (localStorage.hasOwnProperty("answeredQuestions")) {
         const answeredQuestions = JSON.parse(
           localStorage.getItem("answeredQuestions")
         );
+        numAnsweredQuestions = Object.keys(answeredQuestions).length + 1;
         localStorage.setItem(
           "answeredQuestions",
           JSON.stringify({
@@ -80,7 +84,7 @@ const questionSlice = createSlice({
       const questions = state.questions.filter(
         (question) => question.id !== questionId
       );
-      return { ...state, questions };
+      return { ...state, questions, numAnsweredQuestions };
     },
   },
   extraReducers: (builder) => {

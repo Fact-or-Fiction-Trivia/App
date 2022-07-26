@@ -43,6 +43,10 @@ const Question = db.define("question", {
     allowNull: false,
     defaultValue: "Pending",
   },
+  author: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
 });
 
 module.exports = Question;

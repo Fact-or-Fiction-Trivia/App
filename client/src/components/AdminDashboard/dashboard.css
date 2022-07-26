@@ -68,62 +68,22 @@
   min-width: 45px;
 }
 
-.review {
-  width: 75vw;
-  height: auto;
-  min-height: 58vh;
-  overflow: scroll;
-  padding-bottom: 3vh;
-  margin-top: 13vh;
-  margin-bottom: 6vh;
-  margin-left: auto;
-  margin-right: auto;
-}
-@media screen and (max-width: 415px) {
-  .review {
-    width: 95vw;
-  }
-}
 
-#reviewBackButton {
-  text-decoration: none;
-  float: left;
-  margin-left: 2vw;
-  margin-top: 2vh;
-}
 #reviewBackButtonMobile {
   margin-left: auto;
   margin-right: auto;
 }
 
-.review > h1 {
-  margin-top: 2vh;
-  margin-left: 28vw;
-  margin-right: auto;
-}
 
-.reviewButtonHolder {
-  display: flex;
-  justify-content: center;
-}
 
-.questionHolder {
-  margin-left: 5vw;
-  margin-top: 5vh;
-  margin-bottom: 4vh;
-  width: 85%;
-}
+
+
 
 #noQs {
   margin-top: 20vh;
   text-align: center;
 }
 
-#reviewHeading {
-  margin-top: 2vh;
-  text-align: center;
-  font-size: 1.6em;
-}
 
 .gif {
   margin-left: 30%;
@@ -172,13 +132,7 @@
   }
 }
 
-.questionHolder > h4 {
-  margin-left: 0;
-  margin-top: 0;
-}
-.questionHolder > h4:hover {
-  color: #a54ee8;
-}
+
 
 /* ------------------ party leaderboard styles ----------------- */
 .party-leaders {
