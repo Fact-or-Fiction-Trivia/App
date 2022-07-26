@@ -2,7 +2,7 @@
 
 .submitForm {
   height: auto;
-  margin-top: 12vh;
+  margin-top: calc($nav-height + $space-md);
   margin-bottom: 6vh;
   width: 55vw;
   margin-left: auto;

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { REVIEW } from "../../../../constants/routes";
-
-import "../../dashboard.css";
+import styles from "../../dashboard.module.scss";
 import { getPendingQuestionCount } from "../../../../redux/reducers/admin";
 
 // number of questions in the db with status pending
@@ -16,8 +15,8 @@ const QuestionsToReview = ({ onLoad, reviewCount }) => {
 
   return (
     <Link to={REVIEW} style={{ textDecoration: "none" }}>
-      <div className="reviewWidget">
-        <div className="counterDisplay">{reviewCount}</div>
+      <div className={styles.reviewWidget}>
+        <div className={styles.counterDisplay}>{reviewCount}</div>
         <h1>Questions to be reviewed</h1>
       </div>
     </Link>

@@ -9,7 +9,6 @@ import Button from "../Button/Button";
 import { ADMIN_DASHBOARD } from "../../constants/routes";
 import styles from "./SubmittedQuestions/ReviewQuestions/ReviewQuestions.module.scss";
 
-import "./dashboard.css";
 import {
   fetchAdminContestedQuestions,
   updateContestedQuestions,
@@ -124,11 +123,7 @@ export const ReviewContestedQuestions = ({
         >
           <h1 id="noQs">No Questions To Review</h1>
           <MediaQuery maxWidth={415}>
-            <Link
-              to={ADMIN_DASHBOARD}
-              id="reviewBackButtonMobile"
-              style={{ textDecoration: "none" }}
-            >
+            <Link to={ADMIN_DASHBOARD} style={{ textDecoration: "none" }}>
               <Button color="primary">Back to Dashboard</Button>
             </Link>
           </MediaQuery>

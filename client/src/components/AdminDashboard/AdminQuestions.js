@@ -1,21 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import Helmet from "react-helmet";
 import { TextField } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { fetchAdminQuestions } from "../../redux/reducers/admin";
-import { REVIEW, REVIEW_CONTEST } from "../../constants/routes";
+import "./dashboard.scss";
+
 const AdminQuestions = ({ getQuestions, questions }) => {
+  const [formattedQuestions, setFormattedQuestions] = useState([]);
   useEffect(() => {
     getQuestions();
   }, [getQuestions]);
+  useEffect(() => {
+    if (questions.length > 0) {
+      formatQuestions(questions);
+    }
+  }, [questions]);
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = () => {
     getQuestions(searchTerm);
   };
   const history = useHistory();
+
+  const formatQuestions = (questions) => {
+    const formatted = [];
+
+    questions?.forEach((question) => {
+      const tags = [];
+      question.tags.forEach((tag) => tags.push(tag.name));
+
+      formatted.push({
+        ...question,
+        tags,
+      });
+    });
+    setFormattedQuestions(formatted);
+  };
+
   const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      sortable: true,
+      width: 90,
+    },
     {
       field: "text",
       headerName: "Text",
@@ -23,46 +51,19 @@ const AdminQuestions = ({ getQuestions, questions }) => {
       width: 400,
     },
     {
-      field: "source",
-      headerName: "Source",
+      field: "tags",
+      headerName: "Tags",
       sortable: true,
-      width: 250,
-    },
-    {
-      field: "explanation",
-      headerName: "Explanation",
-      sortable: true,
-      width: 250,
+      width: 200,
     },
   ];
-  return (
-    <div className="dashboard-container">
-      <Helmet>
-        <title>Questions List</title>
-      </Helmet>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          marginBottom: "1rem",
-        }}
-      >
-        <Link style={{ marginRight: "1rem" }} to={REVIEW}>
-          Review Submitted Questions
-        </Link>
-        <Link to={REVIEW_CONTEST}>Review Contested Questions</Link>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          marginBottom: "1rem",
-        }}
-      >
-        <h1 style={{ marginBottom: 0, marginRight: "1rem" }}>Questions</h1>
+  return (
+    <>
+      <div className="questionsHeader">
+        <h1 style={{ marginBottom: 0, marginRight: "1rem" }}>
+          Manage Questions
+        </h1>
 
         <TextField
           label="Search"
@@ -80,7 +81,7 @@ const AdminQuestions = ({ getQuestions, questions }) => {
 
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={questions}
+          rows={formattedQuestions}
           columns={columns}
           pageSize={10}
           disableSelectionOnClick
@@ -89,7 +90,7 @@ const AdminQuestions = ({ getQuestions, questions }) => {
           }}
         />
       </div>
-    </div>
+    </>
   );
 };
 
