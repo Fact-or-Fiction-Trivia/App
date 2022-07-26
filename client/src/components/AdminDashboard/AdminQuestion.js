@@ -20,6 +20,10 @@ import {
   updateAdminQuestion,
 } from "../../redux/reducers/admin";
 import { getTags } from "../../redux/reducers/tag";
+
+// TODO: don't reuse styles from question submit form, this defeats the whole purpose of modules
+import dashboardStyles from "./dashboard.module.scss";
+
 const AdminQuestion = ({
   match,
   getTags,
@@ -82,12 +86,22 @@ const AdminQuestion = ({
     setQuestionTagIds(question.tags.map((tag) => tag.id));
     setQuestionExpires(question.expiresIn !== undefined);
   };
+
   return (
-    <Paper className={classNames(styles.pageStyle, styles.submitForm)}>
+    <Paper
+      className={classNames(
+        styles.pageStyle,
+        styles.submitForm,
+        dashboardStyles.questionSubmitTO_FIX
+      )}
+    >
       <Helmet>
         <title>Questions List</title>
       </Helmet>
       <div>
+        <div className={styles.formHeader}>
+          <h1>Edit Question</h1>
+        </div>
         <form>
           <TextField
             fullWidth
