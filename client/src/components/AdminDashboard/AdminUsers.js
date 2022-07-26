@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
 import { fetchAdminUsers, updateAdminUser } from "../../redux/reducers/admin";
 import { DataGrid } from "@material-ui/data-grid";
-import { TextField, Button } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
 const AdminUsers = ({ getUsers, users, updateUser }) => {
   useEffect(() => {
