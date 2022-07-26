@@ -27,7 +27,7 @@ class Scoreboard extends Component {
   };
 
   getDemScores = async (data, affiliation) => {
-    const userScores = [];
+    // const userScores = [];
     // await db.getUserByAffiliation(affiliation).then((usernames) => {
     //   usernames.forEach((user, i) => {
     //     const dateObject = data[usernames[i]];

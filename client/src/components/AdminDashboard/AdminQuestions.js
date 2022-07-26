@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Helmet from "react-helmet";
-import { TextField, Button } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import { Link, useHistory } from "react-router-dom";
 import { fetchAdminQuestions } from "../../redux/reducers/admin";
@@ -89,15 +89,6 @@ const AdminQuestions = ({ getQuestions, questions }) => {
           }}
         />
       </div>
-      {/* <ul>
-        {questions.map((question) => (
-          <li>
-            <Link to={`/admin/manage-questions/${question.id}`}>
-              {question.text}
-            </Link>
-          </li>
-        ))}
-      </ul> */}
     </div>
   );
 };

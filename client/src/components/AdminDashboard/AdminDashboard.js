@@ -14,8 +14,6 @@ import { LEADERBOARD, LANDING, ADMIN_DASHBOARD } from "../../constants/routes";
 import AdminQuestions from "./AdminQuestions";
 import AdminQuestion from "./AdminQuestion";
 import Scoreboard from "../Leaderboard/Scoreboard";
-import UserShow from "./UserShow/UserShow";
-import PartyLeaders from "../Leaderboard/PartyLeaders";
 import QuestionsToReview from "./SubmittedQuestions/QuestionsToReview";
 
 import AdminCreateQuestion from "./AdminCreateQuestion";
@@ -150,20 +148,6 @@ class AdminDashboard extends Component {
             render={(props) => <div>TODO: Manage Leaders</div>}
           />
         </Switch>
-
-        <div>
-          <div>
-            <div>
-              <div>
-                {this.state.showUsers ? (
-                  <UserShow />
-                ) : (
-                  <div>{this.state.showLeaders && <PartyLeaders />}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
