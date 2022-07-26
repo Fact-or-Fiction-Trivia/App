@@ -14,13 +14,12 @@ import { LEADERBOARD, LANDING, ADMIN_DASHBOARD } from "../../constants/routes";
 import AdminQuestions from "./AdminQuestions";
 import AdminQuestion from "./AdminQuestion";
 import Scoreboard from "../Leaderboard/Scoreboard";
-import UserShow from "./UserShow/UserShow";
-import PartyLeaders from "../Leaderboard/PartyLeaders";
 import QuestionsToReview from "./SubmittedQuestions/QuestionsToReview";
 
 import AdminCreateQuestion from "./AdminCreateQuestion";
 import ReviewQuestions from "./SubmittedQuestions/ReviewQuestions";
 import ReviewContestedQuestions from "./ReviewContestedQuestions";
+import AdminUsers from "./AdminUsers";
 import ContestedQuestions from "./ContestedQuestions";
 
 class AdminDashboard extends Component {
@@ -142,27 +141,13 @@ class AdminDashboard extends Component {
 
           <Route
             path={`${ADMIN_DASHBOARD}/manage-users`}
-            render={(props) => <div>TODO: Manage Users</div>}
+            render={(props) => <AdminUsers {...props} />}
           />
           <Route
             path={`${ADMIN_DASHBOARD}/manage-leaders`}
             render={(props) => <div>TODO: Manage Leaders</div>}
           />
         </Switch>
-
-        <div>
-          <div>
-            <div>
-              <div>
-                {this.state.showUsers ? (
-                  <UserShow />
-                ) : (
-                  <div>{this.state.showLeaders && <PartyLeaders />}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }

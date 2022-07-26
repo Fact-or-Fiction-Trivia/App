@@ -2,10 +2,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosInstance";
 
+export const fetchAdminUsers = createAsyncThunk(
+  "admin/fetchAdminUsers",
+  async (searchTerm) => {
+    const { data } = await axios.get(
+      `/api/admins/users?searchTerm=${searchTerm}`
+    );
+
+    return data;
+  }
+);
+
+export const updateAdminUser = createAsyncThunk(
+  "admin/updateAdminUser",
+  async ({ userId, body }) => {
+    const { data } = await axios.put(`/api/admins/users/${userId}`, body);
+
+    return data;
+  }
+);
+
 export const fetchAdminQuestions = createAsyncThunk(
   "admin/fetchAdminQuestions",
-  async () => {
-    const { data } = await axios.get(`/api/admins/questions`);
+  async (searchTerm) => {
+    const { data } = await axios.get(
+      `/api/admins/questions?searchTerm=${searchTerm}`
+    );
 
     return data;
   }
@@ -94,6 +116,7 @@ export const updateUserPoints = createAsyncThunk(
 );
 
 const INIT_STATE = {
+  users: [],
   questions: [],
   question: {},
   questionsToReview: [],
@@ -130,6 +153,18 @@ const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchAdminUsers.pending, (state, action) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(fetchAdminUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(fetchAdminUsers.rejected, (state, action) => {
+        state = INIT_STATE;
+      })
       .addCase(fetchAdminQuestions.pending, (state, action) => {
         state.isLoading = true;
         state.hasError = false;
