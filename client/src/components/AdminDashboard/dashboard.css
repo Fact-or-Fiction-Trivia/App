@@ -1,6 +1,8 @@
 .dashboard-container {
   padding-bottom: 5vh;
-  margin-top: 65px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  margin-top: 1rem;
 }
 .reviewWidget {
   width: 43vw;
