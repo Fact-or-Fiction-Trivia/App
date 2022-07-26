@@ -18,8 +18,6 @@ import {
 } from "../../../../redux/reducers/admin";
 
 import { ADMIN_DASHBOARD } from "../../../../constants/routes";
-
-import "../../dashboard.css";
 import styles from "./ReviewQuestions.module.scss";
 
 const ReviewQuestions = ({
@@ -105,11 +103,7 @@ const ReviewQuestions = ({
         >
           <h1 id="noQs">No Questions To Review</h1>
           <MediaQuery maxWidth={415}>
-            <Link
-              to={ADMIN_DASHBOARD}
-              id="reviewBackButtonMobile"
-              style={{ textDecoration: "none" }}
-            >
+            <Link to={ADMIN_DASHBOARD} style={{ textDecoration: "none" }}>
               <Button color="primary">Back to Dashboard</Button>
             </Link>
           </MediaQuery>
