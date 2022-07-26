@@ -1,0 +1,111 @@
+.dashboard-container {
+  padding: 3rem;
+  margin-top: 1rem;
+}
+
+.questionsHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#noQs {
+  margin-top: 20vh;
+  text-align: center;
+}
+
+.gif {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 40%;
+}
+
+.userShow {
+  width: 85vw;
+  height: auto;
+  overflow: scroll;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  text-align: center;
+}
+.toggleMargins {
+  padding: 4px 0px 4px 0px !important;
+}
+@media screen and (max-width: 415px) {
+  .userShow {
+    height: auto;
+    margin-top: 10vh;
+  }
+  .userShow h3 {
+    margin-bottom: 2vh;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .toggleMargins {
+    padding: 4px 24px 4px 10px !important;
+  }
+}
+.toolbar-title {
+  width: 15vw;
+}
+@media screen and (max-width: 415px) {
+  .toolbar-title {
+    width: 24vw;
+  }
+}
+
+/* ------------------ party leaderboard styles ----------------- */
+.party-leaders {
+  margin-top: 3vh;
+  margin-bottom: 25vh;
+  padding-left: 5vh;
+  padding-bottom: 2vh;
+  padding-top: 3vh;
+  padding-right: 5vh;
+  width: 88vw;
+  overflow: scroll;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 415px) {
+  .party-leaders {
+    margin-top: 10vh;
+  }
+}
+
+.admin--scoreCounter {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .admin--scoreCounter {
+    flex-wrap: wrap;
+    width: 90%;
+  }
+
+  .admin--scoreCounter div {
+    width: 125px;
+    text-align: left;
+  }
+}
+
+.admin--scoreCounter-box {
+  border: 1px solid black;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  background-color: #ecd6fd;
+}

@@ -81,12 +81,14 @@ router.get("/questions", requireAdmin, async (req, res, next) => {
                 },
               },
             },
+            include: { model: Tag },
           })
         );
       } else {
         res.json(
           await Question.findAll({
             where: { status: { [Op.notIn]: ["Pending", "Withdrawn"] } },
+            include: { model: Tag, attributes: ["name"] },
           })
         );
       }
