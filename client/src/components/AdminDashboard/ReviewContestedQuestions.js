@@ -4,35 +4,31 @@ import { Link } from "react-router-dom";
 import MediaQuery from "react-responsive";
 
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-
+import MaterialButton from "@material-ui/core/Button";
+import Button from "../Button/Button";
 import { ADMIN_DASHBOARD } from "../../constants/routes";
+import styles from "./SubmittedQuestions/ReviewQuestions/ReviewQuestions.module.scss";
 
 import "./dashboard.css";
 import {
   fetchAdminContestedQuestions,
   updateContestedQuestions,
+  updateUserPoints,
 } from "../../redux/reducers/admin";
 
 export const ReviewContestedQuestions = ({
-  getContestedQuestions,
   contestedQuestions,
+  getContestedQuestions,
+  increaseScore,
   updateContestedQuestion,
 }) => {
   const [questionIdx, setQuestionIdx] = useState(0);
-  const [selectedQ, setSelectedQ] = useState({});
+  const [selectedQ, setSelectedQ] = useState({}); // eslint-disable-line no-unused-vars
   useEffect(() => {
     getContestedQuestions(setSelectedQ);
   }, [getContestedQuestions]);
 
-  // let q = {};
-  // if (selectedQ) {
-  //   q = selectedQ;
-  // }
-
   const rejectQ = () => {
-    // set status to Denied
-    // shift question off of questions to review array
     updateContestedQuestion({
       contestedQuestionId: contestedQuestions[questionIdx].id,
       status: "Denied",
@@ -42,7 +38,6 @@ export const ReviewContestedQuestions = ({
     if (lastIdx < questionIdx + 1) {
       setQuestionIdx(0);
     }
-    // skipQ();
   };
 
   const skipQ = () => {
@@ -54,10 +49,7 @@ export const ReviewContestedQuestions = ({
     }
   };
 
-  // will need to modify this when I add in contested question
-  const acceptQ = async () => {
-    // change the question status to approved
-    // shift question off of questions to review array
+  const acceptQ = async (userId) => {
     // send an email to the user that their question was accepted
     // increase their points
     updateContestedQuestion({
@@ -69,42 +61,23 @@ export const ReviewContestedQuestions = ({
     if (lastIdx < questionIdx + 1) {
       setQuestionIdx(0);
     }
+    increaseScore(userId);
   };
 
   const contestedQuestion = () => {
     if (contestedQuestions.length > 0) {
       return (
-        <div className="questionHolder">
-          <p style={{ fontWeight: "bold" }}>
-            Submitted by:{" "}
-            <Link
-              to={`/profile/${contestedQuestions[questionIdx].userId}`}
-              data-target="username"
-            >
-              {contestedQuestions[questionIdx].user.fullName}
-            </Link>
-          </p>
-          <p style={{ fontWeight: "bold" }}>
-            User Email:{" "}
-            {contestedQuestions[questionIdx].user.email ? (
-              <a
-                href={`mailto:${contestedQuestions[questionIdx].user.email}`}
-                style={{ fontWeight: "normal" }}
-                data-target="email"
-              >
-                {contestedQuestions[questionIdx].user.email}
-              </a>
-            ) : (
-              "N / A"
-            )}
-          </p>
-          <h3 data-target="question">
-            {contestedQuestions[questionIdx].question.text}
-          </h3>
-          <div>{contestedQuestions[questionIdx].issue}</div>
-          <div>
+        <div className={styles.containerInner}>
+          <div className={styles.question}>
+            <h2 data-target="question">
+              {contestedQuestions[questionIdx].question.text}
+            </h2>
             <p>
-              Sources:{" "}
+              <span className={styles.bold}>Issue:</span>
+              {contestedQuestions[questionIdx].issue}
+            </p>
+            <p>
+              <span className={styles.bold}>Source:</span>{" "}
               <a
                 href={contestedQuestions[questionIdx].source}
                 target="_blank"
@@ -114,28 +87,33 @@ export const ReviewContestedQuestions = ({
               </a>
             </p>
           </div>
-          <div className="reviewButtonHolder">
-            <Button onClick={rejectQ}>
-              <span style={{ color: "red", marginRight: "2vw" }}>Reject</span>
-            </Button>
-            <Button onClick={skipQ}>Skip</Button>
-            <Button onClick={acceptQ}>
-              <span style={{ color: "purple", marginLeft: "2vw" }}>Accept</span>
-            </Button>
+          <div className={styles.userInfo}>
+            <p>
+              <span className={styles.bold}>Challenged by:</span>
+              {contestedQuestions[questionIdx].user.username}
+            </p>
+            <p>
+              <span className={styles.bold}>User Email: </span>
+              <a
+                href={`mailto:${contestedQuestions[questionIdx].user.email}`}
+                style={{ fontWeight: "normal" }}
+                data-target="email"
+              >
+                {contestedQuestions[questionIdx].user.email}
+              </a>
+            </p>
           </div>
         </div>
       );
     }
   };
   return (
-    <Paper className="review">
-      <MediaQuery minWidth={416}>
-        <Link to={ADMIN_DASHBOARD} id="reviewBackButton">
-          <Button variant="contained" color="primary">
-            Back to Dashboard
-          </Button>
-        </Link>
-      </MediaQuery>
+    <Paper className={styles.review}>
+      <Link to={ADMIN_DASHBOARD} className={styles.reviewBackButton}>
+        <MaterialButton variant="contained" color="primary">
+          {window.innerWidth > 576 ? "Back to Dashboard" : "Back"}
+        </MaterialButton>
+      </Link>
       {contestedQuestions.length === 0 ? (
         <div
           style={{
@@ -156,10 +134,27 @@ export const ReviewContestedQuestions = ({
           </MediaQuery>
         </div>
       ) : (
-        <div>
-          <h1 id="reviewHeading">User-Contested Questions</h1>
+        <>
+          <h1>User-Contested Questions</h1>
+          <p className={styles.counter}>
+            Challenges remaining: {contestedQuestions.length}
+          </p>
           {contestedQuestion()}
-        </div>
+          <div className={styles.reviewButtonHolder}>
+            <Button onClick={rejectQ} variant="red">
+              <span>Reject</span>
+            </Button>
+            <Button onClick={skipQ} variant="black">
+              Skip
+            </Button>
+            <Button
+              onClick={() => acceptQ(contestedQuestions[questionIdx].userId)}
+              variant="primary"
+            >
+              <span>Accept</span>
+            </Button>
+          </div>
+        </>
       )}
     </Paper>
   );
@@ -179,6 +174,9 @@ const mapDispatch = (dispatch) => {
     },
     updateContestedQuestion(data) {
       dispatch(updateContestedQuestions(data));
+    },
+    increaseScore(userId) {
+      dispatch(updateUserPoints({ userId }));
     },
   };
 };

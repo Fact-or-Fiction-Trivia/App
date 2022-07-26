@@ -12,11 +12,9 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 
-import Button from "../Button/Button";
 import classNames from "classnames";
 
 import styles from "../QuestionSubmit/QuestionSubmit.module.scss";
-import { Link } from "react-router-dom";
 import { createAdminQuestion } from "../../redux/reducers/admin";
 import { getTags } from "../../redux/reducers/tag";
 const AdminCreateQuestion = ({ getTags, tags, createQuestion }) => {

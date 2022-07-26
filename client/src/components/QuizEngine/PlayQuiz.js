@@ -17,11 +17,14 @@ import {
   createStreak,
   setIsAnswering,
 } from "../../redux/reducers/streak";
+import AvailableLifelines from "./AvailableLifelines";
 
 const PlayQuiz = ({
   addStreak,
   answeredCorrectly,
   getQuestions,
+  hasLifelineOption,
+  hootPoints,
   increaseStreak,
   isAnswering,
   isLoading,
@@ -148,7 +151,7 @@ const PlayQuiz = ({
 
   const handleNextQuestion = (questionId) => {
     setSelected(null);
-    nextQuestion(questionId);
+    nextQuestion(questionId, hootPoints);
     window.scrollTo(0, 0);
   };
 
@@ -171,11 +174,17 @@ const PlayQuiz = ({
           )}
         </div>
         {streakEnded ? (
-          <EndOfStreak
-            longestStreak={maxStreak}
-            streakTotal={streak.length}
-            streak={streak}
-          />
+          <>
+            {hasLifelineOption ? (
+              <AvailableLifelines />
+            ) : (
+              <EndOfStreak
+                longestStreak={maxStreak}
+                streakTotal={streak.length}
+                streak={streak}
+              />
+            )}
+          </>
         ) : (
           <>
             <Question
@@ -204,6 +213,7 @@ const mapState = (state) => {
   const { questions, isLoading } = state.question;
   const {
     answeredCorrectly,
+    hasLifelineOption,
     isAnswering,
     maxStreak,
     midAuthentication,
@@ -214,6 +224,8 @@ const mapState = (state) => {
   const isLoggedIn = !!auth.id;
   return {
     answeredCorrectly,
+    hasLifelineOption,
+    hootPoints: auth.points,
     isAnswering,
     isLoading,
     isLoggedIn,
@@ -234,9 +246,9 @@ const mapDispatch = (dispatch) => {
     increaseStreak(data) {
       dispatch(addToStreak(data));
     },
-    nextQuestion(questionId) {
+    nextQuestion(questionId, hootPoints) {
       dispatch(clearAnswer(questionId));
-      dispatch(setIsAnswering());
+      dispatch(setIsAnswering(hootPoints));
     },
     getQuestions() {
       dispatch(fetchQuestions());

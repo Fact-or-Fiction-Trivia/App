@@ -8,7 +8,6 @@ import SecuritySettings from "./SecuritySettings";
 import GameSettings from "./GameSettings";
 import EditProfilePage from "./EditProfile/EditProfilePage";
 import "./profile.scss";
-import { SIGN_IN } from "../../constants/routes";
 import UserScoreboard from "./UserScoreboard";
 
 class ProfilePage extends Component {
@@ -87,7 +86,7 @@ class ProfilePage extends Component {
           <EditProfilePage toPublicProfile={this.toPublicProfile} />
         ) : null}
         {this.state.showStatsPage ? (
-          <UserScoreboard profileId={this.props.auth.id} />
+          <UserScoreboard profileId={this.props.auth.id} isPublic={false} />
         ) : null}
         {this.state.showGameSettings ? <GameSettings /> : null}
         {this.state.showSecurity ? <SecuritySettings /> : null}

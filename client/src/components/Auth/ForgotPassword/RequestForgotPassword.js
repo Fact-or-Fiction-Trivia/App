@@ -5,17 +5,16 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { requestReset } from "../../../redux/reducers/auth";
-import { Redirect } from "react-router-dom";
 import styles from "../Auth.module.scss";
+import Toast from "../../../components/Toast/Toast";
 
 const RequestForgotPassword = ({
+  hasError,
+  isLoading,
+  message,
   requestResetPassword,
-  requestedPasswordReset,
 }) => {
   const [email, setEmail] = useState("");
-  if (requestedPasswordReset) {
-    return <Redirect to="/" />;
-  }
   return (
     <div className={styles.authContainer}>
       <Paper className={styles.passwordForgetForm}>
@@ -23,7 +22,12 @@ const RequestForgotPassword = ({
           <title>Reset Password | Fact or Fiction</title>
         </Helmet>
         <h1>Forgot Your Password?</h1>
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            requestResetPassword(email);
+          }}
+        >
           <TextField
             value={email}
             onChange={({ target: { value } }) => setEmail(value)}
@@ -33,11 +37,21 @@ const RequestForgotPassword = ({
           />
           <Button
             color="primary"
+            disabled={isLoading}
             variant="contained"
-            onClick={() => requestResetPassword(email)}
+            type="submit"
           >
             Send
           </Button>
+
+          {message && (
+            <Toast
+              duration={10000}
+              text={message}
+              open={message}
+              variant={hasError ? "warning" : "success"}
+            />
+          )}
         </form>
       </Paper>
     </div>
@@ -45,9 +59,11 @@ const RequestForgotPassword = ({
 };
 
 const mapStateToProps = (state) => {
-  const { requestedPasswordReset } = state.auth;
+  const { hasError, isLoading, message } = state.auth;
   return {
-    requestedPasswordReset,
+    hasError,
+    isLoading,
+    message,
   };
 };
 

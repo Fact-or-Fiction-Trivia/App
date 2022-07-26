@@ -50,6 +50,7 @@ router.put("/", requireTokenOptional, async (req, res, next) => {
       );
     }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 });
@@ -106,7 +107,7 @@ router.post("/", requireToken, async (req, res, next) => {
       source,
       status,
       text,
-      userId: req.user.id,
+      author: req.user.id,
     });
 
     q.addTag(tagId);

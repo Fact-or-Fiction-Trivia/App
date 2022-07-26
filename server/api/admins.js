@@ -2,6 +2,7 @@
 const router = require("express").Router();
 
 const {
+  db,
   Op,
   models: { User, Question, Tag, ContestedQuestion },
 } = require("../db");
@@ -55,7 +56,11 @@ router.get("/questions", requireAdmin, async (req, res, next) => {
   try {
     const { status, searchTerm } = req.query;
     if (status) {
-      res.json(await Question.findAll({ where: { status } }));
+      const questions = await db.query(
+        `SELECT questions.id, questions.text, questions.answer, questions.source, questions.explanation, questions.author, users.username, users.email, users.affiliation FROM questions JOIN users ON questions.author = users.id WHERE status='${status}'`
+      );
+
+      res.json(questions[0]); // the response here includes an array with more than what we want
     } else {
       if (searchTerm !== "undefined") {
         res.json(
@@ -125,6 +130,32 @@ router.put(
   }
 );
 
+/**
+ * GET /contested_count
+ * Get the number of questions with status = pending
+ */
+router.get("/contested_count", requireAdmin, async (req, res, next) => {
+  try {
+    res.json(await ContestedQuestion.count({ where: { status: "Pending" } }));
+  } catch (err) {
+    res.send(err);
+    next(err);
+  }
+});
+
+/**
+ * GET /review_count
+ * Get the number of questions with status = pending
+ */
+router.get("/review_count", requireAdmin, async (req, res, next) => {
+  try {
+    res.json(await Question.count({ where: { status: "Pending" } }));
+  } catch (err) {
+    res.send(err);
+    next(err);
+  }
+});
+
 router.get("/questions/:questionId", requireAdmin, async (req, res, next) => {
   try {
     const { questionId } = req.params;
@@ -138,6 +169,7 @@ router.put("/questions/:questionId", requireAdmin, async (req, res, next) => {
   try {
     const { questionId } = req.params;
     const { questionData, questionTagIds } = req.body;
+
     const question = await Question.findByPk(questionId, { include: [Tag] });
 
     const currentTagIds = await question
@@ -170,6 +202,22 @@ router.post("/questions", requireAdmin, async (req, res, next) => {
 
     res.sendStatus(200);
   } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/user/:userId/score", requireAdmin, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    if (req.body.positive) {
+      await user.update({ points: user.points + 1 });
+    } else {
+      await user.update({ points: user.points - 1 });
+    }
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
     next(err);
   }
 });

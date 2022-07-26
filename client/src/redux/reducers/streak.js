@@ -28,6 +28,7 @@ const INIT_STATE = {
   maxStreak: 0,
   isLoading: false,
   hasError: false,
+  hasLifelineOption: false,
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -45,16 +46,34 @@ const streakSlice = createSlice({
       };
     },
     setMaxScore(state, action) {
-      return { ...state, maxStreak: action.payload };
+      return { ...state, maxStreak: action.payload || 0 };
     },
     setMidAuth(state, action) {
       return { ...state, midAuthentication: true };
     },
     setIsAnswering(state, action) {
+      // streak has ended if:
+      // - user answers the question incorrectly
+      // user sees lifeline screen if:
+      // - user has hootpoints available
+      // - user had a streak > 0
+
       return {
         ...state,
         isAnswering: true,
         streakEnded: !state.answeredCorrectly,
+        // set this value here and then reset it when the user selects a lifeline option
+        hasLifelineOption:
+          action.payload > 0 &&
+          state.streak.filter((it) => it.answeredCorrectly).length > 0,
+      };
+    },
+    shouldEndStreak(state, action) {
+      // end streak or return to gameplay and reset lifeline option
+      return {
+        ...state,
+        streakEnded: action.payload, // if the user has used a lifeline
+        hasLifelineOption: false,
       };
     },
     addToStreak(state, action) {
@@ -107,6 +126,7 @@ export const {
   setIsAnswering,
   resetQuiz,
   setMidAuth,
+  shouldEndStreak,
 } = streakSlice.actions;
 
 //Reducer

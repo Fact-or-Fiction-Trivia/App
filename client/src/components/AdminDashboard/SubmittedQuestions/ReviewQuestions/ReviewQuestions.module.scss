@@ -1,0 +1,140 @@
+@import "src/variables.scss";
+
+.review {
+  position: relative;
+  width: 60rem;
+  min-height: 28rem;
+  height: fit-content;
+  padding-bottom: $space-md;
+  margin-top: $space-md;
+  margin-bottom: $space-md;
+  margin-left: auto;
+  margin-right: auto;
+
+  h1 {
+    padding: $space-sm 0;
+    text-align: center;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-l;
+      margin-bottom: 0;
+      padding-top: $space-lg;
+      padding-bottom: $space-sm;
+    }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    height: fit-content;
+    margin: $space-lg $space-sm $space-md $space-sm;
+    min-height: 35rem;
+    width: calc(100% - ($space-sm * 2));
+  }
+}
+
+.containerInner {
+  display: flex;
+  flex-direction: column;
+  margin: $space-sm;
+
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    margin: $space-md;
+  }
+
+  h4 {
+    margin-left: 0;
+    margin-top: 0;
+
+    &:hover {
+      color: #a54ee8;
+    }
+  }
+}
+
+.reviewBackButton {
+  position: absolute;
+  text-decoration: none;
+  margin-left: $space-sm;
+  margin-top: $space-sm;
+}
+
+.question,
+.userInfo {
+  border: 1px solid $color-black;
+  padding: $space-sm;
+  word-wrap: break-word;
+
+  h2 {
+    margin-top: 0;
+    font-size: $font-size-m;
+  }
+}
+
+.question {
+  flex-grow: 2;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.userInfo {
+  min-width: 33%;
+  border-left: 1px solid $color-black;
+  border-top: unset;
+  @media (min-width: $breakpoint-sm) {
+    border-left: unset;
+    border-top: 1px solid $color-black;
+
+    p:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
+
+.user {
+  font-weight: bold;
+  font-size: $font-size-m;
+}
+
+.bold {
+  display: block;
+  font-weight: bold;
+  margin-bottom: $space-sm;
+  width: 9rem;
+
+  @media (min-width: $breakpoint-sm) {
+    display: block;
+    margin-bottom: unset;
+  }
+}
+
+.reviewButtonHolder {
+  bottom: $space-sm;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+
+  button {
+    width: 10rem;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    left: calc(50% - 15rem);
+    position: absolute;
+    width: 30rem;
+
+    button {
+      width: unset;
+    }
+  }
+}
+
+.counter {
+  color: $color-primary;
+  font-weight: bold;
+  position: absolute;
+  right: $space-sm;
+  top: $space-xs;
+}
