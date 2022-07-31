@@ -8,16 +8,18 @@ import Select from "@material-ui/core/Select";
 import { FormHelperText } from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
+import Toast from "../../../components/Toast/Toast";
 import { updateUserInfo } from "../../../redux/reducers/auth";
 
 const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
-  const history = useHistory;
+  const history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
   const [affiliation, setAffiliation] = useState("");
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     // there's a slight delay between when this page loads and the auth object is fetched, so we need to
@@ -42,11 +44,16 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
       affiliation,
     };
     updateInfo(update);
+    setSuccess(true);
   };
 
   const handleSaveAndView = async () => {
     handleSave();
-    history.push(`/profile/${this.state.uid}`);
+    setSuccess(true);
+
+    setTimeout(() => {
+      history.push(`/profile/${auth.id}`);
+    }, 1000);
   };
 
   return (
@@ -118,6 +125,14 @@ const EditProfile = ({ auth, toggleEditProfile, updateInfo }) => {
           Save & View Public Profile
         </Button>
       </div>
+      {success && (
+        <Toast
+          duration={10000}
+          text="Update saved successfully!"
+          open={success}
+          variant="success"
+        />
+      )}
     </div>
   );
 };

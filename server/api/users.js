@@ -51,7 +51,7 @@ router.put("/:userId", requireToken, async (req, res, next) => {
     if (!user || !(await user.correctPassword(req.body.password))) {
       const error = Error("Incorrect email/password");
       error.status = 401;
-      throw error;
+      res.send({ error });
     } else {
       await User.destroy({ where: { id: req.user.id } });
       res.send({ success: 200 });

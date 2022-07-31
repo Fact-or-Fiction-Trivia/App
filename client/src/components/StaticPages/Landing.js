@@ -100,7 +100,7 @@ const LandingPage = () => {
               }}
               key="add-to-homescreen"
             >
-              Add Fact or Fiction to your homescreen
+              Add FoF to your homescreen
             </Button>
             <IconButton
               key="close"

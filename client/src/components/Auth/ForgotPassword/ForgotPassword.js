@@ -48,7 +48,7 @@ const ForgotPassword = ({
           onChange={handleChange}
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="New Password"
           style={{ width: "30vw" }}
           color="primary"
         />
@@ -57,7 +57,7 @@ const ForgotPassword = ({
           onChange={handleChange}
           name="confirmPassword"
           type="password"
-          placeholder="Confirm Password"
+          placeholder="Confirm New Password"
           style={{ width: "30vw" }}
           color="primary"
         />

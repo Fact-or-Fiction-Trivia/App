@@ -9,7 +9,6 @@ module.exports = router;
 
 router.post("/login", async (req, res, next) => {
   try {
-    
     const token = await User.authenticate(req.body);
     res.cookie(`token-${pkg.name}`, token, { maxAge: 432000000 });
     res.sendStatus(201);
@@ -30,7 +29,9 @@ router.post("/signup", async (req, res, next) => {
     res.cookie(`token-${pkg.name}`, token, { maxAge: 432000000 });
     res.sendStatus(201);
   } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
+    if (err.errors[0].message === "username must be unique") {
+      res.status(401).send("Username is already taken");
+    } else if (err.name === "SequelizeUniqueConstraintError") {
       res.status(401).send("User already exists");
     } else {
       res.send(err);
