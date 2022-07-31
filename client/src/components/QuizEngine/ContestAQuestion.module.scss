@@ -1,13 +1,18 @@
 @import "../../variables.scss";
 
 .container {
+  height: -webkit-fill-available;
+  height: calc(100vh - ($nav-height * 2));
   margin: calc($nav-height + 1rem) 1rem 1rem 1rem;
   max-width: 900px;
+  min-height: inherit;
   padding: 1rem;
 
   @media (min-width: $breakpoint-sm) {
+    height: unset;
     margin: calc($nav-height + 3rem) auto 3rem auto;
     padding: 3rem;
+    min-height: unset;
   }
 }
 
@@ -52,15 +57,32 @@
 .buttonContainer {
   display: flex;
   justify-content: space-between;
-  margin-top: 3rem;
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 4rem);
+
+  @media (min-width: $breakpoint-sm) {
+    margin-top: 6rem;
+    position: relative;
+  }
 }
 
 .postSubmit {
   min-height: 26rem;
-  margin-top: 6rem;
   text-align: center;
+  max-width: 25rem;
+  margin: 0 auto 0 auto;
 }
 
 .emphasis {
   text-decoration: underline;
+}
+
+.primary {
+  font-weight: bold;
+  color: $color-primary;
+}
+
+.owl {
+  height: 10rem;
 }

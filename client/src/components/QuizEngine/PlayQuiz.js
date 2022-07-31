@@ -103,13 +103,10 @@ const PlayQuiz = ({
 
     setSelected(answer);
 
-    // on small screens, scroll the continue button into view once the user answers a question
-    if (window.innerWidth < 576) {
-      setTimeout(() => {
-        const contd = document.getElementById("continue");
-        contd.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, [500]);
-    }
+    setTimeout(() => {
+      const contd = document.getElementById("continue");
+      contd.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, [500]);
 
     // This action creator in the redux question slice also adds the
     // question id to localstorage so that the user will never see

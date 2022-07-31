@@ -23,6 +23,7 @@ import { submitQuestionByUser } from "../../redux/reducers/question";
 import { getTags } from "../../redux/reducers/tag";
 import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
 import QuestionSubmitInstructionsModal from "./QuestionSubmitInstructionsModal";
+import owl from "../../images/excited_owl.gif";
 
 const QuestionSubmitForm = ({
   isLoggedIn,
@@ -79,7 +80,17 @@ const QuestionSubmitForm = ({
       />
       {submitted ? (
         <div className={styles.afterSubmit}>
+          <img
+            src={owl}
+            alt="We're very excited to review your submission!"
+            className={styles.owl}
+          />
           <h2>Thank you for your submission.</h2>
+          <p>
+            You will receive <span className={styles.primary}>1 hootpoint</span>{" "}
+            if your question is accepted.
+          </p>
+
           <MaterialButton
             variant="contained"
             color="primary"
@@ -103,9 +114,6 @@ const QuestionSubmitForm = ({
           <div className={styles.formHeader}>
             <h1>Submit a Question</h1>
 
-            <h3>
-              Did you find a piece of news that everyone should know about?
-            </h3>
             <p className={styles.instructions}>
               As long as it meets the criteria below, it will be accepted and
               you will receive additional points.

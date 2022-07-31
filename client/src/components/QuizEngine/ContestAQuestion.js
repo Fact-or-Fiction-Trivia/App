@@ -15,6 +15,7 @@ import {
 import { setAuthMessage, setPostAuthRedirect } from "../../redux/reducers/auth";
 import { ABOUT, CONTEST, SIGN_IN } from "../../constants/routes";
 import styles from "./ContestAQuestion.module.scss";
+import owl from "../../images/excited_owl.gif";
 
 const ContestAQuestion = ({
   getQuestions,
@@ -88,11 +89,17 @@ const ContestAQuestion = ({
     <Paper className={styles.container}>
       {submitted ? (
         <div className={styles.postSubmit}>
+          <img
+            className={styles.owl}
+            src={owl}
+            alt="Bouncing owl thanks you for your submission!"
+          />
           <h1>Thank you for your input!</h1>
+          <p>The Fact or Fiction team will review your submission.</p>
           <p>
-            The Fact or Fiction team will review your submission. If we accept
-            your contest, <span style={{ fontWeight: "bold" }}>2 points</span>{" "}
-            will be added to your score.{" "}
+            If we accept your contest,{" "}
+            <span className={styles.primary}>1 hootpoint</span> will be added to
+            your account.{" "}
           </p>
           <Button
             color="primary"
@@ -121,25 +128,27 @@ const ContestAQuestion = ({
           {renderQ()}
 
           {question ? (
-            <div>
-              <TextField
-                id="standard-multiline-flexible"
-                label="Explain the issue with this question"
-                multiline
-                onChange={(e) => setIssue(e.target.value)}
-                margin="normal"
-                name="issue"
-                fullWidth
-                value={issue}
-              />
-              <TextField
-                label="Provide a credible source"
-                fullWidth
-                onChange={(e) => setSource(e.target.value)}
-                margin="normal"
-                name="source"
-                value={source}
-              />
+            <div className={styles.contestFields}>
+              <div>
+                <TextField
+                  id="standard-multiline-flexible"
+                  label="Explain the issue with this question"
+                  multiline
+                  onChange={(e) => setIssue(e.target.value)}
+                  margin="normal"
+                  name="issue"
+                  fullWidth
+                  value={issue}
+                />
+                <TextField
+                  label="Provide a credible source"
+                  fullWidth
+                  onChange={(e) => setSource(e.target.value)}
+                  margin="normal"
+                  name="source"
+                  value={source}
+                />
+              </div>
               <div className={styles.buttonContainer}>
                 <Button
                   color="primary"

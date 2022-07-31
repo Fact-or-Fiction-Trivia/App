@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const router = require("express").Router();
 
+const { db } = require("../db");
 const {
   Op,
   models: { User, Question, Tag, UserAnswered },
@@ -33,6 +34,7 @@ router.put("/", requireTokenOptional, async (req, res, next) => {
             },
             status: req.body.status,
           },
+          order: db.random(),
         })
       );
     } else {
@@ -46,6 +48,7 @@ router.put("/", requireTokenOptional, async (req, res, next) => {
             id: { [Op.notIn]: answeredQuestionsLocally },
             status: req.body.status,
           },
+          order: db.random(),
         })
       );
     }
