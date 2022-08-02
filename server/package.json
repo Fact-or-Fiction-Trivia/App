@@ -27,7 +27,8 @@
     "qs": "^6.10.1",
     "sendgrid": "^5.2.3",
     "sequelize": "^6.3.5",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "twitter-api-v2": "^1.12.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
