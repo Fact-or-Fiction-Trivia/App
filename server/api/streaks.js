@@ -130,7 +130,7 @@ router.get("/all-scores", async (req, res, next) => {
     const allTime = await Streak.findAll({
       order: [["score", "DESC"]],
       include: userInfo,
-      limit: 10,
+      limit: 11,
     }).then((streaks) => {
       return returnHighestStreakOnly(streaks);
     });
@@ -210,6 +210,7 @@ router.get("/all-scores", async (req, res, next) => {
       getAvgForAffiliation("Democrat", "week"),
       getAvgForAffiliation("Independent", "week"),
     ]);
+
     const teamScores = {
       allTime: {
         republican: promises[0],
@@ -227,6 +228,7 @@ router.get("/all-scores", async (req, res, next) => {
         independent: promises[8],
       },
     };
+
     res.json({
       allTime,
       monthly,

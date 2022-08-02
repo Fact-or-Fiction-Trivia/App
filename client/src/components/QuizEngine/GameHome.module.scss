@@ -31,10 +31,12 @@
 
 .owl {
   width: 300px;
+  max-width: 100%;
   margin-right: 0.5rem;
 
   @media (min-width: $breakpoint-sm) {
     width: 400px;
+    max-height: 100%;
   }
 }
 

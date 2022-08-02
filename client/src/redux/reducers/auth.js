@@ -20,7 +20,10 @@ export const resetPassword = createAsyncThunk(
 export const resetLoggedInUsersPassword = createAsyncThunk(
   "auth/resetLoggedInUsersPassword",
   async (password) => {
-    await axios.put(`/auth/password-reset-logged-in`, { password });
+    const { status } = await axios.put(`/auth/password-reset-logged-in`, {
+      password,
+    });
+    return status;
   }
 );
 
@@ -128,7 +131,9 @@ export const signupWithStreak = createAsyncThunk(
       if (!err.response) {
         throw err;
       }
-      if (err.response.data === "User already exists") {
+      if (err.response.data === "Username is already taken") {
+        setError({ message: "This username is already taken." });
+      } else if (err.response.data === "User already exists") {
         setError({
           message:
             "An account already exists with this email address. Please log in.",
@@ -170,7 +175,8 @@ export const updateUserInfo = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "auth/deleteUser",
   async (updates) => {
-    await axios.put(`api/users/${updates.id}`, { ...updates });
+    const { data } = await axios.put(`api/users/${updates.id}`, { ...updates });
+    return data;
   }
 );
 

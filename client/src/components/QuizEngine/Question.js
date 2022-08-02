@@ -15,8 +15,9 @@ const Question = ({
   interval,
 }) => {
   if (!question) return null;
+
   return (
-    <div>
+    <div className={styles.question}>
       <TimerBar
         timer={timer}
         interval={interval}
@@ -25,7 +26,9 @@ const Question = ({
         selected={selected}
       />
       {/* only show the first tag if there are multiple */}
-      <div className={styles.tag}>{question.tags[0].name}</div>
+      {question.tags[0] && (
+        <div className={styles.tag}>{question.tags[0]?.name}</div>
+      )}
       <div className={styles.textContainer}>{question.text}</div>
       <div className={styles.buttonContainer}>
         <div

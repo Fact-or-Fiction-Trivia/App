@@ -1,10 +1,16 @@
 @import "../variables.scss";
 
+#root {
+  height: -webkit-fill-available;
+  min-height: calc(100vh - $nav-height);
+}
+
 body {
   background-color: lightgray;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+  height: -webkit-fill-available;
 }
 
 .App {

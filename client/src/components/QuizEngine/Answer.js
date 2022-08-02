@@ -52,7 +52,7 @@ const Answer = ({
       <div id="continue" className={styles.buttonContainer}>
         <Link className={styles.challengeLink} to={CONTEST}>
           <img src={owl} alt="Earn hoot points here!" />
-          CHALLENGE this question
+          <span>CHALLENGE this question</span>
         </Link>
 
         <Button
