@@ -11,7 +11,7 @@ const Footer = ({ isLoggedIn }) => (
     <div className={styles.footer}>
       {isLoggedIn ? (
         <div className={styles.description}>
-          <h3>Find some news we should include?</h3>
+          <h3>Want to submit a question?</h3>
           <p>
             Increase your score by clicking the link below to submit your own
             question. We'll review it and, if accepted, we'll add it to the

@@ -9,16 +9,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import {
-  deleteUser,
-  resetLoggedInUsersPassword,
-} from "../../redux/reducers/auth";
+import { deleteUser } from "../../redux/reducers/auth";
 import { LANDING } from "../../constants/routes";
 
 const SecuritySettings = ({ auth, deleteUserAccount, resetUserPassword }) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [deleteAccountInputs, setDeleteAccountInputs] = React.useState({});
+  const [error, setError] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,10 +27,14 @@ const SecuritySettings = ({ auth, deleteUserAccount, resetUserPassword }) => {
   };
 
   const handleDeleteUser = async () => {
-    const email = deleteAccountInputs.email;
     const password = deleteAccountInputs.password;
-    await deleteUserAccount(auth.id, email, password);
-    history.push(LANDING);
+    const response = await deleteUserAccount(auth.id, auth.email, password);
+    if (response?.error?.status === 401) {
+      setError(true);
+    } else {
+      setError(false);
+      history.push(LANDING);
+    }
   };
 
   const handleDeleteAccountInputChange = (event) => {
@@ -61,7 +63,7 @@ const SecuritySettings = ({ auth, deleteUserAccount, resetUserPassword }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Delete Account?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Delete Account?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             This action is irreversible. Reauthenticate to permanently delete
@@ -70,21 +72,18 @@ const SecuritySettings = ({ auth, deleteUserAccount, resetUserPassword }) => {
           <TextField
             autoFocus
             margin="dense"
-            name="email"
-            label="Email Address"
-            type="email"
-            onChange={handleDeleteAccountInputChange}
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
             name="password"
             label="password"
             type="password"
+            error={error}
             onChange={handleDeleteAccountInputChange}
             fullWidth
           />
+          {error && (
+            <p style={{ color: "red", fontSize: "0.8rem" }}>
+              The password you entered was incorrect.
+            </p>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
@@ -110,11 +109,9 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    resetUserPassword(data) {
-      dispatch(resetLoggedInUsersPassword(data));
-    },
-    deleteUserAccount(id, email, password) {
-      dispatch(deleteUser({ email, password, id }));
+    async deleteUserAccount(id, email, password) {
+      const { payload } = await dispatch(deleteUser({ email, password, id }));
+      return payload;
     },
   };
 };
