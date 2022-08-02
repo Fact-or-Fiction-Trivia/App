@@ -18,8 +18,6 @@ const SecuritySettings = ({ auth, deleteUserAccount, resetUserPassword }) => {
   const [deleteAccountInputs, setDeleteAccountInputs] = React.useState({});
   const [error, setError] = React.useState(false);
 
-  console.log(auth, "auth");
-
   const handleClickOpen = () => {
     setOpen(true);
   };
