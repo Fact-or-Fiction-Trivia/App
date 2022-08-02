@@ -113,7 +113,7 @@ export const signupWithStreak = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      await axios.post(`/auth/signup`, formData);
+      await axios.post(`/auth/signup`, { ...formData, points: 1 });
       // grab the most recent streak from the redux store
       if (streak.length > 0) {
         await axios.post(`/api/streaks`, streak);
