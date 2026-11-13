@@ -10,7 +10,6 @@ import { Link, useHistory } from "react-router-dom";
 import TodaysQuizButton from "./TodaysQuizButton";
 import PrelaunchModal from "./PrelaunchModal";
 import { ABOUT, ADD_TO_HOMESCREEN, GAME } from "../../constants/routes";
-import promo from "../../assets/promo.mp4";
 import styles from "./Landing.module.scss";
 import "./Static.scss";
 
@@ -204,7 +203,7 @@ const LandingPage = () => {
         )}
       </div>
       <video className={styles.video} width={getVideoSize()} controls>
-        <source src={promo} type="video/mp4" />
+        <source src={`${process.env.PUBLIC_URL}/promo.mp4`} type="video/mp4" />
       </video>
     </Paper>
   );
